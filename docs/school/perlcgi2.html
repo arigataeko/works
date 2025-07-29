@@ -1,61 +1,61 @@
-<!-- �e�L�X�g�t�B�[���h����̓��͂ւ̉���(CGI) -->
+<!-- テキストフィールドからの入力への応答(CGI) -->
 
 <HTML> 
 <HEAD> 
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <TITLE>  Interact to textfields  </TITLE>
 </HEAD>
 <BODY>
-<H2> �e�L�X�g�t�B�[���h����̓��͂ւ̉���(CGI)</H2>
+<H2> テキストフィールドからの入力への応答(CGI)</H2>
 <HR>
-�@�e�L�X�g�t�B�[���h����̓��͂ɉ���������CGI�v���O�����̗�Ƃ��āC
-<A href="himan.html">�u�얞�x����y�[�W�v</A>�������܂��B
+　テキストフィールドからの入力に応答をするCGIプログラムの例として，
+<A href="himan.html">「肥満度判定ページ」</A>を示します。
 <BR><BR>
-�@���̃y�[�W��ŁC�e�L�X�g�t�B�[���h�ɑ̏d�Ɛg������͂��C�u�v�Z�J�n�v�{�^���������ƁC����himan.cgi�v���O���������s����܂��B
+　このページ上で，テキストフィールドに体重と身長を入力し，「計算開始」ボタンを押すと，下のhiman.cgiプログラムが実行されます。
 
 <BLOCKQUOTE><PRE><CODE>
 <HR width=70%>
-#!/usr/bin/perl  ��perl�v���O���������s����v���O����(�C���^�v���^)
+#!/usr/bin/perl  ←perlプログラムを実行するプログラム(インタプリタ)
 
-print"content-type:text/html\n\n";    �� HTML���o��
+print"content-type:text/html\n\n";    ← HTMLを出力
 print &lt;&lt;EOF;
 &lt;HTML&gt;
 &lt;HEAD&gt;
 &lt;TITLE&gt;Himando Hantei&lt;/TITLE&gt;
 &lt;/HEAD&gt;
 &lt;BODY&gt;
-&lt;H2&gt;�얞�x���茋��&lt;/H2&gt;
+&lt;H2&gt;肥満度判定結果&lt;/H2&gt;
 &lt;HR&gt;
 EOF
 
 
-$m=$ENV{"REQUEST_METHOD"};                 ���f�[�^�̑��M�����𓾂�
-if($m eq "GET"){ $str=$ENV{QUERY_STRING};  ��GET�Ȃ���ϐ�����ǂ�
+$m=$ENV{"REQUEST_METHOD"};                 ←データの送信方式を得る
+if($m eq "GET"){ $str=$ENV{QUERY_STRING};  ←GETなら環境変数から読む
 }else{
- read(stdin,$str,$ENV{"CONTENT_LENGTH"});  ��POST�Ȃ�W�����͂���ǂ�
+ read(stdin,$str,$ENV{"CONTENT_LENGTH"});  ←POSTなら標準入力から読む
 }
 
-@parts=split('&',$str);              �� &�Ő��̃f�[�^�𕪗�
+@parts=split('&',$str);              ← &で生のデータを分離
 $i=0;foreach(@parts){
-($name[$i],$value[$i])=split("=");   �� =�Ŗ��O�ƒl�𕪗�,�l��$value�ɑ��
+($name[$i],$value[$i])=split("=");   ← =で名前と値を分離,値を$valueに代入
  $i++;
 }
 
-$taiju=$value[0];                    �� �̏d�̒l��ϐ�$taiju�֑��
-$shintyo=$value[1];                  �� �g���̒l��ϐ�$shintyo�֑��
+$taiju=$value[0];                    ← 体重の値を変数$taijuへ代入
+$shintyo=$value[1];                  ← 身長の値を変数$shintyoへ代入
 
 $hyojun=($shintyo-100)*0.9;
-print"�W���̏d��$hyojun Kg�ł��B&lt;BR&gt;\n";
+print"標準体重は$hyojun Kgです。&lt;BR&gt;\n";
 $himando=($taiju-$hyojun)/$hyojun*100;
-print"���Ȃ��̔얞�x��$himando�ŁA\n";
+print"あなたの肥満度は$himandoで、\n";
 
-if (-20>=$himando) {print "�₹����";}
-elsif (($himando>-20) and ($himando<-10)) {print "�₹����";}
-elsif ((-10<=$himando) and (10>=$himando)) {print "����";}
-elsif ((10<$himando) and (20>$himando)) {print "���肬��";}
-elsif ($himando>=20){print "���肷��";}
+if (-20>=$himando) {print "やせすぎ";}
+elsif (($himando>-20) and ($himando<-10)) {print "やせぎみ";}
+elsif ((-10<=$himando) and (10>=$himando)) {print "正常";}
+elsif ((10<$himando) and (20>$himando)) {print "太りぎみ";}
+elsif ($himando>=20){print "太りすぎ";}
 
-print "�ł��B\n";
+print "です。\n";
 print"&lt;/BODY&gt;\n";
 print"&lt;/HTML&gt;n";
 
