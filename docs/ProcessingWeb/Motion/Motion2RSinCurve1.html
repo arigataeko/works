@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 往復する波動運動…ひとつ(軌跡なし)</h1>
+ひとつの円が、サインカーブ上を往復運動します。
+動きは、<a href="Motion1SinCurve1.html#print" target="other">一方向の波動運動</a>と同じです。
+<br>
+画面の横幅と1サイクルの波(角度が0－360度)が一致するので、角度が360度になったかで右の壁に来たことを、また角度が0より小さくなったことで左の壁に来たことを判定します。
+<pre class="reiji">
+ if(angle &gt; 360){//1サイクルの波を終えた(右の壁)
+    da = -da;  //角度変化の向きを変える
+ }else if(angle &lt; 0){//波の最初に戻った(左の壁)
+    da = -da;
+ }
+</pre>
+下のリストでは、<a href="../ProgControl.html#ronri"target="other">論理演算子||</a> (OR, または)を使って、ひとつのif文で記述しています。
+<br>
+
+<div class="rightSide">
+	<canvas id="RSinCurve1"
+       data-processing-sources="./MotionPDE/shuttle/RSinCurve1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RSinCurve1】
+float angle; // 位置(角度)
+float x, y;  // 位置(xy座標)
+float d = 10; // 円の直径
+float h =60;  // 振幅
+float da = 5; // 角度の変化量
+
+void setup() {
+  size(150, 150);  //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //モニタ画面の背景を白でクリア
+     angle = angle + da; //角度を増加、波上の位置を進める
+     x = map(angle, 0, 360, 0, width);  //0-360度を画面の横位置に換算
+     y = height/2.0 - sin(radians(angle))*h;
+     ellipse(x, y, d, d);
+     if(angle &lt; 0 || angle &gt; 360){//右の壁または左の壁
+         da = -da;
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Animal Type</title>
+<style>
+<!--
+.bigred {
+        color: #f00;
+        font-size: 1.2em;
+        font-weight: bold;
+}
+    -->
+</style>
+
+<script>
+<!--
+   function doIt(){
+    
+     for(i=0; i<3; i++){
+       if(document.sentaku.hihyo[i].checked){
+         hi = document.sentaku.hihyo[i].value;
+         break;
+       }
+     }
+     for(i=0; i<3; i++){
+       if(document.sentaku.konnan[i].checked){
+         ko = document.sentaku.konnan[i].value;
+         break;
+       }
+     }
+      if(hi==1 && ko==1) { document.sentaku.kekka.value="あなたは、ミッキーマウス";}
+      else if(hi==1 && ko==2) { document.sentaku.kekka.value="あなたは、くまモン";}
+      else if(hi==1 && ko==3) { document.sentaku.kekka.value="あなたは、たれパンダ";}
+      else if(hi==2 && ko==1) { document.sentaku.kekka.value="あなたは、アイスエイジのりす";}
+      else if(hi==2 && ko==2) { document.sentaku.kekka.value="あなたは、シュレックのろば";}
+      else if(hi==2 && ko==3) { document.sentaku.kekka.value="あなたは、アイスエイジのシド";}
+      else if(hi==3 && ko==1) { document.sentaku.kekka.value="あなたは、ドナルドダック";}
+      else if(hi==3 && ko==2) { document.sentaku.kekka.value="あなたは、トムとジェリーのトム";}
+      else if(hi==3 && ko==3) { document.sentaku.kekka.value="あなたは、アナユキのオラフ";}
+      else { document.sentaku.kekka.value="判定できませんでした。";}
+   }
+//-->
+</script>
+</head>
+<body>
+
+<h1>あなたを動物で表すと…</h1>
+<br>
+<form name="sentaku">
+<p>人に批評されると…
+<input type="radio" value=1 name="hihyo">素直に聞く
+<input type="radio" value=2 name="hihyo">気にしない
+<input type="radio" value=3 name="hihyo">ちょっと腹立つ
+</p>
+<p>困難に直面すると…
+<input type="radio" value=1 name="konnan">立ち向かう
+<input type="radio" value=2 name="konnan">別の方法考える
+<input type="radio" value=3 name="konnan">やめる
+</p>
+<br>
+<input type="button" value="判定" onclick="doIt()"><br><br>
+判定結果：<input type="text" value="あなたは………" size="40" readonly name="kekka" class="bigred">
+</form>
+</body> 
+</html>

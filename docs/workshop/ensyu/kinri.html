@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Kinri Goukei</title>
+
+<script type="text/javascript">
+<!--
+   function kinriKeisan(){
+      moto = parseFloat(document.forms[0].gankin.value);
+      ritsu = parseFloat(document.forms[0].kinri.value)/100;
+      kikan = parseInt(document.forms[0].nen.value);
+      result = moto;
+      for(i=0; i< kikan; i++){
+        result = result * (1 + ritsu);
+      }
+      document.forms[0].goukei.value = Math.round(result).toString();
+   }
+//-->
+</script>
+
+</head>
+<body bgcolor="#ffffff">
+
+<h1>元利合計の計算</h1>
+
+<form>
+元金&nbsp;&nbsp;<input type=text value=0 name="gankin" size=10>円<br>
+金利&nbsp;&nbsp;<input type=text value=0 name="kinri" size=10>％<br>
+年後&nbsp;&nbsp;<input type=text value=0 name="nen" size=10><br><br>
+
+<input type=button value="計算開始" onclick="kinriKeisan()"><br><br>
+
+元利合計<INPUT type=text value=0 name="goukei" size=10>円
+</form>
+
+</div>
+</BODY> 
+</HTML>
+
+

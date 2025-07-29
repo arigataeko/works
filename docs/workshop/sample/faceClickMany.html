@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>event exercise</title>
+<style type="text/css">
+img {
+  vertical-align:bottom
+}
+</style>
+<script>
+var num =6;
+var cell = [0,0,0,0,0,0];  //６種の画像、それぞれに何番目を表示しているかを格納
+var a1 = new Array(6);
+var a2 = new Array(6);
+var a3 = new Array(6);
+var a4 = new Array(6);
+var a5 = new Array(6);
+var a6 = new Array(6);
+var n1 = 0;
+
+for(i=0; i<num; i++){
+	a1[i] = "image/faceSeq/a1on" + i + ".gif";
+	a2[i] = "image/faceSeq/a2on" + i + ".gif";
+	a3[i] = "image/faceSeq/a3on" + i + ".gif";
+	a4[i] = "image/faceSeq/a4on" + i + ".gif";
+	a5[i] = "image/faceSeq/a5on" + i + ".gif";
+	a6[i] = "image/faceSeq/a6on" + i + ".gif";
+}
+//６種の絵ごとに別の関数を用意するならこのようになる。
+function seqChange1(){
+    n1 = (n1 +1) %num;
+    document.images[0].src = a1[n1];
+}
+
+
+function seqChange(n, aryName){  //イベントハンドラから渡せる引数は定数のみ
+    ary = eval(aryName);  //文字列を配列名として評価する
+    cell[n] = (cell[n] +1) %num;
+    document.images[n].src = ary[cell[n]];
+}
+</script>
+
+</head>
+<body>
+
+<h1>マウスクリックによる画像の変化</h1>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><img src="image/faceSeq/a1on0.gif" onclick="seqChange(0, 'a1')"></td>
+<td><img src="image/faceSeq/a2on0.gif" onclick="seqChange(1, 'a2')"></td>
+<td><img src="image/faceSeq/a3on0.gif" onclick="seqChange(2, 'a3')"></td></tr>
+<td><img src="image/faceSeq/a4on0.gif" onclick="seqChange(3, 'a4')"></td>
+<td><img src="image/faceSeq/a5on0.gif" onclick="seqChange(4, 'a5')"></td>
+<td><img src="image/faceSeq/a6on0.gif" onclick="seqChange(5, 'a6')"></td></tr>
+</table>
+</body> 
+</html>

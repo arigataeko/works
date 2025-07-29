@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの位置でグリッド上の円の大きさ変化</h1>
+マウスのx座標により、グリッド上に置かれた複数の円の大きさが変わります。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="Size"
+       data-processing-sources="./InteractPDE/ExpandMatrix.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リストExpandMatrix】
+int x, y;
+int sa = 20; //円の中心の間隔
+
+void setup(){
+  size(150,150);
+  noFill();
+  stroke(200, 0, 0);
+}
+
+void draw(){
+   background(255);
+   for(x=5; x&lt;width;  x=x+sa){
+     for(y=5; y&lt;height; y=y+sa){
+       ellipse(x, y, mouseX, mouseX);
+     }
+   }
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

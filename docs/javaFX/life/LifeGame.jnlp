@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="LifeGame.jnlp">
+  <information>
+    <title>LifeGame</title>
+    <vendor>Unknown</vendor>
+    <description>LifeGame</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="LifeGame.jar" size="5464" download="null" />
+  </resources>
+  <jfx:javafx-desc  width="500" height="600" main-class="LifeGameFX"  name="LifeGame" />
+  <update check="background"/>
+</jnlp>

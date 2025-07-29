@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="ProgGeneral.html"> 基本要素トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1>関数を作る</h1>
+
+
+<h2> 関数の働き</h2>
+  ある働きをする(機能をもつ)一連の処理をひとまとめにして、名前を付けたものが<strong>関数</strong>です。<br>
+Processingは、さまざまな機能を関数として提供しています。
+例えばline()は、4つの数字を受け取り、最初の2つの数字を線の一方の点の座標、3，4番目の数を他方の点の座標として、線を描きます。関数が受け取る(関数に渡す)データのことを<strong>引数</strong>(パラメータ)といいます。
+
+<pre class="reiji">
+line(100, 100, 200, 200);  //線を描く処理を行う関数を実行する
+</pre>
+
+リファレンスをみると、この関数の使い方(API: Application Programming Interface)がわかります。
+
+関数には、
+<pre class="reiji">
+・処理を行う
+・値を返す</pre>
+という2つの仕事があります。関数にはこのどちらか一方の仕事をする関数と、両方の仕事をする関数があります。<br>
+line()関数の場合、「線を描く」処理を行い、値は返しません。
+<a href="PFuncMath.html" target="other">算術関数</a>は、値を返すだけの仕事をする関数です。
+返す値のことを<strong>戻り値</strong>、または返値と呼びます。
+dist()関数は2つの点の間の距離を計算して返します。次の例では、戻り値を後の処理に使うために、変数aに代入しています。
+<pre class="reiji">
+float a = dist(100, 100, 200, 200);  //戻り値を使う
+</pre>
+
+
+<h2 id="teigi">関数の定義</h2>
+あらかじめ用意されている関数を使うだけでなく、新しく関数を定義し、
+自分のプログラムに活用することができます。<br>
+
+関数は次のような形で、定義します。
+<pre class="reiji">
+戻り値の型　関数名（引数の型　引数名, 引数の型　引数名, .....) {
+	処理の内容
+}
+</pre>
+(1)関数名を決めます。関数名は任意ですが、その関数の機能を表す名前にしておきます。<br>
+
+<div class="notes">
+関数名の付け方は変数名と同じで、次のようなルールがあります。<br>
+・英数字、アンダースコアを使う。先頭は数字以外。<br>
+・ProcessingとJavaがあらかじめ使っているキーワード(予約語)は使えない。
+</div>
+<br>
+(2)関数名の前に、戻り値の<a href="ProgHensu.html#Hensu" target="other">型</a>を書きます。戻り値がない場合は<strong>void</strong>と書きます。<br><br>
+
+(3)引数は、関数名の後ろの（　）の中に、データ型と引数につける名前のセットをカンマでつなげて指定します。<a href="ProgHensu.html#Hensu"  target="other">変数の宣言</a>と同じ書き方です。引数がない場合は（　）の中にはなにも書きません。<br><br>
+
+(4)ブロック(中括弧｛と｝の間)の中に、その関数の処理を書きます。関数に渡される引数や、関数の外で定義されている変数を使うことができます。また、この関数の中でだけ有効な変数(ローカル変数)を宣言して、処理の途中結果を保存しながら処理をすすめることもできます。
+<br><br>
+<a href="HowtoWrite.html#active"  target="other">Activeモード</a>の場合、setup()関数やdraw()関数を次のように書いていました。
+<pre class="code">
+void setup(){
+   size(250,250);
+}
+void draw(){
+   // 描画関数の実行
+}
+</pre>
+実は、これは、setup()関数とdraw()関数を定義していたのです。どちらの関数とも引数はなく、戻り値もありません。
+
+新たに自分のプログラム用に関数を定義する場合も、これと同様にしていきます。
+オリジナルな関数の定義は、
+<a href="HowtoWrite.html#active" target="other">Activeモード</a>で行い、グラフィックスが動かない静的なスケッチの場合もsetup()関数だけは書きます。
+
+
+<pre class="code">
+void setup() {
+  size(250, 250);
+  noFill();
+  drawDoshin(50, 50, 10);  // 同心円を描く関数の呼出し
+  drawDoshin(50, 150, 10); // 同心円を描く関数の呼出し
+  drawDoshin(150, 50, 10); // 同心円を描く関数の呼出し
+  drawDoshin(150, 150, 10);// 同心円を描く関数の呼出し
+}
+// (x, y)の位置にｄの間隔で同心円を描く関数の定義
+void drawDoshin(float x, float y, float d) {
+  for (int i=1; i&lt;=10; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+</pre>
+
+<h2 id="atai">値を返す関数</h2>
+関数の定義で、戻り値の型にvoid以外を指定した場合、その型のデータを関数が返すことを意味し、関数の処理の定義の中、つまり｛と｝の間で、値を返すように指示しないとなりません。
+値を返すにはreturnを使います。
+。
+<pre class="reiji">
+return 返す値;
+</pre>
+
+返す値のデータ型は、関数名の前に書いたデータ型と一致している必要があります。
+例えば、波紋状の同心円を描く関数の仕様を次のように考えます。
+
+<pre class="reiji">
+float drawDoshin(float x, float y, float d, int n, float dif)
+ 波紋状の同心円を描き、その一番大きい円の直径を返す。
+   x: 円のx座標
+   y: 円のy座標
+   d: 一番小さい円の直径
+   n: 円の個数
+   dif: 円が大きくなる割合、例えば1.2とすると、円の直径が2割ずつ増える
+</pre>
+
+この関数は波紋状の同心円を描く仕事と、一番大きな円の大きさを返すという仕事の両方をする関数です。
+返される値を使うか使わないかは、呼出し側が自由に決めます。使わないときは、単に無視すればいいだけです。
+
+<pre class="code">
+float drawDoshin(float x, float y, float d, int n, float dif) {
+  float w = d;
+  for (int i=1; i;&lt=n; i=i+1) {
+    w = w * dif;
+    ellipse(x, y, w, w);
+  }
+  return w;
+}
+</pre>
+
+
+returnは値を関数を終了して値を返す働きをします。上の例では、関数の一番最後にreturnがありますが、関数の途中にreturnがあると、それ以後の処理は行わず、そこで関数を終了します(呼出し元に戻る)。<br>
+例えば、ある条件が成り立つ時だけ、関数を終えるという場合に使います。このような場合、関数の戻り値がvoidであれば、returnの後ろに値を指定しません。戻り値はなく、voidになります。
+
+<pre class="reiji">
+return;
+</pre>
+
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

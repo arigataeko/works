@@ -1,0 +1,71 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="javaproSample.css">
+  <SCRIPT src="http://java.com/js/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'LifeGame.jnlp'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbedLifeGameFX() {
+        dtjava.embed(
+            {
+                id : 'LifeGameFX',
+                url : 'LifeGame.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : '610',
+                height : '698'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbedLifeGameFX);
+</script>
+
+</head><body>
+<h2>LifeGame</h2>
+  <b>Webstart:</b> <a href='LifeGame.jnlp' onclick="return launchApplication('LifeGame.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+<div id="setsumei">
+マウスを格子上でクリックすると、●が描かれます。これが1個の生命体です。任意の位置に任意個の生命体を置き、増殖ボタンを押してください。すると、生命体が増殖し、あるいは消滅し、生命体集合が動き回ります。<BR><BR>
+生命体は、次の大変シンプルな規則で、増殖・消滅します。
+<ul>
+<li>自分の周りに４つ以上の生命体がいると苦しくて死ぬ(消滅する)。
+<li>自分の周りにいる生命体が１つ以下だとさびしくて死ぬ(消滅する)。
+<li>生命体がいない格子で、その周りに３つの生命体がいると生まれる(増殖する)。
+</ul>
+どのような位置に生命体を置くと、その集合体は長く増殖を続けるでしょうか。生命集合体の動き回るようすを楽しんでください。<BR><BR>
+生命体(●)の上でクリックするとその生命体が取り除かれます。<br>
+格子目上でドラッグするとその範囲に生命体が置かれます。<br>
+生命体を置いたり、除いたりできるのは増殖中以外の時です。<BR><BR>
+
+
+ソースコードはこちら。<br>
+<ul><li> Canvasを使ったプログラム<br>
+<a href="LifeGameFX.java">LifeGameFX.java</a><br>
+<a href="LifePaneNode.java">LifePaneNode.java</a><br>
+</li>
+<li> Shapeを使ったプログラム<br>
+<a href="LifeGameFXShape.java">LifeGameFXShape.java</a><br>
+<a href="LifePaneShape.java">LifePaneShape.java</a><br>
+<a href="LifeGameLife.java">LifeGameLife.java</a><br>
+</li>
+</ul>
+</div>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder' class="artpiece"></div>
+</body></html>

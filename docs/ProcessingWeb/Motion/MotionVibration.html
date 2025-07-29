@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionGeneral.html"> 基本運動トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 振動</h1>
+オブジェクトの振動を含む運動を、落下、スイング、揺れ、スプリングに分け、それぞれの動きを行うプログラムを示します。
+
+<h2 id="fall">落下</h2>
+<table><tr>
+<td>
+	<canvas id="FallVertical"
+       data-processing-sources="./MotionPDE/vibration/FallVertical.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3FallVertical.html#print">ひとつ(落下)</a></td>
+<td>
+	<canvas id="FallHorizon"
+       data-processing-sources="./MotionPDE/vibration/FallHorizon.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3FallHorizon.html#print">ひとつ(横へ打出し)</a></td>
+
+<td>
+	<canvas id="FallParticle"
+       data-processing-sources="./MotionPDE/vibration/FallParticle.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3FallParticle.html#print">複数粒子の落下</a></td>
+</tr>
+</table>
+
+<h2 id="wave">振動</h2>
+<table><tr><td>
+	<canvas id="ExpandReduce"
+        data-processing-sources="./MotionPDE/vibration/ExpandReduce.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3ExpandReduce.html#print">円の拡大収縮</a></td>
+<td>
+	<canvas id="Elastic1"
+        data-processing-sources="./MotionPDE/vibration/Elastic1.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3Elastic1.html#print">線の伸縮(定速)</a></td>
+
+<td>
+	<canvas id="Elastic2"
+        data-processing-sources="./MotionPDE/vibration/Elastic2.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3Elastic2.html#print">線の伸縮(加速)</a></td>
+
+<td>
+	<canvas id="Quadratic"
+        data-processing-sources="./MotionPDE/vibration/Quadratic.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3Quadratic.html#print">放物線上の振動</a></td>
+</tr>
+
+</table>
+
+
+<h2 id="spring">ばね</h2>
+<table><tr><td>
+	<canvas id="VibrateOne"
+        data-processing-sources="./MotionPDE/vibration/VibrateOne.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3VibrateOne.html#print">震える円</a></td>
+<td>
+	<canvas id="VibrateMany"
+        data-processing-sources="./MotionPDE/vibration/VibrateMany.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3VibrateMany.html#print">うごめく円</a></td>
+<td>
+	<canvas id="SpringCircle"
+        data-processing-sources="./MotionPDE/vibration/SpringCircle.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3SpringCircle.html#print">スプリング</a></td>
+</tr>
+
+<tr><td>
+	<canvas id="Hanging1"
+        data-processing-sources="./MotionPDE/vibration/Hanging1.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3Hanging1.html#print">ばねで繋がる(ふたつ)</a></td>
+<td>
+	<canvas id="Hanging2"
+        data-processing-sources="./MotionPDE/vibration/Hanging2.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion3Hanging2.html#print">ばねで繋がる(列)</a></td>
+</tr>
+</table>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

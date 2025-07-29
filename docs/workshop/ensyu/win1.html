@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+
+<title>Standard Weight</title>
+
+<script type="text/javascript">
+<!--
+
+   function calc(){
+      if(check("height")) return;
+      if(check("weight")) return;
+
+      shintyo = document.keisan.height;
+      taiju = document.keisan.weight;
+
+      h = parseFloat(shintyo.value)/100;
+      std = h * h *22;
+
+      w = parseFloat(taiju.value);
+      bmi = w / (h * h);
+
+      document.keisan.stdW.value = std;
+      document.keisan.fatness.value = bmi;
+   }
+
+   function check(name){
+     if(isNaN(eval("document.keisan." + name + ".value"))==true){
+       window.alert("数値を入力してください"); 
+       eval("document.keisan." + name + ".focus()");
+       eval("document.keisan." + name + ".select()");
+       return true;
+     }
+  }
+//-->
+</SCRIPT>
+
+</head>
+<body>
+
+<h1>標準体重・肥満度の計算</h1>
+
+<form name="keisan">
+身長(cm)&nbsp;&nbsp; <input type=text value=0 name="height" size=10> <br>
+体重(Kg)&nbsp;&nbsp; <input type=text value=0 name="weight" size=10> <br>
+<br>      
+<input type=button value="計算開始" onclick="calc()"><br>
+<br>
+標準体重(Kg)&nbsp;&nbsp;<input type=text value=0 name="stdW" size=20><br>
+肥満度(BMI値)&nbsp;&nbsp;<input type=text value=0 name="fatness" size=20><br>
+</form>
+
+</body> 
+</html>
+
+

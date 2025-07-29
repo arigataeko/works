@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="ProgGeneral.html"> 基本要素トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> クラスを作る</h1>
+
+
+プログラムの世界では、クラスはプログラム部品で、状態(変数)や働き(メソッド)を定義した「設計図」です。「鋳型」ともいえるクラスから実際の仕事をするオブジェクトを作ります。ここでは自分のプログラムに適した独自のクラスを定義し、それを使う方法を説明します。
+
+<h2 id="teigi">クラスの定義</h2>
+
+プログラムの部品として働くクラスを作ることで、プログラムを効率的に記述できます。独自の新しいクラスを作る場合、そのクラスの機能を考え、その実現に必要な変数やメソッドを決定します。<br><br>
+
+(1)　クラスの機能を考える。<br>
+(2)　クラスの名前を決める。変数と同じルールでつけるが、クラスの名前の先頭は大文字にする。クラスの機能を体現するような名前をつけるのがいい。<br>
+<div class="notes">
+【名前の付け方】英数字，アンダースコア(_)からなる文字列で，名前の先頭は数字以外の文字にします。名前の長さは任意です。ただし、Javaやprocessingがキーワードとして使う文字列(予約語)は使えません。
+</div>
+(3)　データを保存するための変数を宣言する(データの型と名前を決める)。<br>
+(4)　機能を果たすためのメソッドを考える。メソッドの名前、戻り値の型、必要な引数を決め、処理を書く。<br>
+(5)　オブジェクトを作る時にあらかじめしておきたい処理があれば、コンストラクタを定義する。<br>
+<br>
+
+クラス定義には、キーワード<strong>class</strong>を使います。classに続いてクラス名を書き、その後ろのブロック(｛と｝の間)に、「変数の定義」「コンストラクタの定義」「メソッドの定義」の3つの要素を書きます。<br><br>
+
+<strong>class クラス名 {</strong>
+<pre class="code">
+<strong>変数の定義</strong>
+   データ型 変数名；
+     例：int x; 
+ </pre>
+<pre class="code">
+<strong>コンストラクタの定義</strong>
+   new演算子の後ろに指定し、オブジェクトを作る時に実行される。
+   クラス名 ( データ型　引数名,  データ型　引数名,  …　)｛
+        オブジェクトを作る時に、特別にしたい初期処理
+  }
+ </pre>
+<pre class="code">
+<strong>メソッドの定義</strong>
+   戻り値のデータ型　メソッド名( データ型　引数名,  データ型　引数名,  …)｛
+         メソッド内の処理
+｝
+ </pre>
+<strong>} &nbsp&nbsp;&nbsp; &nbsp;&nbsp;// クラス定義の終わり</strong>
+<br><br>
+3つの要素すべてを定義しない場合もあります。変数のみのクラス、メソッドのみのクラスもあります。コンストラクタの定義をしない場合は、引数のないコンストラクタがデフォルトで定義されます。
+<br>
+変数、コンストラクタ、メソッドがどのように定義されているかは、そのクラスを使う時に知る必要があります。そのクラスを使うプログラムと、クラスとの間をつなぐ情報という意味で、<strong>Application Programming Interface(API)</strong>と言われます。
+<br>
+
+<h2 id="ahamon">AHamonクラスの定義</h2>
+<div class="rightSide">
+	<canvas id="ClassHamon" data-processing-sources="./PDE/ClassHamon1.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	クリックで開始⇔停止
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+
+
+右図をクリックすると波紋が描かれます。ひとつの波紋を描く仕事(だけ)をするクラスAHamonを作ることを考えます。指定された位置に描く円の直径を徐々に大きくする動きをするクラスです。直径の大きさを変えながら円を描く部分は、<a href="Trail2Move.html#Sample21" target="other">リスト2-1</a>と同じですです。AHamonクラスを次の変数、メソッドをもつクラスとして定義します。
+
+<pre class="code">
+<strong>変数の定義</strong>
+   int d;           //直径
+   float x, y;      //円の中央の座標
+   float max;       //円の最大値
+   int dr = 5;      //円の直径の変化量、デフォルトで5
+   boolean move= false;  //動いていればtrue
+
+<strong>コンストラクタの定義</strong>
+   AHamon(float limit) //引数は波紋の最大の直径
+
+<strong>メソッドの定義</strong>
+   void prepare(float xx, float yy)     //波紋を準備、円の中心を(xx, yy)に、大きさを0にする。
+   void display()  // 描画を実行するメソッド
+</pre>
+<p class="clear"> </p>
+
+メソッドの定義の方法は、<a href="ProgFunction.html#teigi" target="other">関数の定義</a>と同じです。<br><br>
+
+
+AHamonクラスは次のように使われることを想定しています。<br>
+(1)波紋の最大値を指定してAHamonオブジェクトを作り、<br>
+(2)prepare()メソッドで位置を決め、大きさを初期値のゼロにし、<br>
+(3)その後display()メソッド実行する。display()メソッドは、円を徐々に大きくしながら描画し、指定した波紋の大きさになると描画が止める。
+
+<pre class="code">
+【リスト AHamonクラス】
+class AHamon{
+  int d;           //直径
+  float x, y;      //円の中央
+  float max;       //円の最大値
+  int dr = 5;      //円の直径の変化量
+  boolean move= false;  //動いているか否か
+  AHamon(float limit){  //コンストラクタ
+    max = limit;
+  }
+  void prepare(float xx, float yy){ //波紋を準備
+    move=true;
+    x = xx;
+    y = yy;
+    d= 0;  //大きさをはじめに戻す。
+  }
+
+  void display(){
+   strokeWeight(2); //線の太さを指定
+   if(move){   //波紋広がり中の処理
+      d=d+dr;   // 大きさを増加
+      ellipse(x, y, d, d);  // 円を描く
+      if(d>max){ //最大値を越えたので止める。
+         move = false;
+      }
+   } 
+  }  // display()の終わり
+}  // class定義の終わり
+</pre>
+
+<h2 id="tsukau1">AHamonクラスを使う(その1)</h2>
+AHamonクラスを使って、波紋がランダムな位置で広がるプログラムを作ってみましょう(先の<a href="#ClassHamon">図</a>)。<br>
+setup()の中で、AHamonオブジェクトをひとつ生成し、変数hamonに代入しています。draw()の中で、hamonに対してprepare()メソッド、display()メソッドを実行しますが、波紋が最大値まで広がり、波紋の描画が終了した後で、新しい位置に波紋が描かれるように、AHamonオブジェクトの変数moveの値を調べ、falseの時だけ、prepare()メソッドを実行しています。<a href="ProgControl.html#ronri" target="other">エクスクラメーションマーク!</a>は論理演算子の否定で、hamon.moveがfalseの場合trueとなります。次の2行は全く同じ意味です。
+<pre class="reiji">
+if(!hamon.move)  { hamon.prepare(); }
+if(hamon.move == false)  { hamon.prepare(); }
+</pre>
+
+
+<pre class="code">
+【リスト ClassHamon1】
+AHamon hamon; //AHamonオブジェクトを保存するための変数
+void setup() {
+  size(250, 250); 
+  hamon = new AHamon(200); //最大値を指定して、オブジェクトを生成
+}
+
+void draw() {
+   strokeWeight(0); //背景画面の四角には線を付けない
+   fill(255, 75);  //色は白、透明度を指定
+   rect(0, 0, width, height); //背景を四角で塗りつぶす
+   if(!hamon.move){//波紋が動いていないとき
+     hamon.prepare(random(width), random(height));  //新しい位置で、波紋を開始
+   }
+   hamon.display();
+}
+</pre>
+背景の塗りに透明度75を指定し、描かれた円が重なり、徐々に消える効果を付けています。<a href="PFuncDisplay.html#color" target="other">fill(255, 75)</a>で、白の描画色と、75の透明度(アルファ値)を指定し、その色で背景を塗りつぶしています(画面と同じサイズの四角形を描く)。透明度の指定はbackground()関数ではできないので、このようにしています。<br><br>
+<div id="tab">
+リストClassHamon1はその中からAHamonクラスを使っており、ClassHamon1からAHamonクラスが見える(アクセス可能の)必要があります。このための記述方法に2つあります。
+</div>
+<div class="leftSide">
+<img src="./images/processingTabAHamon.jpg" alt="processingタブ" width="300"></div>
+<ul>
+<li>・リストClassHamon1の記述の後ろ(draw()の後ろ)に、AHamonクラスの定義を入れる。プログラムはClassHamon1.pdeという1つのファイルから成る。<br><br></li>
+<li>・リストClassHamon1とAHamonクラスの定義とを別々のpdeファイルにする。
+Processingエディタのツールバーの下、タブの右側の矢印アイコンをクリックするとメニューがポップアップする。そのNew Tabを選択すると、新しいタブが作られる。タブ名をAHamonとし、そのタブ内に、AHamonクラスの定義を入れる。ClassHamon1.pde、AHamon.preという2つのファイルから成るプログラムとなる(スケッチフォルダに2つのpdeファイルが入る)。</li>
+</ul>
+
+<br><br>
+
+このように、クラスの定義を独立させておくと、そのクラスを別のプログラムで活用する場合、そのpdeファイルをそのまま使えて便利です。
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+
+
+<h2 id="tsukau2">AHamonクラスを使う(その2)</h2>
+
+波紋をひとつ描くだけだと、クラスを作る効果がはっきりしませんが、複数の波紋を描こうとするとその便利さが実感できます。例えば、50個の波紋がランダムな位置に描かれるプログラムClassHamon2は、AHamonクラスのオブジェクトを50個作り、順にメソッドを実行するだけで、実現できます。<br><br>
+
+AHamonオブジェクトを50個作り、<a href="ProgArray.html" target="other">配列</a>の中に入れておきます。まず、setup()関数の前で、波紋オブジェクトを保存する配列名を定義します。
+
+<pre class="reiji">
+AHamon[] hamon;  //オブジェクトを保存する配列名の定義
+</pre>
+そして、setup()関数の中で、50個の要素の配列領域を確保し、要素に一つ一つ波紋オブジェクトを生成して、入れます。
+<pre class="reiji">
+hamon = new AHamon[50];  // 50個のAHamonオブジェクト用の領域を確保
+for(int i=0; i&lt;50; i++){
+   hamon[i] = new AHamon(200);  //AHamonオブジェクトを生成、配列に代入
+}
+</pre>
+
+draw()の中で、配列内の要素一つ一つに対してdisplay()メソッドを実行すると、画面の上に50個の波紋が描かれます。
+<pre class="reiji">
+for(int i=0; i&lt;50; i++){
+   hamon[i].display();
+}
+</pre>
+
+徐々に波紋が現れ、異なるタイミングで波紋が広がるように、一度のdraw()の実行では、一つの波紋に対してprepare()が実行されるようにしています。hを１ずつ増やし、順番に波紋の広がりが終了しているか調べ、そうであれば新しい位置を設定し、新たに波紋の広がりを始めます。hを増やしていくと、いずれ波紋の数50を越えます。配列外の要素を参照してエラーになるのを防ぐため、hの値が配列の個数50を越えないようにしています。配列中のデータ数はhamon.lengthで知ることができます。h = (h+1)%hamon.length;は、hamon.lengthで割った余りを計算しており、次と同じ意味です。
+<pre class="reiji">
+h = h+1;  //hに1を加え
+if(h>=hamon.length) { h = 0; }  //hamon.lengthを越えたら0にする
+</pre>
+
+1回のdraw()の呼出しで、hを１ずつ増やし、インデックスがhの波紋を調べ、動いていなかったら動かすことで、N個の波紋が順番に広がっていくようになります(この部分をfor文に入れると同時に波紋が広がるようになる)。<br><br>
+
+リストClassHamon2の中では、int N=50;として、変数Nの中に50を入れておき、配列を定義したり、オブジェクトを生成する部分では直接50と書く代わりに、Nと書いています。こうすると、広がる波紋の数を変えたいとき、Nに代入する数を変更するだけで済み、変更に対して柔軟性の高いプログラムになります。
+<br><br>
+
+描画は、全AHamonオブジェクトに対して行うので、for文の中でdisplay()メソッドを呼出します。
+<pre class="reiji">
+for(int i=0; i&lt;N; i++){
+   hamon[i].display();
+}
+</pre>
+
+<div class="rightSide">
+	<canvas id="ClassHamon2" data-processing-sources="./PDE/ClassHamon2.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	クリックで開始⇔停止
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト ClassHamon2】
+AHamon[] hamon; //AHamonオブジェクトを保存するための配列
+int h;   //いくつめの波紋か
+int N=50;   //作り出す波紋の数
+
+void setup() {
+  size(250, 250); 
+  frameRate(10);     
+  hamon = new AHamon[N]; 
+  for(int i=0; i&lt;N; i++){
+    hamon[i] = new AHamon(200);
+  }
+}
+
+void draw() {
+   strokeWeight(0); //背景画面の四角には線を付けない
+   fill(255, 55);  //色は白、透明度を指定
+   rect(0, 0, width, height); //背景を四角で塗りつぶす
+   if(!hamon[h].move){  //h番目の波紋が動いていなかったら
+      hamon[h].prepare(random(width), random(height));  //新しい位置で、波紋を開始
+      h = (h+1)%hamon.length; //hに1加える。0－49の間の数にする
+   }
+   for(int i=0; i&lt;N; i++){
+      hamon[i].display();
+   }
+}
+</pre>
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

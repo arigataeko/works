@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="BasicGeneral.html"> 基本知識トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 配列 </h1>
+
+
+変数はひとつのデータを格納するものでしたが、複数のデータをまとめて扱うときに，便利なのが配列です。複数の値をひとまとまりとして、変数に入れておき、まとめて扱います。
+
+<h2> 配列の要素 </h2>
+配列中の個々のデータのことを配列の要素と呼びます。<br><br>
+配列のそれぞれの要素は、配列名とインデックス(添字とも言う)を使って表します。インデックスとは配列の要素に番号をつけたもので、先頭が0で順にふられます。配列名に続いて[ ]を書き、その中にインデックスを書きます。
+<br>
+
+<table border="1">
+<tr><td>[0]の値</td><td>[1]の値</td><td>[2]の値</td><td>[3]の値</td><td>[4]の値</td></tr>
+</table>
+たとえば、5個の要素を持つ配列dataの場合、<br>
+配列dataの最初の要素はdata[0]と表し、<br>
+配列dataの最後の要素はdata[4]と表します。
+
+<p class="clear"> </p>
+
+data[1]のように配列名と添字で表した配列の要素は、変数と同じように扱え、値を参照したり、演算の対象にしたり、値を代入したりできます。
+<pre class="reiji">
+  data[0] = 123.4;
+  data[1] = data[0] + 100;
+</pre>
+Javascriptの配列は、配列を作った後で、要素を追加したり、削除したり、要素の数を変更できます(可変長配列)。
+
+<h2> 配列を作る </h2>
+配列の要素の値を直接指定する方法、つまり<a href="BasicHensu.html#josu" target="other">配列リテラル</a>を使って配列を作れます。
+<pre class="reiji">
+  let a1 = [123.4, 56.7, 8.9];
+  let a2 = ["kyoto", "osaka", "ootsu", "gifu"];
+</pre>
+
+最初に空の配列を宣言しておき、後で要素の値を指定するには次のようにします。
+<pre class="reiji">
+  let a3 = [];    //空の配列を用意
+  a3[0] = 123.4;  //ひとつめの要素を代入
+  a3[1] = 56.7;   //ふたつめの要素を代入
+</pre>
+
+このように作られた配列は、JavaScriptの組込み<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array"　target="other">Array</a>オブジェクトで、Arrayオブジェクトがもつプロパティやメソッドを使えます。
+
+
+<h2> 配列中のデータ数 </h2>
+配列の中のデータの個数は、Arrayオブジェクトのlengthを使い、配列の変数名.length(ex. a1.length)で知ることができます。<br><br>
+配列の中のデータに対して、順に処理を行うような場合は、for文を使って繰返し処理を行うことがよくあります。何回処理を繰り返すのかを指定する時に、
+配列の中のデータの個数が必要になります。
+例えば、配列の中の値の合計を計算するには、次のように書きます。
+<pre class="code">
+let sum = 0;
+let data = [0.01, 1.01, 2.01, 3.01, 4.01];
+for(let i=0; i&lt;data.length; i=i+1){
+    sum = sum + data[i];
+}
+print("合計は" + sum);
+</pre>
+
+<h2 id="nijigen"> オブジェクトの配列 </h2>
+上では、<a href="BasicHensu.html#kata" target="other">基本型</a>のデータが入る配列を例に説明してきました。
+<br>
+参照型のデータの配列でも、配列を作り、扱う方法は同じです。例えば、要素が配列の配列は<strong>2次元配列</strong>になります。
+<pre class="reiji">
+  let a4 = [];
+  a4[0] = [10, 20, 30, 40];
+  a4[1] = [11, 21, 31, 41];
+</pre>
+あるいは、
+<pre class="reiji">
+  let a4 = [[10, 20, 30, 40], [11, 21, 31, 41]];
+</pre>
+のように「要素が配列」の配列を作ることできます。<br>
+ひとつひとつの要素にアクセスするには、配列名[インデックス][インデックス]と書きます。<br>
+a4[0][0]は10、a4[1][3]は41になります。
+
+</div>
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

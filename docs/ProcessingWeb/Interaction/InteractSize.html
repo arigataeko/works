@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの位置で大きさ変わる</h1>
+マウスのx座標により、描かれる円の大きさが変わります。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="Size"
+       data-processing-sources="./InteractPDE/Size.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リストSize】
+void setup() {
+  size(150, 150);   // 描画するための画面
+}
+
+void draw() { 
+     fill(255,50);  //塗りつぶしの色を白、透明度を設定
+     noStroke();   //枠線なし
+     rect(0,0,width, height); //画面いっぱいの四角を描く(画面を白でクリア)
+     noFill();       //円は塗りつぶさない
+     strokeWeight(2);        //円の太さは2ピクセル
+     stroke(200, 0, 0);      //円の線の色は赤
+     ellipse(width/2, height/2, mouseX, mouseX);
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

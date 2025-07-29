@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 放射状に広がる</h1>
+閾値により、スイッチがオンオフするプログラム例です。マウスのx座標が、閾値(今の場合画面幅の二分の一)を超えたら、スイッチが入り、円が放射状に広がります。
+<br><br>
+
+スイッチのoffとonの位置をユーザに示すため、画面下部に「off | on」と表示しました。文字を画面に表示する方法は、基本関数の<a href="../PFuncText.html#print" target="other">「タイポグラフィ」</a>セクションで説明しています。【リストRadial】では次の部分が、文字描画のためのフォントの準備です。「タイポグラフィ」セクションの<a href="../PFuncText.html#createFont" target="other">【2】の方法</a>を使っています。
+
+<pre class="reiji">
+PFont f;    //フォントデータオブジェクト用変数の準備
+
+f = createFont("Arial", 14);  //文字を描くためのフォントの準備
+textFont(f);                 //PFontオブジェクトの設定
+textAlign(CENTER, CENTER);  //描く文字列の中央の座標を指定
+</pre>
+<br>
+
+<div class="rightSide">
+	<canvas id="Radial"
+       data-processing-sources="./InteractPDE/Radial.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リストRadial】
+int wide=150; // 画面の大きさ
+float len;    // 円が描かれる円周の半径
+float x;      // 円のx座標
+float y;      // 円のy座標
+float centerX; // 画面の中央
+float centerY; // 画面の中央
+float level; // 閾値
+boolean move = false;
+int degree= 10; //放射線の間隔角度
+float init=0; //移動速度の初期値
+float s = init; // 移動速度
+float a = 0.3; // 加速
+float d = 10; // 円の直径
+PFont f;      //フォントデータオブジェクト
+void setup() {
+   size(wide,wide);   
+   frameRate(30);    //1秒に30回再描画
+   centerX=width/2.0;  // 画面の中央
+   centerY=height/2.0;  // 画面の中央
+   x=centerX;  // 中心点、はじめは画面の中央
+   y=centerY;
+   level=centerX; // 閾値
+   noStroke(); // 線は引かない
+   f = createFont("Arial", 14);  //文字を描くためのフォントの準備
+   textFont(f);
+   textAlign(CENTER, CENTER);  //描く文字列の中央の座標を指定
+}
+
+void draw() { 
+   background(255);   //モニタ画面の背景を白でクリア
+   if(move){ //移動中
+      if(len&gt;=wide/2) {  //十分広がったら、はじめに戻す
+           move= false;
+           x=centerX; y=centerY;
+           s=init; //移動速度の初期値
+           len=0;
+      }
+      s = s + a;
+      len = len+s; 
+   } else {  //移動していないとき
+    if( mouseX &gt;= level){  //マウスの位置が閾値を越え、スイッチが入った
+       move = true;
+    }
+  }
+  fill(200, 0, 0);  //赤で、円周上にdegree(10)度の間隔で、円を描く
+  for(float angle=0; angle&lt;360; angle=angle+degree){
+      x = centerX + len*cos(radians(angle));
+      y = centerY - len*sin(radians(angle));
+      ellipse(x, y, d,d);
+  }
+   fill(0);  //画面下部に、黒で、off | onの文字を描く
+   text("off", centerX/2, height-10);
+   text("|", centerX, height-10);
+   text("on", 3*centerX/2, height-10);
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

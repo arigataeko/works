@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Functions for Typography</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--
+<script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+<script language="javascript" type="text/javascript" src="p5jsScript/FuncFont.js"></script>
+-->
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="P5FuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1>タイポグラフィ</h1>
+
+文字(テキスト)を画面ウィンドウに表示するには、text()関数を使います。デフォルト以外のフォントを使用する場合はフォントデータオブジェクト(p5.Font)を作り、textFont()関数で指定します。<br><br>
+
+
+<h2 id="createFont">フォントデータファイルの設定</h2>
+
+OpenType Font(otf形式)のファイルを、p5js用のフォントデータに変換します。ファイルはスケッチを実行するhtmlファイルからの相対パスで指定します。
+<ul>
+<li>・loadFont()関数を使って、p5.Fontを作る。</li>
+<li>・textFont()関数を使って、上で読み込んだフォントデータを設定。</li>
+</ul>
+loadFont()関数の引数に、フォント名を文字列で指定します。
+次のようにpreload()関数の中でloadFont()を実行すると、フォントのロードが終了してからsetup()が実行されます。
+<pre class="reiji">
+【例】let myFont;
+     function preload() {
+       myFont = loadFont("fontdata.otf"); //使用するフォントの読み込み
+     }
+     function setup() {
+       textFont(myFont);  //使用するフォントの設定
+       textSize(36);      //文字サイズの指定
+       text("書きたい文字", 10, 50);
+     }
+</pre>
+
+
+<h2 id="fontdisplay">文字の表示</h2>
+<strong>text()</strong>関数で文字を表示できます。
+<pre class="reiji">
+ text("表示する文字列", x座標, y座標) 【例】 text("文字文字", 20, 140);
+ text('表示する文字列' x座標, y座標)  【例】 text('a', 20, 120);
+ text(数字, x座標, y座標)           【例】 text(10, 20, 100);
+ text(変数名, x座標, y座標)          【例】 text(mouseX, 20, 100);
+</pre>
+x座標とy座標の値は、デフォルトでは、文字列左下角の位置を表します。
+これは<strong>textAlign()</strong>関数を使って変更できます。
+
+<pre class="reiji">
+ textAlign(alignX) 
+ textAlign(alignX, alignY)
+</pre> 
+ alignXは、水平方向の位置の指定で、LEFT, CENTER, RIGHTのいずれか<br>
+ alignYは、垂直方向の位置の指定で、TOP, BOTTOM, CENTER, BASELINEのいずれか
+<br><br>
+また、文字の描画色は<strong>fill()</strong>関数で変更します。<br><br>
+
+次の例は、マウスの位置に描いた円の、中央の座標を表示しています。表示する文字列はマウスの位置によって、動的に変化します。
+
+
+<div class="rightSide">
+	<iframe src="./sample/FuncFont/index.html"
+				width="150" height="150" id="p5FuncMath2" class="grayBorder"
+            > </iframe>
+            <br>
+   マウスに付いて回転
+</div>
+<!-- 
+<div class="rightSide">
+   <p id="p5FuncFont">  </p> 
+   マウスで移動
+</div>
+-->
+<pre class="code">
+【リスト 文字の表示】
+function setup() {
+  createCanvas(200, 200);
+  textSize(20);
+  fill(200, 0, 0);
+}
+function draw() {
+   background(0);
+   ellipse(mouseX, mouseY, 15, 15);
+   text("(" + mouseX + "," + mouseY + ")", mouseX+10, mouseY+5); 
+}
+</pre>
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

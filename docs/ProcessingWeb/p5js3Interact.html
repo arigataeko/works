@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail p5</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="p5Mode.html#list"> p5jsトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの動きに応答する</h1>
+次に、描いた図形の位置や大きさをマウスの動きに応じて、変化させてみます。
+
+<h2 id="mousePosition">マウスの位置</h2>
+マウスの位置は、p5.jsがあらかじめ定義している変数に格納されています。
+
+<pre class="reiji">
+<a href="https://p5js.org/reference/#/p5/mouseX" target="other">mouseX</a>   現在のマウスの水平方向の座標
+<a href="https://p5js.org/reference/#/p5/mouseY" target="other">mouseY</a>   現在のマウスの垂直方向の座標
+</pre>
+
+マウスの位置に円を描いてみましょう。setup()関数内に画面の大きさ設定など1度だけ実行する処理を書き、draw()関数内に応答させる処理を書きます。 
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample3_1/index.html" id="Sample31" width="250" height="125" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+
+<pre class="code">
+【リスト3-1】
+function setup() {
+  createCanvas(250, 125);
+  background(200);
+}
+
+function draw() {
+  ellipse(mouseX, mouseY, 10, 10);
+}
+</pre>
+
+<p class="clear"> </p>
+
+右側の灰色の画面(背景色にグレーを指定)の上でマウスを動かしてください。円が重なって、描かれます(最初,座標の原点(0,0)である左上角に円があります)。
+draw()関数は、指定されたフレームレート(デフォルトで60回/秒)で、
+繰返し実行されます。それにより、
+ellipse()関数が繰返し実行され、その結果として円が描かれます。
+重なって描かれるのは、同じ画用紙である描画域上に描画しているからです。<br>
+
+1つ円を描くごとに、新しい画用紙を使えば、1つの円が動いているように見えます。円を描く前に、画面を背景色で塗れば、それが実現できます。
+backrgound(200);をdraw関数に移動してみてください。<br><br>
+前のフレームでのマウスの位置、つまり前のdraw()の実行時のマウスの位置も保存されています。上の例で、mouseXをpmouseXに、mouseYをpmouseYにしてみましょう。マウスを早く動かすと円がマウスについてくるようすがわかります。
+<pre class="reiji">
+<a href="https://p5js.org/reference/#/p5/pmouseX" target="other">pmouseX</a>   前のdraw()の実行時のマウスの水平方向の座標
+<a href="https://p5js.org/reference/#/p5/pmouseY" target="other">pmouseY</a>   前のdraw()の実行時のマウスの垂直方向の座標
+</pre>
+
+<h2 id="mouseSpeed">マウスのスピード</h2>
+前のフレームのマウスの位置と現在のマウスの位置の差から、マウスの移動スピードを計算できます。前後の位置の距離を計算するには、<a href="https://p5js.org/reference/#/p5/dist" target="other">dist()</a>を使います。マウスが早く動けば、距離は大きくなります。次の例では、距離を円の直径として使っているので、マウスを早く動かすと大きな円が描かれます。
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample3_2/index.html" id="Sample32" width="250" height="125" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト3-2】
+function setup() {
+  createCanvas(250, 125);
+  background(200);
+}
+
+function draw() {
+  var r = dist(mouseX, mouseY, pmouseX, pmouseY);
+  ellipse(mouseX, mouseY, r, r);
+}
+</pre>
+<p class="clear"> </p>
+
+<h2 id="mouseEasing">マウスへゆっくり近づく(イージング)</h2>
+リスト3-1はマウスの位置に円が描かれますが、マウスが動いたら、その位置にゆっくり円が近づいてくるようにすると、流れるような効果をもった動きを実現できます。これをイージング(easing)と呼びます。<br>
+
+目的地に近づくスピードを変えていきます。そのスピードは目的地と現在地との差の何割にするかで計算します。割合easingは0と1の間の数字で、easingが1なら、差の分だけ一気に近づくので、リスト3-1と同じでマウスの位置に直接円が描かれます。0.1なら1割ずつ近づきます。だんだん近づくので、進む距離も小さくなり、目的地に近づくとゆっくり動きます。
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample3_3/index.html" id="Sample33" width="250" height="125" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト3-3】
+var easing = 0.05;  //イージング係数
+var x = 0.0;
+var y = 0.0;
+function setup() {
+  createCanvas(250, 125);
+  background(200);
+}
+
+function draw() {
+  var targetX = mouseX;
+  var targetY = mouseY;
+  x = x + (targetX - x) * easing;  //差の0.05分だけ近づく
+  y = y + (targetY - y) * easing;
+  ellipse(x, y, 10, 10);
+}
+</pre>
+<p class="clear"> </p>
+
+<h2 id="mousePress">マウスボタン・キーの状態</h2>
+マウスボタンが押されているかどうかの状態、いずれかのキーが押されているかどうかの状態が、p5.jsの変数に格納されています。
+
+<pre class="reiji">
+<a href="https://p5js.org/reference/#/p5/mouseIsPressed" target="other">mouseIsPressed</a>   値がtrueならボタンが押されている、falseなら押されていない。
+<a href="https://p5js.org/reference/#/p5/keyIsPressed" target="other">keyIsPressed</a>   値がtrueならどれかのキーが押されている、falseなら押されていない。
+</pre>
+次の例では、リスト3-3に対して変更を加え、<a href="ProgControl.html#ifelse" target="other">if-elseの条件文</a>を使って、マウスボタンが押されていたら赤で、そうでないなら黒で、円を描きます。
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample3_4/index.html" id="Sample34" width="250" height="125" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト3-4】
+var easing = 0.05;
+var x = 0.0;
+var y = 0.0;
+function setup() {
+  createCanvas(250, 125);
+  background(200);
+  noStroke();  // 円の枠線を描かない
+}
+
+function draw() {
+  var targetX = mouseX;
+  var targetY = mouseY;
+  x = x + (targetX - x) * easing;
+  y = y + (targetY - y) * easing;
+    if(mouseIsPressed){  // mousePressedの値がtrueなら赤
+    fill(255,0,0);
+  }else{
+    fill(0,0,0);          // falseなら黒
+  }
+  ellipse(x, y, 10, 10);
+}
+</pre>
+<p class="clear"> </p>
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">
+  <iframe src="./p5Exercise/p5Exer3_1/index.html" id="Exer31" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+【問題3-1】練習問題1-3の放射線の中央が、マウスについて動くようにしてみましょう。
+<br>
+放射線がゴムひものように伸び縮みする感覚が楽しめます。
+<p class="clear"> </p>
+
+<br>
+<div class="leftSide">
+  <iframe src="./p5Exercise/p5Exer3_2/index.html" id="Exer32" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+【問題3-2】円がマウスにゆっくり近づくイージングの例のリスト3_3を次のように修正してください。<br>
+・250Ｘ250の白い描画域上を、赤の円がマウスへ向かって動く。<br>
+・マウスが押されているときは、円は動かない。
+
+<p class="clear"> </p>
+<br>
+
+<div class="leftSide">
+  <iframe src="./p5Exercise/p5Exer3_3/index.html" id="Exer33" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+【問題3-3】練習問題3-1では、放射線の中央が、マウスに一致して動きましたが、マウスの位置に放射線の集まる点が徐々に近づくように変更してください。イージングの係数は例えば0.08のようにします。
+
+<p class="clear"> </p>
+
+<br>
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

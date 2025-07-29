@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>What is p5js?</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+
+<h1>コードを書く・動かす</h1>
+
+<div class="menu">
+
+</div>
+プログラムを作成する道具として、Processingアプリのp5.jsモードを使って、JavaScriptのコードを書き、実行します。<br>
+Processingアプリはプログラムを編集・実行する「プログラミング環境」で、そのp5.jsモードはp5.jsライブラリを使うのに特化した機能をもっています。インタラクティブなモーショングラフィックスの処理をJavaScriptで記述し、Webブラウザ上で直ちに実行することができます。
+<br><br>
+<h2 id="p5jsmode_Install">Processingとp5.jsモードのインストール</h2>
+<div class="leftSide">
+<img src="./images/ProcessingMode.png" alt="モードの追加"></div>
+				
+Processingは、<a href="https://processing.org/"> Processing.orgのサイト</a>からインストールできます。<br><br>
+				
+Processingは元々Java言語をベースにしたプログラミング環境なので、デフォルトではJava言語でプログラムを書くモードになっています。インストールしたProcessingアプリを起動すると、ウィンドウの右上隅にjavaの文字と▼が表示されています。▼をクリックするとプルダウンメニューが現れ、そこのManage Modesメニューを選択します。
+
+				<br><br>
+表示されるダイアログウィンドウからp5.jsを選択し、Installボタンを押すと、インストールが始まり、モードのメニューにp5.js
+が追加されます。
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->				
+				
+				
+				
+				
+<h2 id="p5jsmode">p5.jsモードのスケッチ</h2>
+
+<div class="leftSide">
+<img src="./images/p5js.png" alt="p5.jsモード"></div>
+&nbsp;&nbsp;
+Processingウィンドウの右上隅の下向き三角で、p5.jsを選択すると、図のような画面になります。
+sketch_で始まるタブはJavaScriptのプログラムで、起動直後(新規作成時)は空のsetup()関数とdraw()関数が定義されています。
+Processing(p5.js)では、このプログラムをスケッチと呼びます。
+<br><br>&nbsp;&nbsp;
+<a href="BasicFunction.html" target="other">関数</a>とは、
+いくつかの命令(プログラムの処理)をまとめて(グループにして)、名前をつけたものです。<strong>function</strong>は、JavaScriptで関数を定義するキーワードで、functionに続いて、関数の名前を書き、その後ろに(　)、その後ろに { と } で囲んで、実行したい命令を書きます。(　)の中には、命令を実行するのに必要なデータ(これを引数と呼ぶ)を指定しますが、setup関数とdraw関数は引数がありません。
+<br><br>&nbsp;&nbsp;
+ページのロード時に1回だけ実行したい処理はsetup()関数内に書きます。また、draw()関数の中には、繰返し実行したい処理を書きます。draw()関数は、プログラムを停止しない限り、ずっと一定の間隔で何度も実行されます。draw()関数が実行される間隔をフレームレート(1秒間の描画回数)といいます。この回数はディスプレイのリフレッシュレート(1秒間に画面を書き換えられる回数)に従っており、ほとんどのコンピュータでは60に設定されています。
+<br><br>&nbsp;&nbsp;
+スケッチには、JavaScript言語の文法に従い、p5.jsに定義された命令(関数と呼ぶ)を使って、描画処理のプログラムを記述します。
+<br><br>&nbsp;&nbsp;
+p5.jsの関数はメニューの[Help][Reference]から仕様の一覧を参照できます。
+次のURLからもリファレンスを参照できます。 https://p5js.org/reference/
+<br>
+
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+
+<h2 id="indexhtml">index.html</h2>
+&nbsp;&nbsp;
+index.htmlのタブは、スケッチをWebブラウザ上で実行するためのHTMLファイルで、[実行]ボタン(右向き三角)をクリックすると、Webブラウザが起動され、index.htmlファイルが表示されます。index.htmlには、次の２つの&lt;script&gt;タグが記述されており、
+スケッチのプログラムがページ上で実行されます。
+<br> <pre class="reiji">
+  &lt;script language="javascript" type="text/javascript" src="libraries/p5.min.js"&gt;  &lt;/script&gt;
+  &lt;script language="javascript" type="text/javascript" src="sketch_230310b.js"&gt;  &lt;/script&gt;
+</pre>
+&nbsp;&nbsp;
+sketch_230310b.jsのようにsketch_で始まるファイル名は仮のjavascriptコードのファイル名です。
+スケッチを保存する際に任意の名前をつけると、その名前のフォルダが作成され、その中に拡張子jsのファイル、index.html、librariesフォルダ(p5.min.jsファイルが入る）ができます。
+
+<br><br>
+&nbsp;&nbsp;
+Processingの[実行]ボタンを押すと、自動的にローカルコンピュータ上でWebサーバが動き、Webブラウザが起動されてindex.htmlを読み込みます。ブラウザのアドレスを見ると、ローカルサーバのIPアドレスhttp://127.0.0.1となっているのは、ローカルコンピュータ上のWebサーバを意味します。
+<br>&nbsp;&nbsp;
+スケッチが正しく動作しない時は、WebブラウザのJavaScriptコンソールを開き、そこに表示されるエラーに関する情報を得て、修正します。<br>
+
+
+</div> <!-- 終わり  main -->
+<div class="copy"> 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

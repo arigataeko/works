@@ -1,0 +1,24 @@
+<html>
+<head> <title>Script for onload</title>
+<meta charset="UTF-8"> 
+<script>
+<!--
+   function showImg(){
+       time = new Date(); //現在時刻のDateオブジェクト生成
+       h = time.getHours(); //時刻部分を取り出す
+       if (h >= 19 || h <= 5){  //19時以降または5時以前なら夜
+           document.photo.src ="yoru.jpg";
+       }else if(h >= 16 && h < 19){  //16時以降19時前なら夕方
+           document.photo.src ="yugata.jpg";
+       }else{   //それ以外は昼
+           document.photo.src ="hiru.jpg";
+       }
+   }
+//-->
+</script>
+</head>
+<body onload="showImg();">
+<p>時間よる画像の変化</p>
+<hr>
+<img alt="外の風景" name="photo">
+</body> </html>

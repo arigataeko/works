@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 往復する円運動…ふたつの衝突</h1>
+ふたつの円が、円周上を往復運動しながら、衝突します。
+円周上の動きの計算は、<a href="Motion2RCircle1.html#print" target="other">ひとつの往復する円運動</a>と同じです。2つの円、それぞれに角度、xy、座標、移動速度(角度)を入れる変数を用意しました。
+<br>
+2つの円がぶつかると動く方向を変えるようにします。下の【リスト RCircle2】では右側の円(赤)の変化量da1は3、左側の円(黒)の変化量da2は-3で、反対方向へ動き、ぶつかると変化量の正負を逆転させます(変化量の絶対値が同じである必要はない)。
+<pre class="reiji">
+ if(abs(angle1-angle2)&gt;=360 || abs(angle1-angle2)&lt;=0){ //衝突した
+    da1 = -da1;
+    da2 = -da2;
+ }
+</pre>
+衝突したかどうかは、円の位置を表す角度angle1とangle2の差の絶対値が0以下(元の位置に戻った)か、360以上(2つの円合わせて1周した)かで判定します。
+<br>
+
+<div class="rightSide">
+	<canvas id="RCircle2"
+       data-processing-sources="./MotionPDE/shuttle/RCircle2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RCircle2】
+float angle1, angle2; // 位置(角度)
+float x1, y1, x2, y2;
+float d = 10; // 円の直径
+float da1 = 3; // 角度の変化量
+float da2 = -3; // 角度の変化量
+float len = 60; // 軌跡の円の半径
+float ver=270;   //往復位置の補正　角度
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  noStroke();
+}
+
+void draw() { 
+     background(255);   //画面の背景を白でクリア
+     angle1 = angle1 + da1;
+     angle2 = angle2 + da2;
+     x1 = len * cos(radians(angle1+ver)) + width/2.0;
+     y1 = len * sin(radians(angle1+ver)) + height/2.0;
+     fill(200,0,0);  //右側の円は赤で描画
+     ellipse(x1, y1, d, d);
+     x2 = len * cos(radians(angle2+ver)) + width/2.0;
+     y2 = len * sin(radians(angle2+ver)) + height/2.0;
+     fill(0);        //左側の円は黒で描画
+     ellipse(x2, y2, d, d);
+     if(abs(angle1-angle2)&gt;=360 || abs(angle1-angle2)&lt;=0){ //衝突した
+         da1 = -da1;  //方向を逆転
+         da2 = -da2;
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

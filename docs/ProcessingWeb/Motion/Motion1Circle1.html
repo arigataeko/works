@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の円運動…ひとつ(軌跡なし)</h1>
+ひとつの円が、大きな円の円周上を一定速度で運動します。円周上での点の位置は、円の中央から見た点の角度で表します。時計の3時の位置が0度で、右回りに進みます(時計12時の位置は270度)。この角度angleの値を使って、
+円周上点のx、y座標を計算します。計算には<a href="../PFuncMath.html#sankaku" target="other">三角関数</a>sin()とcos()を使います。
+<pre class="reiji">
+ x =len * cos(radians(angle)) + width/2.0;
+ y =len * sin(radians(angle)) + height/2.0;
+</pre>
+
+<div class="rightSide" style="margin-top: 0px;">
+<img src="../images/sankaku.png" width="250px" alt="円周上の座標計算">
+</div>
+円周の中心を画面の中央(width/2.0, height/2.0)とするため、width/2.0とheight/2.0をx座標、y座標の計算にそれぞれ加えています。これを加えないと、座標の原点(0, 0)である画面の左上角を中心とした円の円周上での運動になります。<br><br>
+
+角度angleが変化(angle + da)することで、円周上で点が移動します。
+<p class="clear"> </p>
+
+<div class="rightSide">
+	<canvas id="Circle1"
+       data-processing-sources="./MotionPDE/oneDirection/Circle1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Circle1】
+float angle; // 位置(角度)
+float x, y;
+float d = 10; // 円の直径
+float da = 3; // 角度の変化量
+float len = 60; // 軌跡の円の半径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア
+     x =len * cos(radians(angle)) + width/2.0;
+     y =len * sin(radians(angle)) + height/2.0;
+     ellipse(x, y, d, d);
+     angle = (angle + da) % 360; //次の描画に備えて角度をdaずつ増加、360を超えない
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

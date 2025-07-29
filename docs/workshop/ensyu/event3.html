@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>event exercise</title>
+
+<script type="text/javascript">
+<!--
+   file = new Array(4);
+   file[0] = "image/hiru.jpg";
+   file[1] = "image/yugata.jpg";
+   file[2] = "image/yoru.jpg";
+   file[3] = "image/blank.gif";
+
+   function changeOn(n){
+      document.images[n].src = "image/on.gif";
+      document.naiyo.src = file[n];
+   }
+
+   function changeOff(n){
+      document.images[n].src = "image/off.gif";
+      document.naiyo.src = file[3];
+   }
+
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>リンク項目にカーソルがきたら，複数部分の表示を変える</h1>
+
+<table border="0">
+<tr><td>
+<img src="image/off.gif">
+
+<a href="blankpage.html" onmouseover="changeOn(0)" onmouseout="changeOff(0)"> 
+        昼</a><br>
+<img src="image/off.gif">
+
+<a href="blankpage.html"  onmouseover="changeOn(1)" onmouseout="changeOff(1)"> 
+        夕方</a><br>
+
+<img src="image/off.gif">
+<a href="blankpage.html" onmouseover="changeOn(2)" onmouseout="changeOff(2)"> 
+        夜</a>
+</td>
+<td><img src="image/blank.gif" alt="メニュー内容の画像" name="naiyo" vspace=10 hspace=40></td>
+</tr> 
+</table>
+</body> 
+</html>
+
+

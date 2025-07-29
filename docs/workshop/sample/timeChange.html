@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for changing image by time</title>
+
+<style>
+  <!--
+   img {
+     margin: 20px;
+     vertical-align: middle;
+   }
+    -->
+</style>
+
+<script>
+<!--
+   function showImg(){
+       time = new Date(); //現在時刻のDateオブジェクト生成
+       h = time.getHours(); //時刻部分を取り出す
+       if (h >= 19 || h <= 5){  //19時以降または5時以前なら夜
+           document.photo.src ="./image/yoru.jpg";
+       }else if(h >= 16 && h < 19){  //16時以降19時前なら夕方
+           document.photo.src ="./image/yugata.jpg";
+       }else{   //それ以外は昼
+           document.photo.src ="./image/hiru.jpg";
+       }
+   }
+//-->
+</script>
+</head>
+
+<body onload="showImg();">
+<h1>時間による画像の変化</h1>
+
+<img alt="外の風景" name="photo">
+左の画像は，ローカルタイムにより変化します。
+
+</body> 
+</html>

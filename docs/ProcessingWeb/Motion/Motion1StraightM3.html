@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の直線運動…複数(異なるサイズの円の列)</h1>
+大きさの異なる複数の円が、水平に列をなして、一定速度で運動します。
+<a href="Motion1StraightM1.html#print" target="other">同一の円の列</a>と同じ動きですが、個々の円の大きさが異なるところが違います。x座標だけでなく、10個の円の大きさも配列に入れておき、円を描画する時に使います。
+<pre class="reiji">
+ for(int i=1; i&lt;x.length; i++){
+    d[i] = d[i-1] + 2 ;  //円の直径の初期化、2ずつ増加
+    x[i] = x[i-1] - (d[i]+d[i-1])/2.0 -5;  //円のx座標の初期化
+ }
+</pre>
+x,dともに、要素の数が10のfloat型の配列で、xにはx座標を、dには直径を入れます。先頭の円の大きさd[0]はゼロ、次の円d[1]は2というように、直径は2ピクセルずつ大きくします。x座標は、円の間隔が5ピクセルになるように初期化します。(d[i]+d[i-1])/2.0は、隣り合う円の中心の距離(半径の和)です。
+<br><br>
+円の中心が等間隔でないので、円が右壁に入ったらの処理は、<a href="Motion1StraightM1.html#print" target="other">同一の円の列</a>の場合と異なり、少し工夫が要ります。最初の円の位置を右壁内部に決めて、その後ろの円は、円の間隔が5ピクセルになるように順番に置きます。
+<pre class="reiji">
+ if(x[i]>=width+d[i]/2) { //右に消えたら、左から現れる
+     if(i==0)  x[i] = -d[i]/2 -50;  //最初の円だけ特別扱い。50は前の列との間隔
+     else x[i]= x[i-1] - (d[i]+d[i-1])/2.0 - 5; //後は同じ間隔で現れる
+ }
+</pre>
+<div class="rightSide">
+	<canvas id="StraightM3"
+       data-processing-sources="./MotionPDE/oneDirection/StraightM3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト StraightM3】
+float s = 2; // 移動速度
+float x[]  = new float[10]; // 位置(x座標)
+float d[]  = new float[10]; // 円の直径
+
+void setup() {
+  size(150, 150); 
+  fill(0);
+  d[0]=2; //先頭の直径は2
+  for(int i=1; i&lt;x.length; i++){
+    d[i]= d[i-1] + 2 ;  //円の直径の初期化
+    x[i]= x[i-1] - (d[i]+d[i-1])/2.0 -5;  //円のx座標の初期化
+  }
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア
+     for(int i=0; i&lt;x.length; i++){
+        x[i] = x[i]+s;
+        if(x[i]>=width+d[i]/2) { //右に消えたら、左から現れる
+           if(i==0)  x[i] = -d[i]/2 -50;  //最初の円の位置、左壁内部
+           else x[i]= x[i-1] - (d[i]+d[i-1])/2.0 - 5; //後は同じ間隔で現れる
+        }
+        ellipse(x[i], height/2.0, d[i],d[i]);
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

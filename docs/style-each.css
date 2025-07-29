@@ -1,0 +1,194 @@
+A {
+	FONT-WEIGHT: bold;
+        COLOR: #66c; 
+        BORDER-TOP-STYLE: none; BORDER-BOTTOM-STYLE: none
+        BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none;
+        TEXT-DECORATION: none; 
+}
+A:hover {
+	FONT-WEIGHT: bold;
+        COLOR: #933;
+        BORDER-TOP-STYLE: none; BORDER-BOTTOM-STYLE: none
+        BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none;
+        TEXT-DECORATION: underline;
+}
+
+#headline TABLE {
+        width: 100%;
+        height: 5em;
+        MARGIN: 0 0 50px 0;
+        FONT-WEIGHT: bold;
+        FONT-SIZE: 1em;
+        COLOR: #66c;
+        BORDER-BOTTOM: #66c 1px solid;
+        FONT-FAMILY: arial, helvetica, sans-serif
+}
+#headline TD.special {
+        width: 180px;
+        COLOR: #fff;
+        BACKGROUND-COLOR: #66c;
+}
+
+.copy{
+    BORDER-TOP: #333 1px solid;
+    MARGIN-TOP: 3em;
+    font-size:0.75em;
+    color:#333;
+    font-family:"Arial";
+    text-align:center;
+}
+
+.red {
+    color: #c00;
+    FONT-WEIGHT: bold;
+}
+
+#sidemenu {
+	FONT-SIZE: 0.95em;
+        FLOAT: right;
+        WIDTH: 120px;
+        COLOR: #333
+}
+
+#sidemenu H2 {
+        BORDER-TOP: #666 1px dotted;
+        BORDER-BOTTOM: #666 1px dotted;
+        PADDING: 0.4em 0 0.1em 0;
+        FONT-SIZE: 0.95em;
+        MARGIN: 2em 0 0.5em;
+        COLOR: #333;
+        FONT-FAMILY: georgia, serif
+}
+
+#sidemenu H4 {
+	FONT-SIZE: 0.85em;
+        MARGIN: 2em 0 1em;
+        COLOR: #333
+}
+
+#sidemenu UL {
+	PADDING: 0 0 0 0;
+        MARGIN: 0px;
+        LIST-STYLE-TYPE: none
+}
+#sidemenu LI {
+        PADDING-LEFT: 1.0em;
+        PADDING-BOTTOM: 0.15em;
+}
+
+#main {
+	FONT-SIZE: 0.95em;
+        MARGIN: 0px 120px 0px 60px;
+        COLOR: #000;
+        FONT-FAMILY: helvetica, sans-serif
+        LINE-HEIGHT: 1.45em
+}
+#main P {
+	MARGIN: 1.25em 0em
+}
+
+#main P.small {
+	MARGIN: 0em 3em;
+	FONT-SIZE: 0.85em;
+        LINE-HEIGHT: 1.2em;
+        BORDER-TOP: #999 1px solid; 
+        BORDER-BOTTOM: #999 1px solid;
+        PADDING: 0.5em 0em;
+}
+
+#main UL {
+	PADDING: 0 0 0 0;
+        MARGIN: 0px;
+        LIST-STYLE-TYPE: none;
+}
+#main LI {
+        PADDING: 0 0 0.2em 2.0em;
+}
+#main LI.second {
+        PADDING: 0 0 0.1em 2.0em;
+}
+
+#main OL {
+	PADDING: 0 0 0 2.5em;
+        MARGIN: 0px;
+}
+#main OL LI {
+        PADDING: 0 0 0.2em 0.1em;
+}
+
+#main H1 {
+	DISPLAY: inline;
+        FONT-WEIGHT: normal;
+        FONT-SIZE: 1.5em;
+        MARGIN-BOTTOM: 2em;
+        BORDER-BOTTOM: #999 1px dotted;
+        FONT-FAMILY: georgia, serif;
+        TEXT-DECORATION: none
+}
+#main H1 A {
+	FONT-WEIGHT: normal;
+        COLOR: #600; 
+        BORDER-BOTTOM: #999 1px dotted;
+        TEXT-DECORATION: none
+}
+#main H2 {
+	FONT-WEIGHT: normal;
+        FONT-SIZE: 1.45em;
+        MARGIN: 2.5em 0 1em;
+        COLOR: #933;
+        BORDER-BOTTOM: #999 1px dotted;
+        FONT-FAMILY: georgia, serif;
+        TEXT-DECORATION: none
+}
+
+#main H3 {
+        PADDING: 0.5em 0 0.2em 0;
+        FONT-WEIGHT: normal;
+        FONT-SIZE: 1.05em;
+        COLOR: #933;
+        MARGIN: 2em 0 0em;
+        TEXT-DECORATION: none
+}
+#main H3 SPAN{
+        BORDER-BOTTOM: #999 1px dotted;
+}
+#main H3 A{
+        BORDER-BOTTOM: #999 1px dotted;
+
+        FONT-WEIGHT: normal;
+        COLOR: #66c;
+        TEXT-DECORATION: none
+}
+#main H3 A:hover{
+        BORDER-BOTTOM: #999 1px solid;
+        COLOR: #933;
+        TEXT-DECORATION: none
+}
+
+#main H4 {
+	FONT-SIZE: 0.85em;
+        MARGIN: 2em 0 1em;
+}
+#main H5 {
+	MARGIN: 60px 0px 80px -125px
+}
+#main H6 {
+	DISPLAY: inline;
+        FONT-WEIGHT: bold;
+        FONT-SIZE: 0.8em;
+	MARGIN: 0em 3em;
+        COLOR: #ff7600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

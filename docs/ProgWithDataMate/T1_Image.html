@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T1_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a>
+</div>
+<div id="main">
+<h1> 画像の描画</h1>
+100個の円を色分けしてデータを表しました。ここでは、色の代わりに、画像を使ってデータを区別します。<br>
+P5.jsは gif、jpg、png形式の画像データを表示できます。画像ファイルをプログラムに読み込むと<a href="P5FuncImage.html" target="other">p5.Imageクラス</a>の<a href="BasicClassObj.html" target="other">オブジェクト</a>が作られ、画像のピクセルデータが保存されます。<br>
+<div class="notes">
+クラスはプログラム部品の設計図、オブジェクトはその設計図から作られた個々の部品というイメージで捉えておいてください。
+</div>
+
+サンプルや練習問題で使う画像ファイルは、<a href="ImageFiles.html" target="other">画像ページ</a>からコピーできます。
+
+<h2 id="tandoku">画像ファイルを表示する</h2>
+<a href="T1_DrawCircle.html#hitotsu" target="other">リストT1-1-1</a>では、ひとつの円を描きましたが、円の代わりに画像を表示したのがリストT1-3-1です。画像を読み込み、表示するまでの手順を説明します。<br><br>
+(1) スケッチフォルダ(jsファイルのあるフォルダ、[スケッチ]メニュー→[スケッチフォルダーを開く]で表示される)の下にimagesフォルダを作り、その中に画像ファイル(今の場合catB25.png)を置くことにする。<br><br>
+
+(2) p5.Imageオブジェクトを入れる変数を用意する。関数の外側で、グローバル変数として定義する。
+<pre class="reiji">
+let catImg;  //画像データ用の変数
+</pre>
+<br>
+(3) この変数に、<a href="P5FuncImage.html#read" target="other">loadImage関数</a>を使って画像ファイルからデータを読み込み、p5.Imageオブジェクトを作る。画像の読み込みは、setup()関数が実行される前に終わっていてほしいので、preload()関数の中で行う(preload()が終了してからsetup()が実行される)。
+<pre class="reiji">
+	function preload() {
+	  catImg = loadImage("./images/catB25.png");
+	}
+</pre>
+<br>
+(4) <a href="P5FuncImage.html#image" target="other">image関数</a>を使って、画像データを描画する。
+
+<pre class="reiji">
+  image(描く画像データ, x座標, y座標)
+</pre>
+image()関数の第2、第3引数に画像を描画する座標(x, y)を指定します。デフォルトではそれは画像の左上隅の座標です。この例では、画像の中央位置を指定するよう、imageMode関数を使って変更しました。
+<pre class="reiji">
+  imageMode(CENTER);  //image()関数の第2、第3引数は画像の中央の位置
+</pre>
+キャンバス領域がはっきり分かるように、背景をグレーで示しました。
+
+<div class="rightSide">
+<img src="images/HT1_3_1.png" alt="猫が１" height="180">
+</div>
+
+<!-- 高校生用サイトでは、イメージはトレイル1の第3セクションなので画像ファイル名、スケッチ名はHT1_3から始まる -->
+<pre class="code">
+【リストT1-4-1】
+let x = 35;  //画像の中心のx座標
+let y = 35;  //画像の中心のy座標
+let catImg;  //画像データ用の変数
+function preload() {
+  catImg = loadImage("./images/catB25.png");
+}
+function setup() {
+  createCanvas(250, 250);
+  imageMode(CENTER);    //画像の中心位置を指定して描く設定
+}
+function draw() {
+  background(240);
+  image(catImg, x, y);  //(x, y)に画像の中心をおく
+}
+</pre>
+
+<p class="clear"> </p>
+
+<h2 id="fukusu">画像を複数描く</h2>
+<a href="T1_DrawCircle.html#mondai" target="other">練習問題1-1</a>で、10行10列で100個の円を描きましたが、代りに同じ画像を100回描いたのが下の例です。画像を描く間隔を計算するために、画像の幅と高さを使っています。
+<a href="P5FuncImage.html" target="other">p5.Image</a>オブジェクトにはwidthとheightの変数があり、幅と高さを保持しています。catImg.widthとすると読み込んだ猫の画像の幅を得られます。
+<pre class="reiji">
+  image(catImg, x+i*catImg.width, y+j*catImg.height);  
+</pre>
+setup()、draw()関数以外はリストT1-4-1と同じです。<br><br>
+
+<div class="rightSide">
+<img src="images/HT1_3_2.png" alt="猫が100" height="180">
+</div>
+<pre class="code">
+【リストT1-4-2】
+let x = 35;  //最初の画像の中心のx座標
+let y = 35;  //最初の画像の中心のy座標
+let catImg;  //画像データ用の変数
+function preload() {
+  catImg = loadImage("./images/catB25.png");
+}
+function setup() {
+  createCanvas(300, 300);
+  imageMode(CENTER);    //画像の中心位置を指定して描く設定
+}
+function draw() {
+  background(255);  //背景は白
+  for (let j=0; j<10; j++) {
+    for (let i=0; i<10; i++) {
+      image(catImg, x+i*catImg.width, y+j*catImg.height);  //画像の中心の座標を指定
+    }
+  }
+}
+</pre>
+<p class="clear"> </p>
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+【問題T1-4-1】<br>
+<a href="T1_Color.html#Village100" target="other">リストT1-2-2</a>で、2項目のデータの割合を色分けで示しました。同様に、今度は画像でデータを区別してみましょう。<br>
+
+<div >
+	<img src="images/HT1_3_exe1.png" alt="猫が100" height="250">
+	</div>
+<br>
+<a href="https://petfood.or.jp/data/index.html" target="other">ペットフード協会</a>のデータによると、<br>
+2013年の猫の飼育推計数は8409千頭、犬の飼育推計数は8714千頭<br>
+2020年の猫の飼育推計数は8628千頭、犬の飼育推計数は7341千頭<br>
+2023年の猫の飼育推計数は9069千頭、犬の飼育推計数は6844千頭<br>
+とのこと。犬猫の飼育推計数の割合の変化を100個の画像を表示することで、示してみよう。
+ <br> 
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

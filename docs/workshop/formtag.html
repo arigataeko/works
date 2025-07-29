@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>form tag</title>
+
+
+<style type="text/css">
+  <!--
+   pre {
+     font-size: 1.1em;
+     padding: 0 0 0 3em;
+   }
+   strong {
+     font-size: 1.1em;
+   }
+    -->
+</style>
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      formタグとJavaScript<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href = "#text">テキスト入力域</a> &nbsp| &nbsp
+<a href = "#button">ボタン</a>&nbsp| &nbsp
+<a href = "#checkbox">チェックボックス</a>&nbsp| &nbsp
+<a href = "#radio">ラジオボタン</a>
+</div>
+<br><br>
+<h1 id="text">テキスト入力域</h1>
+
+&nbsp;&nbsp;
+  テキスト入力域は、キーボートからの入力を表示するための一行の領域。出力域としても使える。
+<br><br>
+
+<pre>
+&lt;form name="textin"&gt;
+   &lt;input type="text" value="0" size="10" name="age"&gt;
+&lt;/form&gt;
+</pre>
+
+&nbsp;&nbsp;
+上のタグは次のように表示される。<br>
+
+<pre>
+<form name="textin">
+<input type="text" value="0" size="10" name="age">
+</form>
+</pre>
+
+&nbsp;&nbsp;
+このテキスト入力域に表示される文字列は、<strong>document.textin.age.value</strong>で参照できる。
+
+<br><br><br>
+
+<h1 id="button">ボタン</h1>
+&nbsp;&nbsp;
+  ラベルつきボタン。
+<br><br>
+
+<pre>
+&lt;form&gt;
+   &lt;input type="button" value="計算"&gt;
+&lt;/form&gt;
+</pre>
+
+&nbsp;&nbsp;
+上のタグは次のように表示される。<br>
+
+<pre>
+<form>
+<input input type="button" value="計算">
+</form>
+</pre>
+
+&nbsp;&nbsp;
+JavaScriptで、ボタンがクリックされたときの処理を指定するには、inputタグに<strong>onclick</strong>に対するイベント処理を書く。
+<br>&nbsp;&nbsp;
+&lt;input type="button" value="計算" onclick="JavaScriiptの記述"&gt;
+
+<br><br><br>
+
+<h1 id="checkbox">チェックボックス</h1>
+&nbsp;&nbsp;
+  複数の選択が可能な選択ボタン。
+<br><br>
+
+<pre>
+&lt;form name="in2"&gt;
+   &lt;input type="checkbox" value="1" name="choice"&gt;項目１
+   &lt;input type="checkbox" value="2" name="choice"&gt;項目２
+   &lt;input type="checkbox" value="3" name="choice"&gt;項目３
+   &lt;input type="checkbox" value="4" name="choice"&gt;項目４
+&lt;/form&gt;
+</pre>
+
+&nbsp;&nbsp;
+上のタグは次のように表示される。<br>
+
+<pre>
+<form name="in2">
+<input type="checkbox" value="1" name="choice">項目１
+<input type="checkbox" value="2" name="choice">項目２
+<input type="checkbox" value="3" name="choice">項目３
+<input type="checkbox" value="4" name="choice">項目４
+</form>
+</pre>
+
+&nbsp;&nbsp;
+例えば、先頭のチェックボックスが選択されているかどうかは、<br>
+<strong>document.in2.choice[0].checked</strong>
+の値がtrueかfalseかを調べることでわかる。<br><br>
+&nbsp;&nbsp;また、先頭のチェックボックスの値は、
+<strong>document.in2.choice[0].value</strong>で参照できる。
+
+
+<br><br><br>
+
+<h1 id="radio">ラジオボタン</h1>
+&nbsp;&nbsp;
+  ひとつのみの選択が可能な選択ボタン。
+<br><br>
+
+<pre>
+&lt;form name="in3"&gt;
+   &lt;input type="radio" value="1" name="rb"&gt;項目１
+   &lt;input type="radio" value="2" name="rb"&gt;項目２
+   &lt;input type="radio" value="3" name="rb"&gt;項目３
+   &lt;input type="radio" value="4" name="rb"&gt;項目４
+&lt;/form&gt;
+</pre>
+
+&nbsp;&nbsp;
+上のタグは次のように表示される。<br>
+
+<pre>
+<form name="in3">
+<input type="radio" value="1" name="rb">項目１
+<input type="radio" value="2" name="rb">項目２
+<input type="radio" value="3" name="rb">項目３
+<input type="radio" value="4" name="rb">項目４
+</form>
+</pre>
+
+&nbsp;&nbsp;
+例えば、先頭のラジオボタンが選択されているかどうかは、<br><strong>document.in3.rb[0].checked</strong>の値がtrueかfalseかを調べることでわかる。<br><br>
+&nbsp;&nbsp;また、先頭のチェックボックスの値は、<strong>document.in3.rb[0].value</strong>で参照できる。
+<br><br><br>
+
+<hr size="2"noshade>
+
+<div class="cp">
+arigat アットマーク acm.org<br>
+Last modified: Oct. 2014
+</div>
+</body>
+</html>

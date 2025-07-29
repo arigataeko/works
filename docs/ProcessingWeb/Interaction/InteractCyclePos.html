@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスのX方向の位置で速度が変わる</h1>
+マウスのｘ座標の値によって、円周上を移動する円の速度が変わります。マウスを左端にもっていくと、速度は0に、右端にもっていくと加速度の最大値(max,今は20)になります。この計算をしているのが<a href="../PFuncMath.html#kansan" target="other">map()関数</a>です。<br>
+<pre class="reiji">
+ds = map(mouseX, 0, wide, 0, max)
+</pre>
+マウスのX座標の値(0からwideの間の値)を、別の範囲0とmaxの間の値に変換しています。<br><br>
+この値dsを、角度の変化の速度として使っています。<br>
+<pre class="reiji">
+angle = (angle + ds)%360;
+</pre>
+角度angleはdsずつ増加します。360度を超えたら0に戻すため、0で割った余りを計算しています。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="CyclePos"
+       data-processing-sources="./InteractPDE/CyclePos.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    マウスを左右に移動
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト CyclePos】
+int wide = 150;
+float r = 60;    //円の半径
+float x, y;      //円の位置
+float angle;  //速度(角度の速度)
+float ds;     //加速度(速度の変化値)
+float max = 20;  //　加速度の最大値
+
+void setup() {
+  size(wide, wide);     // 画面サイズの設定
+  strokeWeight(10);
+}
+
+void draw() {
+   noStroke();
+   fill(255, 75);  //色は白、透明度を指定
+   rect(0,0,width, height); //背景を四角で塗りつぶす
+   stroke(0);      //黒で描く
+   ds = map(mouseX, 0, wide, 0, max);
+   angle = (angle + ds)%360; //一周したら0に戻す
+   x = r*cos(radians(angle)) + width/2;
+   y = r*sin(radians(angle)) + height/2;
+   point(x, y);   //点を描く
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 拡大収縮…大きさの変化</h1>
+ひとつの円のサイズが拡大収縮します。
+<br>
+円の直径が最大値(width)になった時、または最小値(0)になった時に、大きさの変化量ddの正負を反転させます。この変化量を直径ｄに加えて、円を描画すれば、大きさは等速で、繰返し変化します。
+<pre class="reiji">
+ dd = 2; //2ピクセルずつ変化
+ if (d&gt;width || d&lt;0) {
+    dd = -dd;
+ }
+ d = d + dd;
+ ellipse(width/2, height/2, d, d);
+</pre>
+
+【リスト ExpandReduce】では、スピードが変化するように、
+<a href="../Trail3Interact.html#mouseEasing" target="other">イージング</a>の処理を加えて、最大値に向けて最初は大きく変化し、だんだんゆっくり近づくようにしました。
+<pre class="reiji">
+ dd = 0.05;  //差の5%ずつ変化
+
+ if(dd&gt;=0){ //増加している時
+    d = d + (width - d) * dd; //最大値widthとの差のdd分変化
+ }else{ //減少している時
+    d = d + (d - 0) * dd; //最小値0との差のdd分変化
+ }
+</pre>
+
+<div class="rightSide">
+	<canvas id="ExpandReduce"
+       data-processing-sources="./MotionPDE/vibration/ExpandReduce.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト ExpandReduce】
+float d; // 円の直径
+float dd = 0.05; //直径の変化の割合(イージング係数)
+
+void setup() {
+  size(150, 150);   // 描画するための画面
+  fill(100);       //塗りつぶす
+  noStroke();      //線なし
+}
+
+void draw() { 
+     background(255);   //モニタ画面の背景を白でクリア
+     if (d&gt;=width-1 || d&lt;1) { //ぴったりwidth,あるいは0にならないので
+                                    //s1ピクセルまで近づいたら反転
+        dd = -dd;
+     }
+     if(dd&gt;=0){ //増加している時
+       d = d + (width - d) * dd; //最大値widthとの差のdd分変化
+     }else{ //減少している時
+       d = d + (d - 0) * dd; //最小値0との差のdd分変化
+     }
+     ellipse(width/2, height/2, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

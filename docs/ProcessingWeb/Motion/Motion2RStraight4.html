@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 直線の往復運動…ひとつ(速度変化)</h1>
+ひとつの円が、水平に加速しながら往復運動します。
+<br>
+速度が変化する部分以外は、ひとつ(一定速度)<a href="./Motion1Straight4.html" target="other">【リスト RStraight1】</a>と同じです。
+壁に当たったら速度を初期値(init)に設定し、加速度の方向を反転なおしています。
+<br>
+<br>
+
+<div class="rightSide">
+	<canvas id="RStraight4"
+       data-processing-sources="./MotionPDE/shuttle/RStraight4.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RStraight4】
+float d = 10; // 円の直径
+float x = d/2; // 位置(x座標)
+float init = 0.2; //速度初期値
+float s = init; // 移動速度
+float a = 0.25; // 加速度
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //モニタ画面の背景を白でクリア   
+     s = s+a;
+     x = x+s;     
+     if(x&gt;width-d/2){  //右の壁より右に来た
+         x = width-d/2;  //右の壁に接する位置に置く
+         s = -init; //左へ進む、速度初期化
+         a = -a; //加速度の方向を逆転
+      }else if(x&lt;d/2){   //左の壁より左に来た
+         x = d/2;  //左の壁に接する位置に置く
+         s = init;  //右へ進む、速度初期化
+         a = -a; //加速度の方向を逆転
+      }
+     ellipse(x, height/2, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

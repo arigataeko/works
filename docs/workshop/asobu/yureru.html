@@ -1,0 +1,177 @@
+<html>
+<head>
+<title>burabura</title>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<style>
+.spanstyle {
+	position:absolute;
+}
+ h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: #fff #fff #66c #66c;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 50px;
+       font-size: medium;
+ }
+</style>
+
+</head>
+<body  onload="calcPos()">
+
+<h1>マウスにぶるさがる</h1>
+
+<span id="span0" class="spanstyle" style="visibility:hidden; top:50px; left=50px")><img src="hito/sagaru2.gif"> </span>
+<span id="span1" class="spanstyle" style="top:80px; left=50px")><img src="hito/sagaru2.gif"> </span>
+<span id="span2" class="spanstyle" style="top:110px; left=50px")><img src="hito/sagaru2.gif"> </span>
+<span id="span3" class="spanstyle" style="top:140px; left=50px")><img src="hito/sagaru2.gif"> </span>
+
+<script type="text/javascript">
+<!--
+var x,y;
+var xstep=0;
+var ystep=0;
+var flag=0;
+
+var K=10; // フックの法則の係数
+var R=10; // 減衰抵抗の係数
+var G=80; // 重力
+var D=0.01; // 
+var springx = 0;  // ばねx方向の力
+var springy = 0;  // ばねy方向の力
+var lim=0.1; //停めるため閾値
+var len= 4;  //ぶら下がる人の数 先頭は隠れて見えない
+var cut = 1; //画像ファイルの種類　今は1種
+/*
+var img=new Array();
+for (i=1;i<=cut;i++) {  
+	img[i-1]= "hito/sagaru2.gif";
+}
+
+for(i=0; i<len; i++){
+   document.write("<span id='span"+i+"' class='spanstyle' ");
+   if(i==0){ document.write("style='visibility:hidden'>");
+   }else{ document.write(">");}
+   document.write("<img src='" + img[i%cut] + "'>");
+   document.write("</span>");
+} 
+*/
+
+//NN：MOUSEMOVEイベントが起きたら、documentオブジェクトに伝える
+if(document.layers){
+    document.captureEvents(Event.MOUSEMOVE);
+}
+document.onmousemove=mouseHandle;
+
+var xpos=new Array();
+var ypos=new Array();
+var xdif=new Array();
+var ydif=new Array();
+for (i=0;i<len;i++) {  //位置情報の初期化
+	xpos[i]=50;
+	ypos[i]=50+i*30;
+        xdif[i]=0;
+        ydif[i]=0;
+}
+
+
+function mouseHandle(e){
+// NNは、ページに対するマウスの相対座標をpageX,pageYで参照
+// IEは、ページに対するマウスの相対座標をclientX,clientYで参照
+// IEは、Eventオブジェクトを引数eで受け取れない
+	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX;
+	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY;
+	flag=1; 
+}
+
+
+function calcRubber(m,n) {
+   var dx = xpos[m]-xpos[n];
+   var dy = ypos[m]-ypos[n];
+
+   var heni = Math.sqrt(dx*dx + dy*dy);
+
+   if(heni > 10){
+     var force = K * (heni-10);
+     springx += force * dx / heni;  // x方向の力
+     springy += force * dy / heni;  // y方向の力
+   }
+}
+
+function calcYure(n) {
+   springx = 0;  // x方向の力
+   springy = 0;  // y方向の力
+   if (i == len-1) {
+      calcRubber(n-1, n);
+   } else {
+      calcRubber(n-1, n);
+      calcRubber(n+1, n);
+   }
+
+   var teikox = -xdif[n] * R;
+   var teikoy = -ydif[n] * R;
+
+   var avx = springx + teikox;       // F = ma
+   var avy = springy + teikoy + G;
+
+   xdif[n] += (avx * D);
+   ydif[n] += (avy * D);
+
+   if(Math.abs(xdif[n])<lim && Math.abs(ydif[n])<lim
+      && Math.abs(avx)<lim && Math.abs(avy)<lim){
+     xdif[n] = 0;
+     ydif[n] = 0;
+   }
+   xstep = xdif[n];   
+   ystep = ydif[n];   
+}
+
+function calcPos() {
+    if(flag ==1){ //ロードが終わってマウスイベントがあるまで、実行しない
+
+    	for (i=1; i<len; i++){
+           calcYure(i);
+ 	   xpos[i]=xpos[i]+xstep;
+	   ypos[i]=ypos[i]+ystep;
+        } 
+
+	xpos[0]=x;
+	ypos[0]=y+30;
+	
+	if (document.all) {  /* IE */
+              for (i=0; i<len; i++) {
+                var thisspan = eval("span" + i + ".style");  //ex. span1.style
+                thisspan.left=xpos[i];
+		thisspan.top=ypos[i];
+              }
+	}	
+	else if (document.layers) {  /* NN4 */
+	     for (i=0; i<len; i++) {
+    		var thisspan = eval("document.span"+i);
+    		thisspan.left=xpos[i];
+		thisspan.top=ypos[i];
+    	     }
+	} else if (document.getElementById) {  /* NN6 */
+	     for (i=0; i<len; i++) {
+                var str ="document.getElementById('span";
+    		var thisspan =// eval(str + i + "').style");
+                eval("document.getElementById('span" + i + "').style");
+    		thisspan.left=xpos[i];
+		thisspan.top=ypos[i];
+    	     }
+	}
+     }   // end of if 
+     var timer=setTimeout("calcPos()",30);
+}
+
+//-->
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

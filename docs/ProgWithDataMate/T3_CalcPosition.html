@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T3_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 図形の位置の計算</h1>
+draw()関数の中で、描く図形の位置を変えることで、アニメーションのように動いて見えます。<br>
+例えば、円のx座標を1ずつ増やせば、円が水平に運きます。図形に運動させる時には、図形の座標位置を計算する必要があります。その時、運動の法則の基本が役に立ちます。
+
+
+<h2 id="tousoku">等速運動</h2>
+座標が同じ大きさで変化するのが、等速運動です。位置の変化(スピード)を現在位置に加えることで、新しい位置を計算します。
+<pre class="reiji">
+新しい位置 = 現在位置 ＋ 速度
+【例】 let x = 10;
+      let speed = 1; //速度は1
+      x = x + speed; //位置を計算
+</pre>
+速度が負だと座標値が減り、水平運動の場合左へ動きます。次のリストは、左右の壁に来たらスピードの正負を逆転させて、壁に跳ね返らせています。
+
+<div class="rightSide">
+<iframe src="./sample/HT3List1_1/index.html"
+		width="250" height="150" id="sampleTousoku"> </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+<pre class="code">
+【リストT3-1-1】
+let d = 20;    //円の直径
+let x = d/2;   //円の最初のx座標
+let speed = 1; //スピード
+function setup() {
+  createCanvas(250, 150);
+  fill(200, 0, 0);
+  noStroke();
+}
+function draw() {
+  background(240);
+  x = x + speed;
+  circle(x, height/2, d);
+  if (x >= width-d/2 || x < d/2) {  //左右の壁に当たった
+     speed = -speed;   //スピードを逆転
+  }
+}
+</pre>
+<p class="clear"> </p>
+
+<h2 id="kasoku">加速度運動</h2>
+速度が一定の割合で変化するのが、加速度運動です。<br>
+
+<pre class="reiji">
+新しい速度 = 現在速度 ＋ 加速度
+新しい位置 = 現在位置 ＋ 速度
+【例】 let x = 0;
+      let speed = 1; //速度は1
+      let a = 0.1;   //加速度は0.1
+      speed = speed + a; //速度を計算
+      x = x + s; //位置を計算
+</pre>
+等速運動のリストT3-1-1で、速度を変えたのが、リストT3-1-2です。画面右に消えて、左に現れる時、最初の速度に戻るようにしました。
+<div class="rightSide">
+<iframe src="./sample/HT3List1_2/index.html"
+		width="250" height="150"id="sampleKasoku"> </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+<pre class="code">
+【リストT3-1-2】
+let d = 20;    //円の直径
+let x = d/2;     //円の最初のx座標
+let speed = 1;   //スピード
+let a = 0.1;     //加速度
+function setup() {
+  createCanvas(200, 150);
+  fill(200, 0, 0);
+  noStroke();
+}
+function draw() {
+  background(240);
+  speed = speed + a;
+  x = x + speed;
+  circle(x, height/2, d);
+  if (x >= width) { 
+     speed = 1;     //速度を元に戻す
+     x = d/2;       //円を左壁上に置く
+   }
+}
+</pre>
+
+<h2 id="mondai">演習問題</h2>
+
+<div class="leftSide">
+<iframe src="./exercise/HT3_1_exe1/index.html"
+		width="250" height="150" id="T3_1_exe1"> </iframe>
+            <br>
+	クリックで再始動
+  <br>  <br>
+</div>
+【問題T3-1-1】円が水平に移動し、ある位置に来たら(例えば200)止まり、円の色が変わるようなスケッチを作成してみよう。マウスクリックで再び円が左から現れるようにしよう。<br>
+円の左辺からの水平方向の位置をx、止めたい位置をlastXとすると、次のようにこれらの値を比較して動作を決めます。
+<pre class="reiji">
+if (x >= lastX) {  //最終x座標になったら
+   //スピードをゼロにし、描画色を青にする
+} else {
+   //スピードを1にし、描画色を赤にする
+}
+</pre>
+
+<p class="clear"> </p>
+<br>
+<div class="leftSide">
+<iframe src="./exercise/HT3_1_exe2/index.html"
+		width="250" height="250" id="T3_1_exe2"> </iframe>
+            <br>
+	クリックで再始動
+</div>
+【問題T3-1-2】円が垂直に上へ移動し、ある位置に来たら止まり、円の色が変わるようなスケッチを作成してみよう。マウスクリックで再び円が下から現れるようにしよう。<br>
+<a href="P5FuncDraw.html" target="other">キャンバスの座標</a>は左上角が原点(0,0)で、垂直方向のy座標は、下に行くほど大きい値になります。そこに注意が必要です。<br><br>
+
+キャンバスの下辺と円中心との距離をyとすると、描画の時は次のように円の位置を指定します。
+<pre class="reiji">
+circle(x, height-y, d);  //height-yは円の上辺からの位置
+                                    //heightはキャンバスの高さ 
+</pre>
+yの値をスピード分だけ徐々に増やし、止めたい位置より大きくなったら、スピードをゼロにします。
+
+
+<p class="clear"> </p>
+<br>
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

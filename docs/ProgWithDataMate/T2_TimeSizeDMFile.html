@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T2_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> CSVファイルを読む</h1>
+ラーニングトレイル2の<a href="T2_TimeSizeDM.html#print" target="other">(2)時系列変化DM版</a>で、Datamate.jsライブラリを使って、円の大きさでデータの時系列変化を表しました。データは配列を使って指定していましたが、CSVファイルを読み込めると便利です。
+
+<h2 id="FileRead">CSVファイルから内部テーブルを作る</h2>
+
+ファイルを読み込んで、Datamateの内部テーブルを作るには次のように指定します。
+<pre class="reiji">
+Datamate.make("csvファイル名");
+</pre>
+2013年から2023年の犬猫の飼育数を保存した次のようなCSVファイル<a href="inuneko.csv" download="inuneko.csv">inuneko.csv</a>を用意しました。<br>
+
+
+<pre class="reiji">
+年, 2013年, 2014年, 2015年, 2016年, 2017年, 2018年, 2019年, 2020年, 2021年, 2022年, 2023年
+猫, 8409, 8425, 8297, 8333, 8672, 8849, 8764, 8628, 8946, 8837, 9069
+犬, 8714, 8200, 7994, 8008, 7682, 7616, 7579, 7341, 7106, 7053, 6844
+</pre>
+
+
+<a href="T2_TimeSizeDM.html#T2List2_1" target="other">リストT2-2-1</a>では、Datamate.make()の引数に、タイトルとデータの配列を指定していました。代わりに、
+make()関数の引数に csvファイル名を指定することで、このファイルからデータを読み込めます。
+
+<pre class="reiji">
+Datamate.make("inuneko.csv");
+</pre>
+
+リストT2-5-1は、<a href="T2_TimeSizeDM.html#mondai" target="other">問題T2-2-1</a>のDatamate.make()部分だけを変更したものです。
+<br><br>
+<pre class="code">
+【リストT2-5-1】
+let title = "猫と犬の飼育推計数";
+let titleX = 120;  //この↑表題を表示するx座標
+let catImg, dogImg;
+let move = true;
+function preload() {
+  catImg = loadImage("./images/catB100.png");
+  dogImg = loadImage("./images/dogW100.png");
+}
+
+function setup() {
+  createCanvas(450, 250);
+  Datamate.make("inuneko.csv");
+  Datamate.makeAreas(0, 0, width, height, 2, 1);
+  Datamate.play(0.3, 0);  //横方向に動かす
+  Datamate.loop(true, false);    //ループする
+  noStroke();
+  textAlign(CENTER, CENTER);
+  imageMode(CENTER);  //画像を描く際に中心座標を指定
+}
+function draw() {
+  background(220);
+  drawData('猫', 0, catImg);    // 表示域0に'猫'データを表示
+  drawData('犬', 1, dogImg);    // 表示域1に'犬'データを表示
+}
+function drawData(syurui, block, img) {
+  let area = Datamate.area(block);  // エリアをとりだす
+  let dataIndex = Datamate.focusX(0);  //今フォーカスしているデータのインデックス
+  let indexHokan = Datamate.focusX(0, true);   //今フォーカスしているデータと次のデータの間
+  let year = Datamate.columnName(dataIndex);    //列のヘッダ
+  let value = Datamate.value(syurui, indexHokan);
+  let w = map(value, 6000, 10000, 30, 200);   //データを画像の大きさに換算
+  image(img, area.centerX, area.centerY, w, w);
+  text(title+"("+year+")", titleX, 30);  //データ名の表示
+  text(Datamate.value(syurui, dataIndex) + "千頭", area.centerX, area.bottom-20);
+}
+</pre>
+
+<h2 id="mondai">演習問題</h2>
+
+【問題T2-5-1】<br>
+リストT2-5-1を参考に、次のように、SNSのユーザ数の年ごとの変化を表してみよう。<br>
+<iframe src="./exercise/HT2_5_exe1/index.html"
+		width="600" height="250 "id="SNSuser"> </iframe><br>
+	クリックで開始⇔停止
+<br><br>
+
+日本でのSNSサービスごとの利用者の割合を入れたCSVファイル<a href="SNS-JP.csv" download="SNS-JP.csv">SNS-JP.csv</a>を用意しました(<a href="https://gs.statcounter.com" target="other">StatCounter</a>)。次のような表で表されるデータです。<br>
+
+<table>
+	<tr><th>年</th><th>Facebook</th><th>Twitter</th><th>Pinterest</th><th>YouTube</th>
+	    <th>Tumblr</th><th>Instagram</th></tr>
+	<tr><td>2010年1月</td><td>56.11</td><td>13.77</td><td>0</td><td>13.58</td><td>0</td><td>0</td></tr>
+	<tr><td>2011年1月</td><td>43.44</td><td>23.62</td><td>0</td><td>22.46</td><td>0</td><td>0</td></tr>
+	<tr><td>2012年1月</td><td>78.43</td><td>14.0</td><td>0</td><td>3.09</td><td>0</td><td>0</td></tr>
+	<tr><td>2013年1月</td><td>31.63</td><td>56.42</td><td>2.94</td><td>4.42</td><td>0</td><td>0</td></tr>
+	<tr><td>2014年1月</td><td>50.82</td><td>22.32</td><td>3.61</td><td>2.45</td><td>17.56</td><td>0</td></tr>
+	<tr><td>2015年1月</td><td>60.01</td><td>31.42</td><td>2.27</td><td>0.18</td><td>4.46</td><td>0</td></tr>
+	<tr><td>2016年1月</td><td>69.98</td><td>17.92</td><td>4.11</td><td>0.35</td><td>5.58</td><td>0</td></tr>
+	<tr><td>2017年1月</td><td>72.56</td><td>7.69</td><td>3.34</td><td>0.33</td><td>2.6</td><td>12.29</td></tr>
+	<tr><td>2018年1月</td><td>52.27</td><td>20.58</td><td>9.79</td><td>7.27</td><td>1.95</td><td>6.8</td></tr>
+	<tr><td>2019年1月</td><td>20.25</td><td>53.63</td><td>13.25</td><td>7.32</td><td>1.2</td><td>3.3</td></tr>
+	<tr><td>2020年1月</td><td>20.13</td><td>42.26</td><td>22.3</td><td>7.07</td><td>0.86</td><td>6.53</td></tr>
+	<tr><td>2021年1月</td><td>14.28</td><td>58.34</td><td>16.16</td><td>6.7</td><td>0.8</td><td>2.69</td></tr>
+	<tr><td>2022年1月</td><td>14.82</td><td>48.47</td><td>19.93</td><td>5.8</td><td>0.94</td><td>8.61</td></tr>
+</table>
+<p class="clear"> </p>
+年ごとの変化は、フォーカスするデータを内部テーブルの縦方向(行)に再生することで実現します。
+<pre class="reiji">
+Datamate.play(0, 0.3);         //縦方向に、約3.3秒ごとに動かす
+Datamate.loop(false, true);    //ループする
+</pre>
+
+フォーカスしているデータのインデックスはfoucusY()関数を使って、次のように得られます。
+<pre class="reiji">
+const index = Datamate.focusY(1);             //今フォーカスしているデータの次のインデックス
+const indexHokan = Datamate.focusY(0, true);  //今フォーカスしているデータと次のデータの間
+</pre>
+<br>
+【問題T2-5-2】<br>
+問題T2-5-1と同じデータを棒グラフで表してみよう。<br>
+<iframe src="./exercise/HT2_5_exe2/index.html"
+		width="600" height="250" id="SNSuser"> </iframe><br>
+	クリックで開始⇔停止
+<br><br>
+Datamate.area()関数が返すareaオブジェクトがもつ変数を使うと、矩形を描くrect()関数の引数を容易に指定できます。
+上の例で、
+<ul>
+<li>・矩形の幅は、area.width/2 (ブロック幅の半分にする)</li>
+<li>・矩形の高さは、変換したデータ値 (hとしておこう)</li>
+<li>・矩形の左上角のx座標は、area.left+area.width/4 (矩形をブロックの中央に置く)</li>
+<li>・矩形の左上角のy座標は、area.bottom-h-50 (50引いているのは、データ値表示の上に置くため）</li>
+</ul>となります。
+<br><br>
+
+【問題T2-5-3】<br>
+<a href="https://datamate-js.github.io/website/" target="other">Datamate.jsライブラリ</a>のサイトの「visualization samples」を参考に、円や矩形の大きさとは別の方法で、データを表してみよう。<br>
+
+下は、「visualization samples」のDropsのように、ランダムな位置に表示される円の数で、数値を表した例です。ユーザの割合が点の密度で表現されます。<br>
+<iframe src="./exercise/HT2_5_exe3/index.html"
+		width="600" height="250 "id="SNSuser"> </iframe><br>
+	クリックで開始⇔停止
+<br><br>
+
+【問題T2-5-4】<br>
+自分が関心のある分野のデータをCSVファイルにまとめ、それを元にユニークなインフォグラフィックスを描いてみよう。
+
+<br>
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

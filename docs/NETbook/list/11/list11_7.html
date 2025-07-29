@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Health Check</title>
+
+<script>
+<!--
+   function calc(){
+      let h = document.keisan.take.value;
+      let sw = h/100 * h/100 * 22;
+      document.getElementById("std").innerHTML = sw;
+   }
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>標準体重の計算</h1>
+<hr>
+<form name="keisan">
+   身長(cm) : <input type="number" placeholder="入力" size="10" name="take"><br><br>
+   標準体重(kg) ： <span id="std"> 計算結果 </span><br><br>
+   <input type=button value="標準体重の計算" onclick="calc()">
+</form>
+
+</body>
+</html>

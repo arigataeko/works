@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+
+<title>Script for changing window size</title>
+
+<script type="text/javascript">
+<!--
+   function setSize(w, h){
+      r = confirm("ウィンドウサイズを変更してもいいですか");
+      if(r==true){
+         window.resizeTo(w, h);
+      }
+   }
+//-->
+</script>
+</head>
+
+<body onload="setSize(450,150)">
+
+<h1>ロード完了時にウィンドウの大きさを設定</h1>
+
+
+このページをロードすると，ブラウザのウィンドウサイズを変えてもいいかの確認ウィンドウが表示され、ＯＫとすると、ページが「かって」にウィンドウサイズを変更します。
+
+</body> 
+</html>

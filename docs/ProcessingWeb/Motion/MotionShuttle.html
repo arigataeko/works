@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionGeneral.html"> 基本運動トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 往復運動</h1>
+オブジェクトの往復運動を直線、波、円、スパイラルに分け、それぞれの動きを行うプログラムを示します。
+
+<h2 id="straight">直線運動</h2>
+
+<table><tr><td>
+	<canvas id="RStraight1"
+       data-processing-sources="./MotionPDE/shuttle/RStraight1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RStraight1.html#print">ひとつ(一定速度)</a></td>
+<td>
+	<canvas id="RStraight2"
+       data-processing-sources="./MotionPDE/shuttle/RStraight2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RStraight2.html#main">ふたつ(衝突)</a></td>
+
+<td>
+	<canvas id="RStraight4"
+       data-processing-sources="./MotionPDE/shuttle/RStraight4.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RStraight4.html#print">ひとつ(速度変化)</a></td>
+</tr>
+<tr>
+<td>
+	<canvas id="RStraightM1"
+       data-processing-sources="./MotionPDE/shuttle/RStraightM1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RStraightM1.html#print">同一円列</a></td>
+<td>
+	<canvas id="RStraightM2"
+       data-processing-sources="./MotionPDE/shuttle/RStraightM2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RStraightM2.html#print">ふたつの円列(衝突)</a></td>
+<td>
+	<canvas id="RStraightM3"
+       data-processing-sources="./MotionPDE/shuttle/RStraightM3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RStraightM3.html#print">異なるサイズの円列</a></td>
+</tr>
+
+</table>
+
+<h2 id="wave">波動</h2>
+<table><tr><td>
+	<canvas id="RSinCurve1"
+        data-processing-sources="./MotionPDE/shuttle/RSinCurve1.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RSinCurve1.html#print">ひとつ</a></td>
+<td>
+	<canvas id="RSinCurve2"
+        data-processing-sources="./MotionPDE/shuttle/RSinCurve2.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RSinCurve2.html#print">ふたつ(衝突)</a></td>
+</tr>
+
+<tr><td>
+	<canvas id="RSinCurveM1"
+        data-processing-sources="./MotionPDE/shuttle/RSinCurveM1.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RSinCurveM1.html#print">同一円列</a></td>
+<td>
+	<canvas id="RSinCurveM2"
+        data-processing-sources="./MotionPDE/shuttle/RSinCurveM2.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RSinCurveM2.html#print">ふたつの円列(衝突)</a></td>
+<td>
+	<canvas id="RSinCurveM3"
+        data-processing-sources="./MotionPDE/shuttle/RSinCurveM3.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RSinCurveM3.html#print">異なるサイズの円列</a></td>
+</tr>
+</table>
+
+
+<h2 id="circle">円運動</h2>
+<table><tr><td>
+	<canvas id="RCircle1"
+        data-processing-sources="./MotionPDE/shuttle/RCircle1.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RCircle1.html#print">ひとつ</a></td>
+<td>
+	<canvas id="RCircle2"
+        data-processing-sources="./MotionPDE/shuttle/RCircle2.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RCircle2.html#print">ふたつ(衝突)</td>
+<td>
+	<canvas id="RCircle3"
+        data-processing-sources="./MotionPDE/shuttle/RCircle3.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RCircle3.html#print">ひとつ(大きさ変化)</a></td>
+</tr>
+
+<tr><td>
+	<canvas id="RCircleM1"
+        data-processing-sources="./MotionPDE/shuttle/RCircleM1.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RCircleM1.html#print">同一円列</td>
+<td>
+	<canvas id="RCircleM2"
+        data-processing-sources="./MotionPDE/shuttle/RCircleM2.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RCircleM2.html#print">ふたつの円列(衝突)</a></td>
+<td>
+	<canvas id="RCircleM3"
+        data-processing-sources="./MotionPDE/shuttle/RCircleM3.pde" 
+		width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+<a href="Motion2RCircleM3.html#print">異なるサイズの円列</a></td>
+</tr>
+</table>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

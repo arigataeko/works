@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Script for changing image by random</title>
+
+<style type="text/css">
+<!--
+  h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: #fff #fff #66c #66c;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 50px;
+       font-size: medium;
+   }
+  img {
+     margin: 20px;
+     vertical-align: middle;
+   }
+-->
+</style>
+<script>
+<!--
+   function showImg(){
+     r = Math.floor(Math.random()*3);
+     if(r==0){
+       document.photo.src ="./image/yoru.jpg";
+	 }else if(r==1){
+       document.photo.src ="./image/yugata.jpg";
+     }else{
+       document.photo.src ="./image/hiru.jpg";
+     }
+   }
+//-->
+</script>
+</head>
+
+<body onload="showImg();">
+<h1>ランダムに画像が変化</h1>
+
+<img alt="外の風景" name="photo">
+左の画像は，ランダムに変化します。
+
+</script>
+</body> 
+</html>

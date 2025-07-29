@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+
+<meta name="Author" content="Ariga, Taeko">
+
+<meta name="robots"content="noindex,nofollow">
+
+
+
+<STYLE type="text/css"> 
+
+  h3 {color:"#003399"} 
+
+  strong {color:"#003399"} 
+
+</STYLE>
+
+
+
+<title>java plugin</title>
+
+</head>
+
+<body bgcolor="#ffffff"text="#000000">
+
+
+
+<!--title-->
+
+<table border="0">
+
+<tr><td width="20%" bgcolor="#003399">&nbsp;</td>
+
+     <td align="center"valign="middle">&nbsp;</td>
+
+     <td colspan=4 align="left"valign="bottom">
+
+     <hr size="2"noshade><br>コンボボックス(JComboBox)<br><br><hr size="2"noshade>&nbsp;
+
+     </td></tr>
+
+<tr><td height="50" width="20%"
+
+     align="center"valign="middle"bgcolor="#6666cc" nowrap>
+
+    <font color="#ffffff">Index<br>---------<br>目次</font></td>
+
+<td align="center"valign="middle">&nbsp;</td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap>
+
+JComboBox<br>-----------<br><a href="#combo">JComboBoxクラス</a></td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap> 
+
+Constructor<br>-----------<br><a href="#const">コンストラクタ</a></td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap>
+
+Method<br>-----------<br><a href ="#method">メソッド</a></td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap>
+
+Sample<br>-----------<br><a href="#sample">サンプルプログラム</a></td>
+
+</tr></table>
+
+
+
+<br><br><br>
+
+<a name="combo"></a>
+
+<h3>■ JComboBoxクラス</h3>
+
+
+
+ JComboBoxは複数の項目の中から1つを選択するのに使うコンポーネントです。通常は、選択した項目だけが表示されており、表示域の右側をマウスで押す、あるいはクリックすると選択項目のリストがメニューの形で表示されます。<br>
+
+  選択された項目を表示する部分に直接文字列を入力することもできます。しかし、入力した内容はリストには反映されません。ActionListenerのActionPerformedメソッドなどで、明示的に項目を追加/変更すれば、項目リストに反映できます。<br>
+
+<br>
+
+ JComboBoxは、ActionEvent、ItemEventのイベントソースです。選択された項目の表示域でreturnキーを押すか、項目リストでの選択が完了するとActionEventが、また、項目リスト上での選択が変化するとItemEventがリスナーに送られます。<br>
+
+<br>
+
+詳細は<a href="http://java.sun.com/j2se/1.3/ja/docs/ja/api/javax/swing/JComboBox.html">JComboBoxクラスのAPI</a>を参照してください。
+
+<hr size="1" noshade>
+
+
+
+<a name="const"></a>
+
+<h3>■ コンストラクタ</h3>
+
+<dl>
+
+<dt>  JComboBox()<dd>   空のJComboBoxオブジェクトを生成します。
+
+<dt>  JComboBox(Object[] items) 
+
+<dd>  指定された配列要素を項目とするJComboBoxオブジェクトを生成します。
+
+<dt>  JComboBox(Vector items) 
+
+<dd>     指定されたVector要素を項目とするJComboBoxオブジェクトを生成します。
+
+</dl>
+
+<hr size="1" noshade>
+
+
+
+<a name="method"></a>
+
+<h3>■ メソッド</h3>
+
+<strong>●項目の追加/削除</strong>
+
+<dl>
+
+<dt>  void addItem(Object anObject)
+
+<dd>  項目リストにobjectを追加します。デフォルトのJComboBoxModelを使っている時に有効です。
+
+<dt>  void insertItemAt(Object object, int index) 
+
+<dd>indexで指定した位置にobjectを挿入する。デフォルトのJComboBoxModelを使っている時有効です。
+
+<dt>  void removeItemAt(int index)  <dd>  指定した番号の項目を削除。
+
+<dt>  void removeItem(Object object) <dd> 指定した項目を削除。
+
+<dt>  void removeAllItems()  <dd>         すべての項目を削除。
+
+</dl>
+
+
+
+<strong>●表示/編集</strong>
+
+<dl>
+
+<dt>  int getMaximumRowCount()  
+
+<dd>      スクロールバーを使用しないで表示できる最大の項目数を返します。
+
+<dt>  void setMaximumRowCount(int count)  
+
+<dd>     スクロールバーを使用しないで表示できる最大の項目数を設定。
+
+<dt>  boolean isEditable()  <dd> 表示域が編集可能な場合はtrueを返します。
+
+<dt>  void setEditable(boolean b) <dd>表示域が編集可能かどうかを指定。
+
+</dl>
+
+  
+
+<strong>●項目の選択</strong>
+
+<dl>
+
+<dt>  int getSelectedIndex() <dd>      選択されている項目の番号を返します。    
+
+<dt>  void setSelectedIndex(int index)  <dd>指定した番号の項目を選択します。
+
+<dt>  Object getSelectedItem()   <dd>    選択されている項目を返します。
+
+<dt>  void setSelectedItem(Object object) <dd>選択する項目を設定。
+
+<dt>  Object getItemAt(int index)  <dd>指定された番号の項目を返します。先頭は0。
+
+<dt>  void int getItemCount()   <dd>        選択リストの項目数を返します。
+
+</dl>    
+
+<strong>●イベント関係</strong>
+
+<dl>
+
+<dt>  addActionListener(ActionListener l)  <dd>ActionEventリスナーを設定。
+
+<dt>  addItemListener(ItemListener l)   <dd>ItemEventリスナーを設定。
+
+<dt>  String getActionCommand()  <dd>ActionEventのコマンド名を返します
+
+<dt>  setActionCommand(String str) <dd>ActionEventのコマンド名を設定。
+
+</dl>
+
+<hr size="1" noshade>
+
+
+
+<a name="sample"></a>
+
+<h3>■ サンプルプログラム</h3>
+
+
+
+下に，JComboBoxから文字を選択するサンプルプログラムを示します。JComboBoxに入れるデータを文字列配列に用意し、それを使ってJComboBoxオブジェクトを生成しています。項目数が6つであるのに対し、表示する項目を4としたので、スクロールバーがつきます。また、ActionListenerを設定し、actionPerformedメソッド内で、イベント内容を標準出力に表示するようにしました。
+
+
+
+<pre> 
+
+import java.awt.*;
+
+import java.awt.event.*;
+
+import javax.swing.*;
+
+
+
+class ComboBoxExample extends JPanel implements ActionListener{
+
+    JComboBox select;
+
+    ComboBoxExample() {
+
+       String list[] = {"鼻", "華", "花", "端", "葉菜", "波奈"};
+
+       select = new JComboBox(list); //項目を指定してJComboBox生成
+
+       select.setEditable(true);     //編集を可能にする
+
+       select.setMaximumRowCount(4);  //表示項目数は4とする
+
+       select.addActionListener(this); //リスナーを設定する
+
+       add(select);                  //JComboBoxをJPanelに置く
+
+
+
+    }
+
+
+
+    public void actionPerformed(ActionEvent e) {
+
+       //選択された項目をテストのために表示
+
+       System.out.println(e.paramString() + " " + select.getSelectedItem());  
+
+    }
+
+
+
+    public static void main(String args[]){
+
+       JFrame f  = new JFrame("JComboBox Example");
+
+       ComboBoxExample example = new ComboBoxExample();
+
+       f.getContentPane().add(example, BorderLayout.CENTER);
+
+       f.pack();
+
+       f.setVisible(true);
+
+  }
+
+}
+
+</pre> 
+
+
+
+<img src="combo.gif" alt="ComboBox Example" align=left>
+
+  左図は，このサンプルプログラムの実行結果です。
+
+<br clear=all>
+
+
+
+<hr size="2" noshade>
+
+<address> Ariga, Taeko</address>
+
+Last modified: Aug 18, 20:10:00 JST 2001
+
+
+
+</body>
+
+</html>

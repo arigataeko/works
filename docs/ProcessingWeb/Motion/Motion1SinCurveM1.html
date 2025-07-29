@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の波動運動…同じ大きさの円の列</h1>
+複数の円が列になって、サインカーブ上を運動します。
+<a href="Motion1SinCurve1.html#print" target="other">ひとつ(軌跡なし)</a>と同じ動きを、10個の円に対して行うため、10個の円のangleの値を配列に入れておきます。
+<a href="Motion1SinCurvStraightM1.html#print" target="other">直線運動をする円列</a>と同様、配列を定義します。
+<pre class="reiji">
+ int angle[]  = new int[10];
+</pre>
+setup()関数の中で、10個の円のangleの値を初期化します。最初の円angle[0]はゼロ、次の円angle[1]は-20というように、順番に20度ずつ小さい値を代入します。forループを使って、この処理を繰り返します。
+<pre class="reiji">
+ for(int i=1; i&lt;angle.length; i++){
+    angle[i] = angle[i-1] - 20;
+ }
+</pre>
+draw()関数の中で繰り返す処理は、<a href="Motion1SinCurve1.html#print" target="other">ひとつ(軌跡なし)</a>と同じです。
+<br>
+<br>
+<div class="rightSide">
+	<canvas id="SinCurveM1"
+       data-processing-sources="./MotionPDE/oneDirection/SinCurveM1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SinCurveM1】
+float angle[]  = new float[10]; // 位置(角度)
+float da = 5; // 角度の変化量
+float x, y;
+float d = 10; // 円の直径
+float h =50; // 振幅
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  for(int i=1;i&lt;angle.length;i++){
+    angle[i] = angle[i-1] - 20;
+  }
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア
+     for(int i=0; i&lt;angle.length; i++){
+        x = map(angle[i], 0, 360, 0, width);  //x = angle[i]*width/360.0;と同じ
+        y = height/2.0 - sin(radians(angle[i]))*h;
+        ellipse(x, y, d, d);
+        angle[i] = (angle[i] + da) % 360;
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

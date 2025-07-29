@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Functions for drawing</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="P5FuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 基本図形</h1>
+<div class="leftSide">
+<img src="./images/zahyo.png" alt="座標の原点"></div>
+p5jsには、線や円など２次元の基本図形を描く関数が用意されています。
+引数に、図形を描く位置や大きさなどを、数値(Number型)で指定します。<br><br>
+図形の位置は、キャンバス(描画領域)上の座標の原点がどこにあるかで、値が変わります。デフォルトでは、原点(0, 0)は左上隅です。
+また、図形の位置を図形の中央か左上角で表すかはその時の設定で異なります。
+<p class="clear"> </p><!-- 画像の後の左への回り込み解除-->
+
+<h2> 基本図形を描く関数</h2>
+
+■ point(x, y)　　座標(x,y)に点を描きます。<br><br>
+■ line(x1, y1, x2, y2)　　(x1, y1)と(x2, y2)との間に直線を描きます。<br><br>
+■ circle(x, y, d)　　円を描きます。中心が(x, y)の直径dの円を描きます。<br><br>
+■ ellipse(x, y, width, height)　　中心が(x, y)の幅がwidth、高さがheightの楕円を描きます。引数の意味は<a href="#mode">ellipseMode()</a>の指定で変えられます。<br><br>
+■ rect(x, y, width, height)　　左上角が(x, y)で、幅がwidth、高さがheightの矩形(長方形)を描きます。引数の意味は<a href="#mode">rectMode()</a>の指定で変えられます。<br><br>
+
+■ triangle(x1, y1, x2, y2, x3, y3)　　三角形を描きます。3つの頂点の座標を指定。<br><br>
+■ quad(x1, y1, x2, y2, x3, y3, x4, y4)　　４辺の多角形を描きます。４つの頂点の座標を指定。<br><br>
+
+<div class="rightSide">
+<img src="./images/arc.jpg" alt="座標の原点"> 
+</div>
+
+■ arc(x, y, width, height, start, stop)
+円弧を描きます。<br>
+
+最初の4つの引数の意味はellipseMode()の指定により異なります。startとstopはそれぞれ円弧をはじめる位置、終わる位置を角度で指定(時計3時の位置が0、時計回りに角度は大きくなる)。角度はラジアン単位で指定します。度をラジアン単位にするにはradians(度単位の角度)を使います。
+<pre class="reiji">
+【例】arc(50,50,150,150,radians(0),radians(120));
+ 円の中央を(50, 50)の位置に、直径150で、120度の扇形を描く。
+</pre>
+<p class="clear"> </p><!-- 画像の後の左への回り込み解除-->
+
+
+<h2 id="mode"> 図形位置の指定</h2>
+
+■ rectMode(MODE)<br>
+矩形を描くときの座標の指定の仕方を設定します。デフォルトはCORNER。<br>
+<pre class="reiji">
+引数の値 CORNER：左上角の座標と幅と高さで描く矩形を指定。
+        CORNERS：対角線上で向かい合う2つ角の座標で描く矩形を指定。
+        CENTER：中央の座標と幅と高さで描く矩形を指定。
+</pre>
+■ ellipseMode(MODE)<br>
+楕円を描くときの座標の指定の仕方を設定します。デフォルトはCENTER。
+<pre class="reiji">
+引数の値 CORNER：左上角の座標と幅と高さで描く楕円を指定。
+        CORNERS：左上角の座標と右下角の座標で描く楕円を指定。
+        CENTER：中央の座標と幅と高さで描く楕円を指定。 
+</pre>
+</div>
+<div class="copy"> 
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

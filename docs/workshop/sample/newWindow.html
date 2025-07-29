@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+
+<title>Script for open window</title>
+
+<script type="text/javascript">
+<!--
+   function showWin(target, winName){
+      window.open(target, winName, "scrollbars=1,width=400,height=400");
+   }
+//-->
+</script>
+</head>
+<body>
+
+<h1>別のウィンドウを開いて，ページを表示</h1>
+
+<form>
+   <input type=button value="オブジェクトの説明"
+          onclick="showWin('../object.html', 'explain')">
+   <br>
+   <input type=button value="変数の説明"
+   onclick="showWin('../hensu.html', 'explain')">
+</form>
+  
+</body> 
+</html>

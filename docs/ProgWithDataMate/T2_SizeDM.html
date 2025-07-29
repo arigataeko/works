@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T2_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 項目ごとのデータを図形の大きさで比較</h1>
+描いた図形の大きさを変えることで、項目ごとのデータを比較してみよう。例えば、矩形(長方形)の大きさでデータを表したのが、棒グラフや帯グラフです。
+
+<h2 id="DisplayBySize">大きさで表す</h2>
+<div class="rightSide"><img src="images/HT2_2_1.png" alt="寿命の棒グラフ" width="300"></div>
+右図は、水生生物の寿命を棒の高さで表しています。<br><br>
+生物の名前とその平均寿命の年数(さまざまな調査があり、あくまで目安です）のデータを次のようなテーブルと考えます。<br>
+<table>
+	<tr><th>名前</th><th>イカ</th><th>マグロ</th><th>オオサンショウウオ</th><th>ウニ</th>
+	    <th>シロナガス<br>クジラ</th></tr>
+	<tr><td>寿命</td><td>1.0</td><td>20.0</td><td>55.0</td><td>70.0</td><td>100.0</td></tr>
+</table>
+<p class="clear"> </p>
+
+このデータを棒グラフとして描くために必要な要素を考えてみましょう。
+<ul>
+	<li>(1)テーブルからデータを得る</li>
+   <li>(2)それに応じて、矩形の大きさを計算する</li>
+	<li>(3)画面の大きさ、データ項目の数に応じて、矩形を描く位置を計算する</li>
+</ul>
+
+このような処理を全て一から自分でプログラムすることもできますが、ここではデータ視覚化を目的に作られたプログラム部品、<a href="https://datamate-js.github.io/website/" target="other">Datamateライブラリ</a>を使うことにします。
+<h2 id="junbi">Datamate.jsを使う準備</h2>
+Datamateライブラリを使う、つまりDatamate.jsファイルを参照できるように指定するには、2つの方法があります。
+<ul>
+<li>【方法1】CDN(Content Delivery Network)を通して、ライブラリを取得して使用<br>
+ライブラリのコピーを持っておくのではなく、ネットワークから読み込む方法。次のscriptタグをHTMLファイルのhead要素内に書く。
+Processingエディタのindex.htmlタブを開き、次のように&lt;script&gt;タグを追加する。
+<pre class="reiji">
+&lt;!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN --&gt;
+&lt;script language="javascript" type="text/javascript"
+   	src="https://cdn.jsdelivr.net/gh/datamate-js/release@latest/dist/datamate.js"&gt;
+&lt;/script&gt
+</pre>
+</li>
+<li>【方法2】ライブラリをダウンロードし、保存して使用<br>
+	<ul>
+	<li>(1)まず、
+	<a href="https://datamate-js.github.io/website/" target="other">Datamateライブラリ</a>のwebサイトからDatamate.jsをダウンロードし、スケッチフォルダ内のlibrariesフォルダに保存する。</li>
+	
+	<li>(2)Processingエディタのindex.htmlタブを開き、次のように&lt;script&gt;タグを追加する。
+	<pre class="reiji">
+	&lt;!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN --&gt;
+	&lt;script language="javascript" type="text/javascript" src="libraries/Datamate.js"&gt;
+	&lt;/script&gt
+	</pre>
+	</li>
+	</ul>
+</li>
+</ul>
+
+<h2 id="howto">Datamate.jsを使う</h2>
+5種類の水生生物の平均寿命を、矩形の大きさで表すプログラム(リストT2-1-1)を書きながら、Datamate.jsの使い方を説明します。
+
+<h3>[1]視覚化の対象となる内部テーブルを作る</h3>
+まず、描くデータをテーブルとして考えます。そして、このテーブルのイメージでDatamate.jsにデータを取り込みます。
+今、対象となる寿命データは次のようなものです。
+<table>
+	<tr><th>名前</th><th>イカ</th><th>マグロ</th><th>オオサンショウウオ</th><th>ウニ</th>
+	    <th>シロナガスクジラ</th></tr>
+	<tr><td>寿命</td><td>1.0</td><td>20.0</td><td>55.0</td><td>70.0</td><td>100.0</td></tr>
+</table>
+<p class="clear"> </p>
+このテーブルの行と列には、それぞれヘッダ(行の名前、列の名前)があります。
+ヘッダのあるなしは任意に指定できますが、この例のようにヘッダ行、ヘッダ列があるテーブルがデフォルトです。<br>
+ヘッダ行、ヘッダ列を除いたデータ部分のことを<strong>データテーブル</strong>と呼んで区別します。この表の場合、データテーブルは一行だけです。<br><br>
+Datamatemのmake()関数を使って、1行ごとに、行の名前とデータを指定します。
+<pre class="reiji">
+  Datamate.make("行の名前", [データの配列]);
+</pre>
+ 文字列は引用符で囲みます(二重"でも一重'でもいい)。このデータの場合、次のようにmake()関数を2回実行します。
+ ひとつ目のmake()関数は、ヘッダ行を作るもので、列のヘッダを配列内に指定しています。
+<pre class="reiji">
+  Datamate.make("名前", ["イカ", "マグロ", "オオサンショウウオ", "ワニ", "シロナガスクジラ"]);
+  Datamate.make("寿命", [1.0, 20.0, 55.0, 70.0, 100.0]);
+</pre>
+<br>
+このようにして作られたデータテーブルの列や行の情報は次の関数で知ることができます。
+<ul>
+	<li>・Datamate.columnCount()：列の数を返す</li>
+   <li>・Datamate.rowCount()：行の数を返す</li>
+	<li>・Datamate.columnName(インデックス):列のヘッダを返す</li>
+	<li>・Datamate.rowName(インデックス):行のヘッダを返す</li>
+</ul>
+
+
+<h3>[2]データを表示する領域(レイアウトスペース)を作る</h3>
+データ表示のための領域、この例だと棒グラフを描く領域をレイアウトスペースと呼びます。この領域を複数のエリアに分割して、エリアの中にデータを表示します。この例だと、領域を5つに分けて、その中に矩形を描きます。<br>
+
+
+Datamate.makeAreas()関数を使って、レイアウトスペース作り、エリアに分割します。
+<pre class="reiji">
+  Datamate.makeAreas(x座標, y座標, 横幅, 高さ, 横方向のエリア数, 縦方向のエリア数);
+</pre>
+キャンバス内でのレイアウトスペースの(x,y)座標と、幅と高さ、そしてその領域を何列に分けるか、何行に分けるかを指定します。
+キャンバス全体をレイアウトスペースとし、横方向に5つのエリアに分割するには次のように書きます。
+<pre class="reiji">
+  Datamate.makeAreas(0, 0, width, height, 5, 1);
+</pre>
+この例では、矩形の下に種類と数値を表示するため、矩形を描くエリアの高さを、キャンバスの高さより50ピクセルだけ小さくしたいので、エリアの高さをheight-50としました。
+<pre class="reiji">
+  Datamate.makeAreas(0, 0, width, height-50, 5, 1);
+</pre>
+
+この例では、水生生物の数が5なので、分割するエリアの列数を5と指定しました。データの種類(データテーブルの列数)が増えたら分割したいエリア数も増えます。データの種類の変更を想定すると、具体的な数を書かずに、次のようにDatamate.columnCount()関数を使って、列数を指定する方が変更に柔軟に対応するプログラムと言えます。
+<pre class="reiji">
+  Datamate.makeAreas(0, 0, width, height-50, Datamate.columnCount(), 1);
+</pre>
+
+<h3>[3]分割したエリアに番号を振る</h3>
+<div class="rightSide"><img src="images/areaNumber.png" alt="areaNumber"></div>
+
+
+Datamate.makeAreas()関数で分割したエリアには、先頭を0として、順番に番号(インデックス)が振られます。<br>
+この例では、0から4までの番号です。データをどのエリアに表示するかを指定するときに、この番号を使います。
+<br><br>
+この番号を変えることもでき、Datamate.bindAreas()関数を使って、エリアに番号を振ります。
+<pre class="reiji">
+  Datamate.bindAreas([番号, 番号,..]);
+</pre>
+<p class="clear"> </p>
+
+
+デフォルトは、次のようにbindAreas()関数を実行したのと同じことです。
+<pre class="reiji">
+  Datamate.bindAreas([0, 1, 2, 3, 4]);
+</pre>
+番号は必ずしも、0から始める必要はなく、連続の数字である必要もありませんが、データエリアに振られるデータのインデックス(0から順に振られる)と合わせておく、つまりデフォルトのままにするのがわかりやすいでしょう。
+<br><br>
+
+リストT2-1-1で、次をsetup()関数に入れると、水生生物の表示順が逆転します。
+<pre class="reiji">
+  Datamate.bindAreas([4, 3, 2, 1, 0]);
+</pre>
+
+<h3>[4]テーブルから値を取り出す</h3>
+データを反映したグラフィックスをエリアに描画するために、テーブルから値を取り出すにはvalue()関数を使います。
+<pre class="reiji">
+  Datamate.value(行の指定, 列の指定);
+    行の指定：行の名前あるいはデータテーブルのインデックス(0から振られる。ヘッダ行の次が0)
+    列の指定：列の名前あるいはデータテーブルのインデックス(0から振られる。ヘッダ列の次が0)
+</pre>
+例えば、イカの寿命データを取り出すには、次のように書きます。
+<pre class="reiji">
+  Datamate.value("寿命", 0)
+または
+  Datamate.value(Datamate.rowName(0), 0);
+</pre>
+rowName()関数は行のヘッダ(名前)を返す関数です。列のヘッダはcolumnName()関数で得られます。
+<br><br>
+寿命データの最小値は1年、最大値は100年で、これを表示のための適切な大きさに換算します。この計算に便利なのが
+<a href="P5FuncMath.html#kansan" target="other">map</a>関数です。<br>
+寿命が0なら0ピクセル(変数minに入れておく)、寿命が100年なら250ピクセル(変数maxに入れておく)とすることを考えます。
+データの数値を矩形の高さに計算するには、下のように書きます。
+<pre class="reiji">
+let h = map(データの数値, 0, 100, min, max); //矩形の高さを計算
+</pre>
+
+
+<h3>[5]データの描画をする関数を定義する</h3>
+データを矩形の高さとして描画するこの例の描画処理を分解すると、次のようになります。
+<ul>
+	<li>・テーブル内のデータを取り出す</li>
+   <li>・そのデータから表示する矩形の高さを計算する</li>
+	<li>・色を指定し、表示エリアの中央に、矩形を描く</li>
+	<li>・色を指定し、表示エリアの下に、データ名と数値を描く</li>
+</ul>
+この処理をエリアごとに繰り返すので、
+<a href="BasicFunction.html" target="other">関数</a>としてまとめて定義しておきます。
+どのデータを描くかの情報は引数として渡します。<br>
+
+関数として描画処理をまとめておくと、それをdraw()関数から呼び出すだけでよく、エリアごとの描画処理をdraw()関数内で記述する必要がなくなります。<br><br>
+
+この例では、寿命データのインデックスとエリアの番号が一致しているので、このインデックスを
+関数の引数として渡すことにします。関数名は任意です。
+<pre class="reiji">
+function drawData(index) {
+	.....
+}
+</pre>
+
+例えば、イカのデータを表示するには、次のように引数を指定します。
+<pre class="reiji">
+drawData(0);    // 表示エリア0に'イカ'寿命データを表示
+</pre>
+
+
+<h3>[6]エリアの中央の位置、大きさなどの情報を得る</h3>
+描画処理を行う関数(上の[5]で定義したdrawData()関数)内では、どの座標に
+矩形を描くかの情報、つまりエリアの情報(中央位置の座標や下辺のy座標)が必要になります。
+<br><br>
+<div class="rightSide"><img src="images/areaInfo.png" alt="areaInfo" width="400"></div>
+Datamate.area()関数は、描画エリアの情報(位置や大きさの情報を保持するareaオブジェクト)を返します。
+<pre class="reiji">
+Datamate.area(エリアに振られた番号);
+</pre>
+ Datamate.area()関数が返す値(areaオブジェクト)には、次のような変数に領域の情報が保存されています。
+ <ul>
+ 	<li>・左上隅の座標: x, y</li>
+ 	<li>・中央の座標: centerX, centerY</li>
+ 	<li>・左辺,右辺のx座標: left, right</li>
+ 	<li>・上辺,下辺のy座標: top, bottom</li>
+   <li>・幅と高さ: width, height</li>
+ </ul>
+この例ではdrawData()関数内で、引数のインデックスを使って、まずareaオブジェクトを得ています。
+<pre class="reiji">
+let area = Datamate.area(index);
+</pre>
+<p class="clear"> </p>
+
+そして、エリアの左右中央に底辺に合わせて矩形を描くため、変数centerXとbottomを使って次のように書きます。
+<pre class="reiji">
+  rect(area.centerX-rw/2, area.bottom-h, rw, h);  // rect(左上のx座標、左上のy座標, 幅, 高さ)
+</pre>
+
+<pre class="code" id="T2List1_1">
+【リストT2-1-1】
+let max = 250.0;  //矩形の高さの最大値
+let min = 0.0;   //矩形の高さの最小値
+let rw = 50;      //矩形の幅
+function setup() {
+  createCanvas(500, 320);
+  noStroke();
+  textAlign(CENTER, CENTER); //文字を表示する際、中心の座標を指定
+  Datamate.make("名前", ["イカ", "マグロ", "オオサンショウウオ", "ワニ", "シロナガスクジラ"]);
+  Datamate.make("寿命", [1.0, 20.0, 55.0, 70.0, 100.0]);
+  Datamate.makeAreas(0, 0, width, height-50, Datamate.columnCount(), 1); //Datamate.columnCount()はデータの列数
+}
+function draw() {
+  background(240);
+  for (let i=0; i&lt;Datamate.columnCount(); i++) {
+    drawData(i);
+  }
+}
+function drawData(index) {
+  let area = Datamate.area(index);
+  let h = map(Datamate.value("寿命", index), 0, 100, min, max);
+  fill(200, 0, 0);
+  rect(area.centerX-rw/2, area.bottom-h, rw, h);
+  fill(0);
+  text(Datamate.value("名前", index), area.centerX, area.bottom+15);
+  text(Datamate.value("寿命", index) +"年", area.centerX, area.bottom+30);
+}
+</pre>
+
+<h2 id="mondai">演習問題</h2>
+
+【問題T2-1-1】
+<div class="rightSide">
+<img src="images/HT2_1_exe1.png" alt="帯グラフ" width="300">
+</div>
+リストT2-1-1</a>を、帯グラフに書き直してみよう。
+<p class="clear"> </p>
+<br><br>
+
+【問題T2-1-2】
+次のような猫、犬の飼育推定数の11年分のデータを、円の大きさで表してみましょう。
+<br>
+<table>
+	<tr><th>年</th><th>2013年</th><th>2014年</th><th>2015年</th><th>2016年</th>
+	    <th>2017年</th><th>2018年</th><th>2019年</th><th>2020年</th><th>2021年</th>
+       <th>2022年</th><th>2023年</th></tr>
+   <tr><td>猫</td><td>8409</td><td>8425</td><td>8297</td><td>8333</td><td>8672</td>
+                    <td>8849</td><td>8764</td><td>8628</td><td>8946</td>
+                    <td>8837</td><td>9069</td></tr>
+   <tr><td>犬</td><td>8714</td><td>8200</td><td>7994</td><td>8008</td><td>7682</td>
+                    <td>7616</td><td>7579</td><td>7341</td><td>7106</td>
+                    <td>7053</td><td>6844</td></tr>
+</table>
+<p class="clear"> </p>
+<br><br>
+<div >
+	<img src="images/HT2_1_exe2.png" alt="犬猫変化" width="750">
+	</div>
+このテーブルを
+Datamateに取り込むには次のようにmake()関数を指定します。
+<pre class="reiji">
+Datamate.make("年", ["2013年", "2014年", "2015年", "2016年", "2017年",
+						  "2018年", "2019年", "2020年", "2021年", "2022年", "2023年"]);
+Datamate.make("猫", [8409, 8425, 8297, 8333, 8672, 8849, 8764, 8628, 8946, 8837, 9069]);
+Datamate.make("犬", [8714, 8200, 7994, 8008, 7682, 7616, 7579, 7341, 7106, 7053, 6844]);
+</pre>
+
+このデータは6800千頭から9100千頭の間で変化します。この数値を、円の直径に換算する際、0からエリアの幅の間で変化させるとほとんど区別がつかない状態になります。上の図では、変化のある範囲を強調するように、6000から10000の値を0からエリアの幅に換算しています。
+
+<pre class="reiji">
+ let value = map(数値, 6000, 10000, 10, area.width);  //データを円の直径に換算
+</pre>
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

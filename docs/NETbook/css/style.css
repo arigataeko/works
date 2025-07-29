@@ -1,0 +1,458 @@
+body{
+	text-align: center;
+	color: #333; 
+	height:100%;
+	margin:0px;
+	padding:0px;
+}
+
+a{
+	  text-decoration:none;
+}
+
+a:link{
+  
+}
+
+a:hover{
+	  text-decoration:underline;
+}
+
+a:active{
+  
+}
+
+a:visited{
+  
+}
+
+#side{
+	width: 100px;
+	float: left;
+}
+
+#main{
+//	float: right;
+	text-align: left;
+	margin-top:80px;
+	margin-left:80px;
+	width: 650px;
+	padding-bottom:50px;
+	height:auto;
+}
+
+
+/* #side
+---------------------------------------------------*/
+
+
+h1{
+	font-size:150%;
+	margin:50px 0 40px 0;
+}
+
+#side h3{
+	font-size:110%;
+	font-weight:bold;
+	line-height:180%;
+	margin-bottom:2px;
+	font-family:helvetica none;
+}
+
+.menu_list{
+	font-size:105%;
+	line-height:200%;
+	font-weight:bold;
+	margin-bottom:50px;
+}
+
+#side p{
+	font-size:95%;
+	line-height:180%;
+	letter-spacing: 0.05em;
+	margin-bottom:50px;
+}
+
+.screen-reader-text {
+display: none;
+}
+
+.widget-area ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+
+#side .book_cover{
+	border :solid 1px #ddd;
+}
+
+
+#side .book_info{
+	margin-bottom:50px;
+}
+
+#side .book_info dt {
+	color:#555;
+	font-size: 90%;
+	line-height:150%;
+	letter-spacing: 0.05em;
+	width:4.5em;
+	padding:2px 0 0px 0em;
+	display: block;
+	float: left;
+	clear: left;
+}
+
+#side .book_info dd {
+	font-size: 90%;
+	line-height:150%;
+	letter-spacing: 0.05em;
+	padding:2px 0 0 4.5em;
+}
+
+
+
+/* #main
+---------------------------------------------------*/
+#main h2{
+	font-weight:bold;
+	font-size:120%;
+	line-height:180%;
+	margin-bottom:20px;
+}
+
+#main h3{
+	clear:both;
+	color:#333;
+	font-weight:bold;
+	letter-spacing: 0.05em;
+	font-size:110%;
+	line-height:180%;
+	padding-top:20px;
+	margin-bottom:10px;
+	padding-bottom: 5px;
+  	border-bottom: 2px dotted #ccc;
+}
+
+#main h4{
+	clear:both;
+	color:#333;
+	font-weight:bold;
+	letter-spacing: 0.05em;
+	font-size:100%;
+	line-height:180%;
+	margin:10px 0;
+}
+
+#main p{
+	font-size:100%;
+	line-height:180%;
+	letter-spacing: 0.05em;
+	margin-bottom:15px;
+	text-align:justify;
+}
+
+.caption{
+	font-size:85%;
+	color:#666;
+	line-height:180%;
+}
+
+.post em{
+	color: #000;
+}
+
+.post blockquote{
+  	border: 1px solid #ccc;
+  	padding: 10px 20px;
+  	font-size: 16px;
+	font-style: italic;
+	color: gray;
+}
+
+.post code{
+  	color: teal;
+	font-family: "Courier New";
+}
+
+
+
+/* #main .home
+---------------------------------------------------*/
+
+.home .book_cover img{
+	border :solid 1px #ddd;
+	margin-bottom:0px;
+	-webkit-box-shadow: 5px 10px 6px -6px #ccc;
+	   -moz-box-shadow: 5px 10px 6px -6px #ccc;
+	        box-shadow: 5px 10px 6px -6px #ccc;
+}
+
+.home .book_title{
+	font-size:110%;
+	line-height:180%;
+	letter-spacing: 0.05em;
+	height:auto;
+}
+
+.home #main h2{
+  	margin:0px;
+}
+.home #main h3{
+  	border:none;
+  	margin:0px;
+ }
+.home #main h4{
+  	border:none;
+  	margin:0px;
+}
+
+.home .book_info dt {
+	color:#555;
+	font-size: 100%;
+	line-height:160%;
+	letter-spacing: 0.05em;
+	width:4.5em;
+	padding:2px 0 0px 0em;
+	display: block;
+	float: left;
+	clear: left;
+}
+
+.home .book_info dd {
+	font-size: 100%;
+	line-height:160%;
+	letter-spacing: 0.05em;
+	padding:2px 0 0 4.5em;
+}
+
+
+
+/* #main .about
+---------------------------------------------------*/
+
+#main .list_section{
+	font-size:100%;
+	line-height:250%;
+	letter-spacing: 0.05em;
+	margin-bottom:15px;
+}
+
+#main .list_section li{
+	font-weight:bold;
+	margin-left:20px;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+#main .list_chapter li{
+	font-weight:normal;
+	line-height:200%;
+	margin-left:40px;
+	list-style-type: circle;
+	list-style-position: outside;
+}
+
+
+/* #main .preface
+---------------------------------------------------*/
+.preface #main p{
+	font-size:95%;
+	letter-spacing: 0.05em;
+	margin-bottom:15px;
+}
+
+.preface #main .p_writer{
+	text-align: right;
+
+}
+
+/* #main .column
+---------------------------------------------------*/
+.column #main p{
+	font-size:95%;
+	letter-spacing: 0.05em;
+	margin-bottom:15px;
+}
+
+.column #main ul{
+	margin-bottom:15px;
+}
+
+.column #main li{
+	font-weight:normal;
+	font-size:90%;
+	line-height:200%;
+	margin-left:20px;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+.column #main .caption{
+	font-size:80% !important;
+}
+
+
+
+/* #main .support
+---------------------------------------------------*/
+
+.list_support dt{
+	color:#666;
+	font-weight:bold;
+	line-height:200%;
+}
+
+.list_support dd{
+	font-weight:normal;
+	line-height:200%;
+}
+
+/* #main answer
+---------------------------------------------------*/
+
+.list_answer_dl{
+	margin-bottom: 10px;
+}
+
+.list_answer_dl dt{
+	font-weight:bold;
+	line-height:200%;
+	margin-left:20px;
+    display: list-item;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+.list_answer_dl dd{
+	font-weight:normal;
+	line-height:200%;
+	margin-left:40px;
+}
+
+.list_answer{
+	margin-bottom: 10px;
+}
+
+.list_answer li{
+	font-weight:normal;
+	line-height:200%;
+	margin-left:20px;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+ol.list_answer li{
+	list-style-type: decimal;
+	margin-bottom: 20px;
+}
+
+.answer_page table{
+	border:1px solid #ccc;
+	height:auto;
+	margin-bottom: 30px;
+}
+
+.answer_page tr,
+.answer_page th,
+.answer_page td{
+	border:1px solid #ccc;
+	padding:10px;
+}
+
+
+#main .list_answer_footer{
+  	border-top: 1px solid #ccc;
+  	margin-top: 15px;
+	padding-top: 15px;
+}
+
+.list_answer_footer li{
+	display: inline;
+	margin-right: 15px;
+	font-weight:normal;
+}
+
+/* #main .sheet
+---------------------------------------------------*/
+
+.list_sheet{
+	font-weight:normal;
+	line-height:200%;
+	margin-left:20px;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+
+/* #main .list_html
+---------------------------------------------------*/
+.list_html li{
+	font-weight:normal;
+	line-height:200%;
+	margin-left:20px;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+/* #main .link
+---------------------------------------------------*/
+
+.list_book,
+.list_link{
+	margin-bottom: 10px;
+}
+
+.list_book dt,
+.list_link dt{
+	line-height:200%;
+	margin-left:20px;
+    display: list-item;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+.list_book dd,
+.list_link dd{
+	font-size:90%;
+	line-height:200%;
+	margin-left:30px;
+	margin-bottom: 10px;
+}
+
+
+/* #main .review
+---------------------------------------------------*/
+.list_review{
+	font-weight:normal;
+	line-height:200%;
+	margin-left:20px;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+
+
+/* #footer
+---------------------------------------------------*/
+
+
+#footer{
+	clear:both;
+	text-align:center;
+	margin:20px auto;
+	margin-bottom:0px;
+}
+
+#footer p{
+	font-size:85%;
+	letter-spacing: 0.05em;
+	padding:20px 0;
+	text-align: center;
+	color:#FFF;
+	background-color:#619adb;
+}
+
+/* @end */

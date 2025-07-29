@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 往復する波動運動…ふたつの衝突</h1>
+ふたつの円が、サインカーブ上を往復運動しながら、衝突します。
+波の動きは、<a href="Motion2RSinCurve1.html#print" target="other">ひとつの往復する波動運動</a>と同じです。2つの円、それぞれに角度、xy、座標、移動速度(角度)を入れる変数を用意しました。
+<br>
+この例では、画面の横幅と2サイクルの波(角度が0から720度)が一致するようにし、その2サイクルの波のどこかで円が衝突します。最初左側の円の角度angle1は0度、右側の円の角度angle2は720度です。2つの円の距離を<a href="../PFuncMath.html#kyori" target="other">dist関数</a>で計算し、その値が直径より小さければ、衝突したと判定します。
+
+<pre class="reiji">
+ if(dist(x1,y1,x2,y2) &lt; d){ //衝突した
+      da1 = -da1;
+      da2 = -da2;
+ }else{ //壁に来たかを判定
+         ..............
+ }
+</pre>
+
+円が壁に来たかの判定は角度が0未満になったか、720を超えたかで行います。2つの円は別々に壁に来るので、if文は独立している(else ifではない)ことに注意してください。
+<pre class="reiji">
+       if(angle1&lt;0 || angle1&gt;720){//左の円
+          da1 = -da1;
+       }
+       if(angle2&lt;0 || angle2&gt;720){//右の円
+          da2 = -da2;
+       }
+</pre>
+<br>
+
+<div class="rightSide">
+	<canvas id="RSinCurve2"
+       data-processing-sources="./MotionPDE/shuttle/RSinCurve2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RSinCurve2】
+float angle1, angle2; // 位置(角度)
+float x1, y1, x2, y2; // 位置(xy座標)
+float d = 10; // 円の直径
+float h =60; // 振幅
+float da1 = 5; // 角度の変化量
+float da2 = -da1; // 角度の変化量
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  angle2=720;  //右側の円は右壁から出る
+}
+
+void draw() { 
+     background(255);   //モニタ画面の背景を白でクリア
+     angle1 = angle1 + da1;
+     angle2 = angle2 + da2;
+     x1 = map(angle1, 0, 720, 0, width);
+     y1 = height/2.0 - sin(radians(angle1))*h;
+     ellipse(x1, y1, d, d);
+     x2 = map(angle2, 0, 720, 0, width);
+     y2 = height/2.0 - sin(radians(angle2))*h;
+     ellipse(x2, y2, d, d);
+     
+     if(dist(x1,y1,x2,y2) &lt; d){ //衝突した
+         da1 = -da1;
+         da2 = -da2;
+     }else{ //壁に来たかを判定
+       if(angle1<0 || angle1>720){//左の円
+          da1 = -da1;
+       }
+       if(angle2<0 || angle2>720){//右の円
+          da2 = -da2;
+       }
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

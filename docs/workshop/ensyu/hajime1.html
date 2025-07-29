@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for current time</title>
+</head>
+<body>
+
+<h1>特定日までの日数の表示</h1>
+
+<script type="text/javascript">
+<!--
+targetYear = 2101;
+targetMon = 1;
+targetDay = 1;
+today = new Date();
+target = new Date(targetYear, targetMon-1, targetDay);
+
+// getTimeは1970/1/1からの経過時間(ミリ秒)を返す
+d = (target.getTime() - today.getTime())/ (24*60*60*1000);
+
+// dの小数部分を切り捨てる
+d = Math.ceil(d);
+
+document.write(targetYear, "年", targetMon, "月", targetDay, 
+                 "日まで，あと", d, "日", "<br>");
+
+//-->
+</script>
+
+</body>
+</html>

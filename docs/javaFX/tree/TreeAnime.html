@@ -1,0 +1,55 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="javaproSample.css">
+  <SCRIPT src="http://java.com/js/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'TreeAnime.jnlp'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbedTreeAnime() {
+        dtjava.embed(
+            {
+                id : 'TreeAnime',
+                url : 'TreeAnime.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : '618',
+                height : '525'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbedTreeAnime);
+</script>
+
+</head><body>
+<h2>TreeAnime</h2>
+  <b>Webstart:</b> <a href='TreeAnime.jnlp' onclick="return launchApplication('TreeAnime.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+<div id="setsumei">
+木が２本に枝分かれしながら成長していきます。<br>
+<ul>
+<li>枝の角度には，垂直方向からの分かれる枝の角度を
+<li>枝の比率には，分かれた枝の親の枝に対する割合を
+<li>成長回数には，枝分かれの回数を
+</ul>
+それぞれ指定し，成長ボタンをクリックしてください。<br>
+ソースコードは<a href="TreeAnime.java">こちら</a>。
+</div>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder' class="artpieceTree"></div>
+</body></html>

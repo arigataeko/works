@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../samplepage.css">
+<title>select exercise</title>
+
+<script>
+<!--
+
+   function changeColor(){
+      select = document.iro.mojiC.selectedIndex;
+      c = document.iro.mojiC.options[select].value;
+      document.getElementById("moji").style.backgroundColor= c;
+   }
+
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>メニューの選択で文字の背景色を変える</h1>
+
+<div id="moji">
+	<strong>文字の背景色が変わる</strong>
+</div>
+<br>
+メニューで文字の背景色が選択できます。<br><br>
+
+<form name="iro">
+文字の背景色
+<select name="mojiC" onChange="changeColor()">
+<option value="#996600"> 茶色
+<option value="#cc0033"> あずき色
+<option value="#00cccc"> スカイブルー
+<option value="#6666cc"> ネイビーブルー
+<option value="#999933"> うぐいす色
+</select>
+</form>
+</body> 
+</html>

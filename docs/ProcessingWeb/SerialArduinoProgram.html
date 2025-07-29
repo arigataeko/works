@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Serial Communication</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="SerialGeneral.html"> シリアル通信に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> シリアル出力をするArduinoのプログラム(スケッチ)</h1>
+
+<div class="menu">
+| &nbsp;
+<a href="#basic">プログラムの基本パターン</a> &nbsp;| &nbsp;
+<a href="#digitalin">デジタル入力とシリアルデータ送信</a> &nbsp;| &nbsp;
+<a href="#analogin">アナログ入力とシリアルデータ送信</a> &nbsp;| &nbsp;
+</div>
+
+
+
+<h2 id="basic">プログラムの基本パターン</h2>
+Arduinoボードの動作を制御するためのプログラム(スケッチ)には、
+プログラムの起動後1度だけ実行する処理(初期化処理)と、繰返し実行する処理とを分けて書きます。
+ <br><br>
+初期化処理は<strong class="toufuku">setup()</strong>関数内に、繰返す処理は<strong class="toufuku">loop()</strong>関数内に書きます。<span class="toufuku">setup()</span>関数に記述された命令が一度実行された後、<span class="toufuku">loop()</span>に記述された命令が繰返し実行されます。
+
+<pre class="code">
+//ここにはプログラムを通して使う変数の定義を書く
+
+void setup(){
+   //ここには、ポートの設定など、1度だけ実行する命令を書く
+}
+
+void loop(){
+   //ここには、値の入出力や計算など、繰り返し実行する処理を書く
+}
+</pre>
+<br>
+
+処理の記述にはArduino言語を使います。<a href="SerialArduinoFunc.html#print" target="other">Arduinoボードを制御</a>するための機能(関数)が用意されているので、それによって入出力などの動作や計算を行います。
+<br><br>
+
+プログラミング環境の[新規ファイル]アイコン、あるいはメニュー[ファイル]の[新規ファイル]をクリックすると、空の
+<span class="toufuku">setup()</span>と
+<span class="toufuku">loop()</span>が定義されたスケッチが開くので、処理を記述します。ただ、まったくのゼロからスケッチを書くのではなく、サンプルを元に修正することが多いでしょう。
+
+<br>
+プログラミング環境のメニュー[ファイル]の[スケッチ例]
+には、動作に応じた
+多くのサンプルが用意されています。<br><br>
+
+適したサンプルを選択してエディタに表示し、修正して、プログラミング環境の[保存]アイコンをクリックすると、
+保存する場所と名前を指定するダイアログウィンドウが現れます。ここで入力した名前のフォルダ(<strong>スケッチフォルダ</strong>)が作られ、その名前で拡張子がinoのファイルにスケッチが保存されます。
+
+
+<h2 id="digitalin">デジタル入力に応じたシリアルデータの送信</h2>
+
+次のスケッチは、スイッチをGNDからデジタルピン2につないだ回路で、スイッチがオンなら1を、スイッチがオフなら0を、シリアルポートに0.1秒ごとに送るプログラムです。
+<br>
+<pre class="code" id="digitalList">
+【リスト デジタル入力】
+int switchPin = 2;     //スイッチをつなげたピン番号
+int switchState = 0;   //スイッチの状態を保存する変数
+
+void setup() {
+  pinMode(switchPin, INPUT_PULLUP);  //ピン2をプルアップ入力として初期化
+  Serial.begin(9600);
+}
+
+void loop() {
+  switchState = digitalRead(switchPin);    //ピン2を読む
+  Serial.println(switchState);  //確認用にシリアルモニタに読んだ値を出力
+  if (switchState == LOW) {  //スイッチが入っていれば、switchStateの値はLOW
+    Serial.write(1);
+  } else {
+    Serial.write(0);
+  }
+  delay(100);
+}
+</pre>
+<p class="clear"> </p>
+
+
+まず、<a href="ProgHensu.html#hensu" target="other">変数</a>の準備(これを変数の定義と言う)をしています。データ型に続いて変数の名前を書きます。
+<pre class="reiji">
+  int switchPin = 2;     //スイッチをつなげたピン番号
+  int switchState = 0;   //スイッチの状態を保存する変数
+</pre>
+データ型はデータの種類を表す名前で、「int switchPin」 のintは整数を表すデータ型、switchPinは変数の名前です。変数の宣言は関数の外で、使う前に記述します。
+<br><br>
+<span class="toufuku">setup()</span>関数の中では、
+<a href="SerialArduinoFunc.html#digital" target="other">pinMode()</a>関数を使って、ピン2をプルアップ入力として初期化しています。
+続いて、<a href="SerialArduinoFunc.html#serialio" target="other"> Serial.begin()</a>関数を使ってシリアル通信の速度を設定しています。
+
+
+<br><br>
+<span class="toufuku">loop()</span>関数の中では、まず
+<a href="SerialArduinoFunc.html#digital" target="other">digitalRead()</a>関数を使って、スイッチをつなげたピン(ここでは2とした)から値を読み、値を変数switchStateに代入しています。
+ピン2はINPUT_PULLUPを指定して初期化した(つまりArduinoボード内蔵のプルアップ抵抗を利用する)ので、スイッチがオフだとHIGH、スイッチがオンだとLOWの値になります。
+<br><br>
+テスト段階で、読んだ値をシリアルモニタで確認するため、<a href="SerialArduinoFunc.html#serialio" target="other">Serial.println()</a>関数で読んだ値を出力しています。この値もシリアル出力され、Processing側で読むので、テストが終われば不要です。
+<br><br>
+
+読んだ値に応じて、シリアルポートに1あるいは0を出力するため、
+<a href="ProgControl.html#print" target="other">if文</a>を使っています。シリアル出力には、
+<a href="SerialArduinoFunc.html#digital" target="other">Serial.write()</a>関数を使います。
+
+
+
+<h2 id="analogin">アナログ入力に応じたシリアルデータの送信</h2>
+
+次のスケッチは、可変抵抗またはセンサーをアナログピン1に接続（可変抵抗の中央ピンをアナログピン1に、両側のピンを5V電源とGNDに接続）し、その値を読んで、それに応じた値をシリアルポートに0.1秒ごとに送るプログラムです。
+
+<br>
+<pre class="code" id="analogList">
+【リスト アナログ入力】
+int analogInPin = 1;  //可変抵抗(センサ)をつないだピン
+int sensorValue = 0;  //可変抵抗(センサ)から読んだ値を保存する変数
+int outputValue = 0;  //出力する値を保存する変数
+
+void setup() {
+  Serial.begin(9600);  //シリアル通信を9600 bpsに初期化
+}
+
+void loop() {
+  sensorValue = analogRead(analogInPin);  //アナログ入力値を読む
+  //読んだ値を0-255(1バイトの値の範囲)に変換(マッピング)
+  outputValue = map(sensorValue, 0, 1023, 0, 255); 
+ 
+  Serial.write(outputValue);   //シリアル出力する
+  
+  //シリアルモニタでの入出力値の表示、Processingで読む時はコメントアウト
+  Serial.print("sensor = ");
+  Serial.print(sensorValue);
+  Serial.print(", output = ");
+  Serial.println(outputValue);
+
+  delay(100);
+}
+</pre>
+<p class="clear"> </p>
+
+
+まず、可変抵抗(センサ)をつないだピン番号(analogInPin)とそこから読んだ値(sensorValue)、出力する値(outputValue)を保存しておく変数を定義します。
+<br><br>
+<span class="toufuku">setup()</span>関数の中では、
+<a href="SerialArduinoFunc.html#serialio" target="other"> Serial.begin()</a>関数を使ってシリアル通信の速度を設定しています。
+<br><br>
+
+<span class="toufuku">loop()</span>関数の中では、まず
+<a href="SerialArduinoFunc.html#analog" target="other">analogRead()</a>関数を使って、可変抵抗(センサ)と接続したピン(ここでは1とした)から値を読み、変数sensorValueに代入しています。
+入力値は0-1023の間で、ピンに電流が流れていない(0V)場合0、5Vの電流が流れていると1023です。
+<br>
+シリアル通信では1バイトのデータ(値の範囲は0－255)を送るので、入力値(0-1023)を0-255の範囲に、
+<a href="SerialArduinoFunc.html#others" target="other">map()</a>関数を使って換算します。
+<pre class="reiji">
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+</pre>
+そして、換算した値を
+シリアルポートに
+<a href="SerialArduinoFunc.html#digital" target="other">Serial.write()</a>関数を使って出力しています。
+<br><br>
+テスト段階で、Arduinoボードが正しく値を読んでいるか、出力しているか確認したいことがあります。それにはシリアルモニタを使います。次の４行は入出力値を<a href="SerialArduino.html#monitor" target="other">シリアルモニタ</a>へ表示する命令で、<a href="SerialArduinoFunc.html#serialio" target="other">Serial.print(), println()</a>関数を使い、文字列と値を出力しています。<br>
+
+
+スケッチをArduinoボードに書き込み、プログラミング環境(IDE)の
+シリアルモニタを起動すると、次のように表示されます。
+<pre class="reiji">
+? sensor = 1023, output = 255
+</pre>
+行の先頭には、意味がわからない記号が表示されますが、これはSerial.write()関数が出力したバイトデータで、文字としての表記がないので、意味不明の記号になります。
+テスト段階で、確認のためにシリアルモニタを使う場合は、Serial.print(), println()関数を使って、
+文字としてデータを送ることで、
+シリアルモニタ上で人が読める形で表示されます。
+
+
+<br>Processing側でデータを読む際、これらの文字列は不要なの、テストが終わったら、この4行は削除(コメントアウト)します。
+<br><br>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

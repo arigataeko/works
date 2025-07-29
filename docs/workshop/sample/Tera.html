@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Recommend a Temple</title>
+
+<script type="text/javascript">
+<!--
+
+ function selectTera(){
+    c = Math.floor(Math.random()*3);  //寺を決める
+
+    switch(c){  //寺を表示
+    case 0: document.tera.src = "./image/sanju.gif";
+            break;
+    case 1: document.tera.src = "./image/ryoanji.gif";
+            break;
+    case 2: document.tera.src = "./image/shisen.gif";
+            break;
+    default: document.tera.src = "./image/mujiB.gif";
+             break;
+    }
+  }
+//-->
+</script>
+</head>
+<body>
+
+<h1>お寺を推薦</h1>
+
+<img src="image/mujiB.gif" name="tera"><br>
+
+<form>
+<input type=button value="お勧めお寺" onclick="selectTera()">
+</form>
+
+</body> 
+</html>

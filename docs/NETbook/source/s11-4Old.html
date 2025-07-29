@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Script for onmouseover</title>
+<meta charset="UTF-8"> 
+<title>JavaScript using form</title>
+
+<script type="text/javascript">
+<!--
+   function toSesshi(){
+      kashi = document.kansan.vK.value;
+      sesshi = 5.0/9.0*(parseFloat(kashi)-32);
+      document.kansan.vS.value = sesshi;
+   }
+//-->
+</script>
+
+</head>
+<body>
+
+<p>華氏・摂氏温度の換算</p><hr>
+
+<form name="kansan">
+   華氏の温度：<input type=text value=0 size=10 name="vK"><br><br>
+   摂氏の温度：<input type=text value=0 size=10 name="vS"><br><br>
+   <input type=button value="摂氏の換算" onclick="toSesshi()">
+</form>
+  
+</body> 
+</html>

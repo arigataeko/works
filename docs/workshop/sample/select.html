@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../samplepage.css">
+<title>select exercise</title>
+
+<script type="text/javascript">
+<!--
+
+   function changeLink(){
+      select = document.iro.linkC.selectedIndex;
+      c = document.iro.linkC.options[select].value;
+      document.linkColor= c;
+      document.vlinkColor= c;
+   }
+
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>メニューを選択したらリンクの色が変わる</h1>
+
+<ul>
+<li><a href="../object.html"> オブジェクトの説明 </a>
+<li><a href="../hensu.html"> 変数の説明 </a>
+</ul>
+<br>
+メニューでリンクの色が選択できます。<br><br>
+
+<form name="iro">
+リンクの色
+<select name="linkC" onChange="changeLink()">
+<option value="#996600"> 茶色
+<option value="#cc0033"> あずき色
+<option value="#00cccc"> スカイブルー
+<option value="#6666cc"> ネイビーブルー
+<option value="#999933"> うぐいす色
+</select>
+</form>
+</body> 
+</html>

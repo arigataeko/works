@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="Description" content="Object-oriented language">
+<meta name="KeyWords" content="Object oriented">
+<meta name="robots"content="noindex,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>control flow</title>
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      制御構造<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href = "#toha">はじめに</a> &nbsp| &nbsp
+<a href = "#ifelse">if-else文</a> &nbsp| &nbsp
+<a href = "#switch">スイッチ文</a> &nbsp| &nbsp
+<a href = "#return">リターン文</a> &nbsp| &nbsp
+<a href = "#while">while文</a> &nbsp| &nbsp
+<a href = "#for">for文</a> &nbsp| &nbsp
+<a href = "#ireko">ループの入れ子</a> &nbsp| &nbsp
+<a href = "#break">break文</a> &nbsp| &nbsp
+<a href = "#continue">continue文</a>
+</div>
+
+<br><br><br>
+<h1 id="toha">はじめに…制御構造とは</h1>
+&nbsp;&nbsp;
+
+  ときに，条件によって処理の内容を変えたり、同じ処理を繰り返したりする必要が出てきます。これを記述するのが制御構造です。次のような制御構造があります。
+<ul>
+<li>条件によって処理を分岐する文......if-else文、switch文
+<li>同じ処理を繰り返す文......for文、while文、do-while文
+<li>関数の実行を終了し、制御を戻す文......return文
+<li>その他の制御文......break文、continue文
+</ul>
+
+<br><br>
+<h1 id="ifelse">if-else文</h1>
+&nbsp;&nbsp;
+
+  if-else文は、条件に従って処理を選択的に実行する場合に使います。
+
+<pre class="pcode">
+◆if文               ◆if else文             ◆else if文
+  if (条件式){         if (条件式){            if (条件式1){
+    文;                 文1;                    文1;
+  }                    }else{                  }else if (条件式2){
+                        文2;                    文2;
+                       }                       }else if (条件式3){
+                                                文3;
+                                               } .....
+                                               .
+                                               .
+                                               else{
+                                                文n;
+                                               }
+</pre>
+&nbsp;&nbsp;
+  ifに続く( )の中の条件式の値が真ならば、後ろのブロック内の文を実行し
+ます。条件式の値が僞の場合は、if文の次の処理に移ります。条件式には、関係演算子を使った式や、boolean値を返すメソッド呼び出し式など、その値がboolean(trueまたはfalse)である式を書きます。
+<br>&nbsp;&nbsp;
+  ifの条件式の値が偽の場合の処理を記述するには、else文を使います。処理を3つ以上に分岐する時は、else if文を組み合わせます。条件式1が真の場合文1を実行し、僞の場合条件式2の判定をします。条件式2が真なら文2を実行し、僞の場合は条件式3の判定に移ります。このように指定された条件式を次々と判定していき、そのどれも真ではない場合elseで指定された文nを実行します。
+<br>&nbsp;&nbsp;
+  例えば、下は変数aの値が偶数か奇数かを判定します。
+<pre class="pcode">
+if(a%2 ==0){
+    document.write("偶数");
+}
+else {
+    document.write("奇数");
+}
+</pre>
+<br><br>
+<h1 id="switch">switch文</h1>
+&nbsp;&nbsp;
+
+  式の値によって処理の流れをいくつかに分ける場合には、switch文を使います。 
+
+<pre class="pcode">
+◆switch文
+   switch(式){
+      case 値1 : 文1
+                 break;
+      case 値2 : 文2
+                 break;
+         .
+         .
+      default :  文 
+                 break;
+   }
+</pre>
+&nbsp;&nbsp;
+  switchに続く( )中には、整数の値を返す式を書き、caseの後ろには値(定数式)を書きます。caseには変数は使えませんし、同じ値も指定できません。
+  式の値が、caseの後ろに書いた値と一致するなら、その部分の文を実行しま
+す。文の部分には複数の文を書くことができます。
+
+<br>&nbsp;&nbsp;
+  caseの後ろの値を順に調べていき、どれとも一致しない場合は、defaultに記述された文を実行します。defaultは必要なければ記述する必要はありません。break文はswitch文を抜ける(終了する)指示で、caseごとにbreak文を書くのは、値が一致して文を実行した後、直ちにswitch文を終了するためです。break文がないと、その下に続くcaseの判定を続け、defaultがあればそこに指定された文も実行します。
+<br>&nbsp;&nbsp;
+  switch文での分岐は、else if文を組み合わせても同じことが書けますが、ある式の値が整数値(または文字)と一致しているかどうかで、処理を分岐する場合によく使われます。
+<br>&nbsp;&nbsp;
+  例えば、下は変数bの値を3で割った余りを調べて、それに応じた表示します。この例では、defaultが実行されることはないので、実は不要です。
+
+<pre class="pcode">
+switch(b%3){
+   case 0:  document.write("3の倍数");
+            break;
+   case 1:  document.write("3の倍数に1加えた数");
+            break;
+   case 2:  document.write("3の倍数に2加えた数");
+            break;
+   default: document.write("あり得ない数");
+}
+</pre>
+
+<br><br>
+<h1 id="return">return文</h1>
+&nbsp;&nbsp;
+
+  処理を終了して、制御を呼び出し元へ戻します。戻り値をもつ場合、return文の後に戻り値を示す式を書きます。戻り値がない場合、return文は必須ではありません。return文を書かないと、指定された処理を最後まで実行してから、呼び出し元へ戻ります。
+
+<pre class="pcode">
+◆return文
+   return;        //戻り値がない
+   return 式;
+</pre>
+
+&nbsp;&nbsp;
+次は，フォームに入力された値が数値でないときだけ，{ }の中が実行され，trueを返す関数です。
+<pre class="pcode">
+function check(n){
+  if(isNaN(document.forms[0].elements[n].value)==true){
+     window.alert("数値を入力してください"); 
+     document.forms[0].elements[n].focus();
+     document.forms[0].elements[n].select();
+     return true;
+   }
+}
+</pre>
+<br>
+&nbsp;&nbsp;  次は引数の値が偶数か奇数かで、0か1を返す関数の例です。
+<pre class="pcode">
+function gusuTest(a){
+    if(a%2 ==0){
+      return 0;
+    }
+    else {
+      return 1;
+    }
+}     
+</pre>
+
+<br>
+<h1 id="while">while文</h1>
+&nbsp;&nbsp;
+
+
+  条件が満たされている間、ある処理を繰返し実行します。
+
+<pre class="pcode">
+◆while文
+   while (条件式){
+      文
+   }
+</pre>
+
+&nbsp;&nbsp;
+  whileに続く( )の中の式は繰返しを続ける条件で、while文ではまずこの式を判定します。式の値がtrueならブロックの中の文を実行し、また条件式を判定します。これを繰り返し、条件式の値がfalseになった時繰返しをやめます。
+<br>&nbsp;&nbsp;
+  条件の式の部分には、boolean定数(trueまたはfalse)、またはその値がbooleanである式を記述します。
+<br>&nbsp;&nbsp;
+  例えば、1から10までの合計を変数aに計算する処理は下のように書きます。iの値が11になった時、i<=10の式の値がfalseになり、繰返しを終えます。
+
+<pre class="pcode">
+a = 0;
+i = 1;
+while(i<=10){
+    a = a + i;
+    i++;
+}
+</pre>
+
+&nbsp;&nbsp;
+   繰返しの条件式にtrueを指定すると、無条件に繰り返すことを意味します(これを無限ループと言います)。無限ループを使う場合は、ブロックの中で、break文やreturn文を使ってループから抜けるように記述します。
+<br>
+<br><br>
+<h1 id="for">for文</h1>
+&nbsp;&nbsp;
+
+  while文と同じように、条件が満たされている間、ある処理を繰返し実行します。
+
+<pre class="pcode">
+◆for文
+   for (式1; 式2; 式3){
+      文
+   ｝
+</pre>
+
+&nbsp;&nbsp;
+  式1は初期設定で、繰返しを始める前に1回実行されます。式2は繰返しを続ける条件で、式2の値がtrueであれば、ブロックの中の処理を実行し、終ると式3を実行します。次に再び式2の値を調べ、その値がtrueならブロック内を実行し、、と繰返し、式2の値がfalseになった時、繰返しをやめます。
+<br>&nbsp;&nbsp;
+  式2の部分には、boolean定数(trueまたはfalse)、またはその値がboolean(trueまたはfalse)である式を記述します。
+<br>&nbsp;&nbsp;
+  forの後ろの( )内の3つの式は、不要なら省略できます。式を省略する場合もセミコロンは書きます。繰返し条件である式2を省略すると、永久に真と見なされ、無限ループになります。
+
+<pre class="pcode">
+for(;;){
+   ......
+}
+</pre>
+
+&nbsp;&nbsp;
+  前節のwhile文と同様に「1から10までの合計を求める」処理をfor文を使って書くと、下のようになります。iの値が11になった時、i<=10の式の値がfalseになり、繰返しを終えます。
+
+&nbsp;&nbsp;
+<pre class="pcode">
+a = 0;
+for(i=1; i<=10; i++){
+   a = a + i;
+}
+</pre>
+<br><br>
+<h1 id="ireko">ループの入れ子</h1>
+&nbsp;&nbsp;
+
+
+  ループは入れ子にすることもできます。例えば次は、#印を縦横10個ずつ画面に表示するスクリプトです。
+
+<pre class="pcode">
+function loopTest(){
+   for(i=1; i<=10; i++){
+      for(j=1; j<=10; j++){
+         document.write("#");
+      }
+      document.write("&lt;br&gt;");
+   }   
+}
+</pre>
+
+
+<br><br>
+<h1 id="break">break文</h1>
+&nbsp;&nbsp;
+
+  break文は、while文、for文、switch文からただちに抜け出すために使います。
+
+<pre class="pcode">
+◆break文
+      break;
+    または
+      break ラベル;
+</pre>
+&nbsp;&nbsp;
+  ある条件に達した時に、ループから抜ける処理を書くのに、break文を使います。例えば、1から10までの合計を求める処理は、無限ループとbreak文を使って下のようにも書けます。
+
+<pre class="pcode">
+a = 0;
+i = 1;
+while(true){
+    a = a + i;
+    if(i >= 10)
+        break;
+        i++;
+}
+</pre>
+&nbsp;&nbsp;
+  ラベルを指定しないbreak文は、break文が書かれた(実行中の)ループあるいはswitch文から抜けます。これらの文が入れ子になっていて、特定のループあるいはswitch文まで抜けたい場合には、制御を移す場所にラベルを付けておき、breakにそのラベル名を指定します。ラベル名にコロン(:)を付けると、ラベルになります。
+
+
+<br><br>
+<h1 id="continue">continue文</h1>
+&nbsp;&nbsp;
+
+  continue文はループの中で使われ、繰返し処理をそこで中止し、次の繰返しに入ります。continue文にラベルを付けると、そのラベルの位置に移ります。break文はループを終了するのに対し、continue文はその回の繰返し処理を中断し、次の回に入るためループの先頭部に制御を移します。while文とdo文中でcontinue文を使うと、ブロック内の処理を中断して条件文の判定に移り、またfor文では繰返し毎(式3)の処理に移ります。
+
+<pre class="pcode">
+◆continue文
+      continue;
+    または
+      continue ラベル;
+</pre>
+
+  ループが入れ子になっている時、continue文がある実行中のループ文の先頭
+に移ります。外側のループの先頭に移る場合は、制御を移す場所にラベルを付
+けておき、continue文にそのラベル名を指定します。
+
+#を四角形に表示するスクリプト、jが偶数の時だけ、#を横に表示するには、continueを使って次のように書けます(つまり，#は横に5個表示されます)。
+<pre class="pcode">
+for(i=1; i<=10; i++){
+    for(j=1; j<=10; j++){
+       if (j%2 ==1) continue;
+          document.write("#");
+     }
+      document.write("&lt;br&gt;");
+}   
+</pre>
+  また、ラベル付きのcontinue文を使うと、2重ループの外側のループの先頭に戻ることもできます。下の例は，内側のループから直接外のループの先頭に飛ぶので，brタグは出力されません。
+<pre class="pcode">
+modoru: 
+for(i=1; i<=10; i++){
+    for(j=1; ; j++){
+       document.write("#");
+          if(j>10) continue modoru;
+    }
+      document.write("&lt;br&gt;");
+}   
+</pre>
+
+<hr size="2"noshade>
+
+
+<div class="cp">
+arigat アットマーク acm.org<br>
+Last modified: Oct. 2014
+</div>
+</body>
+</html>

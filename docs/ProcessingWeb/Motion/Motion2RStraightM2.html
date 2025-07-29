@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 直線の往復運動…ふたつの円列の衝突</h1>
+ふたつの円の列が、水平に移動、中央で衝突し、往復運動します。<a href="Motion2RStraight2.html#print" target="other">ふたつの円の衝突</a>と同じ動きを、2つの円列に対して行います。
+<br>
+2つの列の円の数は同じで、変数nnで設定するようにしています。nnの値を1にすると、<a href="Motion2RStraight2.html#print" target="other">ふたつの円の衝突</a>と同じになります。
+<br>
+setup()関数内で、
+左の列は左端の左側に(d+kk)の間隔で配置、右の列は右端の右側に同じく(d+kk)の間隔で配置しておきます。<a href="Motion2RStraightM1.html#print" target="other">ひとつの円列の往復</a>と同様、画面に登場しているかどうかを保存する配列on1[]とon2[]を使い、動き出して画面に現れたらこの値をtrueにしておきます。そして、登場している時(on1[]あるいはon2[]の値がtrueの時)だけ壁に当たったかどうかを判定します。<br><br>
+
+左右の列を区別するため、左の列は赤い色で描いています。
+
+<div class="rightSide">
+	<canvas id="RStraightM2"
+       data-processing-sources="./MotionPDE/shuttle/RStraightM2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RStraightM2】
+int nn = 6; // 円の数
+float ss = 2; //移動速度
+int kk = 2; //間隔の調整
+float d = 10; // 円の直径
+float x1[] = new float[nn]; // 位置(x座標)
+float s1[] = new float[nn]; // 移動速度
+float x2[]  = new float[nn]; // 位置(x座標)
+float s2[] = new float[nn]; // 移動速度
+boolean on1[] = new boolean[nn]; // 登場したかどうか
+boolean on2[] = new boolean[nn]; // 登場したかどうか
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  noStroke();
+  s1[0]=ss;  s2[0]=-ss;
+  x2[0]= width - d/2;
+  for(int i=1;i&lt;x1.length;i++){  
+    x1[i]= x1[i-1] - (d+kk);
+    s1[i] = ss;
+    x2[i]= x2[i-1] + (d+kk);
+    s2[i] = -ss;
+  }
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア   
+     for(int i=0;i&lt;x1.length;i++){
+        x1[i] = x1[i]+s1[i];     
+        x2[i] = x2[i]+s2[i];    
+        if(x1[i] &gt; 0 && !on1[i]) on1[i] = true;
+        if(x2[i] &lt; width  && !on2[i]) on2[i] = true;
+     
+        if(x1[i]&gt;x2[i]-d){ //衝突
+           x1[i] = x2[i]-d;
+           s1[i] = -s1[i];
+           x2[i] = x1[i]+d;
+           s2[i] = -s2[i];
+        }else{
+           if(on1[i] && x1[i]&lt;d/2){ //左の列、左の壁
+              x1[i] = d/2;
+              s1[i] = -s1[i];
+           }else if(on2[i] && x2[i]&gt;width-d/2){ //右の列, 右の壁
+              x2[i] = width-d/2;
+              s2[i] = -s2[i];
+           }
+        }
+        fill(200,0,0); //左の列は赤
+        ellipse(x1[i], height/2, d, d);
+        fill(0);       //左の列は黒
+        ellipse(x2[i], height/2, d, d);
+     }
+}
+
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

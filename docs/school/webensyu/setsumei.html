@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="Description" content="HTML Exercise">
+<meta name="KeyWords" content="HTML Exercise">
+<meta name="robots"content="noindex,nofollow">
+
+<title>HTML Exercise</title>
+
+<style type="text/css">
+ <!--
+   a:link {color: #003399; }
+   a:visited {color: #003399; }
+
+   ul { 
+     margin-top: 5px;
+     font-size:90%
+   }
+   .tag { font-size:90%; font-weight:bold }
+
+   a { 
+     font-size:95%
+   }
+
+   h1 {
+     font-size: medium;
+     width; 100%
+     background-color: #fff;
+     margin: 30px 0 10px 0;
+     padding: 10px 0 10px 10px;
+     border-left-style: solid;
+     border-left-color: #039;
+     border-left-width: 50px;
+   }
+  
+  h3{
+     margin: 30px 0 0 0;
+     color: #039;
+   }
+
+  h4{
+     margin: 10px 0 5px 0;
+     padding-left: 5px;
+     border-left-style: solid;
+     border-left-color: #66c;
+     border-left-width: 20px;
+   }
+   
+   hr{
+
+ -->
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+   function showWin(target, winName){
+      window.open(target, winName);
+   }
+   
+//-->
+</SCRIPT>
+
+</head>
+<body>
+
+<!--title-->
+<h1>HTML 作成演習<br><hr size="2"noshade>
+<span style="font-size:80%; color:#999999">HTML Exercises</span>
+</h1>
+
+<br><br><br>
+
+<h3>1 演習全体の説明</h3>
+JavaScriptの自習用Web教材の一部を作成することで、HTMLを記述する演習を行います。
+作成するページが、サイトの中でどういう位置にあるかを理解するため、Web教材全体の構成図とページの表示例を次のリンクに示します(別のウィンドウに表示されます)。
+<ul>
+<li><A href="javascript:showWin('kousei.gif', 'betsuWin')">JavaScript教材ページ全体構成図</A></li>
+<li><A href="javascript:showWin('kansei.png', 'betsuWin')">JavaScript教材ページ表示例</A>(画像ファイル)</li>
+</ul>
+<br>
+  ページ全体構成図には、ページ間の移動をどのように提供するかが赤で記されています。3種のナビゲーションリンクを提供します。
+<ul> 
+<li>大項目へのリンクは各ページの上部に置く．</li>
+<li> 小項目のリスト(現在表示されているページを含む大項目中の小項目)をページの左側に置く．</li>
+<li>  ページ階層中の，現在ページの位置(トレイルリスト)を上部に表示する．</li>
+</ul>
+
+このページをレイアウトするには、stylesheetを使います。
+それ以外に、tableタグやframeタグを使う方法があります(した)が、
+それは好ましい方法ではありません(資料として下には記述を残してあります)。
+<ul> 
+<li>sytlesheetだけを使う<a href="#stylesheet">→制作練習</a></li>
+<li>tableタグを使う <a href="#table">→制作練習</a></li>
+<li>frameを使う<a href="#frame">→制作練習</a></li>
+</ul>
+
+演習で作成するページ内容を<a href="mojiText.html">テキストファイル</a>として用意しました。必要に応じて使ってください。
+<br><br>
+<a name="stylesheet"></name>
+<h3>２ stylesheetでの配置</h3> 
+stylesheetで要素の配置を行うと、ブラウザの種類やブラウザウィンドウサイズにより見栄えが変わってくることがあります。
+<br>
+<h4>タイトル部分の作成(stylesheet)</h4>
+<div align=center><img src="style-head.gif" alt="simple header"></div><br>
+次のように考えます。
+<ul>
+<li> 左の画像は、繰り返しのない背景画像として配置<br>
+     &nbsp;&nbsp; background-image: url("./yokoline.gif");<br>
+     &nbsp;&nbsp; background-repeat: no-repeat;<br><br>
+
+<img src="yokoline.gif" alt="logo mark" align=right>
+ロゴマーク代わりの画像は右の画像を使っています。線のうち紺色はRGBで330066です。
+<br>作成練習では画像は任意のものを使ってください。<br><br>
+
+</li>
+<li> タイトル文字が画像と重ならないように、左のpaddingで調整<br>
+     &nbsp;&nbsp; padding: 5px 0 5px 60px;<br><br>
+</li>
+<li> 横線は、スペース(&ampnbsp;)だけを含むdivブロック要素の背景として配置<br>
+     &nbsp;&nbsp; background-color: #306;<br>
+     &nbsp;&nbsp; margin: 5px 0;<br><br>
+     この横線は、タイトル文字要素のborder-bottomとすることも可能(文字列とborderの間隔はpaddingで指定)。
+しかし、今使っている画像の高さがタイトル文字の高さより大きいので、画像との間隔が取れません(背景画像はpadding内にも配置される）。
+ロゴ画像の高さを調整しておけば、例えば次のようにborder-bottomの色、幅、スタイルを指定することで横線を表示することもできます。<br>
+     &nbsp;&nbsp; border-bottom-style: solid;<br>
+     &nbsp;&nbsp; border-bottom-color: #039;<br>
+     &nbsp;&nbsp; border-bottom-width: 15px;
+</li>
+</ul>
+<br>
+<h4>大項目メニュー・トレイルリストの作成(stylesheet)</h4>
+<div align=center><img src="style-head2.gif" alt="top menu"></div><br>
+次のように考えます。
+<ul>
+<li> メニューは、項目を表すリンク文字列を並べるだけです。項目間の間隔を調整するために、marginを指定します。例えば、<br>
+     &nbsp;&nbsp; margin: 5px;<br><br>
+</li>
+<li> 今表示されている項目(制御構造)を表す文字列は、別にスタイルを指定します。例えば、<br>
+     &nbsp;&nbsp; background-color: #ccc;<br>
+     &nbsp;&nbsp; font-size: 90%;<br>
+     &nbsp;&nbsp; margin: 5px 5px;<br>
+     &nbsp;&nbsp; padding: 3px;<br><br>
+</li>
+<li> 大項目メニュー全体の背景色を指定します。<br>
+     &nbsp;&nbsp; background-color: #eee;<br><br>
+</li>
+<li> トレイルメニュー全体は右詰めで表示します。<br>
+     &nbsp;&nbsp; text-align: right;
+</li>
+</ul>
+<br>
+<h4>小項目メニューの作成(stylesheet)</h4>
+<div align=center><img src="style-yokomenu.gif" alt="left menu"></div><br>
+項目を縦に並べた小項目メニュー全体をdivブロック要素としてまとめ、それに対して、次のようなスタイルを指定します。
+<ul>
+<li> 小項目メニューの幅を画面の幅の20％に指定します。<br>
+     &nbsp;&nbsp; width: 20%;<br><br></li>
+<li>上部のトレイルメニューとの間隔をmargin属性で指定します。<br>
+     &nbsp;&nbsp; margin-top: 40px;<br><br></li>
+<li>フォントサイズを少し小さめに指定します。<br>
+     &nbsp;&nbsp; font-size: 90%;</li>
+</ul>
+<br>
+<h4>説明部分の作成(stylesheet)</h4>
+<ul>
+<li> 小項目メニューはウィンドウ幅の20％でウィンドウの左側に、説明部分はウィンドウは幅の80％でウィンドウの右側に配置するため、回り込みを指定する属性floatを使います。小項目メニューのスタイルに次の指定を追加します。<br>
+     &nbsp;&nbsp; float:left;<br>
+<br>
+また、説明部分のスタイルに次のように指定します。<br>
+&nbsp;&nbsp;      float:right;<br>
+&nbsp;&nbsp;      width: 80%;<br>
+&nbsp;&nbsp;      margin-top: 40px;<br><br>
+</li>
+
+<li> 説明部分に含まれるreturn文の記述例は、空白を含めて表示したいため、preタグを使って整形することにします。preタグ全体を字下げし、かつ等幅フォントで表示するため、preタグに対して次のようなスタイルを指定します。<br>
+     &nbsp;&nbsp; font-family: monospace;<br>
+     &nbsp;&nbsp; padding: 0 0 0 3em;
+</li>
+</ul>
+<br>
+<h4>フッタ部分の作成(stylesheet)</h4>
+<ul>
+<li> ウィンドウの左端からフッタを置くために、回り込みを解除するには、clear属性を使います。<br>
+     &nbsp;&nbsp; clear: both;<br><br>
+</li>
+<li> フッタ上部のborderを指定して、説明部分とフッタの区切りを表すことにします。<br>
+     &nbsp;&nbsp; border-top-style: solid;<br>
+     &nbsp;&nbsp; border-top-width: 6px;<br>
+     &nbsp;&nbsp; border-top-color: #306;<br><br>
+
+これは、次のように省略形で指定することもできます。
+     border-top: 6px solid #306;
+</li><br><br>
+<li> borderとテキスト内容との間隔を空けるために、上部のpaddingを指定します。<br>
+     &nbsp;&nbsp; padding-top: 5px;<br><br>
+テキスト内容がウィンドウの左端と近すぎると思えば、padding-left: 5px;のように調整します。
+</li>
+</ul>
+<br>
+<a name="table"></name>
+<h3>３ tableタグのでの配置</h3>
+<h4>タイトル部分の作成１(table)</h4>
+tableタグを使ってタイトルの最初の部分を配置してみます。左上にロゴマークに相当する小さな画像を置き、それに続いてタイトルを日本語と英語で示します。タイトル部分と次に続くメニュー部分を区別するために、太い青のラインを入れています。<br>
+
+参考のために、テーブル枠線を表示した画面イメージを示します。<br><br>
+<ul>
+<li><A href="javascript:showWin('http://www.tohoho-web.com/html/table.htm', 'betsuWin')">テーブルタグの説明</A>(とほほのWWW入門)</li>
+</ul>
+<div align=center><img src="head.gif" alt="simple header"></div>
+<br>
+
+<img src="yokoline.gif" alt="logo mark" align=right>
+ロゴマーク代わりの画像は右の画像を、50×50ピクセルで表示しています。線のうち紺色はRGBで330066です。以下の練習では画像、色とも任意のものを使ってください。
+<br clear=all>
+<br>
+<h4>タイトル部分の作成２(table)</h4>
+次に、タイトル部分の文字を装飾します。
+、日本語部分を太字にし、英字に色を指定し、小さく表示します。
+次の表示例では、Learnとby yourselfをRGBで999999の色にし、JavaScriptの色を9999ccにしています。また、英字は80％の大きさとしています。これらの指定はスタイルシートで行います。
+<br><br>
+<div align=center><img src="head2.gif" alt="simple header"></div>
+<br>
+<ul>
+<li> 文字の太さ：font-weight:bold</li>
+<li> 色：color:#9999cc</li>
+<li> サイズ：font-size:80%</li>
+</ul>
+<br>
+
+<h4>大項目メニューの作成(table)</h4>
+大項目へのリンクリストを横線の下に置きます。<br>
+このリストはテーブルで作られており、テーブルの背景色を薄いグレー(eeeeee)としています。現在表示されているページがどの項目に属するかを示すため、該当する項目の背景は濃いグレー(ccccccc)にします(例では制御構造)。
+
+<br><br>
+<div align=center><img src="head3.gif" alt="title + big menu"></div>
+<br><br>
+
+<h4>トレイルリストの作成(table)</h4>
+表示されている内容が、ページの階層構造のどこに位置するかを示すリストを追加します。階層を上から順にたどってきた場合は、その道筋を示すことになるので、トレイルリスト(あるいはパンくずリスト)と呼ばれます。<br>
+独立した1行1列のテーブルで、セルの中身を右詰めにしてあります。
+<br><br>
+<div align=center><img src="head4.gif" alt="title + big menu"></div>
+<br><br>
+
+
+<h4>説明部分の作成(table)</h4>
+ページの主たる内容である説明部分を作ります。
+1行3列のテーブルで、左の列に小項目のリンクリストを、右の列に説明を配置しています。わかりやすいようにテーブル枠線を表示した画面イメージを示します。<br>
+テーブル幅には100%を指定し、左のセルは全体の18%、中のセル(マージン用)は2%の幅を占めるようにしました。
+<br><br>
+<div align=center><img src="body.gif" alt="title + big menu"></div>
+<br><br>
+
+<h4>フッタ部分の作成(table)</h4>
+フッタ部分を付け加えます。<br>
+横罫線(&lt;HR&gt;)、メールアドレスへのリンク(&lt;a href="mailto:メールアドレス"&gt;)を使っています。文字列は少し小さく(90％)表示しています。
+
+<br><br>
+<div align=center><img src="foot.gif" alt="title + big menu"></div>
+<br><br>
+
+<h4>全体の統合(table)</h4>
+大項目、トレイルリストを含んだタイトル部分と、説明部分、フッタ部分をひとつにまとめます。
+<br><br><br>
+
+<a name="frame"></name>
+<h3>４ フレームを使ってのリメイク</h3>
+フレームはブラウザの表示域を分割し、それぞれに異なるページ(HTMLファイル)を表示するものです。<br>
+フレームを使うと、ブラウザの表示は、複数のページ(HTMLファイル)を集めたものになります。内容を表示する個々のHTMLファイルと、表示域を分割し、それぞれの領域にどのHTMLファイルを表示するかを指定するだけのHTMLファイルを用意します。それらが合わさって、ひとつのページのようにブラウザ上で表示されます。
+<br><br>
+フレームの分割は<span class="tag">&lt;FRAMESET&gt;</span>と<span class="tag">&lt;/FRAMESET&gt;</span>を使います。
+<span class="tag">&lt;FRAMESET&gt;</span>で分割されたフレームに対して、表示するHTMLファイルやフレームの名前などを指定するのが、<span class="tag">&lt;FRAME&gt;</span>です。<br>
+<span class="tag">&lt;FRAMESET&gt;</span>内の<span class="tag">&lt;NOFRAMES&gt;...&lt;/NOFRAMES&gt;</span>は、フレームに対応していないブラウザのためのページ記述です。
+
+<br><br>
+次に例を示します。
+上下に2分割(上部160ピクセル、下部残り)、下部を縦に2分割(左部20%、右部残り)しています。ソースを確認してください。わかりやすいように、<span class="tag">frameborder="yes"</span>を指定して、フレームの枠線を表示しています。<br>
+このフレーム枠を利用して、上の例のフレーム版を作成してください。
+
+<ul>
+<li><A href="javascript:showWin('frame/frame_test.html', 'betsuWin')">フレームの分割例</A></li>
+<li>JavaScript教材ページの<A href="javascript:showWin('frame/frame_zentai.gif', 'betsuWin')">フレームリメイク版</A>(画像ファイル)</li>
+<li><A href="javascript:showWin('http://www.tohoho-web.com/html/frameset.htm', 'betsuWin')">FRAMESETタグの説明</A>(とほほのWWW入門)</li>
+<li><A href="javascript:showWin('http://www.tohoho-web.com/html/frame.htm', 'betsuWin')">FRAMEタグの説明</A>(とほほのWWW入門)</li>
+</ul>
+
+フレームを使うと、次のような欠点も生まれます。なお、フレームはW3Cの標準(HTML4.0　STRICT)には含まれていません。
+<ul>
+<li>ブラウザのアドレスに表示されるURLは、フレームの分割を指定したHTMLファイルのものとなる。よって、フレームが表示されている状態で、フレーム内のページだけをブックマークに入れるには、自分でURLを指定しないとならない。また、そのままではフレーム内のページソースを見れない。<br><br></li>
+<li>ブラウザの「戻る」ボタンの動作が、ブラウザによって異なる。<br><br></li>
+<li>トレイルリストのように、今表示されているページを、ページ上に区別して表示するには、フレーム内ページで行わないとならない。上の例だと、大項目や小項目リストに、説明部分(右下のフレーム)に表示されている項目を、色などで区別して表示できない。トレイルリストは、同一フレーム内(説明部分)に入れることで、これを解決している。</li>
+</ul>
+
+
+<hr size="2"noshade>
+<address>
+arigat アットマークacm.org<br>
+</address>
+Last modified: Oct, 
+<a href="sampleList.html" style="color:black; text-decoration:none"> 2019</a>
+</body>
+</html>

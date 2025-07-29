@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Mogura</title>
+
+<script type="text/javascript">
+<!--
+
+ function sagasu(n){
+    c = Math.floor(Math.random()*3);  //隠れている穴を決める
+
+      switch(n){  //モグラか煙を表示
+        case 0: if(c == n) {document.ana0.src = "./image/mogu.gif";}
+                else {document.ana0.src = "./image/doron.gif"; }
+                break;
+        case 1: if(c == n) {document.ana1.src = "./image/mogu.gif";}
+                else {document.ana1.src = "./image/doron.gif"; }
+                break;
+        case 2: if(c == n) {document.ana2.src = "./image/mogu.gif";}
+                else {document.ana2.src = "./image/doron.gif"; }
+                break;
+        default: break;
+    }
+  }
+
+  function modoru(){    // 表示を元に戻す
+    document.ana0.src = "./image/hello.gif"; 
+    document.ana1.src = "./image/hello.gif"; 
+    document.ana2.src = "./image/hello.gif"; 
+  }
+
+
+//-->
+</script>
+</head>
+<body>
+
+<h1>モグラを探せ</h1>
+
+<img src="image/hello.gif" name="ana0" onclick="sagasu(0)">
+<img src="image/hello.gif" name="ana1" onclick="sagasu(1)">
+<img src="image/hello.gif" name="ana2" onclick="sagasu(2)"><br>
+
+<form>
+<input type=button value="クリア" onclick="modoru()">
+</form>
+
+</body> 
+</html>

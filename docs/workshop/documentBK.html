@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="robots"content="noindex,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>document object</title>
+
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      documentオブジェクト<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href = "#hajime">はじめに</a>&nbsp| &nbsp
+<a href = "#doc">document</a>&nbsp| &nbsp
+<a href = "#pro">ページ固有プロパティ</a>&nbsp| &nbsp
+<a href = "#renso">連想配列</a>&nbsp| &nbsp
+</div>
+
+<br><a name=hajime></a><br>
+<h1>はじめに</h1>
+&nbsp;&nbsp;
+  HTMLファイルをブラウザにロードすると，自動的にJavaScriptのオブジェクトが生
+  成されます。これらのオブジェクトには，ロードされたファイルに関するさまざま
+  なデータが，そのフィールド(プロパティ)の値として格納されています。
+<br>&nbsp;&nbsp;
+  生成されるオブジェクトには次のようなものがあります。
+<dl>
+<dt> navigator
+<dd>使用されているブラウザに関するデータをもつオブジェクト。
+<dt> window
+<dd>ブラウザウィンドウに関するデータをもつオブジェクト。
+<dt> document
+<dd>表示されているページの内容に関するデータをもつオブジェクト。
+<dt> location
+<dd>現在のURLに関するデータをもつオブジェクト。
+</dl>
+&nbsp;&nbsp;
+これらオブジェクトは，フィールド(プロパティ)の値の他に，オブジェクトを
+操作するためのメソッドをもっています。
+
+<br>
+<br><a name=doc></a><br>
+<h1>documentオブジェクト</h1>
+&nbsp;&nbsp;
+  doucumentオブジェクトのプロパティやメソッドを使うことで，ブラウザに表示されている内容を操作することができます。
+<br>
+<br>&nbsp;&nbsp;
+  doucumentオブジェクトには次のようなプロパティが定義されています。
+<table border="0" cellpadding=6 width="80%">
+<tr><th colspan="3"> <hr></th></tr>
+<tr align="left"><th width="120px">プロパティ</th><th>意味</th></tr>
+<tr><th colspan="3"> <hr></th></tr>
+<tr><td>alinkColor</td><td>マウスが載ったリンク文字の色(文字列)</td></tr>
+<tr><td>bgColor</td><td>ページの背景色(文字列)</td></tr>
+<tr><td>fgColor</td><td>ページの描画色(文字列)</td></tr>
+<tr><td>forms</td><td>HTMLファイル中の&lt;form&gt;要素が順に格納された<a href="#hairetu">配列</a></td></tr>
+<tr><td>images</td><td>HTMLファイル中の&lt;img&gt;要素(画像)が順に格納された<a href="#hairetu">配列</a></td></tr>
+<tr><td>linkColor</td><td>リンク文字の色(文字列)</td></tr>
+<tr><td>links</td><td>HTMLファイル中の&lt;a&gt;要素(リンク)が順に格納された<a href="#hairetu">配列</a></td></tr>
+<tr><td>vlinkColor</td><td>一度参照したリンク文字の色(文字列)</td></tr>
+<tr><th colspan="3"> <hr></th></tr>
+</table>
+
+<br>&nbsp;&nbsp;
+  doucumentオブジェクトは次のようなメソッドをもちます。
+<table border="0" cellpadding=6 width="80%">
+<tr><th colspan="3"> <hr></th></tr>
+<tr align="left" ><th width="120px">メソッド</th><th>機能</th></tr>
+<tr><th colspan="3"> <hr></th></tr>
+<tr><td>write(文字列)</td><td>引数の文字列をHTMLとして解釈して、結果をブラウザ上に表示する。</td></tr>
+<tr><td>writeln(文字列)</td><td>引数の文字列をHTMLとして解釈して、その結果の後ろに新しい行を入れて、ブラウザ上に表示する。</td></tr>
+<tr><th colspan="3"> <hr></th></tr>
+</table>
+
+<br><br>&nbsp;&nbsp;
+プロパティやメソッドを使うには，次のように記述します。
+<ul>
+<li>  doucumentオブジェクトのプロパティの値を変更する<br>
+      例 document.bgColor="#ffffff";  <br>
+  <br>
+
+<li>  documentオブジェクトのメソッドを実行する<br>
+
+  例 document.write("年月日");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  引数に指定された文字列が，ページの内容に書き出されます。
+</ul>
+
+<br><a name=pro></a><br>
+<h1>ページに固有のプロパティ</h1>
+&nbsp;&nbsp;
+  documentオブジェクトには，あらかじめ定義されたプロパティの他に，HTMLファイルの内容に応じて，自動的に作られるプロパティがあります。
+<br>&nbsp;&nbsp;
+  タグの中には，name属性を指定できるものがあります。name属性で定義された名前は自動的にdocumentオブジェクトのプロパティになります。たとえば，imgタグにname属性を指定したとしましょう。
+<pre class="pcode">
+&lt;img src="hiru.jpg" name=hiru&gt;
+&lt;img src="yugata.jpg" name=yugata&gt;
+&lt;img src="yoru.jpg" name=yoru&gt;
+</pre>
+  すると，Imageオブジェクトを値とするhiru，yugata，yoruという名前のプロパティができます。そのsrcは次のように参照できます。
+<pre class="pcode">
+document.hiru.src
+document.hugata.src
+document.yoru.src
+</pre>
+
+&nbsp;&nbsp;
+imgタグでページ内に指定された画像は，imagesプロパティを使っても参照できます。imagesプロパティは，documentオブジェクトにもともと定義されているプロパティで，その値は，Imageオブジェクトの配列です。imgタグの出現順に配列の先頭から指定された画像のImageオブジェクトが入ります。
+
+<a name="hairetu"></a>
+<div class="tyu">
+&nbsp;&nbsp;
+  変数はひとつのデータを格納するものでしたが、複数のデータをまとめて扱うときに，便利なのが配列です。複数の値をひとまとまりとして名前(配列名)をつけ、1つの変数のようにして扱えます。配列中の個々のデータのことを配列の要素と呼びます。
+
+<br>&nbsp;&nbsp;
+  配列のそれぞれの要素は、配列名と添字を使って表します。添字とは配列の要素に番号をつけたもので、先頭が0で順にふられます。配列名に続いて[ ]を書き、その中に添字を書きます。たとえば、10個の要素を持つ配列hhの場合、<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 配列hhの最初の要素はhh[0]と表し、<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 配列hhの最後の要素はhh[9]と表します。
+
+<pre>
+          添字 [0] [1] [2] [3] [4] [5] [6] [7]  [8] [9]
+   配列hh     ┌─┬─┬─┬─┬─┬─┬─┬─┬─┬─┐
+              │  │  │  │  │  │  │  │  │  │  │
+              └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘
+</pre>
+  hh[3]のように配列名と添字で表した配列の要素は、変数と同じように扱え、値を参照したり、演算の対象にしたり、値を代入したりできます。
+
+</div>
+
+&nbsp;&nbsp;
+先ほどの3つの画像のsrcの値は，次のように書いても参照できます。
+<pre class="pcode">
+document.images[0].src
+document.images[1].src
+document.images[2].src
+</pre>
+
+<br>&nbsp;&nbsp;
+次に，HTMLファイルの中に次のようになformタグがある場合を考えてみましょう。
+10文字分の幅をもったテキスト入力域が横に2つ並んでいるフォームです。
+<pre class="pcode">
+&lt;form name="userinput" action="input.cgi" method="get"&gt;
+   &lt;input type="text" name="data1" value="aaa" size=10&gt;
+   &lt;input type="text" name="data2" value="bbb" size=10&gt;
+&lt;/form&gt;
+</pre>
+
+&nbsp;&nbsp;
+documentドキュメントには、Formオブジェクトを値とするプロパティuserinputが作られ，それぞれのテキストフィールドの値は，次のように参照できます。
+
+<pre class="pcode">
+document.userinput.data1.value
+document.userinput.data2.value
+</pre>
+
+
+&nbsp;&nbsp;
+画像の場合と同様に，formタグで指定されたフォーム要素は，name属性でつけた名前を使わないでformsプロパティから参照できます。formsプロパティの値は，Formオブジェクトの配列ですので、もし上のformタグがHTMLファイルに現れる最初のformタグであるなら、次のように書きます。
+<pre class="pcode">
+document.forms[0].data1.value
+document.forms[0].data2.value
+</pre>
+
+
+&nbsp;&nbsp;
+さらに、別の参照の方法もあります。Formオブジェクトにはelementsプロパティが自動的に定義されます。これはformタグ中の&lt;input&gt;要素が順に格納された配列です。
+<pre class="pcode">
+document.forms[0].elements[0].value
+document.forms[0].elements[1].value
+</pre>
+
+<br><a name=renso></a><br>
+<h1>連想配列によるプロパティへのアクセス</h1>
+&nbsp;&nbsp;
+オブジェクトのプロパティにアクセスするには，ピリオド(.)を使うほかに，連想配列を使う方法もあります。imgタグで次のように記述すると，hiruという名前のプロパティが，documentオブジェクトにできます(その値はImageオブジェクト)。
+
+<pre class="pcode">
+&lt;img src="hiru.jpg" name=hiru&gt;
+</pre>
+&nbsp;&nbsp;
+  次のいずれの式も，hiruプロパティへアクセスします。
+<pre class="pcode">
+document.hiru
+document["hiru"]
+</pre>
+&nbsp;&nbsp;
+
+2つめの書き方を連想配列といいます。連想配列は，文字列とデータ値とを関連づけたものです。ピリオドを使う1つめの書き方では，hiruはプロパティ名で識別子であるのに対し、連想配列の[ ]の中は文字列であるという点がポイントです。プログラムの中で，アクセスするプロパティを動的に変化させるような場合には，文字列を指定する連想配列の書き方を使う方が都合がいいことがあります。
+
+<hr size="2"noshade>
+
+<div class="cp">
+arigatアットマークacm.org<br>
+Last modified: Oct. 2013</div>
+</body>
+</html>

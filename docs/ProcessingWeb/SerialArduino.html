@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Serial Communication</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="SerialGeneral.html"> シリアル通信に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+
+<h1>入出力のためのマイコンボード…Arduino</h1>
+
+<div class="menu">
+| &nbsp;
+<a href="#ide">プログラミング環境(IDE)
+</a> &nbsp;| &nbsp;
+<a href="#button">IDEのボタン</a> &nbsp;| &nbsp;
+<a href="#SetPort">ボード/プロセッサ/ポートの設定</a> &nbsp;| &nbsp;
+<a href="#api">Arduinoの言語仕様</a> &nbsp;| &nbsp;
+</div>
+<br>
+<div class="rightSide">
+<img src="./images/unoWithChar.png" alt="Arduino Uno ボード" width="400"></div>
+Arduinoはフィジカルコンピューティングのための道具です。マイコンボードであるArduinoボードとそのためのプログラムを作成するプログラミング環境からなります。<br>
+Arduinoボードは、入力としてセンサやスイッチを、出力としてモータやLEDなどを接続し、マイクロコントローラー(マイコン)の中に書き込まれたプログラムによってそれらをコントロールする機能をもちます。I/Oボードとも呼ばれます。
+<br><br>
+電子工学(エレクトロニクス)技術を使って、人の行動や環境の変化にインタラクティブに応答する「デザイン」のプロトタイプを制作するのに役立ちます。Arduinoを使うと電子工学の専門的知識がなくても、比較的容易にプロトタイプをつくることができます。
+<br><br>
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+ここでは主にArduinoのプログラミングについて説明します。<br>Arduino Unoボードを使うための超基本的知識を別の<a href="ArduinoUnoBoard.pdf" target="other">資料</a>にまとめました。詳細は公式サイトや次の書籍を参考にしてください。
+<ul>
+<li><a href="https://www.arduino.cc/" target="other">・Arduinoホーム</a></li>
+<li>・Arduinoをはじめよう第2版, Massimo Banzi, オライリージャパン</li>
+</ul>
+<h2 id="ide">Arduinoプログラミング環境(IDE)</h2>
+
+<div class="leftSide">
+<img src="./images/aruduinoTop.png" alt="aruduino IDE時画面"></div>
+Arduinoプログラミング環境(IDE)は、
+<a href="https://www.arduino.cc/en/Main/software" target="other">Arduinoホーム</a>からダウンロードします。
+IDEはProcessing言語で開発されており、左図のようにユーザインタフェイスもProcessingの環境とよく似ています。
+<br><br>
+簡単な編集機能を備えたエディタとプログラムの検証、プログラムをボードに書き込む機能をもちます。上部にプログラムの検証や保存を行うボタンが並び、その下がプログラムを編集するエディタになっています。 <br>
+Arduinoでもプログラムのことをスケッチと呼び、スケッチを保存すると、スケッチにつけた名前のフォルダが作成され、その中に拡張子inoのファイルができます。これがArduinoプログラムのソースコードです(テキストファイル)。<br><br>
+
+ウィンドウ下部の黒い背景の部分は、コンソールで、プログラム検証中や書き込み中に起こったエラーやシステムからのメッセージなどが表示されます。
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+
+<h2 id="button">IDEのボタンの機能</h2>
+
+メニューバーの下、ボタンアイコンが並ぶ部分がツールバーです。
+ツールバー上のアイコンは、左から順に次のような機能です。<br>
+
+<ul>
+<li><strong>■検証(Verify)</strong>：チェックマークのアイコンはプログラムの検証です。プログラムにエラーがないと「コンパイルが完了しました」とのメッセージが表示されます。プログラムがArduinoボード上で実行可能な形にコンパイル(翻訳)されたことを意味します。この時、コンソールにプログラムの大きさが表示されます。</li>
+<li><strong>■アップロード</strong>:マイコンボードにコンパイルしたプログラムを書き込みます。アップロードが正しく行われると「アップロード完了」のメッセージが表示されます。ボードにプログラムを書き込むには、[ツール]メニューで、ボード、プロセッサ、シリアルポートが適切に設定されている必要があります。これについては<a href="#SetPort">次節</a>を参照してください。</li>
+<li><strong>■新規ファイル(New)</strong>:新しいスケッチ(プログラム)を作ります。スケッチの<a href="SerialArduinoProgram.html#basic" target="other">基本パターン</a>があらかじめ用意された空のスケッチが表示されます。</li>
+<li><strong>■開く(Open)</strong>：既存のプログラムをエディタ上に開きます。スケッチのサンプルリストが表示され、そこから参考にするスケッチを選択できます。リストの先頭を選択すると任意のファイルを指定できます。</li>
+<li><strong>■保存(Save)</strong>： 画面上に表示しているプログラムを保存します。まだ一度も保存していないプログラムの場合は名前を付けて保存する場所と名前を指定するダイアログウィンドウが現れます。ここで入力した名前のフォルダ(<strong>スケッチフォルダ</strong>)が作られ、その名前で拡張子がinoのファイルにプログラムが保存されます。既存のプログラムの場合は上書き保存になります。</li>
+
+<li><strong id="monitor">■シリアルモニタ</strong>：右端のアイコンは、シリアルモニタで、Arduinoボードが送信する値を表示したり、またArduinoボードに値を送ることができます。<br></li>
+</ul>
+
+<h2 id="SetPort">ボード、プロセッサ、シリアルポートの設定</h2>
+
+Arduinoボードにプログラムを書き込むには、ボード、プロセッサ、シリアルポートを適切に設定する必要があります。<br>
+
+<ul>
+<li><strong>■ボード</strong>：メニューの[ツール]の[ボード]から使用しているマイコンボードを選択します。</li>
+
+<li><strong>■プロセッサ</strong>：メニューの[ツール]の[プロセッサ]から使用しているマイコンボードのプロセッサを選択します。ArduinoはマイクロコンピュータとしてAtmega328pを採用しています。Arduinoボードにスケッチを書き込むためのブートローダのバージョンによって、書き込みエラーが起こる場合があり、その場合はATmega328P(Old Bootloader)を選択してみてください。</li>
+
+<li><strong>■シリアルポート</strong>：メニューの[ツール]の[シリアルポート]から使用するシリアルポートを選択します。</li>
+</ul>
+
+<h2 id="api">Arduinoの言語仕様</h2>
+Arduinoプログラミング環境(IDE)のメニューの[help] には基本的な解説へのリンクがあります。[リファレンス]からは言語仕様の一覧が見られます。
+<br><br>
+次のURLからも参照できます。<br>
+<a href="https://www.arduino.cc/reference/en/" target="other">
+Language Reference </a>(www.arduino.cc/reference/en/)
+</a>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

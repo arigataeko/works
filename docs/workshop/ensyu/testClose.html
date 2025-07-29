@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>window exercise 2</title>
+
+<SCRIPT type="text/javascript">
+<!--
+
+   var newWin;
+   function showWin(target, winName){
+      newWin = window.open(target, winName, "scrollbars=1,width=400,height=400");
+   }
+
+   function closeWin(){
+     newWin.close();
+   }
+
+   window.onunload=closeWin();
+
+//-->
+</SCRIPT>
+
+
+</head>
+<body bgcolor="#ffffff">
+
+<table border="0">
+<tr><td height="35" width="20"
+     align="center"valign="middle"bgcolor="#6666cc">&nbsp;</td>
+<td>アンロード時に別のウィンドウを閉じる<hr size="2" noshade></td>
+</tr></table>
+<br><br>
+
+<FORM>
+   <INPUT type=button value="オブジェクトの説明"
+   onClick="showWin('../object.html', 'explain')">
+   <br>
+   <INPUT type=button value="変数の説明"
+   onClick="showWin('../hensu.html', 'explain')">
+</FORM>
+
+</BODY> 
+</HTML>
+
+

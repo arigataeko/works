@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for circle</title>
+<script type="text/javascript">
+
+  var r=100;                //円の半径
+  var x=200;                //円の中心ｘ座標
+  var y=200;                //円の中心ｙ座標
+  var dr=4 * Math.PI/180;   //4度ずつ動かす
+  var moji;                 //文字要素のオブジェクト
+  var angle;                //文字の円周上の位置
+  
+  function initialize(){
+      browser = navigator.appName;
+      version = parseInt(navigator.appVersion);
+ 
+      if(browser=="Netscape") { 
+        if(version>=5){
+           moji = document.getElementById("word0").style;
+        }else {
+           moji = document.word0;
+        }
+      }else{
+       moji = document.all.word0.style;
+      }
+     
+      angle=0;
+      rotateObj();
+  }
+  
+  function rotateObj(){
+      angle = angle - dr;
+      moji.left = r*Math.cos(angle) + x;
+      moji.top = r*Math.sin(angle) + y;
+     
+      setTimeout("rotateObj()", 100);
+  }
+
+</script>
+<style type="text/css">
+   .special {
+       position:absolute;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+</head>
+<body onload ="initialize();">
+
+<h1>文字が円周に沿って移動</h1><br><br>
+
+<div class="special" id="word0">山</div>
+
+</body> 
+</html>

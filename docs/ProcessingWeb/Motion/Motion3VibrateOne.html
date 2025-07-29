@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 震える円…ひとつ</h1>
+一定の範囲内で、円がランダムに振動します。<br>
+
+ランダムに震える円のクラスVibateBallを定義し、そのオブジェクトを画面中心に置いただけです。VibrateBallクラスのAPI(Application Programming Interface, 使い方(使うためのインタフェイス))は次のようなものです。
+
+
+<pre class="code">
+<strong>コンストラクタ</strong>
+   VibrateBall(float xx, float yy, int ww, int v, int dd )
+    xx: x座標
+    yy: y座標
+    ww: 震える範囲
+    v : 移動速度の範囲(-vからvの間)
+    dd: 直径
+
+<strong>メソッド</strong>
+  void display()  ボールの位置の計算と描画
+</pre>
+
+このクラスのオブジェクトをsetup()関数の中で生成します。
+<pre class="reiji">
+VibrateBall cir;
+cir = new VibrateBall(width/2,height/2, wide, v, d);
+</pre>
+
+そしてdraw()関数の中で、描画します。
+<pre class="reiji">
+cir.display();
+</pre>
+<div class="rightSide">
+	<canvas id="VibrateOne"
+       data-processing-sources="./MotionPDE/vibration/VibrateOne.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト VibrateOne】
+VibrateBall cir;
+int v = 5; //移動速度の最大値
+float x, y ; // 位置(座標)
+int d = 20; // 円の直径
+int wide = 3; //動く範囲幅
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  frameRate(30);    //フレームレートを少しゆっくり
+  fill(0);
+  cir = new VibrateBall(width/2,height/2, wide, v, d);
+}
+
+void draw() { 
+  background(255);   //モニタ画面の背景を白でクリア
+  cir.display();
+}
+</pre>
+
+<p class="clear"> </p>
+
+<pre class="code">
+【リスト クラスVibrateBall】
+class VibrateBall{
+  int max; // 移動速度の最大値
+  int min; // 移動速度の最小値
+  float x, y ; // 位置(座標)
+  float originX, originY;
+  int d; // 円の直径
+  float sx, sy; // 移動速度
+  int wide; //動く範囲幅
+
+  VibrateBall(float xx, float yy, int ww, int v, int dd){
+    x = originX = xx;
+    y = originY = yy;
+    d = dd;
+    max = v;
+    min = -v;
+    wide = ww;
+  }
+
+  void display() { 
+     sx = random(min, max);  //変化量はランダムに決める
+     sy = random(min, max);
+     x = x+sx; //新しい位置
+     y = y+sy;       
+     if(x&gt;originX+wide){//右の範囲を超えたかの判定
+         x = originX+wide;
+         sx = -sx;
+      }else if(x&lt;originX-wide){//左の範囲を超えたかの判定
+         x = originX-wide;
+         sx = -sx;
+      }
+       if(y&gt;originY+wide){//上の範囲を超えたかの判定
+         y = originY+wide;
+         sy = -sy;
+      }else if(y&lt;originY-wide){//下の範囲を超えたかの判定
+         y = originY-wide;
+         sy = -sy;
+      }
+     ellipse(x, y, d, d);
+  }
+}
+</pre>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

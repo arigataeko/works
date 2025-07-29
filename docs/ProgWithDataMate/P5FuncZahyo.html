@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Functions for translation</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="P5FuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 移動、回転、拡大縮小</h1>
+図形を移動したり、回転したいとき、描く位置や角度を変えるのではなく、
+図形を描く座標を移動したり、回転することで、同じ効果を上げることができます。
+また、座標の目盛りのスケールを変更することで、図形を拡大縮小できます。<br><br>
+・座標の原点を移動する→図形の位置の変更<br>
+・座標の軸を回転する→図形を回転<br>
+・座標軸のスケールを変える→図形の拡大縮小<br><br>
+
+<h2>座標の移動、回転、スケール変更</h2>
+■ translate(x, y)<br>
+座標軸を右にx、下にy、平行移動します。xとyは整数あるいは実数で指定します。
+<br><br>
+■ rotate(angle);<br>
+座標軸をangleの角度回転します。角度はラジアン単位で指定。度をラジアンにするにはradians()を使います。<br>
+<pre class="reiji">
+【例】rotate(radians(30));  座標を30度時計回りに回転する。
+</pre>
+■ scale(x, y);<br>
+座標軸を縮小、拡大する。<br>
+<pre class="reiji">
+【例】scale(2.0,  0.5);  x軸方向を200％に、y軸方向を50％にする。
+</pre>
+
+<h2>座標の変更を戻す</h2>
+translate(), rotate(), scale()が実行されると、
+その効果は足し算的に積み重なって、続く描画にも影響します。
+
+座標の変更を元に戻したい場合は、座標を変更する前の状態を push()で覚えておき、座標の変更をし、その後戻したいタイミングで pop()を実行します。
+<br><br>
+
+■ push();<br>
+現在の座標変換の状態や描画スタイルの設定を保存します。<br>
+■ pop();<br>
+前に保存した(pushした)座標変換の状態や描画スタイルに戻します。<br>
+<br>
+translate(), rotate(), scale()がdraw関数内で実行されると、それらの座標変換はdraw関数の先頭で自動的にリセットされます。
+
+</div>
+<div class="copy"> 
+x
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

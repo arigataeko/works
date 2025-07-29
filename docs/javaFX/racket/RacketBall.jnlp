@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="RacketBall.jnlp">
+  <information>
+    <title>RacketBall</title>
+    <vendor>Unknown</vendor>
+    <description>RacketBall</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="RacketBall.jar" size="3266" download="null" />
+  </resources>
+  <jfx:javafx-desc  width="470" height="470" main-class="RacketBall"  name="RacketBall" />
+  <update check="background"/>
+</jnlp>

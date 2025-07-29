@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>What is Processing?</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+
+<h1>Processingとは</h1>
+
+<div class="menu">
+| &nbsp;
+<a href="#window">Processingウィンドウ</a> &nbsp;| &nbsp;
+<a href="#button">ボタン・メニューの機能</a> &nbsp;| &nbsp;
+<a href="#sample">サンプルの実行</a> &nbsp;| &nbsp;
+<a href="#debug">デバッグ</a> &nbsp;| &nbsp;
+<a href="#api">Processingの言語仕様</a> &nbsp;| &nbsp;
+</div>
+
+
+&nbsp;&nbsp;
+Processingは、簡単にグラフィックスや画像を描いてビジュアル表現を作り出すプログラムを作る目的で、MITで開発されたプログラミング環境で、Java言語を使って作られています。
+
+Java言語は汎用的なプログラミング言語で、幅広い目的で使われますが、１本の線をモニタ上に描くだけでも、知らなければならない事柄が多くあります。line(0, 0, 100, 100)とだけ書けば線が引けるプログラムとなるように、裸のJava言語にProcessingという覆いをかけて、容易に描画プログラムを作成できるようになっています。
+<br><br>&nbsp;&nbsp;
+Processingではプログラムをスケッチ(Sketch)とも呼びます。これはクレヨンや鉛筆でスケッチするように、プログラムでグラフックスを描くことを意図しています。
+
+<h2 id="window">Processingウィンドウ</h2>
+
+&nbsp;&nbsp;
+<div class="leftSide">
+<img src="./images/processingTop.png" alt="processing起動時画面"></div>
+Processingを起動すると、図のような画面が現れます。簡単な編集機能を備えたエディタとプログラム実行機能をもち、プログラムを作成し、実行し、テストを行えます。上部にプログラムの実行や停止を行うボタンが並び、その下がプログラムを編集するエディタになっています。
+<br>&nbsp;&nbsp;
+スケッチを保存すると、スケッチにつけた名前のフォルダが作成され、その中に拡張子pdeのファイルができます。これがProcessingプログラムのソースコードです(テキストファイル)。
+エディタに記述されたプログラムは、実行ボタンを押すと、裏でProcessingのエディタ上に入力した命令を埋め込んだJavaプログラムが自動生成され、続いてコンパイル(解釈)・実行されます。
+<br><br>&nbsp;&nbsp;
+スケッチにはProcessingに定義された命令(関数と呼ぶ)のほか、Java言語がもともともっている命令を書くこともできます。プログラムの書き方は基本的にJava言語と同じです。
+<br><br>&nbsp;&nbsp;
+ウィンドウ下部の黒い背景の部分は、コンソールで、プログラム実行中に起こったエラーやシステムからのメッセージなどが表示されます。プログラム内に、プログラムの状態を<a href="HowtoWrite.html#consol" target="other">コンソールに表示</a>する命令を書いておくと、プログラム開発中の誤り発見に役立ちます。
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+
+
+<h2 id="button">ボタン・メニューの機能</h2>
+
+&nbsp;&nbsp;プログラムが表示されるタブの上、ボタンアイコンが並ぶ部分がツールバーです。
+一番右の小さい四角で囲まれたアイコン(デフォルトではJAVA)は、モードの切り替えボタンで、この資料ではJavaモードを使います。<br>
+ツールバー上のアイコンは、左から順に次のような機能です。<br>
+
+<ul>
+<li><strong>実行</strong>：プログラムを実行します。描画ウィンドウが現れ、そこに指示したスケッチが描かれます。</li>
+<li><strong>停止</strong>:プログラムの実行を終了します。</li>
+<li><strong>デバッグ</strong>：右端の蝶をイメージしたアイコンはデバッガ(プログラムのミスを見つけるための道具)です。
+</ul>
+<br>
+その他、メニュー上の主な項目は以下のようなものです。
+<ul>
+<li><strong>ファイル→新規</strong>:新しいスケッチ(プログラム)を作ります。白紙のエディタウィンドウが表示されます。</li>
+<li><strong>ファイル→開く</strong>：既存のプログラムをエディタ上に開きます。ポップメニューが横に表示され、そこから読込むプログラムを選択できます。</li>
+<li><strong>ファイル→保存</strong>： 画面上に表示しているプログラムを保存します。まだ一度も保存していないプログラムの場合は名前を付けて保存する場所と名前を指定するダイアログウィンドウが現れます。ここで入力した名前のフォルダ(<strong>スケッチフォルダ</strong>)が作られ、その名前で拡張子がpdeのファイルにプログラムが保存されます。既存のプログラムの場合は上書き保存になります。</li>
+<li><strong>ファイル→アプリケーションとしてエクスポート</strong>：表示されているスケッチから、Processingから独立して実行できるアプリケーションを自動生成します。</li>
+<li><strong>編集→自動フォーマット</strong>：行の先頭を適切に字下げして、ソースコードを見やすく整えます。</li>
+<li><strong>スケッチ→スケッチフォルダーを開く</strong>：表示されているスケッチから、Processingから独立して実行できるアプリケーションを自動生成します。</li>
+</ul>
+
+
+
+<h2 id="sample">サンプルの実行</h2>
+<div class="leftSide">
+<img src="./images/processingSample.png" alt="processingサンプル選択メニュー"></div>
+&nbsp;&nbsp;メニューの[ファイル]の[サンプル]にはprocessingの機能を使った多くのサンプルが提供されています。実行してみよう。例えば、Basics→Transform→Rotateを選択すると、Rotate.pdeプログラムがProcessingウィンドウに表示されます。Runボタンをクリックすると、描画ウィンドウが表示され、プログラムに記述されたグラフィックスが描かれます。ウィンドウはスケッチを描く画用紙に相当します。<br><br>
+エディタ上でプログラムを変更し、Runボタンを押してその変化を確めてテストすることで、プログラムを作成していきます。保存しない限り、エディタ上で行った変更は保存されないので、サンプルを変更・実行して試すことが自由に容易にできます。
+
+<p class="clear"> </p><!-- 画像の後の左への回り込み解除-->
+
+
+<h2 id="debug">デバッグ</h2>
+<div class="leftSide">
+<img src="./images/debugVariables.png" alt="processingサンプル選択メニュー"></div>
+&nbsp;&nbsp;Processing環境の上部右から2つ目の蝶をイメージしたアイコンはデバッガを起動する、終了する切り替えボタンです。プログラムのミスのことをバグ(小さい虫のこと)と呼び、それを見つけて取り除くためのた道具がデバッガです。<br><br>
+&nbsp;&nbsp;デバッガを起動すると、[ステップ] と[続行] のアイコンがツールバーに現れ、左図のVariablesウィンドウが開きます。プログラムの実行を好きなところで止めて、その時の変数(Variables)の値を見て、誤りを見つける助けとします。<br><br>
+&nbsp;&nbsp;エディタエリアの行番号の部分で、クリックすると行番号がひし形に変わり、プログラムの実行がその行で一旦停止されます。その後[ステップ] アイコンをクリックすると1行ずつ実行され、[続行] アイコンをクリックすると再びその行に来た時止まります。<br>
+&nbsp;&nbsp;Variablesウィンドウには[Processing] の名前の下に、Processingシステムが管理する変数の値の一覧が示されます。
+
+<p class="clear"> </p><!-- 画像の後の左への回り込み解除-->
+
+
+<h2 id="api">Processingの言語仕様</h2>
+&nbsp;&nbsp;
+メニューの[ヘルプ] には基本的な解説へのリンクがあります。
+[リファレンス]からは言語仕様の一覧が参照できます。<br><br>
+&nbsp;&nbsp;
+次のURLからもリファレンスを参照できます。
+<a href="https://processing.org/reference/">
+https://processing.org/reference/</a>
+
+
+
+</div>
+<div class="copy"> 
+ 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

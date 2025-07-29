@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="ensyuHaiku.css">
+<title>Random Poem</title>
+
+<script type="text/javascript">
+<!--
+/*
+  word1 = new Array("鯉はねて", "褌に", "古池や", "無為にして", "蜩や",
+                    "秋の蝿" ,"蝙蝠や" ,"阿呆鳥" ,"余命" ,"遅れ咲く");
+  word2 = new Array("浅きタライや", "団扇さしたる", "蛙飛び込む", "ナマコ一万",
+                    "神鳴り晴れて" ,"叩き殺せと" ,"暮るるをながめ" ,
+                    "熱き国にぞ" ,"いくばくかある","こと貫禄の");
+  word3 = new Array("春の水", "亭主かな", "水の音", "八千歳", "又夕日",
+                     "命じけり" ,"坂の上" ,"参りたる" ,"夜短し","八重桜");
+*/
+  const word1 = ["鯉はねて", "褌に", "古池や", "無為にして", "蜩や",
+                    "秋の蝿" ,"蝙蝠や" ,"阿呆鳥" ,"余命" ,"遅れ咲く"];
+  const word2 = ["浅きタライや", "団扇さしたる", "蛙飛び込む", "ナマコ一万",
+                    "神鳴り晴れて" ,"叩き殺せと" ,"暮るるをながめ" ,
+                    "熱き国にぞ" ,"いくばくかある","こと貫禄の"];
+  const word3 = ["春の水", "亭主かな", "水の音", "八千歳", "又夕日",
+                     "命じけり" ,"坂の上" ,"参りたる" ,"夜短し","八重桜"];
+
+  function showPoem(){
+    document.getElementById("msg1").innerHTML = word1[Math.floor(Math.random()*word1.length)];
+    document.getElementById("msg2").innerHTML = word2[Math.floor(Math.random()*word2.length)];
+    document.getElementById("msg3").innerHTML = word3[Math.floor(Math.random()*word3.length)];
+     window.setTimeout("showPoem()", 3000);
+  }
+//-->
+</script>
+</head>
+
+<body onload="showPoem()">
+
+<h1>ランダムハイク</h1>
+
+<div class="special">
+  <span id="msg1">五</span>
+  <span id="msg2">七</span>
+  <span id="msg3">五</span>
+</div>
+</body>
+</html>

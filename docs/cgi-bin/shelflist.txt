@@ -1,0 +1,2 @@
+/arigat/misc/rabbit/,うさぎ
+/arigat/bookshelf/forSara/,サラ

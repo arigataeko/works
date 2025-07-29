@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>event exercise</title>
+<style type="text/css">
+img {
+  vertical-align:bottom
+}
+</style>
+
+<script>
+function changeFaceOn(n){
+   document.images[n].src="image/faceOnOff/a" + (n+1) + "on.gif";
+}
+
+function changeFaceOff(n){
+   document.images[n].src="image/faceOnOff/a" + (n+1) + "off.gif";
+}
+</script>
+</head>
+<body>
+
+<h1>マウスオーバー/アウトによる画像の変化</h1>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><img src="image/faceOnOff/a1off.gif"
+onmouseover="changeFaceOn(0);"
+onmouseout="changeFaceOff(0);"></td>
+
+<td><img src="image/faceOnOff/a2off.gif"
+onmouseover="changeFaceOn(1);"
+onmouseout="changeFaceOff(1);"></td>
+
+<td><img src="image/faceOnOff/a3off.gif"
+onmouseover="changeFaceOn(2);"
+onmouseout="changeFaceOff(2);"></td></tr>
+<tr>
+<td><img src="image/faceOnOff/a4off.gif"
+onmouseover="changeFaceOn(3);"
+onmouseout="changeFaceOff(3);"</td>
+
+<td><img src="image/faceOnOff/a5off.gif"
+onmouseover="changeFaceOn(4);"
+onmouseout="changeFaceOff(4);"></td>
+
+<td><img src="image/faceOnOff/a6off.gif"
+onmouseover="changeFaceOn(5);"
+onmouseout="changeFaceOff(5);"></td></tr>
+</table>
+</body> 
+</html>

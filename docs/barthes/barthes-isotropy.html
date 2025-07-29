@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>The touch of texts for isotropy</title>
+<style>
+body {
+        background-image:url(paint1.gif);
+        background-repeat:repeat-y;
+        background-color:#ffffff
+}
+.spanstyle {
+	position:absolute;
+	font-size:10pt;
+	font-family: Courier New;
+        font-weight:bold;
+}
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+// 文が円になって廻る
+// 行ごとにクリックで止まり、動く。
+
+  var cx=0; // 円の中央
+  var cy=0;
+  var dr = Math.PI/45; //移動角度
+  var dm = 15; //円弧上の文字間距離
+  var angle=new Array();
+  var r=new Array();
+  var stop=new Array();
+  var xpos=new Array();
+  var ypos=new Array();
+
+  var selecti=0; //マウスのある文字
+  var selectj=0;
+  var oldi = selecti; //前にマウスのあった行
+  var oldj = selectj; //前にマウスのあった列
+  var onM = false;//マウスのある文字をみつけたフラグ
+  var stepx=15; //1文字の範囲
+  var stepy=15;
+  var x=0; //マウスの位置
+  var y=0;
+
+  function initialize(){
+    for(i=0;i<word.length;i++){  //位置情報配列の生成
+       xpos[i] = new Array(word[i].length);
+       ypos[i] = new Array(word[i].length);
+    }
+
+    for(i=0;i<word.length;i++){  // 最初は動いている
+       stop[i] = false;
+    }
+    //styleオブジェクトの取り出し
+    for (i=0; i<word.length; i++) {
+      for (j=0; j<word[i].length; j++) {
+       if (document.all) {  /* IE */
+            moji[i][j] = eval("span" + i + "_" + j + ".style");  
+                                        //ex. span1_1.style
+       }else if (document.layers) {  /* NN4 */
+    	    moji[i][j] = eval("document.span"+i+"_"+j);
+       } else if (document.getElementById) {  /* NN6 */
+  	    moji[i][j] = 
+               eval("document.getElementById('span" + i + "_" + j + "').style");
+       }
+      } // for j	
+    } //for i
+
+
+    //一番内側の円の半径
+    r[0] = (word[0].length * dm) / (2*Math.PI); 
+    //各円の半径の設定
+    for(i=1;i<word.length;i++){  
+        r[i] = r[i-1] + 20;
+        dis = dm / r[i]; //文字間の中心角
+        if((dis*word[i].length) > (2*Math.PI)) { //デフォルトの円周が足らない
+            r[i] = (word[i].length * dm) / (2*Math.PI); //半径大きくする
+                for(k=i;k<word.length;k++){  
+                    r[k+1] = r[k] + 20;
+                }
+        }  // end of if
+    }
+
+    //中央の位置
+    cx = r[word.length-1] + 150;
+    cy = r[word.length-1] + 50;
+
+    for(i=0;i<word.length;i++){  //円周上の位置
+         angle[i] = new Array(word[i].length);
+         angle[i][0] = 0;
+         var dis = dm / r[i]; //文字間の中心角
+         for(j=1; j<word[i].length; j++){
+           angle[i][j] = parseFloat(angle[i][j-1]+ dis);
+         }
+     rotateObj(i);
+    }
+  } // end of initialize
+
+
+  function rotateObj(i){
+      for(j=0; j<angle[i].length; j++){
+          angle[i][j] = angle[i][j] - dr;
+          xpos[i][j] = r[i]*Math.cos(angle[i][j]) + cx;
+          ypos[i][j] = r[i]*Math.sin(angle[i][j]) + cy;
+          moji[i][j].left = xpos[i][j];
+          moji[i][j].top = ypos[i][j];
+      }
+      if(stop[i]) { return; }
+      else { setTimeout("rotateObj(" + i + ")", 500); }
+  }  // end of rotateObj
+
+  function mouseHandleMove(e){
+    x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
+    y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
+
+    foundit:  //マウスのある文字を見つけた時、もどるためのラベル
+        for (i=0; i<word.length; i++) {
+          for (j=0; j<word[i].length; j++) {
+	   if(x>=xpos[i][j] && x<xpos[i][j]+stepx &&
+             y>=ypos[i][j] && y<ypos[i][j]+stepy){ 
+                  oldi = selecti;
+                  oldj = selectj;
+                  selecti = i;
+                  selectj = j;
+                  onM = true;
+                  break foundit;
+           } //end if
+          } // for j
+        } //for i
+        if(i >= word.length) { onM = false;}  //マウスは文字上にない
+
+	if(oldi != selecti || !onM){ //マウスが外れた行は色を黒にする
+           for (j=0; j<word[oldi].length; j++) {
+              moji[oldi][j].color = "#000000";
+          }
+           moji[oldi][oldj].color = "#3300ff"; //マウスが通った文字だけ青
+        }else{ //マウスのある行は色を赤にする
+         for (j=0; j<word[selecti].length; j++) {
+              moji[selecti][j].color = "#cc0033";
+          }
+       } 
+  }
+
+  function mouseHandleDown(e){
+	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
+	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
+	if(onM && stop[selecti]){ //停まっている行の上でクリック
+          stop[selecti]=false;
+          rotateObj(selecti);
+        } 
+        else if(onM && !stop[selecti]){ //動いている行の上でクリック
+          stop[selecti]=true;
+          moji[selecti][selectj].color = "#3300ff";
+       } 
+  } 
+
+//-->
+</SCRIPT>
+
+</head>
+<body onload="initialize()">
+
+<SCRIPT type="text/javascript">
+<!--
+ var word = new Array(
+   "If you hammer a nail into a piece of wood, ", 
+   "the wood has a different resisitance",
+   "according to the place you attack it:", 
+   "wa say the wood is not isotropic.", 
+   "Neither is the text:", 
+   "the edges, the seam, are unpredictable.", 
+   "Just as(today's)physics must accommodate the non-isotropic character",
+   "of certain environments, certaion universes,", 
+   "so structural analysis(semiology) must recognize the slightest resistance", 
+   "in the text, the irregular patterns of its veins" 
+ );
+
+/* 1文字ずつを切り出して、配列に入れる*/
+ for (i=0;i<word.length;i++) { 
+   if(word[i].length == 0){ //空行だったら
+     word[i] = new Array(" ");
+   }else{
+     word[i]=word[i].split("");
+   }
+ }
+
+
+
+
+//文字要素の書き出し
+ for(i=0; i<word.length; i++){
+    for(j=0; j<word[i].length; j++){
+      document.write("<span id='span"+ i + "_" + j + "' class='spanstyle'>");
+      document.write(word[i][j]);
+      document.write("</span>");
+    } 
+ }
+
+
+//styleオブジェクト用配列
+  var moji = new Array(word.length);
+  for (i=0; i<word.length; i++) {
+     moji[i] = new Array(word[i].length);
+  }
+
+  if(document.layers){
+    document.captureEvents(Event.MOUSEMOVE | Event.MOUSEDOWN);
+  }
+  document.onmousemove=mouseHandleMove;
+  document.onmousedown=mouseHandleDown;
+//-->
+</SCRIPT>
+
+</BODY> 
+</HTML>

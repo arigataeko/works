@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 往復する円運動</h1>
+ひとつの円が、円周上を往復運動します。
+円周上の動きの計算は<a href="Motion1Circle1.html#print" target="other">一方向の円運動</a>と同じです。
+<br>
+円周上の点のx、y座標は、三角関数sin()とcos()を使って計算します。
+<pre class="reiji">
+ x =len * cos(radians(angle)) + width/2.0;
+ y =len * sin(radians(angle)) + height/2.0;
+</pre>
+angleが0だと、時計の3時の位置の点の座標が計算できます。angleは時計回りに大きくなり、12時の位置が270度です。<br>
+円周上を往復させるには、次のようにします。
+angleの値を変化量da(ここでは3)分増やし、angleが360を超えたら今度はda分減るようにdaの値の正負を変えます。次に0より小さくなったら再び増えるようにdaの値の正負を変えます(3)。これをしているのが次の部分で、angleが0から360の間でdaずつ変化します。
+<pre class="reiji">
+ angle = angle + da; //円周上を変化量分移動
+ if (angle&gt;=360 || angle&lt;0) { //1周したら動きの方向変える
+    da = -da;
+ }
+</pre>
+この値をそのまま三角関数の計算に使うと、時計の3時の位置で運動の方向が変わります。12時の位置(270度)で反転するようにするために、angle+270としています。
+<pre class="reiji">
+ float ver=270;  //往復位置の角度(3時位置は0度、右回り)
+ .......
+ x =len * cos(radians(angle+ver)) + width/2.0;
+ y =len * sin(radians(angle+ver)) + height/2.0;
+</pre>
+<div class="rightSide">
+	<canvas id="RCircle1"
+       data-processing-sources="./MotionPDE/shuttle/RCircle1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RCircle1】
+float angle; // 位置(角度)
+float x, y;
+float d = 10; // 円の直径
+float da = 3; // 角度の変化量
+float len = 60; // 軌跡の円の半径
+float ver=270;  //往復位置の角度(3時位置は0度、右回り)
+void setup() {
+  size(150, 150);  //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面の背景を白でクリア
+     angle = angle + da;  //円周上を変化量分移動
+     x =len * cos(radians(angle+ver)) + width/2.0;  //位置の計算
+     y =len * sin(radians(angle+ver)) + height/2.0;
+     ellipse(x, y, d, d);
+
+     if (angle&gt;=360 || angle&lt;0) { //1周したら動きの方向変える
+        da = -da;
+     } 
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

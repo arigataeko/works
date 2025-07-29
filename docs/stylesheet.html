@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=shift_jis">
+<title>stylesheet</title>
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<LINK REL="stylesheet" TYPE="text/css" HREF="semi_general.css">
+</head>
+<body bgcolor="#FFFFFF">
+
+<h1>スタイルシートの基本</h1>
+
+<div class="zentai">
+　スタイルシートは、文字や背景の色、文字サイズや字体、字下げなどを指定するものです。指定には、カスケーディングスタイルシート(CSS:CascadingStyle Sheet)と呼ばれる言語を使います。cascadeとは滝のことです。<br>
+  Webページの編集デザインを思い通りにするため、論理的な要素を体裁の指定に使うなど、「文書の構成要素を指定する」という本来のHTML言語の性質とは違う使い方がなされてきました。論理要素と体裁を分離するというHTML言語のあり方を維持しつつ、ページの編集デザインを細かく指定するために、スタイルシートが考案されました。ここでは、CSSの基本を述べます。<br>
+
+<h2>スタイル定義</h2>
+  スタイルを具体的に指定するのが、スタイル定義です。<br>
+  例えば、H1の要素の文字を赤にしたい場合、次のように書きます。<br>
+<p class="waku">
+    H1 { color: red }
+</p> 
+  H1の部分はセレクタと呼ばれ、スタイル指定の対象になる要素です。{と}の中がスタイルの規則で、属性(この例ではcolor)と値(この例ではred)のペアです。一般的な形は次のようになります。<br>
+<p class="waku">
+   セレクタ, セレクタ, .... { 属性:値;  属性:値; ..... }<br>
+</p>
+  セレクタは複数書け、カンマで区切って並べます。これが規則の適用対象になります。規則も複数指定でき、セミコロンで区切ります。CSSで指定できる主な属性とその値を表に示します。<br>
+<br>
+   &lt;STYLE&gt;タグまたはstyle属性を使って、このスタイル指定をHTML文書に記述された要素と結びつけます。<br>
+
+<h2>&lt;STYLE&gt;タグ</h2>
+  &lt;STYLE&gt;タグは、&lt;HEAD&gt;タグの中に書き、ページ全体のスタイルを指定します。<br>
+  &lt;STYLE&gt;と&lt;/STYLE&gt;で囲んだ中には任意個のスタイル定義を指定できます。&lt;STYLE&gt;タグのtype属性は、スタイルシートの記述言語を指定するもので、&quot;text/css&quot;と書きます。  次の例は、このページでは背景色を白に、大見出しの文字の色を赤にする指定です。この指定はページ全体に有効ですから、&lt;H1&gt;タグごとに文字の色を指定する必要はありません。<br>
+<p class="waku">
+    &lt;HEAD&gt; <br>
+    &lt;STYLE type=&quot;text/css&quot;&gt;<br>
+    &lt;!--<br>
+       &nbsp;&nbsp;&nbsp;BODY { background-color : white }<br>
+       &nbsp;&nbsp;&nbsp;H1 { color: red }<br>
+    --&gt;<br>
+    &lt;/STYLE&gt;<br>
+    &lt;/HEAD&gt;
+</p>
+<table border="1" width="465" height="559">
+<caption>表  スタイル定義の属性の例とその値</caption>
+<tr>
+<td width="102" height="21" valign="top">意味</td>
+<td width="107" height="21" valign="top">属性名</td>
+<td width="256" height="21" valign="top">値</td>
+</tr>
+<tr>
+<td width="102" height="34" valign="top">文字の大きさ</td>
+<td width="107" height="34" valign="top">font-size </td>
+<td width="256" height="34" valign="top">em,pxなどの長さの数値(例:0.5em)*5<br>絶対サイズ*2, 相対サイズ*3</sup></td>
+</tr>
+<tr>
+<td width="102" height="34" valign="top">文字の太さ</td>
+<td width="107" height="34" valign="top">font-weight  </td>
+<td width="256" height="34" valign="top">normai, bold(太字), bolder, lighter<br>100～900の100単位の数値(900が太い)</td>
+</tr>
+<tr>
+<td width="102" height="20" valign="top">文字の字体 </td>
+<td width="107" height="20" valign="top">font-style   </td>
+<td width="256" height="20" valign="top">normal, italic(イタリック体), oblique(斜体)</td>
+</tr>
+<tr>
+<td width="102" height="20" valign="top">文字装飾</td>
+<td width="107" height="20" valign="top">font-decoration</td>
+<td width="256" height="20" valign="top">none, underline, overline, line-through</td>
+</tr>
+<tr>
+<td width="102" height="48" valign="top">文字の色 <br>背景色</td>
+<td width="107" height="48" valign="top">color<br>background-color</td>
+<td width="256" height="48" valign="top">#rrggbb　→RGBの値を16進数2桁で記述<br>#rgb　→RGBの値を16進数1桁で記述<br>rgb(nnn,nnn,nnn) → nnnは0-255の10進数</td>
+</tr>
+<tr>
+<td width="102" height="20" valign="top">背景画像</td>
+<td width="107" height="20" valign="top">background-image</td>
+<td width="256" height="20" valign="top">url(画像ファイル名)</td>
+</tr>
+<tr>
+<td width="102" height="34" valign="top">背景画像の貼り方<br>          </td>
+<td width="107" height="34" valign="top">background-repeat</td>
+<td width="256" height="34" valign="top">repeat-x(横一行), repeat-y(縦一列)<br>repeat, no-repeat</td>
+</tr>
+<tr>
+<td width="102" height="20" valign="top">文字の装飾</td>
+<td width="107" height="20" valign="top">text-decoration</td>
+<td width="256" height="20" valign="top">underline, overline,line-through, blink</td>
+</tr>
+<tr>
+<td width="102" height="20" valign="top">文字間</td>
+<td width="107" height="20" valign="top">letter-spacing</td>
+<td width="256" height="20" valign="top">em,pxなどの長さの数値(例:0.5em)*5</sup></td>
+</tr>
+<tr>
+<td width="102" height="34" valign="top">行の配置 </td>
+<td width="107" height="34" valign="top">text-align*4</sup></td>
+<td width="256" height="34" valign="top">left(左詰め),right(右詰め),center(中央揃え),justify(均等割り付け)</td>
+</tr>
+<tr>
+<td width="102" height="34" valign="top">行送り</td>
+<td width="107" height="34" valign="top">line-height </td>
+<td width="256" height="34" valign="top">em,pxなどの長さの数値(例:0.5em)*5<br>フォントサイズに対する倍率(例:200%)</td>
+</tr>
+<tr>
+<td width="102" height="20" valign="top">先頭の1行めの字下げ </td>
+<td width="107" height="20" valign="top">text-indent*4</sup></td>
+<td width="256" height="20" valign="top">em,pxなどの長さの数値(例:2em)*5</sup></td>
+</tr>
+<tr>
+<td width="102" height="62" valign="top">要素外側の余白<br></td>
+<td width="107" height="62" valign="top">margin-top  margin-bottom margin-left margin-right   </td>
+<td width="256" height="62" valign="top">0は余白なし(指定しないと0とみなす)<br>em,pxなどの長さの数値(例:2em)*5</sup></td>
+</tr>
+<tr>
+<td width="102" height="62" valign="top">要素内側の余白</td>
+<td width="107" height="62" valign="top">padding-top  padding-bottom padding-left padding-right     </td>
+<td width="256" height="62" valign="top">0は余白なし(指定しないと0とみなす)<br>em,pxなどの長さの数値(例:2em)*5</sup></td>
+</tr>
+<tr>
+<td width="102" height="76" valign="top">要素境界線</td>
+<td width="107" height="76" valign="top">border-style<br><br><br>border-width<br>border-color</td>
+<td width="256" height="76" valign="top">none(線無し), dotted(点線), dashed(粗い点線), solid(実線), double(二重線), groove(谷線), ridge(山線), inset(内線), outset(外線)<br>thin, medium, thick, あるいはem,pxなどの長さの数値<br>色の指定</td>
+</tr>
+</table>
+
+ *1: ポイント: 1/72インチ(1インチ=2.54cm)<br>
+ *2: 絶対サイズ: xx-small,x-small,small,medium,large,x-large,xx-large<br>
+ *3: 相対サイズ: larger,smaller<br>
+ *4: ブロックレベル要素のみに適用<br>
+ *5: 長さの数値: px(ピクセル), in(インチ), cm(センチメートル), pt(ポイント)*1等の単位で表した数値(例;10pt)、フォント高さ単位(em)の数値(例:3em)<br>
+
+<h2>style属性</h2>
+  &lt;STYLE&gt;タグはページ全体に対しての指定でしたが、個々の要素(タグ)にスタイル定義を指定するには、次のようにstyle属性を使います。<br>
+<p class="waku">
+   &lt;要素名  style=&quot; スタイル定義 ; スタイル定義 ; .....  &quot;&gt;<br>
+</p>
+  style属性はほとんどのタグに指定できます 。次は、強調タグ&lt;EM&gt;にフォントの大きさを指定した例です。
+<p class="waku">
+   &lt;EM style=&quot;font-size: 20pt&quot;&gt;
+
+<h2>クラス指定</h2>
+  ページ中のいくつかの部分だけのスタイルを変えたい時、style属性で個々に指定するのは厄介です。そのような場合、クラス指定を使って、スタイル定義を適用する対象を区別することができます。<br>
+  まず、クラス名とスタイルの内容を定義します。「スタイル定義」の節で説明したスタイル定義のセレクタ部分には、要素名を書きました。クラス指定では、その代わりに「クラス名」をピリオドに続いて指定します。<br>
+　次はspecialというクラス名で、スタイル定義をした例です。&lt;STYLE&gt;タグの中に、このスタイル定義を指定します。
+
+<p class="waku">
+   &lt;STYLE type=&quot;text/css&quot;&gt;<br>
+   &lt;!--<br>
+    &nbsp;&nbsp;&nbsp;.special { color: green }<br>
+   --&gt;<br>
+   &lt;/STYLE&gt;<br>
+</p>
+  こうすると、specialというクラス名を指定した要素にだけ、このスタイル属性が反映します。要素にクラス名を指定するのはclass属性を使います。 例えば、ページ内のいくつかのパラグラフだけの文字の色を緑にしたい時、色を変更するパラグラフの&lt;P&gt;タグを次のようにします。
+<p class="waku">
+   &lt;P class=&quot;special&quot;&gt;  ..... &lt;/P&gt;
+</p>
+
+<h2>別ファイルに記述したスタイルの組み込み</h2>
+
+スタイルシートを用いたスタイルの指定を別ファイルに書いておき、それを使うこともできます。こうすれば、複数のHTMLファイルで共通のスタイルを使うことが容易になります。<br>
+まず、そのHTMLファイルに対してどのスタイルシーます。CSSを用いる場合は、HEADタグ内に以下のようなMETAタグを記述します。<br>
+<p class="waku">
+&lt;HEAD&gt;<br>
+&lt;META HTTP-EQUIV=&quot;Content-Style-Type&quot; CONTENT=&quot;text/css&quot;&gt;<br>
+&lt;/HEAD&gt;<br>
+</p>
+そして、LINKタグを用いて、別ファイル〔例えば、test.css)に記述したスタイルシートと連携します。
+<p class="waku">
+&lt;HEAD&gt;<br>
+&lt;META HTTP-EQUIV=&quot;Content-Style-Type&quot; CONTENT=&quot;text/css&quot;&gt;<br>
+&lt;LINK REL=&quot;stylesheet&quot; TYPE=&quot;text/css&quot; HREF=&quot;test.css&quot;&gt;<br>
+&lt;/HEAD&gt;<br>
+</p>
+</div>
+<hr>
+<div class=size1>
+同志社女子大学　情報メディア学科　有賀ゼミ<br>
+Last modified: Aug 5, 17:18:00 2004 JST 
+</div>
+</body>
+</html>
+
+
+
+
+

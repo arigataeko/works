@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>event exercise</title>
+<style type="text/css">
+img {
+  vertical-align:bottom
+}
+</style>
+
+<script>
+var filename = ["off.gif", "on.gif"];
+var cell = [0,0,0,0,0,0];  //６種の画像、それぞれにon, offいずれかを表示しているかを格納,0はoff, 1はon
+
+function changeFace(n){
+   cell[n] = (cell[n] + 1) % 2;
+   document.images[n].src="image/faceOnOff/a" + (n+1) + filename[cell[n]];
+
+}
+</script>
+</head>
+<body>
+
+<h1>マウスオーバー/アウトによる画像の変化</h1>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td><img src="image/faceOnOff/a1off.gif" onclick="changeFace(0);"></td>
+
+<td><img src="image/faceOnOff/a2off.gif" onclick="changeFace(1);"></td>
+
+<td><img src="image/faceOnOff/a3off.gif" onclick="changeFace(2);"></td></tr>
+<tr>
+<td><img src="image/faceOnOff/a4off.gif" onclick="changeFace(3);"></td>
+
+<td><img src="image/faceOnOff/a5off.gif" onclick="changeFace(4);"></td>
+
+<td><img src="image/faceOnOff/a6off.gif" onclick="changeFace(5);"></td></tr>
+</table>
+</body> 
+</html>

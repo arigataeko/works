@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Functions for Image</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"><
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="P5FuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 画像データの表示</h1>
+
+p5.jsの画像表示機能では、gif, jpg, png 形式の画像データを表示できます。
+
+<h2 id="pimage">p5.Image</h2>
+
+画像データはp5.Imageクラスのオブジェクトとしてプログラム内に保存されます。<br>
+画像ファイルをloadImage関数を使って読み込むと、p5.Imageクラスのオブジェクトが生成されます。<br>
+
+p5.Imageクラスは次のような変数をもちます。<br><br>
+
+■ pixels[]　　画像データ内のピクセル情報の入った配列<br><br>
+■ width　　画像イメージの幅<br><br>
+■ height　　画像イメージの高さ<br><br>
+
+ pixels[]には色情報が保存されます。データの並びは、RRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAAのようになっています。Rは赤、Gは緑、Bは青、Aはアルファ値(透明度)で、それぞれ8bit(0-255)の値です。例えば、配列pixelsの先頭4つの要素(添字が0,1,2,3の要素)は、それぞれ最初のピクセルのRGBAの値です。
+
+
+<h2 id="read">画像ファイルの読み込み</h2>
+
+loadImageメソッドを使って画像ファイルを読み込むと、p5.Imageオブジェクトが作られます。p5.jsのプログラムが使う画像ファイルは、スクリプトファイルと同じフォルダからの相対位置で指定します。<br><br>
+
+
+■ loadImage(ファイル名)　　指定した画像ファイルを読み込み、p5.Imageオブジェクトを作る。<br><br>
+
+プログラムの実行前に画像ファイルの読み込みをしておくために、画像の読み込みはpreload関数の中で行います。preload関数はsetup関数の前に実行されます。
+<pre class="reiji">
+let img;
+function preload() {
+  img = loadImage("gazo.png");
+}
+</pre>
+
+
+<h2 id="image">画像データの描画</h2>
+
+p5.Imageオブジェクトをキャンバスに描画するには、image関数を使います。
+<br><br>
+■ image(p5.Imageオブジェクト, x, y)　　p5.Imageオブジェクトを(x,y)の位置に描きます。(x,y)が画像の左角か中央かは、imageMode()の指定で決まります。デフォルトではx,yは画像の左上角の位置。<br><br>
+■ image(p5.Imageオブジェクト, a, b, c, d)　　p5.Imageオブジェクト描きます。引数の意味はimageMode()の指定で決まります。デフォルトでは画像の左上角の位置と画像の幅と高さ。<br><br>
+
+■ imageMode(MODE)　　
+画像を描くときの座標の指定の仕方を設定します。<br>
+<pre class="reiji">
+引数の値  CORNER：第2, 3引数に画像の左上角の座標を指定。第4, 5引数は幅と高さ。
+         CORNERS：第2, 3引数に画像のひとつの角の座標、第4, 5引数にそれと対角の座標を指定。
+         CENTER：第2, 3引数に画像の中央の座標を指定。第4, 5引数は幅と高さ。
+</pre>
+
+<h2 id="save">描画した画像の保存</h2>
+■ saveCanvas(filename, ['jpg' または 'png'])　　メインキャンバスをjpgあるいはpng形式の画像として保存します。画像形式の指定はfilenameの拡張子、あるいは第2引数で指定します。形式の指定がないとpng形式の画像ファイルとして保存します。<br><br>
+■ saveCanvas(canvas, [filename], ['jpg' または 'png'])　　第1引数でどのキャンバスを保存するを指定できます。filenameの指定がないとファイル名はuntitledになります<br><br>
+
+<h2 id="offscreen">オフスクリーンバッファ</h2>
+p5jsで描画関数を使って描画されたものは、デフォルトではメインのキャンバス上に描画されます。場合によっては直接キャンバスに描画を反映させずにおきたい時もあります。そのような場合、キャンバスとは別の、オフスクリーンの描画域を用意し、そこに描画すると都合がいい場合があります。<br>
+
+描画域はp5.Graphicsクラスのオブジェクトとして用意します。createGraphics()関数を使って作ります。
+作られる描画域は透明です。<br><br>
+
+■ createGraphics(w, h)　　指定した幅と高さで、createCanvas()関数で指定したのと同じ描画方法の描画域を作ります。<br><br>
+<pre class="reiji">
+  createCanvas(200, 200);
+  pg = createGraphics(200, 200);
+  pg.fill(200, 0, 0);
+  pg.ellipse(pg.width/2, pg.height/2, 50, 50);
+  image(pg, 0, 0);
+}
+</pre>
+
+
+
+
+</div>
+<div class="copy"> 
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

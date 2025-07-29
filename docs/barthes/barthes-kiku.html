@@ -1,0 +1,259 @@
+<html>
+<head>
+<title>The touch of texts for Ecoute</title>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<style>
+body {
+        background-image:url(paint1.gif);
+        background-repeat:repeat-y;
+        background-color:#ffffff
+}
+.spanstyle {
+	position:absolute;
+	font-size:10pt;
+	font-family: Courier New;
+        font-weight:bold;
+
+}
+</style>
+
+</head>
+<body  onload="calcPos()" >
+
+
+<SCRIPT type="text/javascript">
+<!--
+// 
+// クリックでその行がマウスにぶら下がる
+// クリックした文字だけの色が変わる、色の変化は残る
+
+var x,y;
+var stepx=35;
+var stepy=10;
+
+var word = new Array(
+  "To be with the one I love", 
+  "and to think of something else:", 
+  "this is how I have my best ideas,", 
+  "how I best invent what is necessary to my work.", 
+  "Likewise, fo the text:", 
+  "it produces, in me,",
+  "the best pleasure if it manages to make itself heard indirectly;", 
+  "if, reading it,",
+  "I am led to look up often, to listen to something else.", 
+  "I am not necessarily captivated by the text of pleasure;", 
+  "it can be an act",
+  "that is slight, complex, tenuous, almost scatterbrained:", 
+  "a sudden movement of the head",
+  "a bird who understands nothing of what we hear,", 
+  "who hears what we do not understand."
+);
+
+/* 1文字ずつを切り出して、配列に入れる*/
+for (i=0;i<word.length;i++) { 
+   word[i]=word[i].split("");
+}
+
+var xpos=new Array();
+var ypos=new Array();
+for(i=0;i<word.length;i++){  //位置情報の初期化
+    xpos[i] = new Array(word[i].length);
+    ypos[i] = new Array(word[i].length);
+    for(j=0; j<xpos[i].length; j++){
+        xpos[i][j] = 600 - stepx*i;
+	ypos[i][j] = 50 + (stepy)*j;
+    }
+}
+
+//styleオブジェクト用配列
+var moji = new Array(word.length);
+for (i=0; i<word.length; i++) {
+   moji[i] = new Array(word[i].length);
+}
+
+//文字要素の書き出し
+for(i=0; i<word.length; i++){
+  for(j=0; j<word[i].length; j++){
+    document.write("<span id='span"+ i + "_" + j + "' class='spanstyle'>");
+    document.write(word[i][j]);
+    document.write("</span>");
+  } 
+ }
+//styleオブジェクトの取り出し
+for (i=0; i<word.length; i++) {
+   for (j=0; j<word[i].length; j++) {
+       if (document.all) {  /* IE */
+            moji[i][j] = eval("span" + i + "_" + j + ".style");  
+                                               //ex. span11.style
+       }else if (document.layers) {  /* NN4 */
+    	    moji[i][j] = eval("document.span"+i+"_"+j);
+       } else if (document.getElementById) {  /* NN6 */
+  	    moji[i][j] = 
+              eval("document.getElementById('span" + i + "_" + j + "').style");
+       }
+   } // for j	
+} //for i
+
+for (i=0; i<word.length; i++) {//位置の初期化
+   for (j=0; j<word[i].length; j++) {
+     moji[i][j].left = xpos[i][j];
+     moji[i][j].top = ypos[i][j];
+   }
+}
+
+var selecti=0; //マウスのある文字
+var selectj=0;
+var onM = false;//マウスのある文字をみつけたフラグ
+var onC = false;//クリックオンフラグ
+var oldi = selecti; //前にマウスのあった行
+var oldj = selectj; //前にマウスのあった列
+
+var K=10; // フックの法則の係数
+var R=20; // 減衰抵抗の係数
+var G=30; // 重力
+var D=0.01; // 
+var springx = 0;  // ばねx方向の力
+var springy = 0;  // ばねy方向の力
+var lim=0.1; //停めるため閾値
+var max=0; //1行中の最大文字数
+
+xdif=new Array();
+ydif=new Array();
+for (i=0;i<word.length;i++) {  //1行中の最大文字数を探す
+   if(max <= word[i].length){
+     max = word[i].length;
+   }
+}
+for (i=0;i<max;i++) { 
+   xdif[i]=0;
+   ydif[i]=0;
+}
+
+function calcRubber(m, n) {
+   var dx = xpos[selecti][m]-xpos[selecti][n];
+   var dy = ypos[selecti][m]-ypos[selecti][n];
+
+   var heni = Math.sqrt(dx*dx + dy*dy);
+
+   if(heni > 10){
+     var force = K * (heni-10);
+     springx += force * dx / heni;  // x方向の力
+     springy += force * dy / heni;  // y方向の力
+   }
+}
+
+function calcYure(n) {
+
+   springx = 0;  // x方向の力
+   springy = 0;  // y方向の力
+   if (i == word[selecti].length-1) {
+      calcRubber(n-1, n);
+   } else {
+      calcRubber(n-1, n);
+      calcRubber(n+1, n);
+   }
+
+   var teikox = -xdif[n] * R;
+   var teikoy = -ydif[n] * R;
+
+   var avx = springx + teikox;       // F = ma
+   var avy = springy + teikoy + G;
+
+   xdif[n] += (avx * D);
+   ydif[n] += (avy * D);
+
+   if(Math.abs(xdif[n])<lim && Math.abs(ydif[n])<lim
+      && Math.abs(avx)<lim && Math.abs(avy)<lim){
+     xdif[n] = 0;
+     ydif[n] = 0;
+   }
+   xstep = xdif[n];   
+   ystep = ydif[n];   
+}
+
+
+function calcPos() { //クリック後、文字位置がマウスに追随
+  if(onC){ //選択した行の位置
+     for(j=0; j<word[selecti].length; j++) {
+       if(j==0){
+          xpos[selecti][0]=x;
+	  ypos[selecti][0]=y;
+       }else{
+          calcYure(j);
+	  xpos[selecti][j]=xpos[selecti][j]+xstep;
+	  ypos[selecti][j]=ypos[selecti][j]+ystep;
+       }
+       moji[selecti][j].left = xpos[selecti][j];
+       moji[selecti][j].top = ypos[selecti][j];
+     }
+   }
+   var timer=setTimeout("calcPos()", 30);
+
+}
+
+function mouseHandleMove(e){
+// NNは、ページ内のマウス位置の座標をpageX,pageYで参照
+// IEは、可視ページ内のマウスの座標をclientX,clientYで参照
+//       scrollLeft, scrollTopはスクロール後可視ページオフセット位置
+// IEは、Eventオブジェクトを引数eで受け取れない
+    x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
+    y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
+
+    if(!onC){ //クリック中でない時、マウスがどの文字の上にあるか調べる
+        foundit:  //マウスのある文字を見つけた時、もどるためのラベル
+        for (i=0; i<word.length; i++) {
+          for (j=0; j<word[i].length; j++) {
+	   if(x>=xpos[i][j] && x<xpos[i][j]+stepx &&
+             y>=ypos[i][j] && y<ypos[i][j]+stepy){ 
+                  oldi = selecti;
+                  oldj = selectj;
+                  selecti = i;
+                  selectj = j;
+                  onM = true;
+                  break foundit;
+           } //end if
+          } // for j
+        } //for i
+        if(i >= word.length) { onM = false;}  //マウスは文字上にない
+
+	if(oldi != selecti || !onM){ //マウスが外れた行は色を黒にする
+           for (j=0; j<word[oldi].length; j++) {
+              moji[oldi][j].color = "#000000";
+          }
+           moji[oldi][oldj].color = "#3300ff"; //マウスが通った文字だけ青
+        }else{ //マウスのある行は色を赤にする
+         for (j=0; j<word[selecti].length; j++) {
+              moji[selecti][j].color = "#cc0033";
+          }
+       } 
+    }
+}
+
+//alert(selecti + " " + selectj + "  " + onM );
+
+function mouseHandleDown(e){
+	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
+	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
+	if(onC){ onC=false;} 
+        else if(!onC && onM){
+           onC=true;
+           moji[selecti][selectj].color = "#3300ff";
+       } 
+} 
+
+//NN：MOUSEMOVEイベントが起きたら、documentオブジェクトに伝える
+if(document.layers){
+    document.captureEvents(Event.MOUSEMOVE | Event.MOUSEDOWN);
+}
+document.onmousemove=mouseHandleMove;
+document.onmousedown=mouseHandleDown;
+
+//-->
+</script>
+
+</body>
+</html>
+
+
+
+

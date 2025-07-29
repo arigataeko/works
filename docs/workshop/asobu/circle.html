@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>Script for circle</title>
+<SCRIPT type="text/javascript">
+<!--
+  var browser = navigator.appName;
+  var version = parseInt(navigator.appVersion);
+  var isNN = (browser=="Netscape");
+  var isN6 = (browser=="Netscape" && version>=5);
+
+  var r=100;
+  var x=200;
+  var y=200;
+  var dr=Math.PI/45;
+  var obj;
+  var angle;
+  
+  function initialize(){
+      obj = new Array();
+
+      if(!isNN) { 
+        obj[0] = document.all.word0.style;
+        obj[1] = document.all.word1.style;
+        obj[2] = document.all.word2.style;
+        obj[3] = document.all.word3.style;
+        obj[4] = document.all.word4.style;
+      }else{
+        obj[0] = (isN6) ? document.getElementById("word0").style:document.word0;
+        obj[1] = (isN6) ? document.getElementById("word1").style:document.word1;
+        obj[2] = (isN6) ? document.getElementById("word2").style:document.word2;
+        obj[3] = (isN6) ? document.getElementById("word3").style:document.word3;
+        obj[4] = (isN6) ? document.getElementById("word4").style:document.word4;
+      }
+
+      angle = new Array();
+      angle[0]= 0;
+      for(i=1; i<obj.length; i++){
+         angle[i] = parseFloat(angle[i-1]+ (2*Math.PI/obj.length));
+      }
+      rotateObj();
+  }
+  
+  function rotateObj(){
+      for(i=0; i<obj.length; i++){
+          angle[i] = angle[i] - dr;
+          obj[i].left = r*Math.cos(angle[i]) + x;
+          obj[i].top = r*Math.sin(angle[i]) + y;
+      }
+      setTimeout("rotateObj()", 100);
+  }
+
+//-->
+</SCRIPT>
+
+
+<STYLE type="text/css">
+   .special {
+       position:absolute;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</STYLE>
+
+
+
+</head>
+<body bgcolor="#ffffff" onload ="initialize();">
+
+<table border="0">
+<tr><td height="35" width="20"
+     align="center"valign="middle"bgcolor="#6666cc">&nbsp;</td>
+<td>文字が円形に移動<hr size="2" noshade></td>
+</tr></table>
+<br><br>
+
+<DIV class="special" id="word0">山</DIV>
+<DIV class="special" id="word1">青</DIV>
+<DIV class="special" id="word2">花</DIV>
+<DIV class="special" id="word3">欲</DIV>
+<DIV class="special" id="word4">燃</DIV>
+
+</BODY> 
+</HTML>
+
+

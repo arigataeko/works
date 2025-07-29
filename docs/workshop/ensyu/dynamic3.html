@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for create contents</title>
+
+<style type="text/css">
+   .special {
+       position:absolute;
+       left:200;
+       top:200;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+
+</style>
+<script type="text/javascript">
+<!--
+  function initialize(){
+    if(document.getElementById){
+       cMsg = document.getElementById("msg").style;
+    }else if(document.all){
+       cMsg = document.all.msg.style;
+    } else { 
+       cMsg = document.msg;
+    }
+    circle(100, 0);   
+  }
+
+  function circle(r, angle){
+        cMsg.left = r * Math.cos(angle*Math.PI/180) + 2*r;
+        cMsg.top = r * Math.sin(angle*Math.PI/180) + 2*r;
+        angle = (angle + 5) % 360;
+        setTimeout('circle(' + r + ',' + angle + ')', 100);
+  }
+//-->
+</script>
+</head>
+<body onload="initialize()">
+<h1>文字が円周上を動く</h1>
+
+<span class="special" id="msg">京</span>
+
+</body> 
+</html>
+
+

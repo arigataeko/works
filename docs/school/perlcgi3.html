@@ -1,0 +1,71 @@
+<!-- ラジオボタンからの入力に応じるページ(CGI) -->
+
+<HTML> 
+<HEAD> 
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<TITLE>  Interact to radio buttons  </TITLE>
+</HEAD>
+<BODY>
+<H2> ラジオボタンからの入力への応答(CGI)</H2>
+<HR>
+　ラジオボタンからの入力に応答をするCGIプログラムの例として，
+<A href="check.html">「インターネットDOチェックページ」</A>を示します。
+<BR><BR>
+　このページ上で，ラジオ
+<p>ボタンを選択し，「チェック開始」ボタンを押すと，下の
+check.cgiプログラムが実行されます。
+
+<BLOCKQUOTE><PRE><CODE>
+<HR width=70%>
+#!/usr/bin/perl     ←perlプログラムを実行するプログラム(インタプリタ)
+
+$m=$ENV{"REQUEST_METHOD"};                    ←データの送信方式を得る
+if($m eq "GET"){
+   $data=$ENV{'QUERY_STRING'};                ←GETなら環境変数から読む
+}else{
+ read(STDIN,$data,$ENV{"CONTENT_LENGTH"});    ←POSTなら標準入力から読む
+}
+
+&decode();                ←データを分離し，値を取出すサブルーチンの実行
+&check_count();           ←yesの個数を数え，率を計算するサブルーチンの実行
+&browse();                ←HTMLを出力するサブルーチンの実行
+
+sub check_count{          ←yesの個数を数え，率を計算するサブルーチン
+  $count = 2;
+  foreach $i(1..$count){
+    $tmp = $tmp + $cgi{'check'.$i};
+  }
+  $total = sprintf("%.1f", $tmp/$count*100);
+}
+
+sub browse{               ← HTMLを出力するサブルーチン
+print "Content-type:text/html\n\n";
+print &lt;&lt; EOF;
+ &lt;HTML&gt;
+ &lt;HEAD&gt;
+ &lt;TITLE&gt; Determine Your Internet DO&lt;/TITLE&gt;
+ &lt;/HEAD&gt;
+ &lt;BODY&gt;
+ &lt;H2&gt;決定! あなたのインターネットDO&lt;/H2&gt;
+ &lt;HR&gt;
+  あなたのインターネットDOは，$total %です。&lt;BR&gt;
+ &lt;HR&gt;
+ &lt;A HREF="../check.html"&gt;チェックに戻る&lt;/A&gt;&lt;BR&gt;
+
+ &lt;/BODY&gt;
+ &lt;/HTML&gt;
+EOF
+}
+
+sub decode{               ←データを分離し，値を取出すサブルーチン
+ @parts=split('&',$data);
+ foreach(@parts){
+ ($name,$value)=split("=");
+ $cgi{$name}=$value;
+ }
+}
+<HR width=70%>
+</CODE></PRE></BLOCKQUOTE>
+
+</BODY>
+</HTML>

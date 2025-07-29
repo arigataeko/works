@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の円運動…ひとつ(大きさ変化)</h1>
+ひとつの円が、円周上を一定速度で,
+大きさを変えながら運動します。動きは、<a href="Motion1Circle1.html#print" target="other">ひとつ(軌跡なし)</a>と同じですが、円の大きさが変化します。
+<br><br>
+円周上を１周する間サイズが増加し、次の１周でサイズを減少するようにします。２周、つまり720度の回転を1サイクルとします。角度angleが720を超えたら、angleをゼロにするとともに、円の大きさを初期値(ここでは2)に戻します。角度をdaずつ増やす中で、角度が0～360の時は円の大きさをdr(0.3)ずつ増加させ、360～720の時は減少させます。
+<br>
+<br>
+<div class="rightSide">
+	<canvas id="Circle3"
+       data-processing-sources="./MotionPDE/oneDirection/Circle3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Circle3】
+float angle; // 位置(角度)
+float da = 2; // 角度の変化量
+float x, y;
+float d = 1; // 円の直径
+float dd = 0.3; // 半径の変化量
+float len = 60; // 軌跡の円の半径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() {      
+     background(255);   //画面の背景を白でクリア
+     x = len * cos(radians(angle)) + width/2.0;
+     y = len * sin(radians(angle)) +  height/2.0;
+     ellipse(x, y, d, d);
+
+     if (angle &gt; 720) {  //1サイクル終わったら
+        angle = 0;    //初期値に戻す
+        d = 1;
+     } else {
+        angle = angle + da; 
+        if(angle &lt;360 && angle&gt;0) { d = d+dd; } // 0-360の間は増加
+        else if(angle &gt;=360 && angle&lt;=720) {  d = d-dd; } // 360-720の間は減少
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

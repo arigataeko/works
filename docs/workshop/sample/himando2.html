@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Himando</title>
+<style type="text/css">
+   .special {
+       font-size:14pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+
+<script>
+<!--
+  function calc(){
+     let shintyo = document.keisan.height.value;
+     let taiju = document.keisan.weight.value;
+     let h = shintyo/100;
+     let std = h * h *22;
+     std = std.toString().substring(0,5);
+
+     let bmi = taiju / (h * h);
+     bmi = bmi.toString().substring(0,5);
+
+     document.getElementById("stdW").innerHTML= std + " Kg";
+     document.getElementById("fatness").innerHTML = bmi;
+
+   }
+//-->
+</script>
+
+</head>
+<body>
+<h1>標準体重・肥満度の計算</h1>
+
+<form name="keisan">
+身長(cm)&nbsp;&nbsp; <input type="number" value=0 name="height" size=10> <br>
+体重(Kg)&nbsp;&nbsp; <input type="number" value=0 name="weight" size=10> <br><br>      
+<input type=button value="計算開始" onclick="calc()"><br><br>
+標準体重(Kg)&nbsp;&nbsp;<span id="stdW" class="special"> 乞う!ご期待</span><br>
+肥満度(BMI値)&nbsp;&nbsp;<span id="fatness" class="special"> 乞う!ご期待</span>
+</form>
+</body> 
+</html>

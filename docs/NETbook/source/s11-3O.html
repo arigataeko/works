@@ -1,0 +1,26 @@
+<html>
+<head> <title>Script for onmouseover</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script type="text/javascript">
+<!--
+   function changeImg(file){
+       document.photo.src = file;
+   }
+//-->
+</script>
+</head>
+<body>
+
+<p>マウスオーバーによる画像の変化</p>
+<hr>
+<span onmouseover="changeImg('hana.jpg')" 
+      onmouseout="changeImg('sakuranoki.jpg')">
+ 花を見る
+</span>
+<br>
+
+<img src="sakuranoki.jpg" alt="桜の木" name="photo">
+</body> 
+</html>
+
+

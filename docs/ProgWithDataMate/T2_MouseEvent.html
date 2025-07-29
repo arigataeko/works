@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T2_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスイベントに応答する</h1>
+<a href="T2_MouseInteract.html" target="other">マウスに応答1</a>のセクションでは、マウスの位置(mouseXとmouseY)やボタンの状態(mouseIsPressed)を保存したシステム変数をdraw()関数の中で使って、マウスに応答する方法を説明しました。Webブラウザ上で、マウスが操作されると、マウスイベントと呼ばれる情報が発生します。マウスイベントの種類ごとに、呼出される関数(イベント関数)が決まっていて、その中に自分のスケッチで実行したい処理を記述しておきます。<br>
+マウスイベントが発生すると、draw()関数の実行が1回終わるのを待って、対応するイベント関数が呼出されます。draw()関数は繰返し実行されて描画を行ってますが、その途中でイベントが起きたことで(例えばマウスが動いたことで)、描画をじゃましないように、draw()が終わるまで待ってから、イベント処理を実行します。
+
+
+<h2 id="mouseEvent">マウスイベント</h2>
+マウス操作に応じて呼出される関数には次のものがあります。マウス操作に応じたイベント処理をさせたい場合は、そのマウス操作で実行される関数をプログラム内で定義し、ブロックの中(中括弧｛と｝の間)に書いておきます。
+いずれの関数も、引数ありません(オプションでmouseEventを引数にとることもできます)。
+<pre class="reiji">
+mousePressed( [event] )   マウスボタンが押された時、ブロックの中のコードが1回実行される。
+mouseReleased()   マウスボタンが離された時、ブロックの中のコードが1回実行される。
+mouseMoved()   マウスが動いた時、ブロックの中のコードが1回実行される。
+mouseDragged()   マウスがドラッグした時、ブロックの中のコードが1回実行される。
+mouseClicked()   マウスボタンが一度押され、話された時、
+</pre> 
+Webブラウザが独自にマウスイベントに対するデフォルトの処理を設定している場合もあり、そのデフォルト処理を避けるために、これらのマウスイベント関数を定義する場合は、処理の最後で必ず、return false;を入れてください。
+<pre class="reiji">
+function mouseMoved() {
+   //自分の処理
+   return false;
+}
+</pre>
+
+リストT2-3-1と同じ動きをするスケッチをmouseMoved()を使って書くと次のようになります。
+draw()関数の中でする処理はありませんが、プログラムを動かし続けるために、ブロック内が空のdraw()関数は必須です。
+<div class="rightSide">
+<iframe src="./sample/HT2List4_1/index.html"
+		width="250" height="125 "id="mouseCircle"> </iframe>
+</div>
+
+<pre class="code">
+【リストT2-4-1】
+function setup() {
+  createCanvas(250, 125);
+  stroke(200, 0, 0);
+  background(240);
+}
+function draw() {
+}
+function mouseMoved() {
+  circle(mouseX, mouseY, 10);  //マウスの位置の円を描く
+  return false;                //予期しないデフォルト処理を防ぐため、これを入れる
+}
+</pre>
+<p class="clear"> </p>
+
+<br>
+
+<h1> マウスクリックで処理を再開</h1>
+<a href="T2_TimeSizeDM.html#RectIncrease" target="other">矩形を成長させる</a>のプログラムは、
+矩形が成長し終わった後、マウスを押下するとまたゼロから描画するようになっています。<br>
+
+<iframe src="./sample/HT2List2_3/index.html"
+		width="500" height="320"id="LifeSpanClick"> </iframe>
+<br>
+	クリックで再度成長
+<br><br>
+この処理のために、リストT2-2-3には載せていませんが、下のようにmousePressed()関数を定義しています。
+<pre class="code">
+【リストT2-2-3に追加】
+function mousePressed() {
+  for (let i=0; i&lt;currentH.length; i++) {
+    currentH[i] = 0.0;  //矩形の高さを初期化
+  }
+  return false;
+}
+</pre>
+
+<h2 id="mondai">演習問題</h2>
+
+【問題T2-4-1】<br>
+<a href="T2_TimeSizeDM.html#RectIncrease" target="other">矩形を成長させる</a>の【リストT2-2-3】を円が大きくなる形に書き直してみよう。そして、キャンバス上でマウスを押下すると、ゼロから円が大きくなるようにしてみよう。
+
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

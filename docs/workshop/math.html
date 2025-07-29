@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="robots"content="noindex,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>Math Object</title>
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      Mathオブジェクト<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href="#pi">pi</a> &nbsp| &nbsp
+<a href="#ceil">ceil()/floor()/round()</a> &nbsp| &nbsp
+<a href="#maxmin">max()/min()</a> &nbsp| &nbsp
+<a href="#power">power()</a> &nbsp| &nbsp
+<a href="#random">random()</a> &nbsp| &nbsp
+<a href="#root">sqrt()</a> &nbsp| &nbsp
+<a href="#sankaku">sin()/cos()/tan()</a> &nbsp| &nbsp
+</div>
+
+
+<br><br>
+<h1 id="pi">円周率</h1>
+
+Math.PI<br><br>
+円周率π(3.141592.............)の値を格納したプロパティ。
+<br>
+
+<br><br>
+<h1 id="ceil">切上げ・切捨て・四捨五入</h1>
+Math.ceil(n)<br>　n の小数点第1位を切上げた整数値を計算。<br><br>
+Math.floor(n)<br>　n の小数点第1位を切捨てた整数値を計算。<br><br>
+Math.round(n)<br>　n の小数点第1位を四捨五入した整数値を計算。
+<br>
+
+<br><br>
+<h1 id="maxmin">最大値、最小値)</h1>
+Math.max(x, y) <br>
+Math.min(x, y) <br><br>
+max() は x と y の大きい方、min() は x と y の小さい方を返す。
+<br>
+
+<br><br>
+<h1 id="power">階乗</h1>
+Math.pow(n, m) <br><br>
+n の m 乗を計算。
+<br>
+
+<br><br>
+<h1 id="random">乱数</h1>
+Math.random()<br><br>
+0以上、1未満の乱数を生成する。<br>
+次のようにすると、0～5の乱数を生成することができる。
+<pre class="pcode">
+xx = Math.floor(Math.random() * 6);
+</pre>
+
+<br><br>
+<h1 id="root">平方根</h1>
+Math.sqrt(n)<br><br>
+n の平方根を計算。
+<br>
+
+<br><br>
+<h1 id="sankaku">三角関数</h1>
+
+Math.sin(x)<br>
+Math.cos(x)<br>
+Math.tan(x)<br><br>
+x のsin（-1～1）、cos（-1～1）、tan（-∞～∞）を計算する。<br>
+x はラジアン単位で指定する。180度はπラジアン、1度はπ/180ラジアン。
+sin30度の値は次のように計算できる。
+<pre class="pcode">
+a = 30.0;  // 度単位の角度
+kotae = Math.sin(a * (Math.PI / 180) );
+</pre>
+
+<hr size="2"noshade>
+
+<div class="cp">
+arigat アットマーク acm.org<br>
+Last modified: Oct. 2014
+</div>
+</body>
+</html>

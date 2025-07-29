@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 線の伸縮…加速的変化</h1>
+線が伸長収縮します。
+<a href="./Motion3Elastic1.html#print" target="other">定速の線の伸縮</a>と見た目は同じですが、こちらはsin関数の値を線の長さに使った加速的変化をします。<br>
+<a href="./Motion1Circle1.html#print" target="other">定速の円運動</a>をする円のy座標の変化だけを見ると、周期的な振動運動をしています。これを単振動と呼び、波の高さが低い時(角度が0、180度付近)、速く動きます。
+
+<pre class="reiji">
+ translate(width/2, height/2);  //座標原点を画面中央へ移動
+ angle = (angle + da) % 360; //角度をdaずつ増加、360を超えない
+ x =len * sin(radians(angle)); //sinの値を計算
+ line(0, 0, x, y);
+</pre>
+
+
+<div class="rightSide">
+	<canvas id="Elastic2"
+       data-processing-sources="./MotionPDE/vibration/Elastic2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Elastic2】
+float len; // 線の長さ
+float x, y; // 線のもう一方の座標
+float angle; // 
+float da = 4; //変化量
+
+void setup() {
+   size(150,150);
+   len = width/2.0 - 5;  //線の最大値  
+   strokeWeight(5);   // 線の太さ
+}
+
+void draw() { 
+    background(255);   //画面の背景を白でクリア
+    translate(width/2, height/2);  //座標原点を画面中央へ移動
+    angle = (angle + da) % 360; //角度をdaずつ増加、360を超えない
+    x =len * sin(radians(angle));
+    line(0, 0, x, y);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

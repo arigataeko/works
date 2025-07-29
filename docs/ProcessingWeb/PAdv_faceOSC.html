@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Advance Sketch - Interact with face</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="PAdvance.html#list"> 少し進んだスケッチのトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 顔とインタラクションする（FaceOSC）</h1>
+カメラがとらえた画像から顔を検知し、その位置、目や口の開き方にインタラクティブに応答するProcessingスケッチを作成します。FaceOSCを使うと、顔の位置や大きさに加えて、目、鼻孔、口の開気の程度を知ることができます。
+
+
+<h2 id="faceOSC">FaceOSC</h2>
+<div class="leftSide"><img src="images/Adv3_faceOSC.png" alt="FaceOSC" width="280" ></div>
+FaceOSCは顔を追尾する機能をもち、顔のposeとgestureの情報を Open Sound Control (OSC)を介して送り出します。<br><br>
+<a href="https://github.com/kylemcdonald/ofxFaceTracker/releases"> FaceOSCのサイト </a>からダウンロードし、processingのスケッチの実行前に起動しておきます。
+FaceOSCを起動すると、コンピュータに接続されたカメラ映像上の顔を識別し、poseとgestureの情報を点と線で表示されます。FaceOSCのポート番号はデフォルトで8338で、このポートを通してデータが送られます。<br><br><br><br>
+FaceOSCが送るデータは以下の通りです。コロンの右側はデータ認識するための名前で、OSCアドレスパターンと呼ばれます(次節参照)。<br>
+
+<ul>
+  <li>[1]Pose
+    <ul>
+    <li>顔の中央: /pose/position</li>
+    <li>スケール: /pose/scale</li>
+    <li>顔の向き: /pose/orientation</li>
+    </ul>
+  </li>
+  <li>[2]Gestures
+    <ul>
+    <li>口の幅: /gesture/mouth/width</li>
+    <li>口の高さ: /gesture/mouth/height</li>
+    <li>左眉毛の高さ: /gesture/eyebrow/left</li>
+    <li>右眉毛の高さ: /gesture/eyebrow/right</li>
+    <li>左目の見開き: /gesture/eye/left</li>
+    <li>右目の見開き: /gesture/eye/right</li>
+    <li>顎の幅: /gesture/jaw</li>
+    <li>小鼻の広がり: /gesture/nostrils</li>
+    </ul>
+  </li>
+  <li>[3]Found
+    <ul>
+      <li>顔を検知したかどうか: /found</li>
+    </ul>
+    </li>
+</ul>
+
+<h2 id="osc">Open Sound Control (OSC)</h2>
+Open Sound Controlは、コンピュータとマルチメディアデバイスとの間で、あるいはプログラム同士で、情報を送るために定められた通信規約(プロトコル)です。音楽演奏データをネットワークを介してリアルタイムに送って電子楽器を制御するために開発されたので、open soundの名前がついています。<br><br>
+
+送るデータの形式は、
+OSCアドレスパターンとその値からなります。OSCアドレスパターンはデータを識別する名前で、URLのように／で区切られています。例えば、FaceOSCの場合、顔の中央の位置データのアドレスパターンは、 /pose/positionです。
+<br><br>
+ProcessingのOSCライブラリには、送られてくるデータを、アドレスパターンを指定して取り出すメソッドが用意されています。
+
+ProcessingでOSCを使うには、oscP5ライブラリをインポートしておきます。<br>
+メニュー[スケッチ] [ライブラリをインポート][ライブラリ-を追加」で、oscP5を選択して、インストールします。インストールすると、サンプルのContribute Librariesの中にサンプルが入るので、サンプルを動かして、機能を実験することができます。詳しくは、
+<a href="http://www.sojamo.de/libraries/oscP5/reference/overview-summary.html"> oscP5のAPI</a>を参照。
+
+<h2 id="faceSample">顔情報を使うサンプル</h2>
+Processingのスケッチで、FaceOSCからデータを受け取るには次のようにします。
+<ul>
+<li>(1) ライブラリのインポート <pre class="reiji">import oscP5.*; </pre></li>
+<li>(2) OscP5オブジェクト用変数の定義　<pre class="reiji">OscP5 oscP5;</pre></li>
+<li>(3) 引数にポート番号8338を指定して、OscP5オブジェクトを生成（setup()の中）
+  <pre class="reiji">oscP5 = new OscP5(this, 8338);</pre></li>
+<li>(4) OSCから受け取る情報からの値の取り出し<br>
+  　2つの方法がある。
+  <ul>
+    <li><strong>【方法１】</strong> 特定のアドレスパターンのデータを受信したら実行するメソッドを、plugメソッドを使って指定する（setup()の中）。メソッド名は任意で、メソッド定義内に処理を記述する。次の例は、左目開きのデータを受信したらeyeLeftGetメソッドを実行するという指定。リストA3_1はこの方法を使っている。
+    <pre class="reiji">oscP5.plug(this, "eyeLeftGet", "/gesture/eye/left");
+    </pre>
+  &nbsp;&nbsp;&nbsp;&nbsp;第1引数: 第2引数のメソッドを持つオブジェクト、自分自身thisを指定 <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;第2引数：OSCアドレスパターンが示すデータを受信したら起動するメソッド名(自分で決める) <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;第3引数：OSCアドレスパターン(FaceOSCが決めているもの、前節参照) <br><br>
+
+　plugメソッドで指定したメソッドを定義する。
+  <pre class="reiji">
+  public void eyeLeftGet(float h) {
+     println("eye left: " + h);  //受信した値の確認のためコンソールに表示(任意)
+     eyeLeftH = h;               //引数hを使った処理を指定。変数eyeLeftHに代入
+  }
+  </pre>
+  </li>
+  <li><strong>【方法２】</strong> OSC通信のメッセージを受け取ると自動的に呼び出されるoscEventメソッドを定義する。引数のデータ型はOscMessage。<br>
+    その中で受信データが求めるアドレスパターンのデータであるかをcheckAddrPatternメソッドを使って確認し、そうであれば、値を取り出す処理を書く。例えば/pose/positionと/gesture/mouth/widthを取り出したいなら次のように書く。checkAddrPatternメソッドは引数で指定されたアドレスパターンのデータがあるとtrueを返す。<br>
+      <pre class="reiji">
+  float facePosX, facePosY, mouseW;
+  void oscEvent(OscMessage message) {
+    if(message.checkAddrPattern("/pose/position")) {
+      facePosX = message.get(0).floatValue();
+      facePosY = message.get(1).floatValue();
+    } else if(message.checkAddrPattern("/gesture/mouth/width")) {
+      mouthW = message.get(0).floatValue();
+    }
+  }
+  </pre>
+  </li></ul>
+</li></ul>
+リストA3_1は、顔を検知し、その中心位置、スケール、目の開きのデータを使って、赤い鼻、丸い目を描くスケッチです。
+<div class="rightSide">
+<img src="images/Adv3_eyeNose.png" alt="クリッピングマスク" height="150">
+</div>
+<pre class="code">
+【リストA3-1】
+import oscP5.*;
+
+OscP5 oscP5;
+boolean found;  //顔を検知しているか
+float poseScale;
+float eyeLeftH;
+float eyeRightH;
+float facePosX;
+float facePosY;
+
+void setup() {
+  size(640, 480);
+  oscP5 = new OscP5(this, 8338);  //OscP5オブジェクトを生成。ポート番号8338
+  //メッセージから値を得るメソッドを設定
+  oscP5.plug(this, "posePosition", "/pose/position");  //顔の中心位置
+  oscP5.plug(this, "poseScale", "/pose/scale");  //顔のスケール
+  oscP5.plug(this, "eyeLeftGet", "/gesture/eye/left");  //左目の開き
+  oscP5.plug(this, "eyeRightGet", "/gesture/eye/right");  //右目の開き
+  oscP5.plug(this, "found", "/found");  //顔を識別したかどうか
+}
+
+void draw() {
+  background(0);
+  if (found) {  //顔を見つけていたら
+    translate(facePosX, facePosY);  //顔の中心に座標原点を移動
+    scale(poseScale);  //顔のスケールに合わせる
+    fill(200, 0, 0);
+    ellipse(0, -10, 10, 20);  //鼻
+    fill(255);
+    ellipse(-10, eyeLeftH * -10, 15, 15);  //白目
+    ellipse(10, eyeRightH * -10, 15, 15);
+    fill(0);
+    float eyedL = map(eyeLeftH, 2, 4, 3, 15); //黒目の大きさを目の開きに応じて変える
+    float eyedR = map(eyeRightH, 2, 4, 3, 15);
+    ellipse(-10, eyeLeftH * -10, eyedL, eyedL);  //黒目
+    ellipse(10, eyeRightH * -10, eyedR, eyedR);
+  }
+}
+
+public void posePosition(float x, float y) {  //位置を得る関数の引数は2つ
+  println("pose position  X: " + x + " Y: " + y );
+  facePosX = x;
+  facePosY = y;
+}
+public void poseScale(float s) {
+  println("scale: " + s);
+  poseScale = s;
+}
+
+public void found(int i) {
+  println("found: " + i); // 1 == found, 0 == not found
+  found = i == 1;  //引数iが1ならtrueを代入
+}
+
+public void eyeLeftGet(float h) {
+  println("eye left: " + h);
+  eyeLeftH = h;
+}
+
+public void eyeRightGet(float h) {
+  println("eye right: " + h);
+  eyeRightH = h;
+}
+</pre>
+<p class="clear"> </p>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+【問題A3-1】リストA3_1を参考に、オリジナルの仮面を描画してみよう。
+<br><br>
+【問題A3-2】
+ラーニングトレイル[運動と位置の計算]の練習問題6-3ラケットボールゲームでは、マウスカーソルの位置で、画面上のラケット(矩形)を動かしてプレイしました。代わりにカメラがとらえた顔の位置でラケットを動かしてプレイするようにしてみよう。<br>
+
+同じ問題が
+<a href="./PAdv_OpenCV.html">顔とインタラクションする（OpenCV）</a>のセクションにもありますが、顔の検知をProcessing内で行うOpenCV for ProcessingよりもFaceOSCを使う方が高速です。
+
+
+
+</div>
+<div class="copy">
+arigat アットマーク acm.org /
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

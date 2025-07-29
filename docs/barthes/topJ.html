@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>The touch of texts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<style>
+   body {
+    background-image:url(paint1.gif);
+    background-repeat:repeat-y;
+    background-color:#ffffff
+   }
+   hr {
+     margin: 0px 0 5px 100px; 
+   }
+   h2 {
+     margin: 0;
+     font-weight:bold;
+     padding: 5px 0 5px 100px;
+     font-size: 20px; 
+   }
+   a:link{
+     color:#00f;
+   }
+   a:visited {
+     color:#f0f;
+   }
+   .item {
+    font-size:12 pt;
+    font-weight:bold;
+    color:#333;
+    margin: 15px 0 10px 150px;
+   }
+   .state-top {
+    font-size:12pt;
+    margin: 5px 0 5px 110px;
+    border-left-style: solid;
+    border-left-width: 10px;
+    border-left-color: #f0f;
+    padding-left: 5px;
+   }
+   .state {
+    font-size:10pt;
+    margin: 20px 0 5px 110px;
+   }
+   .langversion {
+    font-size:10pt;
+    text-align:right; 
+    color:#333;
+   }
+   .button{
+    color:#333;
+    font-weight:bold;
+    font-family:"Arial";
+    margin: 10px 10px 10px 0;
+   }
+
+   .copy{
+    font-size:8pt;
+    color:#333;
+    font-family:"Arial";
+    text-align:center; 
+   }
+   .mojiGsmall{
+    font-size:8pt;
+    color:#333;
+    font-family:"Arial";
+   }
+
+</style>
+
+</head>
+<body>
+
+<H2>テクストの感触</H2>
+<a href="./top.html">
+<div class="langversion"> English</div></a>
+
+<div class="state"> 
+テクストを読む時、人はテクストからの刺激を受けて立ち止まる。立ち止まっている間、テクストの感触を楽しむ。<br>
+触ったテクストが脳に情報を残すように、触った場所に痕跡が残る。<br>
+テクストからの刺激を頭の中で転がすように、手の中でテクストを転がす。<br><br>
+テクストを触って、押す。テクストは、漂い、重力を受け、回転する。<br>
+<span class="mojiGsmall"> (Netscape Navigatorでブラウズすると、反応が遅くなります)</span>
+</div>
+
+<HR noshade>
+
+<div class="state-top"> テクストを読む感触を楽しむ：&nbsp;&nbsp;
+ロラン・バルトの「テクストの快楽」の場合</div>
+
+<a href="./barthes-hyoryuJ.html"><div class="item">漂流</div></a>
+<a href="./barthes-kikuJ.html"><div class="item">聞く</div></a>
+<a href="./barthes-isotropyJ.html"><div class="item">等方性</div></a>
+
+<div class="state"> 
+テキストを触りながら読んだ後、ページを印刷するとその痕跡を紙の上に残せます。<br>
+</div>
+<HR noshade>
+
+<div class="state-top"> テクストを読む感触を楽しむ：&nbsp;&nbsp;
+あなたのテクストの場合</div>
+<div class="state"> 
+テクストを入力し、それの感触を楽しむ。<br>
+感触のパターンを選択し、createボタンを押す。
+
+
+<FORM action="../cgi-bin/create-touchJ.cgi" method="POST"
+      style="margin-top:0px">
+
+<TEXTAREA name="texts" cols=70 rows=20></TEXTAREA>
+<div class="button">
+<INPUT type="radio" name="select" value="drift" > 漂流&nbsp;&nbsp;
+<INPUT type="radio" name="select" value="kiku" > 聞く&nbsp;&nbsp;
+<INPUT type="radio" name="select" value="iso" > 等方性&nbsp;&nbsp;
+ ||&nbsp;&nbsp;
+<INPUT type="submit" value="create">&nbsp;&nbsp;
+<INPUT type="reset" value="delete">
+</div>
+</FORM>
+生成されたページをHTMLファイルとしてあなたのコンピュータに保存すれば、独自テキストの感触をいつでも追体験できます。
+</div>
+<HR noshade>
+<div class="copy"> 
+arigat at-sign acm.org / copyright &copy; 2004 ariga taeko 
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+

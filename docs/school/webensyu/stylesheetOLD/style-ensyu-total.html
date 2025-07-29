@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>Learn JavaScript for yourself</title>
+<style type="text/css">
+  <!--
+    .cssSmallGray	{ font-size: 80%; color: #999999;  }
+
+   h1 {
+     background-image: url("./yokoline.gif");
+     background-repeat: no-repeat;
+     margin: 0;
+     font-weight:bold;
+     padding: 5px 0 5px 60px;
+     font-size: 20px;
+   }
+   h2 {
+     color:#306;
+   }
+   .line {
+     margin: 5px 0;
+     width: 100%;
+     background-color: #306;
+   }
+
+   .menu {
+     margin: 5px;
+   }
+
+   .menuActive {
+     background-color: #ccc;
+     font-size: 90%;
+     margin: 5px 5px;
+     padding: 3px;
+   }
+
+   .menuTrail {
+     text-align: right;
+   }
+
+   .menuYoko {
+     font-size: 90%;
+     height: 300px;
+     width: 20%;
+     margin-top: 40px;
+     float:left;
+   }
+
+   .naiyou {
+     margin-top: 40px;
+     float:right;
+     width: 80%;
+   }
+
+   pre {
+     font-family: monospcace;
+     padding: 0 0 0 3em;
+   }
+
+    -->
+</style>
+</head>
+
+<body>
+<!-- タイトル -->
+<h1>JavaScript 自習教材<br>
+    <span class="cssSmallGray">Learn 
+    <span style="color:#9999cc">JavaScript</span> 
+    by yourself</span>
+</h1>
+
+<!-- 紺ライン -->
+<div class="line"> &nbsp; </div>
+
+<!-- 大項目メニュー -->
+<div style="background-color: #eee;">
+<a class="menu" href="dummy.html">JavaScriptとは</a>
+<a class="menu"href="dummy.html" >タグ</a>
+<a class="menu"href="dummy.html" >イベント</a>
+<a class="menu"href="dummy.html" >ウィンドウ</a>
+<span class="menuActive"> 制御構造</span>
+<a class="menu"href="dummy.html" >ダイナミックHTML</a>
+</div>
+
+<!-- トレイルメニュー -->
+<div class="menuTrail">
+<a class="menu" href="dummy.html">JavaScript</a>
+<span class="cssSmallGray">&gt;</span> 
+<a class="menu"href="dummy.html">制御構造</a>
+<span class="cssSmallGray">&gt;</span> 
+<span class="menuActive">return文</span>
+</div>
+
+<!-- 小項目メニュー -->
+<div class="menuYoko">
+    <a href="dummy.html">概略</a><br>
+    <a href="dummy.html">if-else文</a><br>
+    <a href="dummy.html">スイッチ文</a><br>
+    <strong>return文</strong><br>
+    <a href="dummy.html">while文</a><br>
+    <a href="dummy.html">for文</a><br>
+    <a href="dummy.html">break文</a><br>
+    &nbsp;<br>
+    <a href="dummy.html">サンプル</a><br>
+    &nbsp;
+</div>
+
+
+<!-- 説明文 -->
+<div class="naiyou" >
+   <h2>return文</h2>
+   <hr noshade style="color:#ccc; height: 1px;">
+&nbsp;&nbsp;
+ 処理を終了して、制御を呼び出し元へ戻します。戻り値をもつ場合、return文の後に戻り値を示す式を書きます。戻り値がない場合、return文は必須ではありません。return文を書かないと、指定された処理を最後まで実行してから、呼び出し元へ戻ります。
+
+<pre>
+◆return文
+
+   return;        //戻り値がない
+
+   return 式;
+</pre>
+</div>
+</body>
+</html>

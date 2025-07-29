@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの位置で波紋状の同心円が広がる</h1>
+マウスボタンを押した時のマウスの位置で、波紋状の同心円が広がります。プログラミングの基礎知識の「クラスの定義」セクションの<a href="../ProgClassCreate.html#ahamon" target="other">AHamonクラス</a>を使います。<br><br>
+
+<a href="../ProgClassCreate.html#ahamon" target="other">AHamonクラス</a>のAPI(Application Programming Interface)にあるように、prepare()メソッドで同心円の中心を設定します。
+
+<pre class="code">
+<strong>AHamonクラスのprepare()メソッド</strong>
+   void prepare(float xx, float yy)  //波紋を準備、(xx, yy)に位置を決め、大きさを0にする。
+</pre>
+今は、マウスをプレスした時のマウスの位置を波紋の中心にしたいので、マウスのx、y位置をprepare()メソッドの引数に指定します。
+<br><br>
+波紋が広がっている途中で、マウスをプレスしても、完全に波紋が広がるまで、次の波紋を出さないようにするため、波紋が動いているかどうかの情報を変数moveを使って知ります。
+
+<pre class="code">
+<strong>AHamonクラスの変数move</strong>
+   boolean move = false; //波紋が動いているか否か、動いていればtrue
+</pre>
+マウスがプレスされ、かつ波紋が動いていない時(変数moveがfalseの時)に、x、y座標を指定して、prepare()メソッドを実行します。
+<pre class="reiji">
+if(mousePressed && !hamon.move){//マウスがプレスされ、動いていない時
+     hamon.prepare(mouseX, mouseY);  //マウスの位置で、波紋を開始
+}
+hamon.display();
+</pre>
+<br>
+
+
+<div class="rightSide">
+	<canvas id="Hamon1"
+       data-processing-sources="./InteractPDE/Hamon1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    画面上でマウスプレス
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Hamon1】
+AHamon hamon; //AHamonオブジェクトを保存するための変数
+
+void setup() {
+  size(150, 150);
+  frameRate(30);
+  //波紋の最大値を指定し、波紋オブジェクトを生成
+  hamon = new AHamon(width*2);
+}
+
+void draw() {
+  strokeWeight(0); //背景画面の四角には線を付けない
+  fill(255, 75);  //色は白、透明度を指定
+  rect(0,0,width, height); //背景を四角で塗りつぶす
+  if(mousePressed && !hamon.move){//マウスがプレスされ、動いていない時
+     hamon.prepare(mouseX, mouseY);  //マウスの位置で、波紋を開始
+  }
+  hamon.display();
+}
+</pre>
+<p class="clear"> </p>
+
+
+<pre class="code">
+【リスト AHamon】
+class AHamon{
+  int d;           //直径
+  float x, y;      //円の中央
+  float max;       //円の最大値
+  int dr = 5;      //円の直径の変化量
+  boolean move= false;  //動いているかいないかのフラグ
+  
+  AHamon(float limit){
+    max = limit;
+  }
+
+  void prepare(float xx, float yy){  //座標を指定して波紋を準備
+    move=true;
+    x = xx;
+    y = yy;
+    d= 0;  //大きさをはじめに戻す。
+  }
+
+  void display(){
+   strokeWeight(2); //線の太さを指定
+   if(move){   //動いている間の処理
+      d=d+dr;   // 大きさを増加
+      ellipse(x, y, d, d);  // 円を描く
+      if(d&gt;max){ //最大値を越えたので止める。
+         move = false;
+      }
+   }
+  }
+}
+</pre>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

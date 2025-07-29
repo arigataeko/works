@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>event exercise</title>
+
+<SCRIPT type="text/javascript">
+<!--
+   function changeOn(n){
+      document.images[n].src = "image/on.gif";
+   }
+
+   function changeOff(n){
+      document.images[n].src = "image/off.gif";
+   }
+
+   function changeOn2(name){
+      document[name].src = "image/on.gif";
+   }
+
+   function changeOff2(name){
+      document[name].src = "image/off.gif";
+
+   }
+//-->
+</SCRIPT>
+
+</head>
+<body bgcolor="#ffffff">
+
+<table border="0">
+<tr><td height="35" width="20"
+     align="center"valign="middle"bgcolor="#6666cc">&nbsp;</td>
+<td>リンク項目にカーソルがきたら，飾りの画像を変える<hr size="2" noshade></td>
+</tr></table>
+<br><br>
+
+
+<img src="image/off.gif" name="m1">
+<a href="blankpage.html" onmouseover="changeOn(0)" onmouseout="changeOff(0)"> 
+        項目1 </a><br><br>
+<img src="image/off.gif" name="m2">
+<a href="blankpage.html"  onmouseover="changeOn(1)" onmouseout="changeOff(1)"> 
+        項目2 </a><br><br>
+<img src="image/off.gif" name="m3">
+<a href="blankpage.html" onmouseover="changeOn2('m3')" onmouseout="changeOff2('m3')"> 
+        項目3 </a><br><br>
+<img src="image/off.gif" name="m4">
+<a href="blankpage.html" onmouseover="changeOn2('m4')" onmouseout="changeOff2('m4')"> 
+        項目4 </a><br><br>
+
+
+</BODY> 
+</HTML>
+
+

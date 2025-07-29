@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for create contents</title>
+
+<style type="text/css">
+   .special {
+       position:absolute;
+       left:45%;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+
+</style>
+<script type="text/javascript">
+<!--
+  function initialize(){
+    if(document.getElementById){
+       cMsg = document.getElementById("msg").style;
+    }else if(document.all){
+       cMsg = document.all.msg.style;
+    } else { 
+       cMsg = null;
+    }
+
+    slide(0, 200);   
+  }
+
+  function slide(y, finalP){
+     if(y < finalP){
+        y = y + 10;
+        if(cMsg!=null) { cMsg.top = y + "px"; }
+        setTimeout('slide(' + y + ',' + finalP + ')', 100);
+     }
+  }
+//-->
+</script>
+</head>
+<body onload="initialize()">
+
+<h1>文字がスライド</h1>
+
+<span class="special" id="msg">京都</span>
+
+</body> 
+</html>

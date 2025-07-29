@@ -1,0 +1,54 @@
+
+.cssSmall		{ font-size: 90% }
+.cssSmallGray	{ font-size: 80%; color: #999999;  }
+.cssBold { font-weight: bold;}
+
+h1 {
+     background-image: url("./yokoline.gif");
+     background-repeat: no-repeat;
+     margin: 0;
+     font-weight:bold;
+     padding: 5px 0 5px 60px;
+     font-size: 20px;
+}
+
+.line {
+     margin: 5px 0;
+     width: 100%;
+     background-color: #306;
+}
+
+.menu {
+     margin: 5px;
+}
+
+.menuActive {
+     background-color: #ccc;
+     font-size: 90%;
+     margin: 5px 5px;
+     padding: 3px;
+}
+
+.menuTrail {
+     width: 100%;
+     text-align: right;
+}
+
+.menuYoko {
+     font-size: 90%;
+     height: 500px;
+     width: 20%;
+     margin-top: 40px;
+     float: left;
+}
+
+.naiyou {
+    margin: 0;
+    width: 80%;
+    float:right;
+}
+
+hr {
+    color:#ccc;
+    height: 1px;
+}

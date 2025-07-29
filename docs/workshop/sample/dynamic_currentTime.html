@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Update the current time</title>
+
+<style type="text/css">
+   .special {
+       margin: 100 0 0 10%;
+       font-size:14pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+
+<script type="text/javascript">
+<!--
+  function initialize(){
+    if(document.getElementById){
+      cMsg = document.getElementById("msg"); 
+    }else if(document.all){
+      cMsg = document.all.msg ;
+    }   else { cMsg = null; }
+    showTime();
+  }
+
+  function showTime(){
+    change = new Date();
+    y = change.getFullYear();
+    m = change.getMonth()+1;
+    d = change.getDate();
+    h = change.getHours();
+    min =change.getMinutes();
+    sec = change.getSeconds();
+
+    if(cMsg != null){
+       cMsg.innerHTML = y + "年" + m + "月" + d + "日  " +  h + "時" + min + "分" + sec + "秒";
+    }
+  }
+//-->
+</script>
+</head>
+<body onload="initialize()">
+<h1>現在時間の表示(Netscape 4以下は実行できない)</h1>
+
+<div id="msg" class=special>current time</div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>Slot Machine</title>
+
+<SCRIPT type="text/javascript">
+<!--
+
+var img=new Array();
+for (i=0;i<3;i++) {  //3つの画像ファイル
+	img[i]= "image/img" + i + ".gif";
+}
+
+interval = 100;    //表示を変える間隔
+i1=0; //画像を順に表示するための番号
+i2=1; 
+i3=2; 
+stop1=true;  //タイマが停っているかどうかのフラグ
+stop2=true;
+stop3=true;
+
+function doStart(){
+   init();
+   startSlot1();  
+   startSlot2();
+   startSlot3();
+}
+
+function startSlot1(){ //slot1の画像を一定時間で変更
+    document.slot1.src = img[i1%3];
+    i1++;
+    timer1 = setTimeout("startSlot1()", interval);
+}
+
+function startSlot2(){ //slot2の画像を一定時間で変更
+    document.slot2.src = img[i2%3];
+    i2++;
+    timer2 = setTimeout("startSlot2()", interval);
+}
+
+function startSlot3(){  //slot3の画像を一定時間で変更
+    document.slot3.src = img[i3%3];
+    i3++;
+    timer3 = setTimeout("startSlot3()", interval);
+}
+
+function init(){  //動いているタイマを止め，変数を初期化
+    if(stop1) stop1=false; else clearTimeout(timer1); 
+    if(stop2) stop2=false; else clearTimeout(timer2);
+    if(stop3) stop3=false; else clearTimeout(timer3);
+    i1=0; 
+    i2=1; 
+    i3=2; 
+}
+
+//-->
+</SCRIPT>
+
+</head>
+<body bgcolor="#ffffff">
+
+<table border="0">
+<tr><td height="35" width="20"
+     align="center"valign="middle"bgcolor="#6666cc">&nbsp;</td>
+<td>スロットマシン<hr size="2" noshade></td>
+</tr></table>
+<br><br>
+
+<table  border="0">
+<tr><td>
+<table  border="0">
+<tr>
+<td> <IMG src="./image/img0.gif" name="slot1" alt="Left Slot Image" align=center  vspace=10 hspace=10></td>
+<td> <IMG src="./image/img1.gif" name="slot2" alt="Conter Slot Image" align=center  vspace=10 hspace=10></td>
+<td> <IMG src="./image/img2.gif" name="slot3" alt="Right Slot Image" align=center  vspace=10 hspace=10></td>
+</tr>
+
+<FORM>
+<tr>
+<td align=center><INPUT type=button value="STOP" 
+                  onclick="clearTimeout(timer1), stop1=true"></td>
+<td align=center><INPUT type=button value="STOP" 
+                  onclick="clearTimeout(timer2), stop2=true"></td>
+<td align=center><INPUT type=button value="STOP" 
+                  onclick="clearTimeout(timer3), stop3=true"></td>
+</tr>
+</FORM>
+</table>
+</td></tr>
+<tr><td><hr width="100%"></td></tr>
+<tr><td align=center>
+<table>
+<FORM>
+<tr>
+<td><INPUT type=button value="START" onclick="doStart()"></td>
+</tr>
+</FORM>
+</table>
+</td></tr>
+</table>
+  
+</BODY> 
+</HTML>
+
+

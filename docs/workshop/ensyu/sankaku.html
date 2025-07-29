@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>waving character</title>
+
+<STYLE type="text/css">
+   .special {
+       position:absolute;
+       left:0;
+       top:100;
+       font-size:24pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+
+</STYLE>
+
+</head>
+<body bgcolor="#ffffff">
+
+<table border="0">
+<tr><td height="35" width="20"
+     align="center"valign="middle"bgcolor="#6666cc">&nbsp;</td>
+<td>波打つ<hr size="2" noshade></td>
+</tr></table>
+<br><br>
+
+<SPAN class="special" id="msg">●</SPAN>
+
+
+<SCRIPT type="text/javascript">
+<!--
+  browser = navigator.appName;
+  version = parseInt(navigator.appVersion);
+
+  if(browser=="Netscape"){
+     if(version>=5) { cMsg = document.getElementById("msg").style; }
+     else {   cMsg = document.msg;  }
+     ww = window.innerWidth;
+  }else{
+      cMsg = document.all.msg.style;
+      ww = document.body.clientWidth;
+  }
+
+  function circle(h, angle){
+        xx = angle*Math.PI/180 * h/2;
+        if (xx >= ww){
+           cMsg.left=0;
+           angle=0;
+        }else{
+           cMsg.left=xx;
+        }
+        cMsg.top = Math.sin(angle*Math.PI/180)*h + 2*h;
+        angle = (angle + 3);
+        setTimeout('circle(' + h + ',' + angle + ')', 30);
+  }
+
+  circle(100, 0);   
+//-->
+</SCRIPT>
+
+</BODY> 
+</HTML>
+
+

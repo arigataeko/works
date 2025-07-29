@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>P5 mode</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> p5.js mode</h1>
+&nbsp;&nbsp;
+p5.jsモードは、Processingの環境でp5.jsのプログラムを編集・実行する機能です。p5.jsはProcessingをJavaScirptにポート(移植)した言語で、
+インタラクティブなモーショングラフィックスを、Processingと同じように簡単にJavaScriptとして書け、Webブラウザ上で実行することができます。<br><br>
+Processingのプログラム(スケッチ)を、Processing環境とは独立して実行するには、[アプリケーションとしてエクスポート]機能を使えます。次の2つの方法が提供されています。
+<ul>
+<li>(1)独立したアプリとして書き出す</li>
+<li>(2)Webページに埋め込まれた形としてhtmlファイルを用意</li>
+</ul>
+(2)は、Processingのコード(pdeファイル)を、コンバータ(Processing.js)でJavaScriptに変換して、Webブラウザ上で実行するものです。<br>
+p5.jsモードと似ていますが、(2)はJava言語で書かれたProcessingのコードを、JavaScriptに変換して実行する(Processing.jsが変換する)のに対して、p5.jsではJavaScript言語を使ってスケッチを記述し、他のJavaScriptライブラリの機能を組み込める点が違います。Processingが提供する関数はその多くが共通していますが、使う言語がJavaではなく、JavaScriptになるため、文法が異なります。
+
+<br>
+
+<h2 id="p5jsmode">p5.jsモードのスケッチ</h2>
+
+<div class="leftSide">
+<img src="./images/p5js.png" alt="p5.jsモード"></div>
+&nbsp;&nbsp;
+Processingウィンドウの右上隅の下向き三角で、p5.jsを選択すると、図のような画面になります。
+sketch_で始まるタブはJavaScriptのプログラムで、起動直後(新規作成時)は空のsetup()関数とdraw()関数が定義されています。
+<br><br>&nbsp;&nbsp;
+functionは、JavaScriptで関数を定義するキーワードです。Processingと同様、初期化処理はsetup()関数内に、繰返す処理はdraw()関数内に書きます。
+<br><br>&nbsp;&nbsp;
+スケッチには、JavaScript言語の文法に従い、p5.jsに定義された命令(関数と呼ぶ)を使って、描画処理のプログラムを記述します。
+<br>&nbsp;&nbsp;
+p5.jsの関数はメニューの[Help][Reference]から仕様の一覧を参照できます。
+次のURLからもリファレンスを参照できます。 https://p5js.org/reference/
+
+
+
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+&nbsp;&nbsp;
+index.htmlのタブは、JavaScriptのプログラムをWebブラウザ上で実行するためのHTMLファイルで、[実行]ボタン(右向き三角)をクリックすると、Webブラウザが起動され、index.htmlファイルが表示されます。index.htmlには、次の２つの&lt;script&gt;タグが記述されており、JavaScriptのプログラムがページ上で実行されます。
+<br> <pre class="reiji">
+  &lt;script language="javascript" type="text/javascript" src="libraries/p5.min.js"&gt;
+                                                                         &lt;/script&gt;
+  &lt;script language="javascript" type="text/javascript" src="sketch_200307c.js"&gt;
+                                                                         &lt;/script&gt;
+</pre>
+&nbsp;&nbsp;
+スケッチを保存すると、スケッチにつけた名前のフォルダが作成され、その中に拡張子jsのファイル、index.html、librariesフォルダ(p5.min.jsファイルが入る）ができます。
+<br>&nbsp;&nbsp;
+スケッチが正しく動作しない時は、WebブラウザのJavaScriptコンソールで、エラーに関する情報を得て、修正します。
+
+
+<h2 id=henkou">Javaモードからp5.jsモードへの移植</h2>
+Javaモードで作ったスケッチをp5.jsモードに書き換えるのに、最低必要なことを上げておきます。個々のスケッチで変更すべき点は異なりますが、次の(1)(2)(3)は必ず変更が必要です。
+
+<ul>
+<li>(1) size(幅, 高さ);を<strong>createCanvas(幅, 高さ);</strong>にする。</li>
+<li>(2) 変数の宣言を、データ型 変数名;から <strong>var 変数名;</strong>にする(あるいはlet 定数 = 値;)。</li>
+<li>(3) 関数の定義の先頭に<strong>function</strong>をつけ、戻り値のデータ型(例えばvoid)を削除する。</li>
+<li>(4) p5.jsモードの関数名が、Processingと違うものがあるので、定義されていないとのエラー(関数名 is not defined)が出たら、リファレンスで確認(例えば、pushMatrix/popMatrixはpush/popになっている)。</li>
+<li>(5) 画像ファイルや音声ファイルは、dataフォルダにあることを前提にはしていないので、フォルダ名を含めてパス名を指定する。</li>
+<li>(6) クラスを定義していたら、JavaScirptでのキーワードclassを使ってのクラス定義に変更する。変更のポイントは次の通り
+	<ul><li>・コンストラクタの名前はconstructor </li>
+	<li>・メソッドの戻り値のデータ型は指定しない</li>
+	<li>・クラスのプロパティ(変数)はコンストラクタ内で初期値を設定して定義。this.名前で参照する(ex. this.x = 10;)</li>
+	</ul>
+具体的には、p5.jsサンプルのObjectsセクションのex01_Objectsを参照。<br>
+Processingのp5.jsモードでキーワードclassを使ってのクラス定義が機能しないことがある(原因不明)。その場合prototypeプロパティを使ってクラス定義する(p5.jsサンプルのSimulateセクションのex01_ParticleSystemを参照)。</li>
+</ul>
+<br>
+次のページで、p5.jsモードでのスケッチの基本を説明します。
+<br>
+<ul id="list">
+<li> ・<a href="p5js1Draw.html#print">図形を描く</a></li>
+<li> ・<a href="p5js2Move.html#print">図形を動かす</a></li>
+
+<li> ・<a href="p5js3Interact.html#print">マウスに応答</a></li>
+<li> ・<a href="p5js4Func.html#print">関数を作る</a></li>
+<li> ・<a href="p5js5Event.html#print">イベント処理</a></li>
+<li> ・<a href="p5js6SoundRespond.html#print#print">音声に応答</a></li>
+<li> ・<a href="p5js7ML_sound.html#print#print">音声認識(機械学習ml5.jsのSoundClassifierを使う)</a></li>
+<li> ・<a href="p5js8ML_BodyPose.html#print#print">画像認識1_1(機械学習ml5.jsのBodyPoseを使う)</a></li>
+<li> ・<a href="p5js8ML_PoseNet.html#print#print">画像認識1_2(機械学習ml5.jsのPoseNetを使う)</a></li>
+<li> ・<a href="p5js9ML_FaceMesh.html#print#print">画像認識2(機械学習ml5.jsのFacemeshを使う)</a></li>
+</ul>
+
+</div>
+<div class="copy">
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

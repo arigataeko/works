@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 円周上で拡大縮小する円</h1>
+閾値により、スイッチがオンオフするプログラム例です。円が円周上にda(8)度の間隔で描かれます。その大きさがスイッチのオンオフで拡大縮小を繰り返します。マウスのx座標が、閾値(今の場合画面幅の二分の一)を超えたら、スイッチが入ります。
+<br><br>
+<p class="clear"> </p>
+
+<div class="rightSide">
+	<canvas id="ExpandMatrix2"
+       data-processing-sources="./InteractPDE/ExpandMatrix2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト ExpandMatrix2】
+float dr = 2;  //直径の変化量
+float d=0;
+float x, y;
+float angle; // 位置(角度)
+float da = 8; // 円周上に描く円の間隔(角度)
+float len = 50; // 配置の円の半径
+float level;
+
+void setup(){
+  size(150, 150);
+  level = width/2.0;
+  PFont f = createFont("Arial", 14); //文字を描くためのフォントの準備
+  textFont(f);
+  textAlign(CENTER, CENTER); //描く文字列の中央の座標を指定
+}
+
+void draw(){
+   background(255); 
+   if( mouseX &gt;= level) { //オン(true)のとき
+      d = d+dr;          //1増やす
+   }
+   if(d&gt;width*2) dr = -dr; //拡大縮小の向きを反転
+   else if(d&lt;0) dr=-dr;
+   noFill();
+   for(angle=0; angle&lt;360;  angle = angle + da){
+      x =len * cos(radians(angle)) + width/2.0;
+      y =len * sin(radians(angle)) +  height/2.0;
+      ellipse(x, y, d, d);
+   }
+   fill(0); //画面下部に、黒で、off | onの文字を描く
+   text("off", width/4.0, height-10);
+   text("|", width/2.0, height-10);
+   text("on", 3*width/4.0, height-10);
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

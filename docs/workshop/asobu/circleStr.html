@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for circle</title>
+<script type="text/javascript">
+<!--
+  var browser = navigator.appName;
+  var version = parseInt(navigator.appVersion);
+  var isNN = (browser=="Netscape");
+  var isN6 = (browser=="Netscape" && version>=5);
+
+  var r=100;
+  var x=200;
+  var y=200;
+  var dr = Math.PI/45;
+  var obj;
+  var angle;
+  
+  function initialize(){
+      obj = new Array();
+
+      if(!isNN) { 
+         for(i=0; i<message.length-1; i++){
+       	    obj[i] = eval("document.all.word" + i + ".style");
+         }
+      }else if(isN6){
+         for(i=0; i<message.length-1; i++){
+            obj[i] = eval("document.getElementById('word" + i +"').style");
+         }
+      }else {
+         for(i=0; i<message.length-1; i++){
+            obj[i] = eval("document.word" + i);
+         }
+      }
+      angle = new Array();
+      angle[0]= 0;
+      for(i=1; i<obj.length; i++){
+         angle[i] = parseFloat(angle[i-1]+ (2*Math.PI/obj.length));
+      }
+      rotateObj();
+  }
+  
+  function rotateObj(){
+      for(i=0; i<obj.length; i++){
+          angle[i] = angle[i] - dr;
+          obj[i].left = r*Math.cos(angle[i]) + x;
+          obj[i].top = r*Math.sin(angle[i]) + y;
+      }
+      setTimeout("rotateObj()", 100);
+  }
+
+//-->
+</script>
+<style type="text/css">
+   .special {
+       position:absolute;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+</head>
+<body onload="initialize()">
+<h1>文字が円形に移動</h1>
+<script type="text/javascript">
+<!--
+var message="江碧鳥愈白　山青花欲燃　 "
+    //続きは　今春看又過　何日是帰年
+message=message.split("")  /* 1文字ずつを切り出して、配列に入れる*/
+
+for(i=0; i<message.length-1; i++){
+   document.write("<span id='word"+i+"', class='special'>");
+   document.write(message[i]);
+   document.write("</span>");
+} 
+//-->
+</script>
+</body> 
+</html>

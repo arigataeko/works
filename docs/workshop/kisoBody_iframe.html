@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="Description" content="JavaScript">
+<meta name="KeyWords" content="JavaScript, 学習">
+<meta name="robots"content="index,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>JavaScriptの学習教材</title>
+
+<script type="text/JavaScript">
+<!--
+if (window == top) {
+   top.location.replace("kisoiframe.html");
+ }
+//-->
+</script>
+
+</head>
+<body>
+
+<br>
+<h1 id="toha">JavaScriptとは</h1>
+&nbsp;&nbsp;
+JavaScriptは、インタラクティブなWebページを制作するための技術のひとつです。ページに動きをもたせたり、ユーザ(ページの読者)からの入力(マウスの操作やキー入力)に対し、Webページに何らかの応答をさせるのに使います。<br>
+<br>&nbsp;&nbsp;
+JavaScriptはNetscape社が開発したスクリプト言語です。HTMLドキュメント(Webページ)に埋め込まれ、ブラウザがそのページを表示する際に、ブラウザ内のJavaScriptを解釈実行する部分が、スクリプトの記述を解釈実行します。<br>
+<br>&nbsp;&nbsp;
+Ｃ言語やJava言語といったプログラミング言語は、プログラムを書いた後、そのソースコードにコンパイルという処理を行うことで、プログラムを実行します。一方、Perl言語はコンパイルを必要とせず、その言語を解釈して実行するプログラム(これをインタプリタと呼びます)がソースコードを解釈して実行します。<br>
+<br>&nbsp;&nbsp;
+JavaScriptの場合、ブラウザに組み込まれたJavaScriptのインタプリタがHTMLドキュメント中のJavaScriptの記述を解釈実行します。ただ、JavaScriptで記述された&quot;プログラム&quot;が独立して実行されることはなく、あくまでWebページの一要素として実行されます。この意味で、JavaScriptはプログラミング言語ではなく、スクリプト言語と呼ばれます。<br>
+<br>&nbsp;&nbsp;
+ブラウザ開発競争の中で、異なったJavaScriptの機能が実装されたため、共通の言語規約はないと言ってもいい状態にありました。言語規約が標準化され、それに準拠したブラウザが多くなっているとはいえ、バージョンやコンピュータの環境などで、サポートされている機能や動作に違いがありますので、注意が必要です。
+
+<br><br>
+<h1 id="tag">&lt;script&gt;タグ</h1>
+&nbsp;&nbsp;
+
+JavaScriptは&lt;script&gt;タグを使って記述します。<br>
+<br>&nbsp;&nbsp;
+JavaScriptの実行結果が何らかの出力をするものであれば、HTMLドキュメントの&lt;script&gt;タグ
+を記述したところにその結果が埋め込まれます。typeのデフォルト値は&quot;text/javascript&quot;で、変更しない場合は省略が可能です。<br>
+
+<pre class="pcode">
+&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;!--
+   JavaScriptの記述
+//--&gt;
+&lt;/script&gt;
+</pre>
+
+<br>&nbsp;&nbsp;
+あるまとまった働きをする一連の処理に名前をつけたプログラムの部品をfunction(関数)といいます。このように名前をつけておくと、必要に応じてその名前を記述して処理を実行させることができるので、便利です。関数は&lt;head&gt;タグの中に定義しておくのが、一般的なやり方です。
+<pre class="pcode">
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;!--
+   function 関数名(引数のならび){
+        関数の処理
+   }
+//--&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+</pre>
+
+<br>&nbsp;&nbsp;
+JavaScriptの記述を別のファイルに保存しておき、それをHTMLドキュメントからよびだすには、&lt;script&gt;タグにsrc属性を指定します<br>
+<pre class="pcode">
+&lt;script type=&quot;text/javascript&quot; src=&quot;xxx.js&quot;&gt;    &lt;/script&gt;
+</pre>
+<br><br>
+<h1 id="rei">はじめの例</h1>
+&nbsp;&nbsp;
+Webページに静的な情報(文字)を表示するJavaScriptの記述を例に、JavaScriptの書き方を説明します。
+
+<h2>サンプル</h2>
+<ol>
+<li><a href="sample/hajimerei.html" target="other">特定の文字列の表示</a><br>
+    指定した文字列を表示するだけの例。
+    documentオブジェクトのメソッドを使う。
+<pre class="pcode">
+&lt;script&gt;
+&lt;!--
+document.write("この文字はJavaScriptで表示しています。");
+    ↑ domumentオブジェクトのwriteメソッドを実行
+    ↑ 引数に指定された文字列がページに出力される
+//--&gt;
+&lt;/script&gt;
+</pre>
+<br></li>
+<li><a href="sample/currentTime.html" target="other">現在時刻を表示</a><br>
+   表示する文字列を、計算で生成する例。
+<pre class="pcode">
+&lt;script&gt;
+&lt;!--
+let change = new Date();    ← Dateオブジェクトを生成、変数changeに格納
+let y = change.getFullYear();
+    ↑ DateオブジェクトのgetFullYearメソッドを実行、4桁の数字を変数yに入れる
+let m = change.getMonth()+1;
+    ↑ DateオブジェクトのgetMonthメソッドを実行、戻り値に1加えて、変数mに入れる
+let d = change.getDate();
+    ↑ DateオブジェクトのgetDateメソッドを実行、戻り値(日)を変数dに入れる
+let h = change.getHours();
+    ↑ DateオブジェクトのgetHoursメソッドを実行、戻り値(時間)を変数hに入れる
+let min =change.getMinutes();
+    ↑ DateオブジェクトのgetMinutesメソッドを実行、戻り値(分)を変数minに入れる
+document.write(y, "年", m, "月", d, "日  ", h, "時", min, "分","&lt;br&gt;");
+    ↑ domumentオブジェクトのwriteメソッドを実行
+    ↑ 引数に指定された文字列がページに出力される
+//--&gt;
+&lt;/script&gt;
+</pre>
+</li>
+
+<li><a href="sample/hajimerei3.html" target="other">画像のソースをJavaScriptで指定</a><br>
+&lt;img &gt;タグで配置した画像は、documentオブジェクトのimages[]プロパティに格納されます。<br>
+imagesプロパティは配列で、&lt;img &gt;タグが現れた順に画像情報が入ります。[ ]の中には出現順を表すインデックス(整数)を指定します。最初の&lt;img &gt;タグはdocument.images[0]で、そのsrcの値に画像ファイル名を指定します。<br><br>
+単に画像を表示するだけなら、わざわざJavaScriptで指定する必要はありませんが、
+インタラクティブに画像を変化させたいときには、JavaScriptを使ってsrcの値を切り替えます。
+
+<pre class="pcode">
+&lt;img&gt;
+&lt;script&gt;
+&lt;!--
+    document.images[0].src="image/mori.jpg";
+    ↑ domumentオブジェクトのimages[]プロパティには、img要素が自動的に入る
+    ↑ そのsrcの値に表示したい画像ファイルを指定する
+//--&gt;
+&lt;/script&gt;
+</pre>
+
+<br>
+&lt;img &gt;タグで配置した画像に、name属性で名前をつけ、その名前のsrcの値を指定することもできます。&lt;img &gt;タグにname属性をつけることはHTML5では推奨されていませんが、機能します。以後のサンプルでは、この方法を使っているものもあります。<br>
+
+<pre class="pcode">
+&lt;img name="photo"&gt;
+&lt;script&gt;
+&lt;!--
+    document.photo.src="image/mori.jpg";
+    ↑ domumentオブジェクトにはname属性を指定した要素のプロパティが自動的に生成される
+//--&gt;
+&lt;/script&gt;
+
+
+
+</li>
+</ol>
+
+&nbsp;&nbsp;
+JavaScriptはその名前の一部にJavaとついていることからも想像されるとおり、オブジェクト指向であるJava言語の考え方や記述法を借りています。一方で、手続き型言語(FORTRANやC)のやり方も取り入れていていますので、「純粋な」オブジェクト指向ではありません。
+<br>&nbsp;&nbsp;
+はじめの例に出てくるJavaScriptの文法要素を理解する助けになる資料を用意しました。
+
+<h2 id="rei_kanren">関連資料</h2>
+<ol>
+<li><a href="object.html" target="other">オブジェクト指向</a><br></li>
+<li><a href="document.html" target="other"> documentオブジェクト</a><br></li>
+<li><a href="BasicHensu.html" target="other">変数と定数</a><br></li>
+<li><a href="enzanshi.html" target="other">演算子</a><br></li>
+<li><a href="BasicArray.html" target="other">配列</a><br></li>
+<li><a href="http://www.tohoho-web.com/js/date.htm" target="other"> Dateオブジェクト</a>(http://www.tohoho-web.com/js/date.htm)<br></li>
+<li><a href="math.html" target="other"> Mathオブジェクト</a><br></li>
+</ol>
+
+<h2 id="rei_mondai">演習問題</h2>
+<ol>
+<li>今日の日付の、月の数字と日の数字を
+    <ul>
+    <li>足し算した値(演算子＋)</li>
+    <li>引き算した値(演算子－)</li>
+    <li>掛け算した値(演算子＊)</li>
+    <li>割算した値(演算子／)</li>
+    <li>割った余りの値(演算子％)</li></ul>
+を表示するページを作成してください。<br><br>
+</li>
+<li>今日から特定日までの日数を表示するページを作成してください。<br>
+    <ul>
+    <li>特定の日を指定してDateオブジェクトを生成します。<br>
+      &nbsp;&nbsp; target = new Date(yyyy,mm,dd);</li>
+    <li> DateオブジェクトのgetTimeメソッドを使って、1970年1月1日からの経過時間(ミリ秒単位)を求め、特定の日と今日との間の時間差を計算します。<br>
+      &nbsp;&nbsp;   target.getTime()</li>
+    <li> ミリ秒単位の時間差を1日のミリ秒(24*60*60*1000)で割り、日単位に直します。その整数部分が特定日までの日数です。</li>
+    </ul></li>
+</ol>
+
+<br>
+<h1 id="event">イベント</h1>
+&nbsp;&nbsp;
+
+マウスカーソルが移動した、マウスボタンが押された、オブジェクト状態が変化したときなどに、イベントが起ります。起ったイベントに対して、どう処理をするかを記述しておけば、インタラクティブな動きをするページを作ることができます。
+<br>&nbsp;&nbsp;
+  どのようなイベントがあるかは関連資料を参考にしてください。
+
+<h2 id="event_sample">サンプル</h2>
+<ol>
+
+<li><a href="sample/mouseover.html" target="other">onmouseover/outの例１</a><br>
+    マウスカーソルが画像の上にきたとき、画像が変化します。documentオブジェクトのimagesプロパティを使っています。最初のimg要素はdocument.images[0]です。<br><br></li>
+
+<li><a href="sample/mouseoverFunc.html" target="other">onmouseover/outの例２(関数を使う)</a><br>
+    例１と全く同じ動きをします。引数に画像ファイルを指定する関数を定義しています。関数内で、document.images[0]のsrcを引数で渡された画像に設定します。<br><br></li>
+
+<li><a href="sample/mouseoverFunc2.html" target="other">onmouseoverの例３(関数を使う)</a><br>
+    例１例２と全く同じ動きをします。<br>
+     例２では関数の引数にファイル名を指定しましたが、この例では、画像ファイルごとに関数を用意し、先頭から何番目のimgタグかを表す値を引数に指定にしました。<br><br></li>
+
+<li><a href="sample/faceOverOut.html" target="other">onmouseover/outの例４</a><br>
+    マウスカーソルが画像の上にきたとき、画像が変化します。画像の部分にname属性で名前をつけておく代わりに、documentオブジェクトのimagesプロパティを使っています。<br><br></li>
+
+<li><a href="sample/faceOverOutFunc.html" target="other">onmouseover/outの例５(関数を使う)</a><br>
+    例４と同じ動きをします。関数を使って、書きなおしたものです。<br><br></li>
+
+<li><a href="sample/click.html" target="other">onclickの例１</a><br>
+    フォーム上に入力した値を使って計算をします(華氏と摂氏の換算)。<br><br></li>
+
+<li><a href="sample/faceClickTwo.html" target="other">onclickの例２</a><br>
+    2枚の画像がクリックで入れ替わります。onmouseover/outの例５と同じ動きがマウスのクリックで起こるように書き換えました。<br><br></li>
+
+<li><a href="sample/faceClickMany.html" target="other">onclickの例３</a><br>
+    onclickの例２と同様クリックで画像が変化します。画像の枚数を増やし、クリックにより、ぱらぱらアニメにように画像が順番に表示します。<br><br></li>
+
+<li><a href="sample/selectOnChange.html" target="other">onchangeの例</a><br>
+    メニューで文字の色を選択します。<br></li>
+</ol>
+
+<h2 id="event_kanren">関連資料</h2>
+<ol>
+
+<li><a href="./event.html" target="other">イベントの種類</a></li>
+<li><a href="./builtin.html" target="other">ビルトイン関数</a></li>
+<li><a href="./BasicFunction.html" target="other">関数を作る</a></li>
+<li><a href="./formtag.html" target="other">formタグとJavaScript</a></li>
+<li><a href="http://www.tohoho-web.com/js/form.htm" target="other">formオブジェクト</a>(http://www.tohoho-web.com/js/form.htm)</li>
+<li><a href="./string.html" target="other">Stringオブジェクト</a></li>
+</ol>
+
+<h2 id="event_mondai">演習問題</h2>
+&nbsp;&nbsp;&nbsp;&nbsp; <a style="font-size:smaller" href="./sample/showImage.html" target="other">演習問題で使う画像</a>
+
+
+<ol>
+<li>onmouseoverの例を参考に、
+写真の近くに置いた文字列の上にマウスカーソルがくると、
+画像が変わるページを作成してください。<br><br><br></li>
+
+
+<li><img src="./event2Single.jpg" alt="snapshot for mouseOver" align="right" border="1" >
+マウスカーソルがメニュー項目上にくると、
+それに応じた画像を右側に表示するスクリプトを作成してください。<br><br>
+例えば、昼、夕方、夜という３つのメニュー項目があり、
+そのいずれかにマウスカーソルを置くと、関連する写真を右に表示します。カーソルがメニュー項目上にない時は何も表示されません(空白の画像を表示)。
+メニュー項目が表示されているページを用意しました。<br><br>
+    <a href="ensyu/event2Base.html" target="other">メニュー項目の表示例</a><br><br>
+
+<br clear="all"><br><br>
+</li>
+
+
+<li> <img src="./event3.jpg" alt="snapshot for event sample" width="383" align="right" border="1">
+    演習問題２のページに対して、マウスカーソルがメニュー項目上にくると
+    メニュー文字列の前の記号画像が変わるよう、変更を加えてください。<br><br>
+    メニュー文字列の前の画像は元々off.gifですが、文字列にマウスカーソルが乗ったらon.gifに変更し、カーソルが外れたら元に戻るようにします。<br>
+    つまり、項目のいずれかにマウスを置くと、項目前の画像が変わるとともに、
+    関連する写真を表示するようにします。<br><br>
+
+
+
+<br clear="all"><br><br><br>
+</li>
+<li><img src="./himan.gif" alt="snapshot for himando sample" align="right" border="1" >
+onlcickの例を参考に,体重と身長をフォームから入力すると、標準体重と肥満度を計算し、表示するページを作成してください。標準体重と肥満度(BMI値)は次の式で計算します。<br>
+    標準体重(Kg) = 身長(m) ×  身長(m) ×  22<br>
+    肥満度 = 体重(Kg) ÷ (身長(m) ×  身長(m))<br><br>
+<br clear="all"><br><br>
+</li>
+<li>onchangeの例を参考に、文字の背景色がメニューで選択した色に変わるようにしてください。</li>
+</ol>
+
+<br>
+<h1 id="flow">制御構造</h1>
+&nbsp;&nbsp;
+  条件によって処理の内容を変えたり、同じ処理を繰り返したりすることを、処理を制御するといいます。これを記述するのが制御構造です。
+
+<h2 id="flow_sample">サンプル</h2>
+<ol>
+<li><a href="sample/timeChange.html" target="other">時間による画像の変化(条件分岐if)</a><br>
+    ローカルマシンの時間により、表示される画像が変わります。<br>
+    if文を使って、現在の時間により、画像のソースを変えます。<br><br></li>
+
+<li><a href="sample/kindOfBrowser.html" target="other">ブラウザ種類の判別(条件分岐if)</a><br>
+    ブラウザの種類やバージョンに関する情報は、Navigatorオブジェクトの
+   <ul><li>appNameプロパティ</li>
+       <li>appVersionプロパティ</li>
+       <li>userAgentプロパティ</li></ul>
+によって知ることができます。<br><br>
+この例を異なるブラウザで表示して試すとわかるように、appNameプロパティだけを見てブラウザの名前を知ることはできません。またappVersionやuserAgentは長い文字列でその中に、ブラウザ名やバージョン埋め込まれているため、そこからブラウザ名の文字列を探し出すという処理が必要になります。<br><br>
+たとえば、次のようにします。userAgentプロパティの文字列を一旦全部小文字にして(toLowerCase()を使う)、その後で、'opera'や'msie'といったブラウザ名の文字列があるか調べます(indexOf('opera')のようにして調べる)。<br>
+文字列が見つかると、その文字列が見つかった場所(先頭からの何文字目か)が返されます。見つからないと－1となります。indexOf()の返す値がー１でなかったならば、その文字列が見つかった、つまりその文字列のブラウザであることが、判明します。
+    <pre>
+  agent = window.navigator.userAgent.toLowerCase();
+
+  if(agent.indexOf('opera') != -1){
+      str = 'opera';
+  }else if(agent.indexOf('msie') != -1) {
+      str = 'ie';
+  }else if(agent.indexOf('chrome') != -1){
+      str = 'chrome';
+  }else if (agent.indexOf('safari') != -1){
+      str = 'safari';
+  }else if (agent.indexOf('firefox') != -1){
+      str = 'firefox';
+  }else {
+      str = "不明";
+  }
+  document.write("ブラウザは", str, "ですね。<br><br>
+</pre></li>
+<li><a href="sample/tashisan.html" target="other">１からある数までの合計(繰り返しfor)</a><br>
+    ブラウザ上で整数の入力を求め、１からその数までの合計を計算するページです。<br>
+    for文を使って、１からその数まで足し算を繰り返します。<br><br></li>
+
+<li><a href="sample/animaltype.html" target="other">性格動物診断(フォームと制御構造)</a><br>
+    行動に関する質問にラジオボタンで回答すると、それに応じた性格判断をします。<br>
+    formのradioボタン、条件分岐、繰り返しを使っています。<br><br></li>
+
+</ol>
+
+<h2 id="flow_kanren">関連資料</h2>
+<ol>
+<li><a href="flow.html" target="other">制御構造を記述する文</a><br></li>
+</ol>
+
+<h2 id="flow_mondai">演習問題</h2>
+<ol>
+<li> サンプルの1を参考に、画像がランダムに変わるページを作成してください。
+     乱数はMathオブジェクトのrandomメソッドを使います。<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;Math.random()<br>
+     は、0.0から1.0までの乱数を生成します。これにある整数nをかけ、小数点以下を切り捨てると、0からn-1の整数がランダムに得られます。<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;Math.floor(Math.random()*n)<br>
+<br></li>
+<li> じゃんけんをするページを作成してください。
+
+  <ul><li>  <img src="./janken.png" alt="Janken Page"
+            border=1 align=right hspace=20>
+          まず、表示部分を作ります。<br>
+
+          人間の手とコンピュータの手を表す2つの画像、
+          グー,チョキ、パーを選ぶ3つのボタン、
+          勝敗を表示するテキスト領域を適当に配置してください。
+  <br clear=all><br></li>
+  <li> グー,チョキ,パーのボタンにonclickイベント処理を指定します。<br>
+       ボタンがクリックされたら、それを人間の手に表示し、
+       コンピュータの手をランダムに決め、コンピュータの手に表示します。
+       続いて、勝敗を判定して、勝ち負け文字をテキスト領域に表示します。<br>
+
+       onclickイベントに指定する関数は、
+       どのボタンがクリックされたかを引数で受け取るようにするのがいいでしょう。
+       例えば、引数の値が0ならグー、1ならチョキ、
+       2ならパーが選択されたと決めておいて、関数内に処理を記述します．
+  <pre>
+      function doJanken(select){
+          //人間の手を表示する処理
+          //コンピュータの手を決める処理
+          //コンピュータの手を表示する処理
+          //勝敗を表示する処理
+      }
+
+formタグ内で、例えば次のようにこの関数を使います。
+      &lt;input type=button value="グー" onclick=doJanken(0)&gt;
+  </pre></li>
+   </ul></li>
+
+<li> サンプルの3を参考に、金利計算をするページを作成してください。<br>
+     元金、年利(％)、期間(年)を入力してもらい、その年利で元金を銀行に預けた場合、複利計算でその期間を過ぎると、元利合計はいくらになるか計算をします。複利計算とは、1年目の元金と金利の合計が次の年の元金になるというものです。<br>
+<br>
+</li>
+<li> サンプルの4を参考に、サル度をチェックするページを作成してください。<br>
+サル度チェックは、愛知県犬山市の日本モンキーセンターが作成したもので、30の項目に「はい」か「いいえ」で答え、「はい」の数の合計で判定します。<br>
+質問の項目は、
+<a href="ensyu/sarudo.txt" target="other">テキストファイル</a>
+に入れておきました。<br><br>
+     ラジオボタンを使って「はい」か「いいえ」でユーザに答えてもらい、「はい」の数に応じて、次の判定結果をブラウザに表示します。<br>
+    <ul>
+    <li>29以上：あなたのサル度は100％。あなたはサルです。サルについていけます。</li>
+    <li>25以上28以下：サル度は90％。野宿が可能です。</li>
+    <li>20以上24以下：サル度は70％。元気です。内なる野生を大切に。</li>
+    <li>15以上19以下：サル度は50％。一般的な人間ですが、ストレスがたまっていませんか？</li>
+    <li>5以上14以下：サル度は20％。野生のパワーがなくなりつつあります。森の中で充電しましょう。</li>
+    <li>5未満：サル度は5％。危険ラインをこえています。野生喪失状態です。</li>
+    </ul>
+</li>
+
+</ol>
+
+<br>
+<h1 id="win">ウィンドウ操作</h1>
+&nbsp;&nbsp;
+  ページから新たなブラウザウィンドウを開いたり、それを操作したりするには、
+  windowオブジェクトを使います。windowオブジェクトどのようなイベントがあるかについては、別の資料を参考にしてください。
+<br>&nbsp;&nbsp;
+ <a href="http://www.tohoho-web.com/js/window.htm" target="other">windowオブジェクト</a>(http://www.tohoho-web.com/js/window.htm)
+
+<h2 id="win_sample">サンプル</h2>
+<ol>
+<li><a href="sample/click2.html" target="other">警告ウィンドウの表示</a><br>
+    華氏と摂氏の換算で、数値以外の値が入力されたらメッセージウィンドウを表示し、再入力を促します。<br>
+    windowオブジェクトのalertメソッドを使います。<br><br></li>
+
+<li><a href="sample/newWindow.html" target="other">新しいウィンドウの表示</a><br>
+    ボタンを押すと、新しいウィンドウを開いて、ページ内容を表示します。<br>
+    リンクタグのtarget属性を指定れば、href属性で指定したURLを別の新しいウィンドウに表示できますので、別ウィンドウを開くだけなら、HTMLで十分で、JavaScriptを使う必要はありません。windowsオブジェクトのopenメソッドを使うと、開いたウィンドウの大きさなどを制御できます。<br><br></li>
+
+<li><a href="sample/setSize.html" target="other">ウィンドウの大きさの変更</a><br>
+    ページのロードが終了したら、ウィンドウサイズを変更します。<br>
+    windowオブジェクトのonloadイベントとresizeToメソッドを使います。
+    </li>
+</ol>
+
+<h2 id="win_mondai">演習問題</h2>
+<ol>
+<li>イベントの節の演習問題4で作成したページを、数値以外の値を入力すると、
+    警告メッセージが表示されるように変更してください。<br><br></li>
+<li> リンク文字にマウスカーソルが入ったら、そのリンク先の情報をウィンド
+    ウのステータスバーに表示するページを作成してください。<br>
+    リンクの例として、次のページを用意しました。<br>
+    <a href="ensyu/win2Base.html" target="other">リンクの表示例</a><br><br>
+
+    &lt;a&gt;タグに、onmouseoverのイベント処理を指定します。onmouseoverの値の最後にreturn true;と書いて戻り値をtrueにします。これにより、デフォルト(リンク先のurl)の表示が解除されます。<br><br>
+<pre class="pcode">
+&lt;a href="リンク先のアドレス"
+   onmouseover="ステータスラインに文字列を表示するスクリプト;  return true;"&gt;
+リンク文字列 &lt;/a&gt; <br><br>
+</pre>
+    ステータスラインに文字列を表示するには、windowオブジェクトのプロパティstatusに文字列を代入します。すると、その文字列が表示されます。<br>
+
+
+
+<br><br></li>
+<li> サンプルの2と3を参考に、ページのロードが終了したら、自動的に新しいウィンドウを開き、そこに別の内容を表示するようなページを作成してください。
+</li>
+</ol>
+
+<br>
+<h1 id="dynamic">idでの要素のアクセス</h1>
+&nbsp;&nbsp;
+
+HTML要素にはid属性で、idを付けることができます。そのidを使って要素にアクセスして、その属性を変えることで、内容や位置を操作できます。
+<br>
+<h2>記述方法</h2>
+
+<h4>A.内容を変更</h4>
+&nbsp;&nbsp;(1) 要素の内容を変更するには、まずその要素に対してid属性を指定して、idをつけておきます。
+<pre class="pcode">
+&lt;span id="koko"&gt;  ここが内容 &lt;/span&gt;
+</pre>
+
+このspan要素の属性にアクセスすることで、要素の内容を動的に変更できます。ここではspanタグを例にしましたが、id属性が指定できるHTML要素に同じ方法が使えます。
+<br><br>
+
+&nbsp;&nbsp;(2)
+そして、documentオブジェクトのgetElementById("ID属性に指定した値")を使って、そのHTML要素にアクセスします。
+
+<pre class="pcode">
+document.getElementById("koko").innerHTML = "ページ上に表示したい内容(HTMLタグ含む)";</pre>
+
+getElementById("ID名")が返す値はHTML要素そのもので、そのプロパティinnerHTMLに表示する内容を指定するという意味です。内容が文字(テキスト)の場合は、innerTextも使えます。
+<pre class="pcode">
+document.getElementById("koko").innerText = "ページ上に表示したい文字内容";</pre>
+ <br> <br>
+getElementById("ID名")が実際どのような値を返すかを次のように確認することができます。ブラウザの開発ツールのコンソールに指定したIDの要素の内容が表示されます。
+<pre class="pcode">
+console.log(document.getElementById("koko"));
+</pre>
+
+指定するIDの要素がないとgetElementById("ID名")はnullという特別な値を返します(値がないという意味）。要素があるかないかを調べて処理をするには次のように書きます。
+<pre class="pcode">
+if (document.getElementById("koko") != null) {
+      // 要素がある時の処理を書く
+}
+</pre>
+ <br>
+
+<h4>B.位置を変更</h4>
+
+&nbsp;&nbsp;(1)
+要素の位置を直接指定するには、id属性を指定したうえで、スタイルシートの属性にposition: absolute;を設定します。たとえば、次のようにspecialという名前のスタイルシートクラスを定義し、それを使って、spanタグ要素を記述したとします。
+<pre class="pcode">
+&lt;style&gt;
+   &lt;!--
+       .special { position: absolute; font-size: 16 }
+   --&gt;
+&lt;/style&gt;
+
+&lt;span class="special" id="koko" &gt;  ここが内容 &lt;/span&gt;
+</pre>
+
+&nbsp;&nbsp;(2)
+この要素のスタイルシート属性のleftやtopの値を指定することで、要素の位置を変更できます。ここでは、spanタグを例にしましたが、スタイル属性が定義できるHTML要素に同じ方法が使えます。
+
+
+documentオブジェクトのgetElementById(ID)が返す値を使って、次のようにHTML要素の位置を指定します。
+<pre class="pcode">
+document.getElementById("koko").style.left = よこ位置; (例えば,100px)<br>
+document.getElementById("koko").style.top = たて位置;
+</pre>
+
+<br>
+
+
+
+<h2 id="dynamic_sample">サンプル</h2>
+<ol>
+<li><a href="sample/dynamic_currentTime2.html" target="other">getElementByIdを使った時刻表示</a><br>
+   一番最初の例で、現在時刻を表示するページの記述を説明しました。これをgetElementById使って書き直してみます。<br><br>
+
+   ただし、この例は、一度時刻の表示を変えるだけなので、「再読み込み」をしないと、時刻は更新されません。自動的に時刻の表示が変わるようにしてみます。
+　そのために、一定時間ごとに表示内容を更新する必要があります。<br>
+    <a href="sample/real_currentTime2.html" target="other">自動的に時刻表示が更新される例</a>
+<br><br>
+  一定時間ごとに特定の処理を実行させるには、タイマー機能を使います。<br>
+  <pre>
+      setTimeout("実行する関数名", ミリ秒);
+  </pre>
+     同じ処理(関数)を一定間隔で実行するには次のようにします。
+  <pre>
+      function kansu(){
+         //処理を記述
+         window.setTimeout("kansu()", ミリ秒);
+      }
+  </pre>
+</li>
+<li><a href="sample/himando2.html" target="other">getElementByIdを使った計算結果の表示</a>
+<br>
+   イベントの節の演習問題4では、標準体重と肥満度の計算結果をフォームのテキストフィールドを使って表示しましたが、フォームを使わずに直接HTML要素に結果を表示した例です。
+<br><br>
+</li>
+<li><a href="asobu/moveStr2.html" target="other">getElementByIdを使った表示位置の移動</a>
+<br>
+   スタイル属性のtopを変更することで、ページ上に表示する文字の位置を縦方向(y軸方向)に変化させる例です。<br>
+
+  動かす要素(ここでは文字)は&lt;span&gt;タグで囲み、id属性の値を例えばmsgと指定します．msg要素上部のウィンドウ枠上部からの位置を、一定間隔で変化させます。上からの位置が変数yに入っているとすると、次のように設定します<br>
+<pre class="pcode">
+document.getElementById("msg").style.top = y + "px";
+
+//ただし、5.5より前のバージョンのIEの場合
+document.all.msg.style.top = y + "px";
+</pre>
+</li>
+</ol>
+<br>
+
+<h2 id="dynamic_mondai">演習問題</h2>
+<ol>
+<li>サンプル1(時刻表示ページ)を参考に、俳句(らしきもの)が次々と表示されるページを作成してください。表示される俳句は、
+<a href="haiku.html" target="other">既存の俳句</a>
+の言葉をランダムにつなげて生成することにします。<br>
+　元になる10の俳句の中の言葉を、配列に入れておきます。<br>
+  <pre>
+  const word1 = ["鯉はねて", "褌に", "古池や", "無為にして", "蜩や",
+                      "秋の蝿" ,"蝙蝠や" ,"阿呆鳥" ,"余命" ,"遅れ咲く"];
+  const word2 = ["浅きタライや", "団扇さしたる", "蛙飛び込む", "ナマコ一万",
+                      "神鳴り晴れて" ,"叩き殺せと" ,"暮るるをながめ" ,
+                      "熱き国にぞ" ,"いくばくかある","こと貫禄の"];
+  const word3 = ["春の水", "亭主かな", "水の音", "八千歳", "又夕日",
+                      "命じけり" ,"坂の上" ,"参りたる" ,"夜短し","八重桜"];
+  </pre>
+
+例えば、word1[0]とword2[6]とword3[1]をつなげると、「鯉はねて暮るるをながめ亭主かな」になります。これをページ上に表示します。配列の添え字はランダムに決めます。<br>
+上の配列の定義と、言葉の表示部分だけを次のページに記述しましたので、これを元に完成させてください。(もちろん、使う言葉は任意です)<br>
+    <a href="ensyu/randomHaiku_base.html" target="other">3つの言葉が表示されるだけのページ</a><br><br>
+
+
+<br><br></li>
+
+<li>サンプル2(肥満度計算ページ)を参考に、肥満度の計算結果に応じて、次のような判定結果を表示するようにしてください。<br>
+    肥満度が40以上 ……………… 肥満4度<br>
+    肥満度が35以上で40未満 …… 肥満3度<br>
+    肥満度が30以上で35未満 …… 肥満2度<br>
+    肥満度が25以上で30未満 …… 肥満1度<br>
+    肥満度が18.5以上で25未満 ……… 正常<br>
+    肥満度が18.5未満 …………… 痩せすぎ<br>
+
+<br><br></li>
+
+<li>サンプル3を参考に、HTML要素が横方向に移動するようにしてください。<br>
+<br><br></li>
+<li>ページを縦方向へスクロールしても、ウィンドウ画面の特定の位置にHTML要素が表示されるようにしてください。つまり、要素の位置をスクロールに従って変える(移動する)ことになります。<br>
+今、縦方向(Y方向)へどれだけスクロールされているかは、次のプロパティで知ることができます。
+<pre>
+    windowオブジェクトのpageYOffsetプロパティ
+    ただし、IE6-8では、document.documentElementのscrollTopプロパティ
+</pre>
+
+
+<br></li>
+<li>サンプル3を参考に、HTML要素が円周上を移動するようにしてください。
+    <br>
+    円の中心の座標を(0,0)、円の半径をr、
+    x軸の正の値の方向(右方向、時計でいうと3時の位置)からの回転角度をangleとすると、円周上の座標は次の式で計算できます。
+<pre>
+          x = r * Math.cos(angle)
+          y = r * Math.sin(angle)
+</pre>
+    cos(),sin()の引数は、ラジアンで表した角度angleです。
+    もし、angleが10度や90度のように度単位の数値であるなら、
+    これをラジアンへ変換する必要があります。
+    度からラジアンへの計算は次のようにします。
+    Math.PIはΠ(円周率)の値です。
+<pre>
+          angle * Math.PI/180
+</pre>
+    angleの値を少しずつ変化させて、円周上を移動させます。
+<br><br><br></li>
+<li>さらにサンプル3を参考に、HTML要素がブラウザウィンドウの左から右へ波打つように動くページを作成してください。三角関数で位置を計算します。
+<pre>
+    x座標：angle
+    y座標：Math.sin(angle*Math.PI/180)
+</pre>
+    sin関数の値は－１から１の値です。適当な係数(例えば100)をかけて、画面上のピクセル単位の位置に合った数値を、topプロパティの値とします。<br>
+
+　　ウィンドウの右端まできたら、左端に戻るように処理します。ウィンドウの幅は、次のプロパティの値から得られます。
+
+<pre>
+    windowオブジェクトのinnerWidthプロパティ
+
+    ただし、IE6-8では、document.documentElementのclientWidthプロパティ、
+    それIE以前では、document.bodyオブジェクトのclientWidthプロパティ
+</pre>
+</li>
+</ol>
+
+<br>
+<h1 id="sogomondai">総合演習問題</h1>
+&nbsp;&nbsp;
+シンプルなスロットマシンを作成してください。
+  <ul><li>
+   <img src="./slot.gif" alt="Slot Page" border=1 align=right hspace=20>
+まず、表示部分を作ります。<br>
+3つの画像、3つのSTOPボタン、1つのSTARTボタンを適当に配置してください。3つの画像がスロットに相当し、それぞれにSTOPボタンがついているイメージです。STARTボタンでスロットを動かします(スロット上の画像が変化する)。
+
+  <br clear=all><br></li>
+  <li> 3つの画像を順番に表示するのに便利なように、画像ファイル名を配列に格納しておきます．画像ファイルが、imageフォルダーにあり、その名前が、img0.gif、img1.gif、img2.gifである場合、次のように書きます．
+  <pre>
+      var img=new Array();
+      for(i=0;i<3;i++) {  //3つの画像ファイル名を配列imgに入れる
+         img[i]= "image/img" + i + ".gif";
+      }
+  </pre></li>
+
+  <li> STARTボタンにonclickイベント処理を指定します。
+       ボタンがクリックされたら、スロット(IMG要素)の画像を一定間隔で変えます。
+  <pre>
+      function kansu(){
+         //スロットの画像を変える処理
+         timer = setTimeout("kansu()", ミリ秒);
+      }
+  </pre>
+     タイマー用の変数(例えばtimer)はスロットごとに用意しておきます。<br>
+
+     画像を順番に表示するため、kansu()が1回実行されるごとに1ずつ増える変数(例えばi)を用意します。
+
+     kansu()の中で、iの値に1加え、iの値を3で割った余り(i%3)の番号の画像をスロットのsrcにすると、配列(img)に入れた画像が順番に表示されます(slot1はIMG要素のname属性で画像につけた名前です)。
+  <pre>
+       document.slot1.src = img[i1%3];
+       i1++;
+  </pre></li>
+
+   <li> STOPボタンにonclickイベント処理を指定します。
+       ボタンに対応するスロットの動き(画像の変更)を止めるため、
+       そのスロットのタイマーを止めます。
+       タイマーを止めるには、clearTimeout(timer)とします。
+
+   <br><br></li>
+  <li> スロットが動いている途中で、STARTボタンがクリックされることを考え、
+     タイマーが停っているかどうかの状態を表す変数(例えばstop1)を用意し、
+     タイマーが動いている時はその値をfalseに、
+     停っている時にはtrueにします。
+     STARTボタンがクリックされた時、この値がfalseであれば、タイマーを止めます。</li>
+   </ul>
+
+<br>
+<h1 id="link">参考解説ページ</h1>
+&nbsp;&nbsp;
+
+JavaScriptを解説したページはWeb上に多く公開されています。そのいくつかを紹介します。
+<ul>
+<li><a href="http://www.tohoho-web.com/js/" target="other">JavaScriptリファレンス</a> … 杜甫々氏による文法解説ページ<br>
+http://www.tohoho-web.com/js/<br></li>
+
+<li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide" target="other">JavaScript Guide</a> … 基礎文法の説明<br>
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide</li>
+</ul>
+
+
+<hr size="2"noshade>
+<div class="cp">
+Last modified: Jan. 2024
+</div>
+</body>
+</html>

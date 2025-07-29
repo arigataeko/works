@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の直線運動…ひとつ(軌跡なし)</h1>
+ひとつの円が、水平に一定速度で運動します。
+<a href="../Trail2Move.html#changePos" target="other">リスト2-2</a>と同じです。<br>
+
+右端へ消えたら、左端から現れるようにするために、
+<a href="../Trail2Move.html#changePos" target="other">リスト2-2</a>と同様にif文を使っています。
+<pre class="reiji">
+ if(x>=width+d/2) {  //画面の幅＋半径分より右に来たら
+    x=-d/2;   //左の壁の外側に置く
+ }
+</pre>
+違いは、円の左端が完全に右壁に消えた後に、左壁の中から再び出てくるように、xの値がwidth+d/2以上になったらxの値を-d/2にしているところです。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="Straight1"
+       data-processing-sources="./MotionPDE/oneDirection/Straight1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Straight1】
+float s = 3; // 移動速度
+float x; // 位置(x座標)
+float d = 10; // 円の直径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面の背景を白でクリア
+     x = x+s ;  // 位置を変化
+     if(x>=width+d/2) {
+        x=-d/2;   //左の壁の外側に置く
+     }
+     ellipse(x, height/2, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

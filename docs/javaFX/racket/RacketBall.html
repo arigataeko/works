@@ -1,0 +1,52 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="javaproSample.css">
+  <SCRIPT src="http://java.com/js/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'RacketBall.jnlp'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbedRacketBall() {
+        dtjava.embed(
+            {
+                id : 'RacketBall',
+                url : 'RacketBall.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : '420',
+                height : '420'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbedRacketBall);
+</script>
+
+</head><body>
+<h2>RacketBall</h2>
+  <b>Webstart:</b> <a href='RacketBall.jnlp' onclick="return launchApplication('RacketBall.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+
+<div id="setsumei">
+マウスをドラッグするとラケットが左右(だけ)に動きます。<BR>
+ラケットでボールをはね返します。受けそこねるとゲームオーバ。<BR><BR>
+
+ソースコードは<a href="RacketBall.java">こちら</a>。<BR><BR>
+</div>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder'class="artpieceRacket"></div>
+</body></html>

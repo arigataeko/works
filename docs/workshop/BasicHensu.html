@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+  <title>Variables</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+
+<div id="main">
+  <br>
+<h1> プログラミングの基本要素</h1>
+
+<div class="menu">
+| &nbsp;
+<a href="#hensu">変数</a> &nbsp;| &nbsp;
+<a href="#kata">データ型</a> &nbsp;| &nbsp;
+<a href="#josu">リテラル</a> &nbsp;| &nbsp;
+<a href="#bun">文</a> &nbsp;| &nbsp;
+<a href="#sanjutsu">算術演算子</a> &nbsp;| &nbsp;
+<a href="#comment">コメント</a> &nbsp;| &nbsp;
+</div>
+
+<h2 id="hensu">変数</h2>
+
+変数は、データを保持するための「入れ物」のようなものです。
+ 変数には名前がついていて，そこに入れた値を後で参照したり，変更したりできます。
+<br>
+ 変数を使うには，変数を用意します（これを「変数の宣言」という）。それには3つの方法があります。
+<ul>
+  <li>・<strong>const</strong>というキーワードを書き，続いて変数名，=，値を指定する。その値が変数に格納される。constは定数を表し、新しい値を代入できない。<br>
+  <pre class="reiji">
+   const x = 12;
+  </pre>
+  </li>
+  <li> ・<strong>let</strong>というキーワードを書き，続いて変数名，=，値を指定する。その値が変数に格納される。<br>
+  <pre class="reiji">
+   let x = 12;
+  </pre>
+  </li>
+  <li> ・<strong>var</strong>というキーワードを書き，続いて変数名，=，値を指定する。その値が変数に格納される。<br>
+  <pre class="reiji">
+   var x = 12;
+  </pre>
+</li>
+
+</ul>
+<strong>const</strong>と<strong>let</strong>はECMAScript2015から採用された新しいキーワードで、これらを使うよう勧められています。つまり、定数用の変数は<strong>const</strong>、値を変える変数は<strong>let</strong>を使って宣言します。これまでに書かれたスクリプトでは、<strong>var</strong>が使われているので、その意味を知っておく必要はあります。
+<br><br>
+ 変数名は、英数字、アンダースコア(_)、ドルマーク($)からなる文字列で，名前の先頭は数字以外の文字にします。名前の長さは任意です。ただし、JavaScirptがキーワードとして使う文字列(予約語)は使えません。<br><br>
+ CやJava言語では，変数にどのような型のデータを入れるか(例えば数値か文字かオブジェクトかなど)をあらかじめ決めておく必要がありますが，JavaScriptにはその必要はありません。Loosely typed language(弱く型づけされた言語)です。<br>
+<br>
+
+ <strong>const</strong>と<strong>let</strong>を使って、変数をブロック{と}の中で宣言すると，その変数はそのブロック内だけで有効なローカル変数となります(これを<strong>ブロックスコープ</strong>と言います)。一方、変数をブロックの外で宣言すると，その変数はそのスクリプト内どこででも有効なグローバル変数となります。<br>
+一方、<strong>var</strong>で宣言された変数は、関数の内か外かで、その有効範囲が判断されます（<strong>関数スコープ</strong>)。<br>
+
+<h2 id="kata">データ型</h2>
+ JavaScriptの変数の宣言に型を指定する必要はありませんが、データには型があります。
+
+<pre class="reiji">
+・基本型
+    数値型　　number    【値】整数または浮動小数点数
+    文字列型　string    【値】シングル/ダブル引用符で囲まれた0個以上の文字
+    真偽型　　boolean   【値】trueまたはfalse
+    特殊型　　          【値】null(値がないことを表す)、undefined(値が未定義)
+
+・参照型
+    配列　　　   array  【値】データの集合（インデックス番号で要素を参照）
+    オブジェクト object  【値】データの集合（名前で要素を参照）
+    関数        function【値】一連の処理の集合
+</pre>
+変数を宣言しても値を代入しないと、値はundefinedとなります。
+<br><br>
+次の例のように、整数が入る基本データ型の変数の場合、メモリ上の変数の場所にはその数値そのものが格納されます。
+<pre class="reiji">
+    const a = 100；
+</pre>
+一方、参照型が入る変数の場合は、異なります。変数に値を代入する前に、メモリ上に配列やオブジェクトが作られており、変数に格納されるのは、その配列やオブジェクトがあるメモリ上のアドレス(ポインタとも言う)です。そのため、オブジェクトが入る変数のデータ型のことを<strong>参照型</strong>と呼びます。
+
+<h2 id="josu">リテラル</h2>
+プログラムの中に書かれる固定の値がリテラルです。<br><br>
+<ul>
+  <li>[1] 数値のリテラル……整数(ex. 10)と浮動小数点数(ex. 12.3)。最大値は2の53乗から1引いた値。<br><br></li>
+  <li>[2] 真偽値のリテラル……trueまたはfalse<br><br></li>
+  <li>[3] 文字列のリテラル<br>
+    "abc"や'123'のように、0個以上の文字を二重引用符 (") または単一引用符 (') で括ったもの。JavaScript は自動的に文字列リテラルを一時的な <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String">
+  String </a>オブジェクトに変換するので、文字列リテラルを持つ値は、String オブジェクトのメソッドを呼び出すことができ、String.length プロパティを使って文字列の長さを知ることができます。<br><br></li>
+
+  <li>[4] 配列のリテラル<br>
+    変数はひとつのデータを格納するものでしたが、複数のデータをまとめて扱うときに，便利なのが配列です。複数の値をひとまとまりとして名前(配列名)をつけ、1つの変数のようにして扱えます。<br><br>
+
+    配列中の個々のデータのことを配列の要素と呼びます。<br>
+    配列のリテラルは、次のように[と]の間に、要素をカンマで区切って並べて書きます。
+    <pre class="reiji">
+        let a1 = [123.4, 56.7, 8.9];
+        let a2 = ["kyoto", "osaka", "ootsu", "gifu"];
+    </pre>
+    配列のそれぞれの要素は、配列名とインデックス（添字）を使って表します。インデックスとは配列の要素に番号をつけたもので、先頭が0で順にふられます。配列名に続いて[ ]を書き、その中に添字を書きます。
+
+
+    <table border="1">
+    <tr><td>[0]の値</td><td>[1]の値</td><td>[2]の値</td><td>[3]の値</td><td>[4]の値</td></tr>
+    </table>
+    たとえば、5個の要素を持つ配列dataの場合、<br>
+    配列dataの最初の要素はdata[0]と表し、<br>
+    配列dataの最後の要素はdata[4]と表します。
+
+    <p class="clear"> </p>
+
+    data[1]のように配列名と添字で表した配列の要素は、変数と同じように扱え、値を参照したり、演算の対象にしたり、値を代入したりできます。
+    <pre class="reiji">
+    data[0] = 123.4;
+    data[1] = data[0] + 100;
+    </pre>
+    配列リテラルは <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array" target="other">Array</a> オブジェクトであり、配列リテラルを持つ値にArrayオブジェクトのメソッドを使うことができます。
+    <pre class="reiji">
+    a2.push("nagoya")  //配列の最後に要素を追加
+    </pre>
+</li>
+  <li>[5] オブジェクトのリテラル<br>
+    要素をプロパティ名とその値のセットとして、複数の要素（データ）をまとめて扱うのがオブジェクトです。配列がインデックス番号で要素にアクセスするデータの集合であるのに対し、名前でアクセスするデータ集合です。<br>
+    オブジェクトのリテラルは、次のように括弧{と} で囲んで指定します。
+    <pre class="reiji">
+        let obj1 = {　name: "Shiga",
+                      kentyo: "ootsu",
+                      jinkou: 141
+                    }；
+    </pre>
+    ドット演算子 (.) の後ろにプロパティ名を書くことで、オブジェクトの要素へアクセスできます。
+    <pre class="reiji">
+        console.log(obj1.name);  //Shiga
+    </pre></li>
+</ul>
+<h2 id="bun">文</h2>
+プログラムに記述する命令の単位を「文」と呼びます。セミコロンによって文の区切りを表します。
+<br>次のような処理をする文があります。<br><br>
+<ul>
+<li>・計算をして、式の値を変数に入れる(代入する)：
+<pre class="reiji"> 【例】 let a = 1 + 20；</pre>
+</li>
+
+<li>・関数を実行する：
+<pre class="reiji"> 【例】Math.ceil(10.2)；</pre></li>
+
+<li>・オブジェクトを作って変数に入れる：<a href="BasicClassObj.html" target="other">(クラスとオブジェクト参照)</a>
+<pre class="reiji"> 【例】 const 変数 = new クラス名(引数)；</pre></li>
+</ul>
+
+<h2 id="sanjutsu">算術演算子</h2>
+算術的な計算をするには、次の算術演算子を使います。<br><br>
+<table border="1">
+<tr><td>演算子&nbsp;&nbsp;</td><td> 意味</td></tr>
+<tr><td>+ </td><td>足し算</td></tr>
+<tr><td>- </td><td>引き算</td></tr>
+<tr><td>* </td><td>掛け算</td></tr>
+<tr><td>/ </td><td>割り算</td></tr>
+<tr><td>% </td><td>割り算の余り　例：x%3</td></tr>
+<tr><td>++ </td><td>1を加える　　　例：i++</td></tr>
+<tr><td>-- </td><td>1を引く　　　　　例：i--</td></tr>
+</table>
+
+例えば、aの中の値を３倍を計算して、結果を変数xに保存するには、次のように書きます。「a*3」という式の値は300で、その値がx1に代入されます。
+<pre class="reiji">
+const a = 100；
+let x1 = a * 3;
+</pre>
+%は余りを計算する演算子で、次の文でx2の値は１になります。
+<pre class="reiji">
+const b = 10;
+let x2 = b % 3;
+</pre>
+<p class="clear"> </p>
++演算子は足し算をする以外に、特別な働きをします。文字列に対して+演算子を使うと、2つの文字列をつなげます。例えば、 "Sensory" + "Vision"  の演算結果は、"SensoryVision"になります。processingでprintln("Value: " + x);と書くと、"Value: 数値"が、画面下部に表示されます。数値は変数ｘの値です。
+
+
+<h2 id="comment">コメント</h2>
+プログラムに関する説明文をコメントと呼びます。コメントをプログラム内に書いておくと、どのような処理をさせているかが、すぐにわかるので、他の人のためにも自分のためにも便利です。コメントの書き方には次の2種類があります。<br><br>
+<ul>
+<li>・//の後ろ行末までがコメントとなる。</li>
+<li>・/＊と＊/ではさんだ部分がコメントとなる。</li>
+</ul>
+
+</div>
+<div class="copy">
+  arigat  アットマーク acm.org / Last modified: Sep. 2021
+</div>  <!-- 終わり  container -->
+</body></html>

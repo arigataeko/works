@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T2_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 大きさの変化をアニメーションさせる</h1>
+今までのセクションでは、プログラムで描いたグラフィックスは動きませんでした。
+これを動かしてみましょう。
+例えば、次のような年毎の犬猫飼育推定数の変化を、図形の大きさを変えることで表します。
+<table>
+	<tr><th>年</th><th>2013年</th><th>2014年</th><th>2015年</th><th>2016年</th>
+	    <th>2017年</th><th>2018年</th><th>2019年</th><th>2020年</th><th>2021年</th>
+       <th>2022年</th><th>2023年</th></tr>
+   <tr><td>猫</td><td>8409</td><td>8425</td><td>8297</td><td>8333</td><td>8672</td>
+                    <td>8849</td><td>8764</td><td>8628</td><td>8946</td>
+                    <td>8837</td><td>9069</td></tr>
+   <tr><td>犬</td><td>8714</td><td>8200</td><td>7994</td><td>8008</td><td>7682</td>
+                    <td>7616</td><td>7579</td><td>7341</td><td>7106</td>
+                    <td>7053</td><td>6844</td></tr>
+</table>
+<p class="clear"> </p>
+図形を描く位置やデータを切り替えるタイミング(アニメーションさせるスピード)は、
+<a href="https://datamate-js.github.io/website/" target="other">Datamateライブラリ</a>
+が提供する機能を使います。個別にその処理を書かずに、Datamateに任せることができます。
+
+<h2 id="YearSize">年ごとに円の大きさを切り変える</h2>
+上の表の年毎に変化する犬猫の飼育推定数を、円の大きさで示したのが<a href="#T2List2_1" target="other">リストT2-2-1</a>で、下はその実行結果です。犬の方が多かったのが逆転し、猫が増えている様子が表されているでしょうか。<br>
+順を追って、プログラムを理解していきましょう。
+
+<br><br>
+<iframe src="./sample/HT2List2_1/index.html"
+		width="450" height="250 "id="CatDog"> </iframe><br>
+	クリックで開始⇔停止
+<br>
+
+<h3>[1]視覚化の対象となる内部テーブルを作る</h3>
+元になるデータは、ヘッダ(タイトル行)を除くと、2行のテーブルで、11年分の列があります。<br>
+Datamatemのmake()関数を使って、1行ごとに、行の名前とデータを指定します。
+<pre class="reiji">
+  Datamate.make('行の名前', [データの配列]);
+</pre>
+タイトル行を含め3行のテーブルなので、次のようにmake()関数を指定します。
+<pre class="reiji">
+Datamate.make("年", ["2013年", "2014年", "2015年", "2016年", "2017年",
+						  "2018年", "2019年", "2020年", "2021年", "2022年", "2023年"]);
+Datamate.make("猫", [8409, 8425, 8297, 8333, 8672, 8849, 8764, 8628, 8946, 8837, 9069]);
+Datamate.make("犬", [8714, 8200, 7994, 8008, 7682, 7616, 7579, 7341, 7106, 7053, 6844]);
+</pre>
+
+<h3>[2]データを表示する領域(レイアウトスペース)を作る</h3>
+表示のための領域をレイアウトスペースを
+Datamate.makeArea()関数を使って作り、これを縦に2つ(1行２列)に分割します。
+<pre class="reiji">
+Datamate.makeAreas(x座標, y座標, 幅, 高さ, 横方向のエリア数, 縦方向のエリア数);
+</pre>
+キャンバス全体をレイアウトスペースとするため、(0, 0)を左上角とし、幅はwidth、高さはheightと指定します。
+<pre class="reiji">
+Datamate.makeArea(0, 0, width, height, 2, 1);
+</pre>
+
+<h3>[3]分割したエリアに番号を振る</h3>
+エリアの番号はデフォルトにまま、左を０、右を１とし、
+最初のデータ行(猫のデータ)を左に、2つめのデータ行(犬データ)を右に表示することにします。
+
+明示的にエリアに番号を振る場合は、Datamate.bindAreas()関数を使います。
+<pre class="reiji">
+Datamate.bindAreas([番号, 番号,..]);
+</pre>
+しかし、この例では、デフォルトのままなので、bindAreas()関数の実行は不要です。
+次の指定をしたのと同じことです。
+<pre class="reiji">
+Datamate.bindAreas([0, 1]);
+</pre>
+
+
+
+<h3>[4]テーブルから値を取り出す</h3>
+データを反映したグラフィックスをエリアに描画するために、テーブルから値を取り出すにはvalue()関数を使います。
+<pre class="reiji">
+Datamate.value(行の指定, 列の指定);
+  行の指定：行のタイトルあるいはデータテーブルのインデックス(0から振られる。ヘッダ行の次が0)
+  列の指定：列のタイトルあるいはデータテーブルのインデックス(0から振られる。ヘッダ列の次が0)
+</pre>
+例えば、猫の2013年のデータを取り出すには、次のように書きます。
+<pre class="reiji">
+Datamate.value('猫', 0);
+または
+Datamate.value(Datamate.rowName(0), 0);
+</pre>
+rowName()関数は行のヘッダ(名前)を返す関数です。列のヘッダはcolumnName()関数で得られます。
+
+
+<h3>[5]エリアの描画をする関数を定義する</h3>
+データを円の大きさとして描画するこのプログラムの描画処理を分解すると、次のようになります。
+<ul>
+	<li>・テーブル内のデータを取り出す</li>
+   <li>・そのデータから表示する円の直径を計算する</li>
+	<li>・色を指定し、表示エリアの中央に、円を描く</li>
+	<li>・色を指定し、表示エリアの中央に、データ名と数値を描く</li>
+</ul>
+この処理をエリアごとに繰り返すので、エリアの番号を引数として渡し、
+これらの描画処理を<a href="BasicFunction.html" target="other">関数</a>としてまとめて定義しておきます。
+関数として描画処理をまとめておくと、それをdraw()関数から呼び出すだけでよく、エリアごとの描画処理をdraw()関数内で記述する必要がなくなります。<br><br>
+
+関数内での描画処理には、2つの情報が必要です。
+<ul>
+  <li>・猫、犬どちらのデータを取り出すか(行のタイトル)</li>
+	<li>・円を描く表示エリアの番号(猫が0、犬が1)</li>
+</ul>
+これらの情報を関数の引数として渡すことにします。関数名は任意です。
+<pre class="reiji">
+function drawData(syurui, number) {
+	.....
+}
+</pre>
+
+例えば、猫のデータを左側のエリアに表示するには、次のように引数を指定します。
+<pre class="reiji">
+drawData('猫', 0);    // 表示エリア0に'猫'データを表示
+または
+drawData(Datamate.rowName(0), 0);
+</pre>
+
+
+<h3>[6]エリアの中央の位置、大きさなどの情報を得る</h3>
+描画処理を行う関数(上の[5]で定義したdrawData()関数)内で、
+描画をする際には、エリアの情報(中央位置や幅、高さ)が必要になります。
+Datamate.area()関数は、描画エリアの情報(位置や大きさの情報を保持するareaオブジェクト)を返します。
+<pre class="reiji">
+Datamate.area(エリアに振った番号);
+</pre>
+この例ではdrawData()関数内で、引数で渡されたエリア番号を使って、次のように領域情報を得ます。
+<pre class="reiji">
+const area = Datamate.area(number);
+</pre>
+ Datamate.area()関数が返す値(areaオブジェクト)には、次のような変数に領域の情報が保存されています。
+ <ul>
+ 	<li>・左上隅の座標: x, y</li>
+ 	<li>・中央の座標: centerX, centerY</li>
+ 	<li>・左辺,右辺のx座標: left, right</li>
+ 	<li>・上辺,下辺のy座標: top, bottom</li>
+   <li>・幅と高さ: width, height</li>
+ </ul>
+ エリアの中央に円を描くなら、変数centerXとcenterYを使って、次のように書きます。
+ <pre class="reiji">
+circle(area.centerX, area.centerY, w);  //wは直径
+ </pre>
+
+<h3>[7]データを順に表示する(再生する)</h3>
+
+テーブルのデータを順に表示することで、データの変化をアニメーションとして描画できます。
+この例だと、横方向(行)に注目するデータを変えることで、時系列(年ごと)変化を表示できます。<br><br>
+
+Datamateには、今注目している(focusを当てている)データのインデックスを返す関数foucsX()とfoucsY()があります。引数に0を指定すると今フォーカスしている値のインデックスを返します。引数に1を指定するとフォーカスしている値の次の値のインデックスを返します(つまり、引数はフォーカスしている値からの距離を意味する）。
+<pre class="reiji">
+let indexX = Datamate.foucsX(0); //フォーカス中のデータの横方向(列)のインデックスを返す
+let indexY = Datamate.foucsY(0); //フォーカス中のデータの縦方向(行)のインデックスを返す
+</pre>
+
+そして、play()関数を使って、フォーカスするデータを順に動かします(これを再生と呼びます)。再生することで、関数foucsX()とfoucsY()が返すインデックスが順に変化します。
+play()の引数には、1秒間に何回データを動かす(次のデータにフォーカスを移す)のかを指定します。
+<pre class="reiji">
+Datamate.play(1秒間に横方向に動かす回数, 1秒間に縦方向に動かす回数);
+</pre>
+例えば、引数に2を指定すると0.5秒ごとに、引数に0.4を指定すると2.5秒ごとに、foucsX()関数、foucsY()関数で取り出されるデータのインデックスが順番に進みます。
+play()関数の引数に0を指定するとデータは動きません。<br>
+再生しない(Datamate.play()関数を実行しない)場合、foucsX()、foucsY()関数で取り出されるデータのインデックスは先頭のままです。<br><br>
+再生をループしたい時は、loop()関数を使います。
+<pre class="reiji">
+Datamate.loop(横方向の再生をループするか, 縦方向の再生をループするか);
+</pre>
+引数をtrueとすると再生がテーブルの最後の値までいくと先頭に戻ります。デフォルト(指定しない場合)はfalseで、最後のインデックスで止まります。<br><br>
+playの機能を使うと、プログラムの意図にあったスピードでアニメーションさせることができます。
+<br><br>
+<pre class="code" id="T2List2_1">
+【リストT2-2-1】
+let title = "猫と犬の飼育推計数";
+let titleX = 120;  //この↑表題を表示するx座標
+function setup() {
+  createCanvas(450, 250);
+  Datamate.make("年", ["2013年", "2014年", "2015年", "2016年", "2017年",
+                               "2018年", "2019年", "2020年", "2021年", "2022年", "2023年"]);
+  Datamate.make("猫", [8409, 8425, 8297, 8333, 8672, 8849, 8764, 8628, 8946, 8837, 9069]);
+  Datamate.make("犬", [8714, 8200, 7994, 8008, 7682, 7616, 7579, 7341, 7106, 7053, 6844]);
+  Datamate.makeAreas(0, 0, width, height, 2, 1);
+  Datamate.play(0.3, 0);  //横方向に動かす
+  Datamate.loop(true, false);    //ループする。
+  noStroke();
+  textAlign(CENTER, CENTER);
+}
+function draw() {
+  background(210);
+  drawData('猫', 0);    // 表示域0に'猫'データを表示  drawData(Datamate.name(0), 0);
+  drawData('犬', 1);    // 表示域1に'犬'データを表示  drawData(Datamate.name(1), 1);
+}
+function drawData(syurui, number) {
+ let area = Datamate.area(number);              //表示エリアをとりだす
+  let dataIndex = Datamate.focusX();            //今フォーカスしているデータのインデックス
+  let year = Datamate.columnName(dataIndex);    //列のヘッダ
+  let value = Datamate.value(syurui, dataIndex);
+  let w = map(value, 6000, 10000, 30, area.width);  //データを円の直径に換算
+  fill(200, 0, 0);
+  circle(area.centerX, area.centerY, w);
+  fill(0);
+  text(title+"("+year+")", titleX, 30);  //表題と年の表示
+  fill(255);
+  text(syurui + "\n" + value + "千頭", area.centerX, area.centerY); //データの種類と頭数の表示
+}
+</pre>
+プログラムの最後の行のtext()関数の第1引数は、
+<pre class="reiji">
+syurui + "\n" + value + "千頭"
+</pre>表示する文字列を<a href="BasicHensu.html#sanjutsu" target="other">+演算子</a>で作り出しています。"\n"は改行を表します。猫あるいは犬の文字列を表示した後、改行して、数値を表示するという意味です。
+
+
+<h2 id="YearSizeSmooth">年毎に円の大きさをスムーズに変化させる</h2>
+
+リストT2-2-1は表示するデータが変わるタイミングで、新しい円の大きさに「ぱっ」と切り替わります。円の大きさの変化をスムーズにしたのが、下のスケッチです。
+<br><br>
+<iframe src="./sample/HT2List2_2/index.html"
+		width="450" height="250 "id="CatDogEasing"> </iframe><br>
+	クリックで開始⇔停止
+<br><br>
+
+今フォーカスしている値のインデックスを返すfocusX()、focusY()関数は、今のインデックスと次のインデックスとの間を補間(内挿)する機能を備えています。補間機能を有効にするには、第2引数にtrueを指定します。
+<pre class="reiji">
+  let indexHokan = Datamate.focusX(0, true); //focusX(0)とfocusX(1)の間を補間したインデックス
+</pre>
+
+このように書くと、play()関数で指定したスピードで、focusX()が返すインデックスが徐々に動きます(整数インデックスの間の値が返る)。それをvalue()関数に指定すると、連続的に変化する値が得られ、この値を使って、円の大きさを計算すると、スムーズに変化させることができます。
+<pre class="reiji">
+let value = Datamate.value(syurui, indexHokan);
+</pre>
+ただ、このvalueをそのまま数値の表示に使うと、数が大きく変化して見にくいので、数値表示用のデータは補間しない値を使っています。
+<pre class="reiji">
+text(syurui + "\n" +  Datamate.value(syurui, dataIndex) + "千頭", area.centerX, area.centerY); //データの種類と頭数の表示
+</pre>
+
+
+<pre class="code" id="T2List2_2">
+【リストT2-2-2】
+//リストT2-2-1のdrawData()関数を下に変更
+function drawData(syurui, number) {
+ let area = Datamate.area(number);              //表示エリアをとりだす
+  let dataIndex = Datamate.focusX();            //今フォーカスしているデータのインデックス
+  let indexHokan = Datamate.focusX(0, true);  //今フォーカスしているデータと次のデータとの間のインデックス
+  let year = Datamate.columnName(dataIndex);    //列のヘッダ
+  let value = Datamate.value(syurui, indexHokan);
+  let w = map(value, 6000, 10000, 30, area.width);  //データを円の直径に換算
+  fill(200, 0, 0);
+  circle(area.centerX, area.centerY, w);
+  fill(0);
+  text(title+"("+year+")", titleX, 30);  //表題と年の表示
+  fill(255);
+  text(syurui + "\n" +  Datamate.value(syurui, dataIndex) + "千頭", area.centerX, area.centerY); //データの種類と頭数の表示
+}
+</pre>
+
+<h2 id="RectIncrease">矩形を成長させる</h2>
+
+リストT2-1-1では、矩形の高さでデータを表しました。これに手を加え、矩形の高さをアニメティックに成長させてみましょう。
+<br><br>
+<iframe src="./sample/HT2List2_3/index.html"
+		width="500" height="320"id="SeaLife"> </iframe><br>
+	クリックで再度成長
+<br><br>
+上の犬猫飼育数の例とは違い、０から終着点の寿命の行の値まで動かしたいわけです。
+<table>
+	<tr><th>名前</th><th>イカ</th><th>マグロ</th><th>オオサンショウウオ</th><th>ウニ</th>
+	    <th>シロナガス<br>クジラ</th></tr>
+	<tr><td>寿命</td><td>1.0</td><td>20.0</td><td>55.0</td><td>70.0</td><td>100.0</td></tr>
+</table>
+<p class="clear"> </p>
+
+Datamate.jsの再生、補完機能は、テーブルデータ間の移動なので使えません。そこで、徐々に大きくなる矩形の高さを覚えておく配列をプログラムが持つことにします。
+<pre class="reiji">
+  let currentH = [];  //項目ごとの矩形の途中の高さ
+  for (let i=0; i&lt;Datamate.columnCount(); i++) {
+    currentH[i] = 0.0;  //矩形の高さを最初は0にしておく
+  }
+</pre>
+そして、この値を変数henkaで指定したピクセル数ずつ大きくして、矩形を描きます。
+<pre class="reiji">
+  currentH[index] = currentH[index] + henka;  //新しい高さ
+  rect(area.centerX-rw/2, area.bottom-currentH[index], rw, currentH[index]);
+</pre>
+rect()関数の第1, 2引数は、矩形の左上角のx, y座標です。
+
+<pre class="code">
+【リストT2-2-3】
+let max = 250.0;  //矩形の高さの最大値
+let min = 0.0;   //矩形の高さの最小値
+let rw = 50;      //矩形の幅
+let currentH = [];  //項目ごとの途中の高さ
+let henka = 1.0;    //矩形が伸びるスピード
+function setup() {
+  createCanvas(500, 320);
+  noStroke();
+  textAlign(CENTER, CENTER); //文字を表示する際、中心の座標を指定
+  Datamate.make("名前", ["イカ", "マグロ", "オオサンショウウオ", "ワニ", "シロナガスクジラ"]);
+  Datamate.make("寿命", [1.0, 20.0, 55.0, 70.0, 100.0]);
+  Datamate.makeAreas(0, 0, width, height-50, Datamate.columnCount(), 1); //Datamate.columnCount()はデータの列数
+  for (let i=0; i&lt;Datamate.columnCount(); i++) {
+    currentH[i] = 0.0;  //矩形の高さを最初は0にしておく
+  }
+}
+function draw() {
+  background(240);
+  for (let i=0; i&lt;Datamate.columnCount(); i++) {
+    drawData(i);
+  }
+}
+function drawData(index) {
+  let area = Datamate.area(index);
+  let value = Datamate.value("寿命", index);
+  let h = map(value, 0, 100, min, max);
+  if (currentH[index] &gt;= h) {  //寿命を表す高さになったら、成長を止め、色を変え、寿命を表示
+    henka = 0;
+    fill(200, 0, 0);
+    text(value +"年", area.centerX, area.bottom+30);
+  } else {
+    henka = 1;
+    fill(0, 0, 200);
+  }
+  currentH[index] = currentH[index] + henka;  //新しい高さ
+  rect(area.centerX-rw/2, area.bottom-currentH[index], rw, currentH[index]);
+  fill(0);
+  text(Datamate.value("名前", index), area.centerX, area.bottom+15);
+}
+</pre>
+
+
+<h2 id="mondai">演習問題</h2>
+
+【問題T2-2-1】<br>
+リストT2-2-2を変更し、データを円の大きさではなく、画像の大きさで表してみよう。
+
+<br><br>
+<iframe src="./exercise/HT2_2_exe1/index.html"
+		width="450" height="250"id="InuNekoFace"> </iframe><br>
+	クリックで開始⇔停止
+<br><br>
+
+画像ファイルは、<a href="ImageFiles.html" target="other">画像ページ</a>からコピーできます。<br>
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

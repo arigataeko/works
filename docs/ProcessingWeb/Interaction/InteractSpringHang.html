@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの位置にぶら下がる2つの円</h1>
+ばねでつながっているように、赤円が黒円を追いかけて動きます。基本的な運動のプログラムの「振動」セクションの<a href="../Motion/Motion3Hanging1.html#print" target="other">ばねで繋がる(ふたつ)</a>と同じ動きです。上の黒円はマウスの位置を目指して動きます。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="SpringHang"
+       data-processing-sources="./InteractPDE/SpringHang.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    画面上でマウスを移動
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SpringHang】
+Spring obj1; 
+Spring obj2; 
+
+float gravity = 3.5;
+float mass = 7.0;
+float st = 0.2;
+float da = 0.7;
+float d =20;  //円の直径
+float mX, mY;  //動かす
+float oriX, oriY;
+int dist=5;
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  oriX = width/2;
+  oriY = height;
+  obj1 = new Spring(oriX, oriY, mass, gravity, d, st, da, color(0,0,0));
+  obj2 = new Spring(oriX, oriY+d, mass, gravity, d, st, da, color(200,0,0));
+  mX=width/2.0;
+  mY=height/4.0;
+}
+
+void draw() { 
+     background(255);   //画面の背景を白でクリア
+     obj1.recalc(mouseX, mouseY);//黒円はマウス位置へ動く
+     obj1.drawObj();
+     obj2.recalc(obj1.x, obj1.y);//赤円は黒円を目指して動く
+     obj2.drawObj();
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

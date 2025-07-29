@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>event exercise</title>
+
+<style type="text/css">
+   .menu {
+     width: 20%;
+     float:left;
+   }
+</style>
+
+<script type="text/javascript">
+<!--
+   function changeOn(n, name){
+      document.images[n].src = "image/on.gif";
+      document.images[3].src = "image/" + name;
+   }
+
+   function changeOff(n){
+      document.images[n].src = "image/off.gif";
+      document.images[3].src = "image/blank.gif";
+   }
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>リンク項目にカーソルがきたら，複数部分の表示を変える</h1>
+
+<div class="menu">
+<img src="image/off.gif">
+<a href="blankpage.html" onmouseover="changeOn(0, 'hiru.jpg')" onmouseout="changeOff(0)"> 
+        昼</a><br>
+
+<img src="image/off.gif">
+<a href="blankpage.html"  onmouseover="changeOn(1, 'yugata.jpg')" onmouseout="changeOff(1)"> 
+        夕方</a><br>
+
+<img src="image/off.gif">
+<a href="blankpage.html" onmouseover="changeOn(2, 'yoru.jpg')" onmouseout="changeOff(2)"> 
+        夜</a>
+</div>
+
+<img src="image/blank.gif" alt="メニュー内容の画像">
+
+</body> 
+</html>
+
+

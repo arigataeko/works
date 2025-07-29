@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> ばねで繋がる(列)</h1>
+複数の円が見えないスプリングで繋がれているように動きます。
+<a href="Motion3Hanging1.html#print" target="other">2つの円がばねで繋がる</a>で拡張したクラスSpringを使っています。<br>
+
+配列にSpringクラスのオブジェクトを生成して格納します。
+
+<pre class="reiji">
+for(int i=0;i&lt;n;i++){
+   obj[i]= new Spring(width/2, height/4+distance*i, mass, gravity, d,
+                                              st, da, color(0,0,0));
+}
+</pre>
+列の先頭の位置を決め、その下の円は一つ前の円の位置を目指してついて動かします。
+<pre class="reiji">
+obj[0].recalc(mX, mY);  //列の先頭の位置
+obj[0].drawObj();
+for(int i=1;i&lt;n;i++){
+   obj[i].recalc(obj[i-1].x, obj[i-1].y); //列の下の円は上の位置について動く
+   obj[i].drawObj();
+}
+</pre>
+
+このままだと、目指す位置に到達すると動かなくなるので、先頭の円の位置を左右に変化させます。
+<pre class="reiji">
+mX = mX +mv;  //列の先頭の位置を左右に振る
+if(mX&gt;width/2+50) mv=-mv;  //動く方向を逆転
+else if(mX&lt;width/2-50)mv=-mv;
+</pre>
+
+
+<div class="rightSide">
+	<canvas id="VibrateOne"
+       data-processing-sources="./MotionPDE/vibration/Hanging2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Hanging2】
+float gravity = 3.5;
+float mass = 5.0;
+float st = 0.2;
+float da = 0.7;
+float d =15;  //円の直径
+float mX, mY;  //揺らす円の座標
+float mv=3; 
+int distance=5;
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  for(int i=0;i&lt;n;i++){
+     obj[i]= new Spring(width/2, height/4+distance*i, mass, gravity, d,
+                                               st, da, color(0,0,0));
+  }
+  mX=width/2;  //列の先頭の円の位置
+  mY=height/4;
+}
+
+void draw() { 
+  background(255);   //画面の背景を白でクリア
+  obj[0].recalc(mX, mY);  //列の先頭の位置
+  obj[0].drawObj();
+  for(int i=1;i&lt;n;i++){
+    obj[i].recalc(obj[i-1].x, obj[i-1].y); //列の下の円は上の位置について動く
+    obj[i].drawObj();
+  }
+  mX = mX +mv;  //列の先頭の位置を左右に振る
+  if(mX&gt;width/2+50) mv=-mv;
+  else if(mX&lt;width/2-50)mv=-mv;
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

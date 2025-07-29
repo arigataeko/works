@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向のらせん運動…同じ大きさの円の列</h1>
+複数の円が列になって、対数らせん上を運動します。動きは、<a href="./Motion1Spiral1.html" target="other">ひとつ(軌跡なし)</a>と同じで、10個の円に対し同様の動きをさせるために、10個の円のらせん上での位置を角度として覚えておく配列angleを使います。<br>
+<pre class="reiji">
+ int angle[]  = new int[10];
+</pre>
+setup()関数の中で、10個の円のangleの値を初期化します。最初の円angle[0]はゼロ、次の円angle[1]は-25というように、順番に25度ずつ小さい値を代入します。forループを使って、この処理を繰り返します。
+<pre class="reiji">
+ for(int i=1; i&lt;angle.length; i++){
+    angle[i] = angle[i-1] - 25;
+ }
+</pre>
+角度の値angle[i]が負になると、exp()の計算結果は0に近づくので、10個の円は最初らせんの中心に固まっている状態になります。
+
+<br><br>
+円列がらせん上を動き、画面から消えた後、また中央から登場させます。その判定を
+<pre class="reiji">
+ if (angle[i]&gt;360*5) { //画面から消えるほど広がった  }
+</pre>
+とし、5重分のらせんを動いたら、中央に戻すようにしました。5という数値には意味はなく、今の画面サイズに適切な数として選んだものです。
+
+<br><br>
+<div class="rightSide">
+	<canvas id="SpiralM1"
+       data-processing-sources="./MotionPDE/oneDirection/SpiralM1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SpiralM1】
+float angle[]  = new float[10]; // 位置(角度)
+float da = 5; // 角度の変化量
+float x,y;
+float a = 5.0;   //らせんの巻き方、大きいと早く広がる
+float b = 0.12;   //らせんの巻き方、大きいと早く広がる
+float d = 8; // 円の直径
+
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  for(int i=1;i&lt;angle.length;i++){
+    angle[i] = angle[i-1] - 25;
+  }
+}
+
+void draw() { 
+   background(255);
+   for(int i=0; i&lt;angle.length; i++){
+      x = a * exp(radians(angle[i])*b) * cos(radians(angle[i])) + width/2.0;
+      y = a * exp(radians(angle[i])*b) * sin(radians(angle[i])) + height/2.0;
+      ellipse(x, y, d, d);
+
+      if (angle[i]&gt;360*5) { //画面から消えるほど広がった
+         angle[i]=0;  // 初期化
+      } else {
+         angle[i] = angle[i] + da;
+      }
+   }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

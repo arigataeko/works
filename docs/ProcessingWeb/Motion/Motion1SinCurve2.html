@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の波動運動…ひとつ(軌跡あり)</h1>
+ひとつの円が、サインカーブ上を運動します。
+動きは、<a href="Motion1SinCurve1.html#print" target="other">ひとつ(軌跡なし)</a>と同じですが、軌跡を残します。そのため、円が左端へ行くまで(波の1サイクルを終えるまで)画面背景を塗りなおしません(クリアしない)。
+<br>
+角度angleが360を超えたら、背景をクリアし、angleをゼロにします。<a href="Motion1SinCurve1.html#print" target="other">ひとつ(軌跡なし)</a>では、angleの値を0～360の間で循環させるために、余りを計算する%を使っていましたが、ここではif文で0に戻しています。
+<pre class="reiji">
+ angle = angle + da;   // daずつ増加
+ if (angle>=360) {
+    angle=0;           // 360を超えたので、0に戻す
+    background(255);   //画面の背景を白でクリア
+ } 
+</pre>
+円を描く命令ellipse(x, y, d, d);はこのクリア判定の前に置いてあります。ellipse()を後ろに置くと、クリアしてから右壁に来た円(角度が360度になった円)を描くため、右側に円が残ってしまいます。
+<br>
+<br>
+<a href="Motion1SinCurve1.html#print" target="other">ひとつ(軌跡なし)</a>では、角度0-360の変化を円のx方向の位置0-widthに換算するのに、<a href="../PFuncMath.html#kansan" target="other">map()関数</a>を使い、x = map(angle, 0, 360, 0, width); と書きました。これは次と同じ意味です。
+<pre class="reiji">
+ x = angle*width/360.0;
+</pre>
+ところで、プログラムの中で、360と、360.0では意味が異なります。360は整数(int型)の定数、360.0と書くと実数(float型)の定数になります。Processing(Java言語)には、整数(int)同士の計算結果は、整数(int型)になるように小数点以下を切り捨てるという決まりがあります(float型とint型の計算結果は、float型です)。widthが150だとすると、
+<pre class="reiji">
+ width/360の計算結果は、0
+ width/360.0の計算結果は、0.41666666...
+</pre>
+となります。上の計算式の場合、angle(float型)＊width(int型)がまず計算され、その計算結果はfloat型となり、結果に違いは出ませんが、切り捨ての誤差が大きな影響を及ぼす場合もあるので、注意が必要です。
+
+
+<br><br>
+<div class="rightSide">
+	<canvas id="SinCurve2"
+       data-processing-sources="./MotionPDE/oneDirection/SinCurve2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SinCurve2】
+float angle; // 位置(角度)
+float da = 5; // 角度の変化量
+float x, y;
+float d = 10; // 円の直径
+float h =50; // 振幅
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  background(255);
+}
+
+void draw() {
+     x = angle*width/360.0;
+     y = height/2.0 - sin(radians(angle))*h;
+     ellipse(x, y, d, d);
+     angle = angle + da;   // daずつ増加
+     if (angle&gt;=360) {
+        angle=0;           // 360を超えたので、0に戻す
+        background(255);   //画面の背景を白でクリア
+     } 
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

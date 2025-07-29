@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 波紋がランダムに広がる</h1>
+閾値により、スイッチがオンオフするプログラム例です。水面上に雨粒が落ちるように、同心円が描かれます。マウスのx座標が、閾値(今の場合画面幅の二分の一)を超えたら、スイッチが入ります。プログラミングの基本知識の「クラスの拡張」セクションにある<a href="../ProgClassExpand.html#tsukau" target="other">サンプルClassHamon3</a>に、スイッチオンオフの機能をつけたものになります。<br><br>
+
+インタラクションのプログラムの「マウスの位置による変化」セクションの<a href="InteractHamon1.html#print" target="other">波紋が広がる位置</a>で使っているAHamonクラスを拡張したAColorHamonクラスを使います。このクラスは、<a href="../ProgClassExpand.html#expand" target="other">サンプルClassHamon3</a>で説明したものです。線の色のため、色情報を保持する変数value1, value2, value3を追加しています。デフォルトの<a href="../PFuncDisplay.html#colormode" target="other">
+色モード</a>設定では、この3つの値はそれぞれ赤、緑、青(RGB)を意味し、それにより設定されるで線を描きます。<br>
+
+<pre class="code">
+<strong>【AColorHamonクラスの変数】</strong>
+    float value1;  // デフォルトの色モードでは赤
+    float value2;  // デフォルトの色モードでは緑
+    float value3;  // デフォルトの色モードでは青
+</pre>
+<br>
+AColorHamonオブジェクトを複数格納するための配列hamonを用意し、そこにN個(ここでは50)のAColorHamonオブジェクトを入れています。波紋の最大値は100～200の間でランダムに決めています。また、色は青要素を70～200の間でランダムに指定していますが、10個に1個の割合で色を赤にしました。
+<pre class="reiji">
+AColorHamon[] hamon;
+hamon = new AColorHamon[N];
+for(int i=0; i&lt;N; i++){
+   if(i % 10 == 0) {  // 10個に1個の割合で色を赤にする
+      hamon[i] = new AColorHamon(random(100,200), 200, 0, 0); 
+   }else {  //それ以外は、青系でランダムに
+      hamon[i] = new AColorHamon(random(100,200), 0, 0, random(70,200)); 
+   }
+}
+</pre>
+
+
+そして、draw()が呼出される度に、配列Hamonの中のインデックスがhの波紋を調べます。マウスの位置が閾値(level)以上で、波紋が動いていない時に、ランダムな位置に波紋の中心を置き、波紋の広がりを開始します。hを１ずつ増やし、次のdraw()の実行では、順番に次の波紋を調べます。
+
+
+
+<pre class="reiji">
+if(mouseX &gt;= level && !hamon[h].move){ //マウスの位置が閾値以上で動いていないとき
+   hamon[h].prepare(random(width), random(height));  //新しい位置で、波紋を開始
+   h = (h+1)%N;   //この2行は、 (h+1)%hamon.length; と書いても同じ
+}
+</pre>
+描画は、全AHamonオブジェクトに対して行うので、for文の中でdisplay()メソッドを呼出します。
+<pre class="reiji">
+for(int i=0; i&lt;N; i++){
+   hamon[i].display();
+}
+</pre>
+
+
+
+<div class="rightSide">
+	<canvas id="Hamon2"
+       data-processing-sources="./InteractPDE/Hamon2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Hamon2】
+AColorHamon[] hamon;
+float level; // 閾値
+int h;   //いくつめの波紋か
+int N=50;   //リストの数(円の数)
+int wide=150;
+
+void setup() {
+  size(wide, wide);
+  level=width/2.0;
+  frameRate(30);     
+  hamon = new AColorHamon[N];
+  for(int i=0; i&lt;N; i++){
+    if(i % 10 == 0) {  // 10個に1個の割合で色を赤にする
+        hamon[i] = new AColorHamon(random(100,200), 200, 0, 0); 
+     }else {  //それ以外は、青系でランダムに
+        hamon[i] = new AColorHamon(random(100,200), 0, 0, random(70,200)); 
+     }
+  }
+  PFont f = createFont("Arial", 14); //文字を描くためのフォントの準備
+  textFont(f);
+  textAlign(CENTER, CENTER); //描く文字列の中央の座標を指定
+}
+
+void draw() {
+   strokeWeight(0); //背景画面の四角には線を付けない
+   fill(255, 75);  //色は白、透明度を指定
+   rect(0, 0, width, height); //背景を四角で塗りつぶす
+   if(mouseX &gt;= level && !hamon[h].move){ //マウスの位置が閾値以上で動いていないとき
+      hamon[h].prepare(random(width), random(height));  //新しい位置で、波紋を開始
+      h = (h+1)%N;   //この行は、 (h+1)%hamon.length; と書いても同じ
+   }
+   for(int i=0; i&lt;N; i++){
+      hamon[i].display();
+   }
+   fill(0);//画面下部に、黒で、off | onの文字を描く
+   text("off", width/4.0, height-10);
+   text("|", width/2.0, height-10);
+   text("on", 3*width/4.0, height-10);
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

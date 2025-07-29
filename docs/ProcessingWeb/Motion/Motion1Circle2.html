@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の円運動…ひとつ(軌跡あり)</h1>
+ひとつの円が、円周上を一定速度で、軌跡を残しながら運動します。
+座標の計算は、<a href="./Motion1Circle1.html" target="other">軌跡なしの一方向の円運動</a>と同じです。<br><br>
+
+【リスト Circle2】の動きは、【<a href="../PFuncMath.html#sankaku" target="other">リスト　三角関数：円周上を移動</a>】とも同じですが、この三角関数のセクションのサンプルは、次のように、まず<a href="../PFuncZahyo.html#print" target="other">translate()関数</a>を使って座標の原点を画面の中央(円の中心)に移動して、そこを原点として座標を計算している点が異なります。
+<pre class="reiji">
+ translate(width/2, height/2);  //座標原点を画面の中央へ移動
+ x = r * cos(radians(angle));   //rは円周の半径
+ y = r * sin(radians(angle));
+ ellipse(x, y, 10, 10);
+ angle = angle + da; //da度ずつ右へ回る
+</pre>
+これに対し、下の【リスト Circle2】では、座標原点は画面の左上角のままで、座標計算の時に、width/2.0、height/2.0を加えることで、円の中心を(width/2.0, height/2.0)に調整しています。
+<br>
+
+<div class="rightSide">
+	<canvas id="Circle2"
+       data-processing-sources="./MotionPDE/oneDirection/Circle2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Circle2】
+float angle; // 位置(角度)
+float da = 3; // 角度の変化量
+float x, y;
+float d = 10; // 円の直径
+float len = 60; // 軌跡の円の半径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  background(255);   //画面の背景を白でクリア
+}
+
+void draw() {
+     x = len * cos(radians(angle)) + width/2.0;
+     y = len * sin(radians(angle)) + height/2.0;
+     ellipse(x, y, d, d);
+
+     if (angle &gt; 360) {  //1周したら
+        angle = 0;       //angleをゼロに戻し、
+        background(255); //画面背景を白でクリア
+     } else {
+        angle = angle + da;
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

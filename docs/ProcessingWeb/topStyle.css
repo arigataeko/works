@@ -1,0 +1,62 @@
+body{
+	background-color: #E2E2E2;
+}
+
+#container{
+	width: 1000px;
+	background-color: #fff;
+}
+
+a {
+	font-weight: bold;
+    color: #66c; 
+    text-decoration: none; 
+}
+a:hover {
+	font-weight: bold;
+    color:#900;
+    text-decoration: underline;
+}
+
+.title {
+    color: #fff;
+	font-weight: bold;
+	font-size: 1.2em;
+    line-height: 0.5em;
+	background-color: #039;
+	padding: 60px 20% 20px 0;
+    margin: 0;
+}
+
+hr {
+	background-color: #ff0;
+	color: #ff0;
+}
+
+.naiyou {
+	margin: 0;
+    width: 80%;
+    float:right;
+	background-color: #fff;
+}
+
+#sidemenu {
+	padding: 50px 0 0 0 ;
+	font-size: 0.9em;
+    float: right;
+    width: 20%;
+    color: #333;
+	background-color: #fff;
+}
+
+#sidemenu h2 {
+	border-top: #666 1px dotted;
+	border-bottom: #666 1px dotted;
+	padding: 5px 0 5px 0;
+	font-size: 0.8em;
+	color: #333;
+}
+
+.clear {
+	clear: both;
+}

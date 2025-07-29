@@ -1,0 +1,563 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+
+<meta name="Author" content="Ariga, Taeko">
+
+<meta name="robots"content="noindex,nofollow">
+
+
+
+<STYLE type="text/css"> 
+
+  h3 {color:"#003399"} 
+
+  strong {color:"#003399"} 
+
+</STYLE>
+
+
+
+<title>java plugin</title>
+
+</head>
+
+<body bgcolor="#ffffff"text="#000000">
+
+
+
+<!--title-->
+
+<table border="0">
+
+<tr><td width="20%" bgcolor="#003399">&nbsp;</td>
+
+     <td align="center"valign="middle">&nbsp;</td>
+
+     <td colspan=4 align="left"valign="bottom">
+
+     <hr size="2"noshade><br>APPLETタグとプラグイン<br><br><hr size="2"noshade>&nbsp;
+
+     </td></tr>
+
+<tr><td height="50" width="20%"
+
+     align="center"valign="middle" bgcolor="#6666cc" nowrap>
+
+    <font color="#ffffff">Index<br>---------<br>目次</font></td>
+
+<td align="center"valign="middle">&nbsp;</td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap>
+
+APPLET Tag<br>-----------<br><a href="#applettag">&lt;APPLETタグ&gt;</a></td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap> 
+
+PARAM Tag<br>-----------<br><a href ="#paramtag">&lt;PARAM&gt;タグ</a></td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap>
+
+Java Plug-in<br>-----------<br><a href = "#plugin">Javaプラグイン</a></td>
+
+<td align="center"valign="middle" bgcolor="#ccffff" nowrap>
+
+Java on Mac<br>-----------<br><a href = "#mac">Macintoshの特殊事情</a></td>
+
+</tr></table>
+
+</center>
+
+<br><br><br>
+
+<a name="applettag"></a>
+
+<h3>■ &lt;APPLET&gt;タグ</h3>
+
+
+
+
+
+ アプレットをWebページに埋めこむには、&lt;APPLET&gt;タグと&lt;PARAM&gt;タグを使います。ここではその属性について説明します。<br>
+
+
+
+ ブラウザにJava実行環境がなく、ブラウザが&lt;APPLET&gt;タグと&lt;PARAM&gt;タグを理解できなかった時は、これらを無視します。&lt;APPLET&gt;と&lt;/APPLET&gt;の間に別のHTMLタグを指定しておくと、アプレットが実行できなかった時、代わりにそちらを解釈、実行、表示します。一方で、&lt;APPLET&gt;タグを理解するブラウザはこの部分の別のHTMLタグを無視します。<br>
+
+<br>
+
+
+
+<strong>●&lt;APPLET&gt;タグの属性</strong><br>
+
+・code = アプレットのクラスファイル名(必須)<br>
+
+・code = アプレットのクラス名(archives属性を指定した時はこちらが必須)<br>
+
+ 通常codeにはアプレットのクラスファイル(バイトコードファイル)名を指定します。codebase属性で指定したディレクトリからの相対位置でファイルを指定します。codepathを指定しないと、HTML文書と同じディレクトリからの相対位置となります。<br>
+
+ 実行するアプレットがJavaアーカイブファイル(JAR)の形にまとめられている場合は、codeにクラス名を指定し、合わせてarchivesを指定します。<br>
+
+<br>
+
+
+
+・width = ピクセル数(必須)<br>
+
+・height = ピクセル数(必須)<br>
+
+  アプレットが占める表示領域の幅と高さをピクセル単位で指定します。 <br>
+
+<br>
+
+・arichves = JARファイル名 [ + JARファイル名 .... ]<br>
+
+  codeでアプレットのクラス名を指定した時、アプレットを実行するために必要なファイルが含まれるJavaアーカイブファイル(JARファイル)名を指定します。複数のJARファイルを指定する時は+でつなげます。<br>
+
+<br>
+
+・codebase = URLによるディレクトリ名<br>
+
+ クラスファイルがどのディレクトリにあるかをURL形式で指定します。code属性で指定したファイルは、ここからの相対位置となります。 <br>
+
+<br>
+
+・alt = 文字列<br>
+
+  アプレットが実行できなかった時、代わりに表示する文字列を指定します。<br>
+
+<br>
+
+・name = 文字列<br>
+
+ アプレットの名前(インスタンス名)を指定します。同じWebページ上のアプレットがコミュニケートするような場合に使います。<br>
+
+<br>
+
+・align = 配置方式<br>
+
+  アプレットの表示域と回りのページ要素との位置関係を指定します(left、right、top、texttop、middle、absmiddle、baseline、bottom、absbottom)。値は、IMGタグの属性と同じ意味です。<br>
+
+  <br>
+
+・vspace = ピクセル数<br>
+
+・hspace = ピクセル数<br>
+
+ アプレット表示領域の上下(vspace)と右左(hspace)のスペースの大きさを指
+
+定します。IMGタグのvspace、hspaceと同じ意味です。<br>
+
+
+
+<hr size="1"noshade>
+
+
+
+<a name="paramtag"></a>
+
+<h3>■ &lt;PARAM&gt;タグ</h3>
+
+  アプレットの実行の際に、アプレットに対して引数を渡すのが、&lt;PARAM&gt;タ
+
+グです。&lt;PARAM&gt;タグは&lt;APPLET&gt;と&lt;/APPLET&gt;の間に指定します。
+
+  &lt;PARM&gt;タグで指定したパラメータは、アプレットの中でgetParameterメソッ
+
+ドを使って参照できます。<br>
+
+<br>
+
+<strong>●&lt;PARAM&gt;タグの属性</strong><br>
+
+・name = 引数の名前<br>
+
+  引数の名前を指定します。大小文字の区別はしません。<br>
+
+<br>
+
+・value = パラメータの値<br>
+
+  値は文字列としてアプレットに渡されます。大小文字の区別をします。
+
+
+
+<pre>
+
+  &lt;PARAM name=parameterA value=123&gt;
+
+</pre>
+
+
+
+  引数の値は文字列として渡されるので、それを数値として扱う場合はラップクラスのメソッドを使って、必要なデータ型に変換します。次は、引数parameterAの値をIntergerクラスのparseIntメソッドを使って整数に変換する例です。<br>
+
+<pre>
+
+   String str;
+
+   int  value;
+
+   .....
+
+   public void init(){
+
+      str = getParameter("parameterA");
+
+      if (str == null){    //確当するパラメータが指定されなかったら
+
+         str = "1000"; //デフォルト値を使う
+
+      }
+
+      try{
+
+           value = Integer.parseInt(str); //strを整数に変換する
+
+        } catch (NumberFormatException e) { 
+
+           value = 1000; /* エラーの時の処理、例えばデフォルト値を設定 */}
+
+      }
+
+</pre>
+
+  引数の文字列が整数に変換できなかった場合、あるいは引数が与えられなかっ
+
+た場合のことを想定して、必ず引数のデフォルト値をアプレット内で用意して
+
+おきます。<br>
+
+<hr size="1"noshade>
+
+
+
+<a name="plugin"></a>
+
+<h3>■ Javaプラグイン</h3>
+
+  アプレットを実行するには、Java実行環境(Java VM)をもったWebブラウザが必要です。&lt;APPLET&gt;タグでページに埋め込まれたアプレットは，通常ブラウザ内蔵のJava VMを使って実行されます。しかし，内蔵VMのバージョンが古いため，ページ上のアプレットを実行できないことがあります。このような問題を避け、どのブラウザを使ってもWebページに置かれたアプレットが実行できるように、Javaプラグインが提供されています。<br>
+
+<br>
+
+
+
+<strong>●Javaプラグインの働き</strong><br>
+
+  プラグインとは、ブラウザの機能を拡張するプログラムのことで、音声や動画を再生する機能をブラウザに追加するなど、数多くのプラグインがあります。Javaプラグインはそのひとつで、アプレットを実行するためのプログラムです。<br>
+
+  &lt;APPLET&gt;タグで指定されたアプレットは，Webブラウザ内に組み込まれたJava VMで実行されますが、アプレットを作成したJavaのバージョンとブラウザ内のJava実行環境のバージョンが一致するとは限りません。一般的に、ブラウザへの最新Java実行環境の対応が遅れがちで、ページ上のアプレットが実行できないことがしばしばあります。<br>
+
+<br>
+
+  プラグインの場合、必要に応じて自動的に最新Java VMをダウンロードするので、バージョン違いに悩まされる問題を解決できます。アプレットをプラグインで実行するように指定したWebページをブラウザ上で開くと、Javaプラグインがすでにインストールされている場合はそのままアプレットが実行されます。もし、Javaプラグインがないと、サンマイクロシステムからJavaプラグインをインストールするためのダイアログボックスが表示され、ユーザがインストールに同意すると、インストーラーが自動的に起動されます(この場合、もちろん、インターネットへ接続されている必要があります)。<br><br>
+
+
+
+  プラグインについては，<a  href="http://java.sun.com/products/plugin/1.3/docs/ja/quick_start.html">Java  Plug-in クイックスタートガイド</a>を参照してください。
+
+
+
+<br><br>
+
+<strong>●HTMLコンバータ</strong><br>
+
+  プラグインで実行するアプレットをWebページに組み込むには、&lt;APPLET&gt;タグとは別のタグを使います。使うタグは、ブラウザによって異なり、Netscapeブラウザ用には&lt;EMBED&gt;と&lt;/EMBED&gt;タグを、Internet Explorer用には&lt;OBJECT&gt;
+
+と&lt;/OBJECT&gt;タグを使います。<br>
+
+  ユーザがどちらのブラウザを使っているかに関係なく、プラグインアプレットを実行できるようHTMLファイルを作るのは、少々やっかいです。そのため、&lt;APPLET&gt;タグでアプレットを組み込んだHTMLファイルを、プラグインアプレットへ変換するプログラム(HTMLコンバータ)が提供されています。これを使えば、HTMLファイルから、アプレットをプラグインで実行するためのHTMLファイルを簡単に作ることができます。<br>
+
+HTMLコンバータは、<a href ="http://java.sun.com/products/plugin/1.3/converter.html"> Sun Microsystems</a>からダウンロードできます。<br>
+
+ 
+
+<br>
+
+
+
+<img src="htmlConvert.gif" alt="HTML Converter" align=left>
+
+  HTMLコンバータを起動すると、図のようなウィンドウが現れます。コンバートするファイルを指定して、「Convert」ボタンをクリックすると変換が行われ、変換完了のウィンドウが表示され、変換の状態を知らせます。
+
+<br clear=all>
+
+<br>
+
+<img src="doneConvert.gif" alt="HTML Converter Done" align=left>
+
+  元のHTMLファイルは、ディレクトリ名_BAKという名前の新しいディレクトリにコピーして保存されます。この例だとapplet_BAKディレクトリが作られ、そこにコピーされます。
+
+<br clear=all>
+
+
+
+
+
+
+
+<br>
+
+<br>
+
+<strong>●プラグインアプレットのための&lt;EMBED&gt;タグと&lt;OBJECT&gt;タグ</strong><br>
+
+  HTMLコンバータを使えば、プラグインアプレット用のHTMLファイルが自動的に作られるので、実際にタグを記述する必要はありません。&lt;EMBED&gt;タグ、あるいは&lt;OBJECT&gt;タグがどのように記述されるか、その概要を説明します。<br>
+
+
+
+ 次の&lt;APPLET&gt;タグ
+
+<pre>
+
+     &lt;APPLET code="HelloApplet.class" width=180 height=60&gt;
+
+</pre>
+
+を、Netscapeブラウザ用の&lt;EMBED&gt;タグに置き換えたもの、ならびにInternet Explorer用の&lt;OBJECT&gt;タグに置き換えたものを下に示します(Java Plug-in Software 1.2での例)。<br>
+
+
+
+<pre>
+
+◆&lt;EMBED&gt;タグの場合
+
+    &lt;EMBED type="application/x-java-applet;version=1.1"
+
+       java_CODE = "HelloApplet.class"
+
+       WIDTH = 180 HEIGHT = 60
+
+       pluginspage="http://java.sun.com/products/plugin/1.1.1/plugin-install.html"&gt;
+
+    &lt;/EMBED&gt; 
+
+</pre>
+
+
+
+  type属性にコンテントタイプが指定されます。クラスファイルはjava_CODE属性で、その他の&lt;APPLET&gt;タグの属性はそのまま&lt;EMBED&gt;タグの属性として指定します。pluginspage属性では、どこからJavaプラグインをダウンロードするかのURLを指定します。また、この例にはありませんが、引数をアプレットに渡すには、パラメータ名を&lt;EMBED&gt;タグの属性名、値を文字列として指定します(属性名="値")。<br>
+
+
+
+<pre>
+
+◆&lt;OBJECT&gt;タグの場合
+
+    &lt;OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" 
+
+        WIDTH = 180 HEIGHT = 60
+
+        codebase="http://java.sun.com/products/plugin/1.1.1/jinstall-111-win32.cab#Version=1,1,1,0"&gt;
+
+        &lt;PARAM NAME = CODE VALUE = "HelloApplet.class" &gt;
+
+        &lt;PARAM NAME="type" VALUE="application/x-java-applet;version=1.1"&gt;
+
+
+
+    &lt;/OBJECT&gt;
+
+</pre>
+
+
+
+  classid属性は、Javaプラグインを識別する番号で、常に同じ値です。&lt;APPLET&gt;タグの属性の内、width、height、align属性は&lt;OBJECT&gt;タグの属性として指定します。それ以外の&lt;APPLET&gt;タグの属性は、&lt;PARM&gt;タグで、属性名をname属性に、値をvalue属性に指定します。<br>
+
+  codebase属性にはJavaプラグインをダウンロードするURLを指定します。<br>
+
+  コンテントタイプは、&lt;PARM&gt;タグのひとつとして指定します。また、引数をアプレットに渡すには、&lt;OBJECT&gt;と&lt;/OBJECT&gt;の間に&lt;PARM&gt;タグを指定します。<br>
+
+<br>
+
+   NetscapeとInternet Explorer(IE)のどちらのブラウザででも、同じようにプラグインアプレットを実行できるHTMLファイルは、基本的には上の2つの記述を合わせたものですが、両ブラウザのタグ解釈の違いから、少し工夫が必要になります。<br>
+
+  Netscapeブラウザは&lt;OBJECT&gt;タグを無視しますが、Internet Explorerは&lt;EMBED&gt;タグを無視しないのです。そこで、IEが無視する&lt;COMMENT&gt;タグを使って、&lt;EMBED&gt;タグを囲んで&lt;EMBED&gt;タグをIEが無視するようにします。<br>
+
+
+
+<pre>
+
+&lt;OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+
+        WIDTH = 180 HEIGHT = 60  
+
+        codebase="http://java.sun.com/products/plugin/1.1.1/jinstall-111-win32.cab#Version=1,1,1,0"&gt;
+
+&lt;PARAM NAME = CODE VALUE = "HelloApplet.class" &gt;
+
+&lt;PARAM NAME="type" VALUE="application/x-java-applet;version=1.1"&gt;
+
+&lt;COMMENT&gt;
+
+&lt;EMBED type="application/x-java-applet;version=1.1" 
+
+       java_CODE = "HelloApplet.class" 
+
+       WIDTH = 180 HEIGHT = 60   
+
+       pluginspage="http://java.sun.com/products/plugin/1.1.1/plugin-install.html"&gt;
+
+&lt;NOEMBED&gt;&lt;/COMMENT&gt;&lt;/NOEMBED&gt;&lt;/EMBED&gt;
+
+&lt;/OBJECT&gt;
+
+</pre>
+
+
+
+  HTMLコンバータを使えば、プラグインアプレット用のHTMLファイルが自動的に作成されるので、&lt;APPLET&gt;と&lt;PARAM&gt;タグで記述したHTMLファイルさえ用意すれば、上で述べたようなプラグイン用の指定はHTMLコンバータに任せておけます。<br>
+
+<br>
+
+<img src="browser.gif" alt="run an applet on a browser" align=left>
+
+  &lt;APPLET&gt;を含んだHTMLファイルをHTMLコンバータで変換し、NetScapeブラウザでアプレットを実行したのが、左図です。<br clear=all>
+
+<br>
+
+
+
+
+
+<strong>●APPLETタグでJavaプラグインを使う</strong><br>
+
+
+
+Windows版のInternet Explorerでは，&lt;APPLET&gt;タグで埋め込んだアプレットを内蔵のJava VMではなく，Plug-inで実行することができます。それには，次のページで公開されているソフトウェアをダウンロードして使います。<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://homepage1.nifty.com/emk/vmselect.html"> Java VM Selector for IE</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+http://homepage1.nifty.com/emk/vmselect.html<br><br>
+
+
+
+このソフトウェアをインストールするだけで，&lt;APPLET&gt;タグで埋め込んだアプレットがPlug-inのJava VMで実行されます。
+
+
+
+<hr size="1"noshade>
+
+
+
+<a name="mac"></a>
+
+<h3>■ Macintoshの特殊事情</h3>
+
+
+
+
+
+&nbsp;&nbsp;Sun Microsystems社はMac OS用のJava環境を提供していません。
+
+Apple社が，MRJ(Mac OS Runtime for Java)の名前で開発しています。<br>
+
+<br>
+
+
+
+<strong>●MRJ(Mac OS Runtime for Java)</strong><br>
+
+Mac OS用のJava環境の最新版はMRJ2.2.5で，Java1.1.8の仕様に対応しています。
+
+
+
+Swingはサポートしていますが，Java2以降で導入された新しい機能を使ったJavaプログラムをMRJ環境で実行することはできません。<br>
+
+
+
+MRJ2.2.5は次のページからダウンロードできます。<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+
+href="http://www.apple.com/java">Mac OS Runtime for Java</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(http://www.apple.com/java) <br><br>
+
+&nbsp;&nbsp;
+
+MRJ2.2.5をインストールするには，次のマシン環境が必要です。
+
+<ul>
+
+<li> PowerPCベースのアップル社Macintoshコンピュータ。
+
+<li> Mac OS 8.1以降
+
+<li> 最低40MBのRAM
+
+<li> 最低13MBのハードディスクの空き領域
+
+</ul>
+
+
+
+
+
+Apple社は，Mac OS X以前のOS(つまり，Mac OS 8や9)上で，Java2をサポートする予定はないと，そのWebページで述べています。つまり，Mac OS 8や9はいつまでもJava1.1.8対応で，Java2を使うなら，Mac OS Xを使えということでしょう。<br><br>
+
+
+
+<strong>●ブラウザでのアプレットの実行</strong><br>
+
+
+
+Netscape用のMRJ Plug-inが次のページからダウンロードできます。<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+
+href="http://www.mozilla.org/oji/MRJPlugin.html">MRJ Plugin for
+
+Netscape4.X and Netscape 6 Browsers</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(http://www.mozilla.org/oji/MRJPlugin.html) <br><br>
+
+
+
+Mac OS用上のMicrosoft Internet Explorerは，自身のJava実行環境にMRJを使っているので，[編集]メニューの[初期設定]の[Java]項目でJavaを有効にすれば，MRJの実行環境が動きます。
+
+<br><br>
+
+
+
+<strong>●Mac OS X Java Runtime Environment</strong><br>
+
+
+
+Mac OS XはJava2 Standard Edition(J2SE) 1.3をサポートしています。
+
+WindowsやLinuxに比べて遅れがちであったMac OS上でのJava環境が，これでやっと追い付いたという感じです。
+
+
+
+詳しくは次のページを見てください。<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+
+href="http://developer.apple.com/java/">
+
+Mac OS X Java Runtime Environment</a><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(http://developer.apple.com/java/) <br><br>
+
+
+
+<hr size="2" noshade>
+
+<address> Ariga, Taeko</address>
+
+Last modified: Aug 24, 18:28:00 JST 2001
+
+
+
+</body>
+
+</html>

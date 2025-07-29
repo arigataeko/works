@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Functions for setting a display window</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="P5FuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 描画領域(キャンバス)と色の指定</h1>
+
+<h2> キャンバスの大きさ</h2>
+■createCanvas(width, height)<br>
+キャンバスの幅と高さをピクセル数で指定します。この関数はsetup()関数の先頭で1回だけ実行します。
+<pre class="reiji">
+【例】createCanvas(300, 250);   // 幅300ピクセル、高さ250ピクセルの大きさ</pre>
+
+<h2 id="redraw"> 再描画の制御</h2>
+setup()関数の実行後、デフォルトで繰り返しdraw()関数が実行されますが、下の関数でそれを制御できます。<br>
+■frameRate(frame)<br>
+1秒間に描画する回数を数字で指定(draw関数を１秒間に何回実行するかを指定)します。
+<pre class="reiji">【例】frameRate(1);   // 1秒間に1回描画する</pre>
+
+■noLoop() <br>
+draw関数の繰返し実行をやめます。動きがないスケッチ、インタラクションのないスケッチであれば、setup()関数の一番最後にnoLoop()を実行すると、繰り返しの描画が止まります。<br><br>
+■loop()　　draw関数を繰り返し実行します。<br>
+
+<h2 id="color"> 塗りつぶす色と輪郭線の色</h2>
+■fill(値1, 値2, 値3)  <br>
+塗りつぶす色を3つの整数あるいは実数で指定します。値の意味はデフォルトでは、順に赤、緑、青の要素で、0-255の間の値をとります。
+<pre class="reiji">【例】 fill(204, 102, 0);   //塗りつぶす色をオレンジ色にする</pre>
+
+■fill(グレースケール値) <br>
+塗りつぶす色として、白から黒の間のグレースケール(無彩色)を指定します(0が黒、255が白）。
+<pre class="reiji">
+【例】fill(0);  //塗りつぶす色を黒にする</pre>
+
+■fill(グレースケール値, 透明度) <br>
+グレースケール(無彩色)の色と、透明度を指定する(0が完全透明(何も見えない)、255が完全不透明で、透明度を指定しないのと同じ)。<br><br>
+
+■fill(値1, 値2, 値3, 透明度)<br>
+塗りつぶす色と透明度を指定します。
+<pre class="reiji">【例】 fill(204, 102, 0, 50);   //オレンジ色で透明度を50％にする </pre>
+
+■noFill()　　塗りつぶしをやめます。<br>
+■noStroke()　　輪郭線を描きません。<br>
+■stroke(値1, 値2, 値3)　　輪郭線の色を指定します。<br>
+■stroke(値1, 値2, 値3, 透明度)　　輪郭線の色と透明度を指定します。<br>
+■stroke(gray)　　輪郭線の色をグレースケールで指定します。<br>
+
+
+<h2 id="back"> 背景の描画</h2>
+■background(値1, 値2, 値3)<br>
+Processingウィンドウの背景を指定した色で塗ります。
+<pre class="reiji">
+【例】background(255, 204, 0);  // 背景を黄色にする</pre>
+
+■background(gray)<br>
+背景色として、白から黒の間のグレースケールで指定します(0が黒、255が白）。
+<pre class="reiji">【例】background(255);  // 背景を白にする</pre>
+
+<h2 id="colormode"> 色の指定方法の変更</h2>
+■colorMode(MODE)<br>
+色の指定を赤緑青で指定する場合はRGBを、色相、彩度、明度で指定する場合はHSBを指定します。デフォルトはRGBで、赤緑青を0-255の間の値で指定する設定。<br><br>
+色の指定方式をHSBに変更すると、fill(値1, 値2, 値3)やstroke(値1, 値2, 値3)の3つの引数の意味は、デフォルトでそれぞれ色相(0-360)、彩度(0-100)、明度(0-100)となります。<br><br>
+
+■colorMode(mode, max1, max2, max3)
+指定する値の範囲を変更します。colorMode(RGB, 100, 100, 100);とすると、0-100の間で赤緑青の色配合を指定することを意味します。
+
+<h2 id="colortype"> 色情報を保存するデータ型</h2>
+
+色の情報を保存するためのデータ型としてcolorが用意されています。colorデータ型のデータはcolor()関数により作ります。color()関数で作った色情報を保存しておき、後の処理で色を指定するのに使います。<br><br>
+
+■color(グレースケール)<br>
+■color(グレースケール, 透明度)<br>
+■color(値1, 値2, 値3)<br>
+■color(値1, 値2, 値3, 透明度)<br><br>
+いずれも、引数の指定に合わせた色情報をcolor型で返します。引数の値1, 値2, 値3の意味はcolorMode()で指定されたモードに従い、RGBまたはHSBの値です(デフォルトではRGB)。
+<pre class="reiji">
+【例】color c = color(200, 0, 0);  // 赤色
+     fill(c);                     // 赤色で塗る
+
+</pre>
+</div>
+<div class="copy"> 
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

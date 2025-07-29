@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="ProgGeneral.html"> 基本要素トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> プログラミングの基本要素</h1>
+
+<div class="menu">
+| &nbsp;
+<a href="#hensu">変数</a> &nbsp;| &nbsp;
+<a href="#bun">文</a> &nbsp;| &nbsp;
+<a href="#sanjutsu">算術演算子</a> &nbsp;| &nbsp;
+<a href="#comment">コメント</a> &nbsp;| &nbsp;
+</div>
+
+<h2 id="hensu">変数</h2>
+変数は、データを保持するためのメモリ上の「入れ物」のようなものです。 変数には名前がついていて，そこに入れた値を後で参照したり，変更したりできます。 
+変数を使うには，次のように変数の型と名前を記述して、｢変数の宣言」をします。
+<pre class="reiji">
+ 変数の型　変数名；
+</pre>
+変数名は，英数字，アンダースコア(_)からなる文字列で，名前の先頭は数字以外の文字にします。名前の長さは任意です。ただし、Javaやprocessingがキーワードとして使う文字列(予約語)は使えません。<br>
+
+変数の型は、その変数に入れるデータの型を指定するもので、基本データ型と呼ばれる型を指定する場合と、クラス名を指定する場合があります。データがクラスのオブジェクトである時、データ型にクラス名を指定します。
+<pre class="reiji">
+・基本データ型
+    整数   int     【変数宣言の例】int x;
+    実数   float   【変数宣言の例】float abc;
+    真偽値 boolean 【変数宣言の例】boolean state;
+
+・クラス名
+    String         【変数宣言の例】String str;　Stringは文字列のためのクラス
+</pre>
+
+同じデータ型の変数を複数宣言する場合、
+<pre class="reiji">
+    float x;
+    float y;
+</pre>
+と書く代わりに、次のように変数名をカンマでつなげ、データ型を省略することができます。
+<pre class="reiji">
+    float x, y;
+</pre>
+
+変数を宣言すると、デフォルトの値が代入されます。int、floatはゼロ、booleanはfalse、クラスの場合はnull(何も入っていないことを示す特別な値)です。宣言すると同時に値を入れる(代入)することができます。これを初期化といいます。
+<pre class="reiji">
+    int a = 100； //int型(整数)の変数aを宣言し、100で初期化
+</pre>
+
+この例のように、整数が入る基本データ型の変数の場合、メモリ上の変数の場所にはその数値そのものが格納されます。<br>
+一方、オブジェクトが入る変数の場合は、異なります。変数に値を代入する前に、メモリ上にオブジェクトが作られているはずで、変数に格納されるのは、そのオブジェクトがあるメモリ上のアドレス(ポインタとも言う)です。そのため、オブジェクトが入る変数のデータ型のことを<strong>参照データ型</strong>と呼びます。
+
+<h2 id="josu">定数</h2>
+プログラムの中に書かれる固定の値が定数で、リテラルとも呼びます。<br>
+
+<pre class="reiji">
+・基本データ型
+    整数intの定数は、例えば10や2013
+    実数floatの定数は、例えば12.3や10.123
+    真偽値booleanの定数は、trueまたはfalse
+
+・クラス名
+    Stringクラスの定数は"abc"や"kyoto"のようにダブルクォーテーションで囲んで表す。
+    (文字列定数)
+</pre>
+
+
+<h2 id="bun">文</h2>
+プログラムに記述する命令の単位を「文」と呼びます。セミコロンによって文の区切りを表します。
+<br>次のような処理をする文があります。<br><br>
+<ul>
+<li>・計算をして、式の値を変数に入れる(代入する)：<a href="#sanjutsu">(算術演算子参照)</a>
+<pre class="reiji"> 【例】 a = 1 + 20；</pre>
+</li>
+
+<li>・関数を実行する：
+<pre class="reiji"> 【例】line(100,100,150,200)；</pre></li>
+
+<li>・オブジェクトを作って変数に入れる：<a href="ProgClassObj.html" target="other">(クラスとオブジェクト参照)</a>
+<pre class="reiji"> 【例】 変数 = new クラス名(引数)；</pre></li>
+
+</ui>
+
+<h2 id="sanjutsu">算術演算子</h2>
+算術的な計算をするには、次の算術演算子を使います。<br><br>
+<table border="1">
+<tr><td>演算子&nbsp;&nbsp;</td><td> 意味</td></tr>
+<tr><td>+ </td><td>足し算</td></tr>
+<tr><td>- </td><td>引き算</td></tr>
+<tr><td>* </td><td>掛け算</td></tr>
+<tr><td>/ </td><td>割り算</td></tr>
+<tr><td>% </td><td>割り算の余り　例：x%3</td></tr>
+<tr><td>++ </td><td>1を加える　　　例：i++</td></tr>
+<tr><td>-- </td><td>1を引く　　　　　例：i--</td></tr>
+</table>
+
+例えば、aの中の値を３倍を計算して、結果を変数xに保存するには、次のように書きます。「a*3」という式の値は300で、その値がxに代入されます。
+<pre class="reiji">
+int a = 100；
+int x = a * 3;
+</pre>
+%は余りを計算する演算子で、次の文でaの値は１になります。
+<pre class="reiji">
+int x = 10;
+int a = x%3;
+</pre>
+<p class="clear"> </p>
++演算子は足し算をする以外に、特別な働きをします。文字列に対して+演算子を使うと、2つの文字列をつなげます。例えば、 "Sensory" + "Vision"  の演算結果は、"SensoryVision"になります。processingでprintln("Value: " + x);と書くと、"Value: 数値"が、画面下部に表示されます。数値は変数ｘの値です。
+
+
+<h2 id="comment">コメント</h2>
+プログラムに関する説明文をコメントと呼びます。コメントをプログラム内に書いておくと、どのような処理をさせているかが、すぐにわかるので、他の人のためにも自分のためにも便利です。コメントの書き方には次の2種類があります。<br><br>
+<ul>
+<li>・//の後ろ行末までがコメントとなる。</li>
+<li>・/＊と＊/ではさんだ部分がコメントとなる。</li>
+</ul>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

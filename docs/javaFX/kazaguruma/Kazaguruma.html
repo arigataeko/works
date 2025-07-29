@@ -1,0 +1,51 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="javaproSample.css">
+  <SCRIPT src="http://java.com/js/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'Kazaguruma.jnlp'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbedKazaguruma() {
+        dtjava.embed(
+            {
+                id : 'Kazaguruma',
+                url : 'Kazaguruma.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : '300',
+                height : '300'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbedKazaguruma);
+</script>
+
+</head><body>
+<h2>Kazaguruma</h2>
+  <b>Webstart:</b> <a href='Kazaguruma.jnlp' onclick="return launchApplication('Kazaguruma.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+<div id="setsumei">
+ShapeクラスのサブクラスRectangleを、回転しています。<br>
+黒い領域でクリックした後、↑キーを押すと回転スピードが上がり、↓キーでスピードが下がります。
+<BR><BR>
+ソースコードは<a href="Kazaguruma.java">こちら</a>。<BR><BR>
+</div>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder'class="artpiece"></div>
+</body></html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+
+<!-- charset must remain utf-8 to be handled properly by Processing -->
+   <meta charset=utf-8" />
+
+<!--  <meta charset="Shift_JIS"> -->
+
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="../TrailGeneral.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 音を使う</h1>
+音声ファイルを再生したり、音に応答するようなプログラムを作る場合には、
+音を扱う機能をもったクラスが必要です。
+音声を扱うクラスがパッケージされたProcessing用の、<a href="http://processing.org/reference/libraries/" target="other">ライブラリ</a>を使います。音声処理ライブラリは複数ありますが、そのうち、Processingに同梱されているMinimを使って、音声ファイルを再生したり、音を合成するプログラムを作りましょう。
+
+<div class="notes">
+このセクションでは、プログラムの動作を別のページで試すようになっています。リンク先のページで動作を確認してください<br>
+他のセクションのプログラムはHTML5の&lt;canvas&gt;タグで、プログラム(pdeファイル)をJavaScriptのプログラム(processing.ps)によって、動作させています。ただ、この方式はライブラリを使ったプログラムには対応していないため、このセクションではAppletを使います。<br>
+Appletの実行には、Javaの実行環境(JRE)が必要で、使っているブラウザによってはインストールするか尋ねられる場合があります(インストールは自動化されていて、簡単です)。
+</div>
+
+<h2 id="library">Minimライブラリを使う</h2>
+ライブラリの中のクラスを使うには、ライブラリの中のクラスを参照する(使う)ことを<a href="../Trail10UseClass.html#library" target="other">import文</a>で示します。そのクラスを使う前、pdeファイルの先頭に、importに続いて使うクラスを指定する必要がありますが、通常はクラスをひとつずつ指定するのではなく、パッケージに含まれるクラス全体をインポート(使うことを宣言)しておきます。<br>
+
+<br>
+<div class="leftSide">
+<img src="../images/importlibrary.png" alt="ライブラリのインポート" width="250"></div>
+
+左図のように、Processingの[Sketch]メニューの[Import Library]からMinimを選択すると、processingエディタに表示されているプログラムの先頭に次のようなimport文が自動生成されます。
+<pre class="reiji">
+import ddf.minim.spi.*;
+import ddf.minim.signals.*;
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.ugens.*;
+import ddf.minim.effects.*;
+</pre>
+これはMinimに含まれるパッケージ全体をインポートする記述ですが、プログラムごとに使用するクラスは違うので、いつもすべてのimport文が必要とは限りません。ただし、Minimライブラリの中心の働きをするMinimクラスはddf.minimパッケージに含まれるので、import ddf.minim.*;は常に必要です。
+<br><br>
+<p class="clear"> </p> 
+MinimのWebサイトの<a href="http://code.compartmental.net/tools/minim/quickstart/" target="other">マニュアル</a>や
+<a href="http://code.compartmental.net/minim/" target="other">API</a>から使い方を知ることができます。
+また、
+Processingの<a href="../WhatIsProcessing.html#sample" target="other">サンプル(Java Examples)</a>のLibrariesにMinimを使ったプログラムサンプルがあります。<br>
+<br>
+
+<h2 id="start">Minimライブラリの概要</h2>
+Minimライブラリの<a href="http://code.compartmental.net/minim-beta/javadoc/overview-tree.html" target="other">クラス</a>の中核となるのが、ddf.minimパッケージで、必ずimportします。音声ファイルを再生するだけなら、このパッケージだけが必要です。<br>
+Minimの機能を使う時には、次のようにMinimクラスのオブジェクトを必ず生成します。Minimクラスのコンストラクタに指定しているthisは自分自身のオブジェクトを指す特別な値です。今の場合は作っているプログラム自身を意味します。
+<pre class="reiji">
+import ddf.minim.*;
+Minim minim;
+void setup(){
+   minim = new Minim(this);
+   ....
+ }
+</pre>
+そして、プログラムが音をどう扱うかに合わせて、Audio入出力用のクラスや音合成のクラスを使います。
+<table width="700px">
+<tr><th>クラス名</th><th>主な機能とよく使うフィールドとメソッド
+</th></tr>
+<tr><td>AudioPlayer<br>(ddf.minimパッケージ)</td><td>WAV、AIFF、AU、SND、MP3形式の音声ファイルを再生する。<br>play()、loop()、rewind()</td></tr>
+<tr><td>AudioInput<br>(ddf.minimパッケージ)</td><td>入力をモニタリングする。</td></tr>
+<tr><td>AudioOutput<br>(ddf.minimパッケージ)</td><td>音声を合成する。<br></td></tr>
+<tr><td>AudioSource<br>(ddf.minimパッケージ)</td><td>上記3クラスのスーパークラス。<br>
+mix、left、right、buffersize()、close()</td></tr>
+<tr><td>AudioRecorder<br>(ddf.minimパッケージ)</td><td>音声をバッファやディスクに録音する。<br>beginRecord()、endRecord()、save()</td></tr>
+<tr><td>Oscil<br>(ddf.minim.ugensパッケージ)</td><td>振動数を指定して波形を生成する。UGens(Unit Generatorのサブクラス)<br>setFrequency(float hz)、patch(AudioOutput out)、unpatch(AudioOutput out)</td></tr>
+
+
+</table>
+<p class="clear"> </p>
+<br>
+<h2 id="play">音声ファイルを再生する</h2>
+リスト11-1は、音声ファイルを再生する方法を示したサンプルです。
+次のような手順で、準備、再生、終了を行います。
+<ul>
+<li>(1)音声ファイルをスケッチフォルダのdataフォルダに置く。</li>
+<li>(2)必要なライブラリ(ddf.minim.*;)をインポート。</li>
+<li>(3)<strong>Minim</strong>と、音声出力のための<strong>AudioPlay</strong>オブジェクト用変数を定義。</li>
+<li>(4)setup()の中で、Minimオブジェクト生成。</li>
+<li>(5)setup()の中で、音声ファイルを読み込んで、AudioPlayerオブジェクトを生成。Minimクラスのメソッド<strong>loadFile("ファイル名")</strong>を使う。</li>
+<li>(6)音声を再生するには、AudioPlayの<strong>play()</strong>メソッドを使う。マウスがクリックされた時再生するように、mouseClicked()の中で実行。</li>
+<li>(7)AudioPlayは現在再生中の場所の情報をもっている。再生終了後、再び頭から再生するには、<strong>rewind()</strong>を使って再生場所を先頭にしてから、play()を実行する。ループ再生する時は、<strong>loop()</strong>を使えば、rewind()は不要。</li>
+<li>(8)プログラムを終了する時には、使ったAudio入出力オブジェクトとMinimオブジェクトをクリアする。この処理は<strong>stop()</strong>の中に記述する。stop()はプログラムが終了する時、自動的に呼び出される関数で、今までの例では、特別な終了処理が必要でなかったので、定義していなかった。
+<pre class="reiji">
+void stop(){
+   ....  //特別な終了処理
+   super.stop();
+ }
+</pre>
+stop()関数を定義する時は、その最後で必ずsuper.stop();を実行する。superとはスーパークラスの意味で、Processingのプログラムを実行する時に裏で作られるクラスのスーパークラスのstop()を呼び出して、終了処理を完了させます。
+</li>
+</ul>
+
+再生する音声の大きさを円の大きさで表したサンプルが、リスト11-1です。別ページの<a href="index_Sample11_1.html" target="_blank">プログラムの動作</a>を見てください。
+<div class="rightSide">
+<img src="List11_1.png" width="120px"  alt="プログラム実行画面"><br>
+上の画像は反応しません。<br>動作は<a href="index_Sample11_1.html" target="_blank">こちら</a>。
+</div>
+<pre class="code">
+【リスト11-1】
+import ddf.minim.*;  //ライブラリのインポート←(2)
+Minim minim;  //Minim用変数←(3)
+AudioPlayer sound;  //音声ファイルデータ←(3)
+ 
+void setup(){
+  size(250, 250);
+  fill(225, 0, 0);
+  noStroke();
+  minim = new Minim(this);  //Minimオブジェクト生成←(4)
+  sound = minim.loadFile("funaJingle.mp3");  //音声ファイルをロード←(5)
+}
+ 
+void draw(){
+  background(255);
+  float d = sound.mix.level() * 2000; //音のレベルに応じた直径で
+  ellipse(width/2, height/2, d, d);   //円を描く
+}
+
+void stop(){   //←(8)
+  sound.close(); //音声再生オブジェクトを閉じる
+  minim.stop();  //Minimオブジェクトをクリア
+  super.stop();  //自分でstop()を定義した時、必須
+}
+
+void mouseClicked(){ //クリックでプレイ
+  sound.rewind();  //先頭に巻き戻す←(7)
+  sound.play();  //再生する←(6)
+}
+</pre>
+<p class="clear"> </p>
+リスト11-1は、音の大きさと円の直径を関係づけています。sound.mixは、AudioPlayerが持つmix<a href="../ProgClassObj.html#jikkou" target="other">変数(フィールド)にアクセスする</a>記述です。
+<pre class="reiji">
+オブジェクト.変数名
+        ↓   ↓   
+      sound.mix
+</pre>
+
+mixはAudioBufferで、バッファサイズ(デフォルトで1024)分の音声データをまとめて処理します。mixには、ステレオの左右の音声の混合値(モノラルの場合はleftと同じ値)が入っています。level()メソッドはその信号レベル(バッファの中のすべてのサンプル値の二乗平均平方根)を返します(-1～1の間の値)。この値を、円を描画するのに適切な大きさにするためsound.mix.level() * 2000と2000をかけています。
+
+<br><br>
+
+リスト11-1で使う音声ファイルは、<a href="funaJingle.mp3"> このリンク</a>から保存できます。スケッチフォルダのdataフォルダにコピーしてください。
+
+<br>
+
+<h2 id="generate">ラの音を合成する</h2>
+音声は波動です。シンプルな波形をもつ波動(サイン波)を生成して、音階を作り、それを使って簡単な楽器プログラムを作成してみましょう。<br>
+
+振動数を指定して波形を作り出す機能をもつクラスがOscil(振動子)クラスです。まずは、ラの音を鳴らすだけのプログラムを見てみます。
+
+<ul>
+<li>(1)必要なライブラリ(ddf.minim.*;とddf.minim.ugens.*)をインポート。</li>
+<li>(2)<strong>Minim</strong>と、音声出力のための<strong>AudioOutput</strong>、振動子Oscilオブジェクト用変数を定義。</li>
+<li>(3)setup()の中で、Minimオブジェクト生成。</li>
+<li>(4)setup()の中で、Minimクラスの<strong>getLineOut()</strong>メソッドを使ってAudioOutputオブジェクトを得る(ステレオ、バッファサイズ1024、サンプルレート44100、ビッド深度16で音声が生成される＊)。</li>
+<li>(5)振動数(440、ラの音)、音量(0.5)、波形(Waves.SINE)を指定して、<strong>Oscil</strong>オブジェクトを生成。</li>
+<li>(6)OscilのスーパークラスUgenの<strong>patch()</strong>メソッドを使って、出力をAudioOutputと接続する。</li>
+</ul>
+<div class="notes">
+サンプルレート：1秒間に何回音を処理(記録したり、再生したり)するか。人の可聴域の音の場合、44100回。<br>
+ビット深度：1回のデータを記録するビット数。<br>
+バッファサイズ：データをこの大きさ分、溜めながらまとめて処理する。
+</div>
+
+<pre class="code">
+【リスト11-2】
+import ddf.minim.*; //必要なライブラリをインポート←(1)
+import ddf.minim.ugens.*;
+
+Minim minim;  //必要な変数を準備←(2)
+AudioOutput out;
+Oscil scale;
+
+void setup() {
+  size(500, 200);
+  minim = new Minim(this); //Minimオブジェクト生成←(3)
+  out = minim.getLineOut(); //出力用のAudioOutputオブジェクトを準備←(4)
+  scale = new Oscil( 440, 0.5, Waves.SINE ); // サイン波の振動子を生成, 振幅 0.5←(5)
+  scale.patch(out); //←(6)
+}
+
+void draw() {     }
+</pre>
+リスト11-2のプログラムは描画をしないので、draw()の中は空ですが、音を鳴らす処理を進めるために、draw()は必要です。<br><br>
+合成する音の音程(振動数)を変えるにはsetFrequency()を使います。
+リスト11-2の、draw()関数を次のようにすると、マウスカーソルのx方向の位置によって合成する音の高さが変わります。
+<br>「テルミン」は、アンテナの間においた手の位置によって音程と音量がかわる「楽器」ですが、このプログラムも画面を左右に動かすことで、音が変わる一種楽器のような動きをします。
+<pre class="reiji">
+void draw() {
+  scale.setFrequency(map(mouseX, 0, width, 100, 5000));
+}
+</pre>
+
+map(mouseX, 0, width, 100, 5000)で、マウスのx位置(0からwidthの間の数)を振動数100Hzから5000Hzの間の値に変換しています。
+
+<h2 id="gakki1">楽器を作る(その準備)</h2>
+波動(サイン波)の振動数を変えて音階を作り、それを使って簡単な楽器プログラムを作成してみましょう。こちらのページから<a href="index_Sample11_4.html" target="_blank">プログラムの動作</a>を見てください。<br>ボタンとして働く8つの円があり、マウスオーバーすると、左から順にハ長調の音階が鳴ります。
+<br><br>
+ボタンのクラスCircleButtonを作り、それを8個並べて配置することにします。
+クラスのAPIは次のようなものとします。
+<pre class="code">
+<strong>クラス名</strong>:  CircleButton
+ボタン。
+<strong>変数</strong>：
+   int x     ボタン中央のx座標
+   int y     ボタン中央のx座標
+   boolean over     マウスがボタン上にある時は、trueを返す
+   boolean press    マウスボタンがボタン上で押された時は、trueを返す
+   <a href="../PFuncDisplay.html#colortype" target="other">color</a> c    ボタンの色
+
+<strong>メソッド</strong>：
+   void update()     ボタンの状態を確認し、overとpressの値を設定。
+   void display()    ボタンを表示(円形)、マウスが上にある時は灰色。
+
+<strong>コンストラクタ</strong>：
+   CircleButton(xx, yy, d, cc)
+     xx, yy: int, ボタン中央の座標
+     d   : int, ボタンの直径
+     cc  : color, ボタンの色
+
+【例】new CircleButton(40, height/2, 50, color(200, 0, 0));
+      位置(40,画面の高さの半分)、直径(50)、色(赤、color(200, 0, 0))
+</pre><br>
+
+CircleButtonクラスの定義(ソースコード)は<a href="CircleButton.pde" target="other">別ページ</a>に置きました。<br>
+マウス押下でラの音が鳴るようにしたリスト11-2の画面上に、CircleButtonを8個配置してみましょう。CircleButtonオブジェクトが8個入る配列を用意し(bu)、位置を少しずつずらして円ボタンオブジェクトを生成し、格納します。<br>
+そして、draw()内で、update()とdisplay()を実行し、描画します。
+<br>
+<div class="rightSide">
+<img src="List11_3.png" width="250px"  alt="プログラム実行画面"><br>
+上の画像は反応しません。
+</div>
+<pre class="code">
+【リスト11-3】
+import ddf.minim.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioOutput out;
+Oscil scale;
+CircleButton bu[];  //円ボタン用配列
+
+void setup() {
+  size(500, 200);
+  minim = new Minim(this); 
+  bu = new CircleButton[8];  //円ボタンオブジェクトが8個入る領域を生成
+  for (int i=0; i&lt;bu.length; i++) {
+    bu[i] = new CircleButton(40+60*i, height/2, 50, color(200, 0, 0)); //ボタン作る
+  }
+  out = minim.getLineOut(); //出力用のAudioOutputオブジェクトを準備
+  scale = new Oscil(440, 0.5, Waves.SINE); // サイン波の振動子を生成, 振幅 0.5
+  scale.patch(out);
+}
+
+void draw() {
+  background(0);
+  if(mousePressed){  //マウスボタン押下でラの音にする
+    scale.setFrequency(440);
+  }else{
+    scale.setFrequency(0);
+  }
+  for (int i=0; i&lt;bu.length; i++) { //ボタンの個数分繰り返す
+    bu[i].update();  //ボタンの状態を調べ、設定
+    bu[i].display(); //ボタンを描画
+   }
+}
+</pre>
+<p class="clear"> </p>
+
+
+<h2 id="gakki2">楽器を作る(完成)</h2>
+リスト11-3は画面上のどこを押してもラの音がしますが、マウスが左のボタン上に乗ったらド、次のボタン上にきたらレの音と、ハ長調の8音が鳴るようにしましょう。円ボタンのフィールドoverの値を調べ、その値がtrueなら対応する振動数にします。マウスがどのボタンにも乗っていない場合を示すためのboolean型の変数someOnを定義し、音をいつ消すか知るのに使います。<br>
+ハ長調の音階の振動数を、float型の配列に次のように入れておきます。
+<pre class="reiji">
+float feq[] = {264, 297, 330, 352, 395, 440, 495, 528};
+</pre>
+マウスが乗ったボタンのインデックスをiとしたら、次のようにそのインデックスを使って対応する振動数を設定します。
+<pre class="reiji">
+scale.setFrequency(feq[i]);
+</pre>
+
+<div class="rightSide">
+<img src="List11_3.png" width="250px"  alt="プログラム実行画面"><br>
+完成版の動作は<a href="index_Sample11_4.html" target="_blank">こちら</a>。
+</div>
+<pre class="code">
+【リスト11-4】
+import ddf.minim.*;
+import ddf.minim.ugens.*;
+
+Minim  minim;
+AudioOutput out;
+Oscil scale;
+boolean someOn; //マウスがボタン上にある時はtrue
+float feq[] = {264, 297, 330, 352, 395, 440, 495, 528}; //各音の振動数
+CircleButton bu[];
+void setup() {
+  size(500, 200);
+  minim = new Minim(this);
+  bu = new CircleButton[feq.length];
+  out = minim.getLineOut();
+  scale = new Oscil(0, 1.5, Waves.SINE); //最初は音を出さない
+  for (int i=0; i&lt;feq.length; i++) {
+    bu[i] = new CircleButton(40+60*i, height/2, 50, color(200, 0, 0));
+  }
+  scale.patch(out);
+}
+
+void draw() {
+  background(0);
+  for (int i=0; i&lt;feq.length; i++) {
+    bu[i].update();  //ボタンの状態を調べ、設定
+    bu[i].display(); //ボタンを描画
+    if (bu[i].over) {
+       scale.setFrequency(feq[i]); //インデックスiの振動数に設定
+       someOn = true; //マウスがボタンに乗っている状態
+     }
+   }
+   if(!someOn) { //マウスがどのボタンにも乗っていないので、
+     scale.setFrequency(0); //音を消す
+   }else{
+     someOn = false; //次のdraw()の実行に備え、初期化
+   }
+}
+</pre>
+<p class="clear"> </p>
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<!-- <audio preload="auto" src="puya.mp3"></audio> -->
+<!-- <audio preload="auto" src="puon.mp3"></audio> -->
+【問題11-1】<a href="../Trail9Image.html#mondai" target="other">練習問題9-2</a>で作ったアニメーションに効果音をつけてください。別ページの<a href="index_Exer11_1.html" target="_blank">プログラムの動作</a>を見てください。<br>キャラクタが歩いている時は、puya.mp3を、マウスが押されたらpuon.mp3を再生します。
+<br><br>
+効果音は次のリンクからコピーできます。ジャンプ時の効果音は複数用意しました。音を変えて、効果を試してください。
+<ul>
+<li>歩く音： <a href="puya.mp3"> puya.mp3</a></li>
+<li>ジャンプの音1：  <a href="puon.mp3"> puon.mp3</a></li>
+<li>ジャンプの音2：  <a href="sharan.mp3"> sharan.mp3</a></li>
+<li>ジャンプの音3：  <a href="wan.mp3"> wan.mp3</a></li>
+</ul>
+<br><br>
+
+【問題11-2】<a href="../Trail7Harmony.html#rasen2" target="other">リスト7-5</a>の、ビジュアルハーモニーに音をつけてみましょう。<br>
+画面中央から左へ水平に弦を張り(線を引き)、円が弦を通過した時に、位置に応じて、音が鳴るようにします。円の動きに応じて、弦が音を奏でるコンテンツとなります。別ページの<a href="index_Exer11_2.html" target="_blank">プログラムの動作</a>を見てください。<br>
+<br>
+2オクターブの音ファイルを用意しました
+<ul>
+<li>木琴の音： <a href="A.zip" download="A.zip"> A.zip</a> (C5-C7の間の25音、ファイル名はA1.mp3～A25.mp3)</li>
+<li>電子的音： <a href="B.zip" download="B.zip"> B.zip</a> (C4-C6の間の25音、ファイル名はB1.mp3～B25.mp)</li>
+<li>鉄琴の音： <a href="C.zip" download="C.zip"> C.zip</a> (C4-C6の間の25音、ファイル名はC1.mp3～C25.mp)</li>
+</ul>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

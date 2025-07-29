@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Serial Communication</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="SerialGeneral.html"> シリアル通信に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> シリアル入力に応答するプログラム(スケッチ)</h1>
+
+２つのサンプルプログラムを説明します。<br>
+
+(1)スイッチのオンオフで、図形の変化を開始/停止する<br>
+(2)入力値に応じて、図形の大きさを変える<br>
+
+
+<h2 id="onoff">スイッチ操作で、図形の変化を開始/停止するサンプル</h2>
+スイッチを押している間、円が大きくなり、スイッチを離すと止まるプログラムを考えます。まず、マウス操作に応答するプログラムを理解し、その後シリアル通信に応答するプログラムに変更します。
+<br><br>
+
+次のリストは、マウスボタンを押している間、円の大きさを1ずつ増やすプログラムです。描画部分(draw()の中)は
+<a href="Trail2Move.html#changeSize" target="other">リスト2-1</a>と同じ。<br>
+
+最初動きを停めています(noLoop()関数により、draw()の実行を停止)。mousePressed()関数を定義し、loop()を呼び出しています。また、mouseReleased()関数を定義し、noLoop()を呼び出しています。これにより、マウスボタンを押している間だけdraw()が実行され、円の大きさが変化します。
+
+<div class="rightSide">
+	<canvas id="Sample21MousePress" data-processing-sources="./PDE/Sample2_1MousePress.pde" 
+						width="200" height="200">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	マウスボタン押下で開始⇔停止
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト マウスボタン押下で開始・停止】
+int d = 10;   //円の直径
+
+void setup() {
+  size(200, 200);
+  noLoop();   //draw()の実行繰り返しを停止
+}
+void draw() {
+  background(255);                   //背景をクリア
+  d = d + 1;                         //直径を増加
+  ellipse(width/2, height/2, d, d);  //円を描く
+  if (d >= width) { d = 10; }  //直径は領域幅を越えない
+}
+
+void mousePressed(){  //マウスボタンを押すと実行
+    loop();        //draw()の実行を繰り返す
+}
+
+void mouseReleased(){  //マウスボタンを離すと実行
+    noLoop();     //draw()の繰り返し実行を停止
+}
+</pre>
+<p class="clear"> </p>
+<br>
+上のプログラムを、マウスの代わりに、スイッチ操作で動きを開始、停止するように変更します。<br><br>
+
+Arduino側の準備として、Arduinoボードに
+スイッチを接続し、スイッチが押されている間は値1が、押されていないと値0がシリアルポートに送られるよう、Arduinoボードをプログラムします。<br>
+具体的には、
+<a href="SerialArduinoProgram.html#digitalin" target="other">
+「デジタル入力に応じたシリアルデータの送信」
+</a>
+で説明しているプログラムを使います。<br><br>
+(a) スイッチをArduinoボードのGNDからデジタルピン2に接続。<br>
+(b) Arduinoプログラミング環境(IDE)を起動し、新規ファイルに、
+<a href="SerialArduinoProgram.html#digitalList" target="other">デジタル入力</a>用プログラムをコピー。<br>
+(c) Arduinoプログラミング環境で検証、書き込む。<br>
+
+<br>
+このArduinoボードからシリアル通信で送られるデータを読んで処理するために、上のProcessingのプログラムを次のように修正します。<br><br>
+
+(1) Serialライブラリをインポート。<br>
+(2) Serialオブジェクト用の変数を用意。<br>
+(3) シリアルポートの名前を知るために、<a href="SerialInput.html#nameoflist" target="other">Serial.list()</a>が戻す値(配列)の中身をコンソールに表示。Arduinoが接続しているポートのインデックスを確認。<br>
+(4) ポート名を変数myPortに保存。<br>
+(5) Serialオブジェクトを生成して代入。<br>
+(6) 
+<a href="SerialInput.html#SerialEvent" target="other">serialEvent()関数 </a>を定義。この関数内で、データを読み、それに応じた処理を記述する。シリアルポートから読んだ値が1以上ならloop()関数を、そうでないならnoLoop()関数を実行する。
+<br><br>
+
+<pre class="code">
+【リスト スイッチ操作で変化を開始・停止】
+import processing.serial.*;   //ライブラリのインポート←(1)
+
+Serial myPort;  //Serialオブジェクト用変数←(2)
+int d = 10;     //円の直径
+
+void setup() {
+  size(200, 200);
+  noLoop(); // 最初停止しておく
+  printArray(Serial.list());  //シリアルポートの名前のリストを表示←(3)
+  String portName = Serial.list()[1];  //使うシリアルポートの名前←(4)
+  myPort = new Serial(this, portName, 9600); //Serialオブジェクトの生成←(5)
+}
+
+void draw() {
+  background(255);                   //背景をクリア
+  d = d + 1;                         //直径を増加
+  ellipse(width/2, height/2, d, d);  //円を描く
+  if (d >= width) { d = 10; }        //直径は領域幅を越えない
+}
+
+void serialEvent(Serial port) {  //シリアル通信でデータが届くと実行される←(6)
+  int value = port.read();
+  if(value >= 1){  //入力値が1以上なら
+     loop();       //draw()の実行を繰り返す
+  }else {          //そうでなければ
+     noLoop();     //draw()の繰り返し実行を停止
+  }
+}
+</pre>
+<br>
+
+<h2 id="changeSize">入力値に応じた描画をするサンプル</h2>
+上と同じ円を中央に描くシンプルな例で、入力値に応じて円の大きさを変えるプログラムを考えます。
+<br>
+
+入力値を円の直径に使う例に<a href="Trail12SoundRespond.html#Sample121" target="other">リスト12-1</a>があります。リスト12-1はマイクからの音量に応じて円の直径を決めますが、これと同様にシリアル入力の値によって描く円の直径を変えます。<br><br>
+
+Arduinoには可変抵抗が接続され、そのつまみを回すことで0-255の値がシリアルポートに送られるようにプログラムされているとします。
+<br>
+具体的には、
+<a href="SerialArduinoProgram.html#analogin" target="other">
+「アナログ入力に応じたシリアルデータの送信」
+</a>
+で説明しているプログラムを使います。<br><br>
+(a) 可変抵抗またはセンサーをArduinoボードのアナログピン1に接続（可変抵抗の中央ピンをアナログピン1に、両側のピンを5V電源とGNDに接続）。<br>
+(b) Arduinoプログラミング環境(IDE)を起動し、新規ファイルに、
+<a href="SerialArduinoProgram.html#analogList" target="other">アナログ入力</a>用プログラムをコピー。<br>
+(c) Arduinoプログラミング環境で検証、書き込む。<br>
+
+
+<br>
+serialEvent()関数内で読まれた入力値は変数valに一旦保存され、それを使って円の直径を計算します。
+描く円の直径は描画領域の幅(400、変数widthに保存されている)を越えないことにします。入力値0-255の値を、0-400に<a href="./PFuncMath.html#kansan" target="other">map()</a>関数を使って比例換算し、それを円の直径とします。
+
+<pre class="reiji">
+ float d = map(val, 0, 255, 0, width);  //入力値を直径に換算
+ ellipse(width/2, height/2, d, d);
+</pre>
+
+<pre class="code">
+【リスト 入力値に応じた大きさの円を描画】
+import processing.serial.*;  //ライブラリのインポート←(1)
+
+Serial myPort;  //Serialオブジェクト用変数←(2)
+int val;        //シリアルポートから読んだデータを入れる変数
+
+void setup() 
+{
+  size(400, 400);
+  printArray(Serial.list());  //シリアルポートの名前のリストを表示←(3)
+  String portName = Serial.list()[1];  //使うシリアルポートの名前←(4)
+  myPort = new Serial(this, portName, 9600); //Serialオブジェクトの生成←(5)
+  frameRate(30);
+  noStroke();
+}
+
+void draw() {
+    background(255);                   //背景を白に設定
+    fill(200, 0, 0);
+    float d = map(val,0,255,0,width);  //入力値を直径に換算
+    ellipse(width/2, height/2, d, d);
+}
+
+void serialEvent(Serial port) {  //シリアル通信でデータが届くと実行される←(6)
+  val = myPort.read();  //データを読んで値を変数valへ代入 
+}
+</pre>
+
+
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">
+				<canvas id="Exer21MousePress" data-processing-sources="./PDE/Exer2_1MousePress.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+	シリアル入力の代わりにマウスボタン押下
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+【問題 Serial-1】<a href="Trail2Move.html#Exer21" target="other">練習問題2-1</a>で、10行10列に整列した100個の円の大きさが徐々に大きくなっていくプログラムを作成しました。<br><br>Androidに接続したスイッチを押している間だけ、円の大きさが変化するように変更してみよう。
+
+<p class="clear"> </p>
+
+<br>
+
+
+<div class="leftSide">
+	<canvas id="Exer121" data-processing-sources="./PDE/Exer12_1Mouse.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    シリアル入力の代わりにマウスを左右ドラッグ
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+
+【問題 Serial-2】<a href="Trail12SoundRespond.html#Exer121" target="other">練習問題12-1</a>で、マイクが感知した音の大きさに応じて、猫があくびをするインタラクティブな映像を表示するプログラムを作成しました。<br>
+これと同様に、Androidと接続した可変抵抗(あるいはセンサー)の値に反応して、連続した写真が変化して表示されるプログラムを作成しよう。9枚の猫のあくびの連続写真を用意し、シリアル入力値が小さい時は口を閉じた写真を、大きな値の場合は口を大きく開けた写真を表示するようにしてみよう(左はデモのため、シリアル入力の代わりに、ドラッグ時のマウスのx座標に反応します)。
+<br><br>
+左図で使っている画像(9枚の猫のあくび写真)は、<a href="ImageFiles.html#mondai121" target="other">画像ページ</a>にあります。自分が撮影した別の写真を使って、可変抵抗(センサー)と画像が関係するおもしろい内容のプログラムを考えてみてください。
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

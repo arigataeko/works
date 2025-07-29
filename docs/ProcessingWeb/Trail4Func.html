@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="TrailGeneral.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 関数を作る</h1>
+関数は、あるまとまった仕事をする複数の命令をひとまとめにして名前を付けて、いわばグループ化したものです。Processingは描画をはじめとするさまざまな機能を<a href="PFuncGeneral.html" target="other">関数</a>の形で、提供しています。
+<br>処理させたい内容に応じて、新しい関数を作ることで、わかりやすく、見通しのいいプログラムにすることができます。
+
+<h2>同心円を描く関数</h2>
+問題1-1で、同心円をひとつ描きました。
+同心円を複数描くとしたら、次のように同心円を描く命令部分を繰り返せば、
+実現できます。
+
+
+<div class="rightSide">
+	<img src="./images/List4_1.png" alt="複数同心円" />
+</div>
+<pre class="code">
+【リスト4-1】
+size(400,125);
+noFill();
+int d = 10;
+for(int i=1; i&lt;=10; i=i+1){
+  ellipse(50, 50, d*i, d*i);
+}
+
+for(int i=1; i&lt;=10; i=i+1){ //左から2つ目の同心円
+  ellipse(150, 50, d*i, d*i);
+}
+
+for(int i=1; i&lt;=10; i=i+1){ //左から3つ目の同心円
+  ellipse(250, 50, d*i, d*i);
+}
+
+for(int i=1; i&lt;=10; i=i+1){ //左から4つ目の同心円
+  ellipse(350, 50, d*i, d*i);
+}
+</pre>
+
+<p class="clear"> </p>
+
+同心円を描く命令部分(直径変化量dの設定とfor文)が、
+4回繰返し出てきます。同心円を描く命令部分を切り出して関数として定義しておけば、
+その関数を呼び出すだけで、同じことができます。
+<a href="ProgFunction.html#print" target="other">関数の定義</a>
+は次のように書きます。
+<pre class="reiji">
+戻り値の型　関数名（引数の型　引数名, 引数の型　引数名, .....) {
+	処理の内容
+}
+</pre>
+関数名はその機能を表すdrawDoshinとし、戻り値はなし(void)で、引数は
+同心円の中央の点の座標(x, y)と円の直径の変化量dの3つとします。3つの引数ともデータ型はfloat(小数点数)とします。
+
+<pre class="code">
+【リスト4-2】
+void setup() {
+  size(250, 250);
+  noFill();
+  drawDoshin(50, 50, 10);  //左から1つ目の同心円を描く関数の呼出し
+  drawDoshin(150, 50, 10); //左から2つ目の同心円を描く関数の呼出し
+  drawDoshin(250, 50, 10); //左から3つ目の同心円を描く関数の呼出し
+  drawDoshin(350, 50, 10); //左から4つ目の同心円を描く関数の呼出し
+}
+// 同心円を描く関数の定義
+void drawDoshin(float x, float y, float d) {
+  for (int i=1; i&lt;=10; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+</pre>
+独自の関数を定義する場合は、Activeモードでプログラムを書きますが、
+上の例は、静的なグラフィックスを描くプログラムなので、draw()関数は定義していません。
+
+<h2 id="hamon">同じ名前の関数を定義</h2>
+リスト4-2で定義した関数drawDoshin()は、10個の円から成る同心円を描きます。
+関数を呼出す時に、円の個数を指定したいとしましょう。<br>
+そのために、個数を指定できる別の関数を定義します。
+別の関数名にしてもいいですが、同心円を描くという機能は同じなので、関数名は変えず、円の数を渡す(知らせる)整数の引数をひとつ増やして、新しい関数を定義します。<br>
+
+
+<div class="rightSide">
+	<img src="./images/List4_3.png" alt="複数同心円" width="200" />
+</div>
+<pre class="code">
+【リスト4-3】
+void setup() {
+  size(250, 250);
+  noFill();
+  drawDoshin(50, 50, 30, 5); //引数が4つの関数が実行される
+  drawDoshin(150, 50, 10);   //引数が3つの関数が実行される
+  drawDoshin(50, 150, 10, 3);
+  drawDoshin(150, 150, 5, 30);
+}
+// (x, y)の位置にdの間隔で10の円から成る同心円を描く
+void drawDoshin(float x, float y, float d) {
+  for (int i=1; i&lt;=10; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+// (x, y)の位置にdの間隔でnの円から成る同心円を描く
+void drawDoshin(float x, float y, float d, int n) {
+  for (int i=1; i&lt;=n; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+</pre>
+<p class="clear"> </p>
+このように、関数名は同じで、引数の数やデータ型が異なる関数を定義することができます。関数が呼出される時、関数名に加えて、引数の型やデータ型(これを関数のシグニチャと呼びます)が合致する関数が実行されます。
+
+<br>
+<h2 id="mondai">演習問題</h2>
+
+
+<div class="leftSide">
+	<canvas id="Exer41" data-processing-sources="./PDE/Exer4_1.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+	<div>Click for drawing</div>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+【問題4-1】画面上でマウスをクリックしたら、その位置に同心円が描かれるようにしてみましょう。Processingのシステム変数<a href="Trail3Interact.html#mousePress" target="other">mousePressed</a>を調べて、それがtrueの場合、drawDoshin()関数を呼出します。
+
+<p class="clear"> </p>
+
+<br>
+
+<div class="leftSide">
+	<canvas id="Exer42" data-processing-sources="./PDE/Exer4_2.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+	<div>Click for drawing</div>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+【問題4-2】リスト4-2のdrawDoshin()関数は円の間隔が一定ですが、同心円の間隔が一定の比率で大きくなるような新しいdrawDoshin()関数を定義してください。波紋状に同心円を描く関数です。
+関数の仕様は次のようにします。
+<pre class="reiji">
+void drawDoshin(float x, float y,
+                       float d, int n, float dif)
+   x: 円のx座標
+   y: 円のy座標
+   d: 一番小さい円の直径
+   n: 円の個数
+   dif: 円が大きくなる割合、例えば1.2とすると、
+        円の直径が2割ずつ増える
+</pre>
+
+<p class="clear"> </p>
+そして、画面上でマウスをクリックしたら、その位置に波紋状の同心円が描かれるようにしてみましょう。
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

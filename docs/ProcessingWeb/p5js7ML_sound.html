@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail p5</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="p5Mode.html#list"> p5jsトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 事前機械学習モデル Sound Classifier を使う</h1>
+
+
+<a href="https://ariga.dwcmedia.jp/ProcessingWeb/p5js6SoundRespond.html#print" target="other">音に応答</a>ページで説明したプログラムは、
+コンピュータの内蔵マイク、あるいは接続されたマイクから入力した音の大きさだけに応答するものでした。
+入力した音声を識別して、特定の言葉で処理を指示するようにしてみよう。<br><br>
+
+それには<a href="https://docs.ml5js.org/#/" target="other"> ml5.jsライブラリ</a>が提供する音声識別のための、
+事前機械学習モデル<a href="https://learn.ml5js.org/#/reference/sound-classifier" target="other">
+SoundClassifer</a>を使います。<br>
+ml5.jsは、Googleが開発した機械学習システムTensorFlowを活用して開発されており、自分のスケッチに機械学習機能を組み込み、簡単な「AI」プログラムを作ることを助けるライブラリです。
+<br><br>
+SoundClassifierには、事前に学習させた学習モデル"SpeechCommands18w"が用意されています。
+"SpeechCommands18w"は、"0"から"9"までの10個の数字、"up"、"down"、
+"left"、"right"、"go"、
+"stop"、"yes"、"no"の18個の言葉、そして、"未知の単語"と "バックグラウンドノイズ"を認識します。
+
+<br><br>
+
+ml5.jsライブラリを使うために、次のscriptタグをindex.html内に指定します。
+<pre class="reiji">
+&lt;script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"&gt; &lt;/script&gt;
+</pre>
+ネットワークを経由してライブラリを配信する仕組みであるCDN(Contents Delivery Network)のサイトを通じて、ml5.jsライブラリを参照する指定です。
+
+
+<h2 id="respond1">SoundClassifierを使う</h2>
+
+<strong>(1) SoundClassfierを作る</strong><br>
+まず、変数を用意し、
+<pre class="reiji">
+let classfier;
+</pre>
+preload()関数内で、ml5.soundClassifier()を使って、SoundClassfierを作ります。引数には学習済モデル"SpeechCommands18w"を指定します。
+<pre class="reiji">
+function preload() {
+    classifier = ml5.soundClassifier('SpeechCommands18w');
+}
+</pre>
+SoundClassfierは、デフォルトで、PCの内臓マイクを通して音声を入力します。<br><br>
+
+
+<strong>(2) SoundClassfierにコールバック関数を設定する</strong><br>
+SoundClassfierは音声を認識したら、コールバック関数として設定されている関数を実行します。
+コールバック関数とは、ある処理が終了したタイミングで実行される関数(処理)のことを指します。
+<br>
+setup()関数内で、SoundClassfierに対して、classifyStart()メソッドを使って、コールバック関数を設定します。
+<pre class="reiji">
+classifier.classifyStart(gotResult);  //コールバック関数の名前を指定
+</pre>
+
+
+<br>
+
+<strong>(3) コールバック関数を定義する</strong><br>
+音声を認識したらどのような処理をするかをコールバック関数内に定義します。
+SoundClassfierのコールバック関数の第1引数はエラー、第2引数は結果の配列です。
+<pre class="reiji">
+function gotResult(results) {  
+  console.log(results);    //認識結果が配列results[]に入る、テストとしてコンソールに出力
+}
+</pre>
+結果の配列の要素は連想配列と呼ばれるJavaScriptのデータ構造で、その数は20です。認識した語(label)とその判定の信頼度(confidence)が、信頼度の順に次のように格納されています。
+<pre class="reiji">
+[{label: 'one', confidence: 0.9905231595039368}, {label: 'no', confidence: 0.009330233559012413}, ......]
+</pre>
+
+連想配列はキーと値をコロンで繋いだセットからなり、そのセットをカンマで区切って並べ、{と}で囲んだ形をしています。<br>
+ { キー1: 値1, キー2: 値2, ……}<br><br>
+連想配列の値を取り出すには、ピリオドの後ろにキーを指定します(これをドット記法といいます)。
+例えば、一番信頼度の高い語(結果配列の最初の要素のキーlabelの値）は次のように得られます。
+<pre class="reiji">
+results[0].label
+</pre>
+あるいは、キーを配列のインデックスとして使って次のようにも書けます。ここではドット記法を使います。
+<pre class="reiji">
+results[0]["label"]
+</pre>
+<br>
+
+<strong>(4) 必要なら、SoundClassfierにオプションを設定する</strong><br>
+SoundClassfierを作る時に、オプションを指定することができます。
+例えば、音声の認識の信頼度が高い時だけ、コールバック関数を実行するように指定できます。
+<br>
+下のように認識確率の閾値を指定すると、認識した言葉の確率が0.9以上の時にだけコールバック関数が呼び出されます。
+<pre class="reiji">
+function preload() {
+  let options = { probabilityThreshold: 0.9 };  //0.9以上の信頼度の時だけ処理をする
+  classifier = ml5.soundClassifier('SpeechCommands18w', options);
+}
+</pre>
+
+
+<h2 id="respond1">言葉を認識して反応</h2>
+マイクからの入力音声を識別し、認識した数の円を描くスケッチが、リスト7_1です。<br>
+一番高い信頼度で識別した語がoneからnineまでの数字であれば、その数の円を描き、それ以外の場合は描きません。どのような言葉が識別されたかを示すために、信頼度の一番高い語のラベルと信頼度を表示しています。<br>
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample7_1/index.html" id="Sample71" width="300" height="100" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト7-1】
+let classifier;
+let num = 0;  //何個円を描くか
+let x = 50;   //最初の円のx座標
+let label = "";  //一番信頼度の高い語
+let conf = 0;    //一番高い信頼度
+
+function preload() {
+  let options = { probabilityThreshold: 0.9 };
+  classifier = ml5.soundClassifier('SpeechCommands18w', options);
+}
+function setup() {
+  createCanvas(300, 100);
+  classifier.classifyStart(gotResult);
+  noStroke();
+}
+function gotResult(results) {
+  label = results[0].label;
+  conf = results[0].confidence;
+  if (results[0].label == "one") { num = 1; }
+  else if (results[0].label == "two") { num = 2; }
+  else if (results[0].label == "three") { num = 3; } 
+  else if (results[0].label == "four") { num = 4; } 
+  else if (results[0].label == "five") { num = 5; } 
+  else if (results[0].label == "six") { num = 6; }
+  else if (results[0].label == "seven") { num = 7; } 
+  else if (results[0].label == "eight") { num = 8; } 
+  else if (results[0].label == "nine") { num = 9; } 
+  else { num = 0; }
+}
+function draw() {
+  background(220);
+  fill(200, 0, 0);
+  for (let i=0; i&lt;num; i++) {
+    ellipse(x+i*20, height/2, 10, 10);
+  }
+  fill(0);
+  text("label: " + label + ", confidence: " +  conf, 10, height-10);
+}
+</pre>
+<p class="clear"> </p>
+</div>
+<div class="copy"> 
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

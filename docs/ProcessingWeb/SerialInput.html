@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Serial Communication</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="SerialGeneral.html"> シリアル通信に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> シリアル入出力のためのクラス</h1>
+シリアル通信プロトコルを使ってデータをやりとりするためのクラスがSerialです。ここではシリアル通信を介して、センサー値やスイッチの状態を表す値を読み、それに応答するプログラムを作成することを想定し、説明します。<br>
+シリアル入力を行うにはプログラム内に次のような処理を記述します。<br><br>
+・Serialオブジェクトを生成する→Serialクラスのコンストラクタを使う<br>
+・Serialオブジェクトにデータが来たか調べる→avaliable()メソッドあるいはSerialEvent()関数を使う<br>
+・Serialオブジェクトからデータを読む→read()メソッドを使う<br><br>
+
+Serialクラスの機能を使うには、serialパッケージをimportする必要があります。<br>
+<pre class="reiji">
+ import processing.serial.*;
+</pre>
+
+<h2>Serialクラスのコンストラクタ</h2>
+
+■ Serial(parent)<br>
+■ Serial(parent, baudRate)<br>
+■ Serial(parent, portName)<br>
+■ Serial(parent, portName, baudRate)<br>
+ 
+第一引数parentは、Serialオブジェクトと通信するプログラム(スケッチ)で通常、thisを使います。<br>
+baudRateは通信速度で、デフォルトは9600。<br>
+
+portNameはポート番号を表す文字列を指定します(デフォルトは"COM1")。<br>
+
+<pre class="reiji">
+【例】Serial myPort;
+     String name = Serial.list()[0];
+     myPort = new Serial(this, name, 9600);  
+</pre>
+
+Serial.list()についてはSerialクラスの<a href="#nameoflist" target="other">list()メソッド</a>を参照。
+
+<h2>Serialクラスの主なメソッド</h2>
+
+■ int available()<br>
+読めるデータのバイト数を返します。戻り値が0より大きければ、データが使える(読める)ことを意味します。<br><br>
+
+■ int read()<br>
+次の1バイトを読んで、0-255の間の値を返します。読めるバイトがないと-1を返しますが、読む前にavailable()を使って調べることで、この事態は避けるようにしてください。<br><br>
+
+<pre class="reiji">
+【例】if (myPort.available() > 0) {   //データがあるか調べる
+         int val = myPort.read();     //読む
+         println(val);
+      }
+</pre>
+<br>
+
+■ String[] list()<br>
+使用可能なシリアルポートのリストを返します。<br>
+Serialクラスのコンストラクタの引数には、ポート名を指定する必要がありますが、このメソッドが返すリストの中身をprintArray()を使って表示することで、ポートの名前を確認できます。<br>
+
+<pre class="reiji" id="nameoflist">
+【例】void setup(){  //このようにsetup()の中でポート名を確認する
+         printArray(Serial.list());  
+      }
+</pre>
+リストの先頭が使うポートであれば、Serial.list()[0]をコンストラクタのポート名として指定します。
+<pre class="reiji">
+【例】Serial myPort;
+     String name = Serial.list()[0];  //リストの先頭が使用するポート名
+     myPort = new Serial(this, name, 9600);  
+</pre>
+
+<h2 id="SerialEvent">SerialEvent() 関数によるイベント処理</h2>
+SerialEvent()関数は、シリアルポートにデータが来た時に実行される関数です。引数は新しいデータが来たポートの名前です。
+
+<pre class="reiji">
+【文法】void serialEvent(Serial whichPort) {
+           処理
+       }
+</pre>
+
+マウスの<a href="Trail5Event.html" target="other">イベント処理</a>と同様で、シリアル通信でデータが来た時に、この関数に定義しておいた処理が実行されます。<br>
+
+
+Serialクラスのbuffer()メソッドを使って決まった数のデータ要素が読まれた後、あるいはbufferUntil()メソッドを使って特定の文字が読まれた後に、この関数が実行されるように設定することもできます。
+
+<br><br>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

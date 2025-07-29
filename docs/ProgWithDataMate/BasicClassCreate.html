@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="BasicGeneral.html"> 基本知識トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> クラスを作る</h1>
+
+
+プログラムの世界では、クラスはプログラム部品で、状態(変数)や働き(メソッド)を定義した「設計図」です。「鋳型」ともいえるクラスから実際の仕事をするオブジェクトを作ります。ここでは自分のプログラムに適した独自のクラスを定義し、それを使う方法を説明します。
+
+<h2 id="teigi">クラスの定義</h2>
+
+プログラムの部品として働くクラスを作ることで、プログラムを効率的に記述できます。独自の新しいクラスを作る場合、そのクラスの機能を考え、その実現に必要な変数やメソッドを決定します。<br><br>
+
+(1)　クラスの機能を考える。<br>
+(2)　クラスの名前を決める。変数と同じルールでつけるが、クラスの名前の先頭は大文字にする。クラスの機能を体現するような名前をつけるのがいい。<br>
+<div class="notes">
+【名前の付け方】英数字、アンダースコア(_)、ドルマーク($)からなる文字列で，名前の先頭は数字以外の文字にします。名前の長さは任意です。ただし、JavaScriptがキーワードとして使う文字列(予約語)は使えません。
+</div>
+(3)　オブジェクトを作る時にあらかじめしておきたい処理を、コンストラクタに指定する。コンストラクタ内の代表的な処理にプロパティの定義がある。コンストラクタで作られるオブジェクト(自分自身)を表す<strong>this</strong>キーワードを使って、次のように定義する。
+<pre class="reiji">this.プロパティ名 = 値; </pre>
+(4)　機能を果たすためのメソッドを考える。メソッドの名前、必要な引数を決め、処理を書く。<br><br>
+
+クラス定義には、キーワード<strong>class</strong>を使います。classに続いてクラス名を書き、その後ろのブロック(｛と｝の間)に、「コンストラクタの定義」「メソッドの定義」を書きます。<br><br>
+
+<strong>class クラス名 {</strong>
+<pre class="code">
+<strong>コンストラクタの定義</strong>
+   constructor (引数名, 引数名,  …　)｛
+      .... プロパティの定義 ....
+      .... オブジェクトを作る時に、特別にしたい初期処理 ....
+  }
+  オブジェクトを作るnew演算子の後ろに指定したクラス名(引数)が、このコンストラクタを呼び出す。
+ </pre>
+<pre class="code">
+<strong>メソッドの定義</strong>
+   メソッド名(引数名, 引数名,  …)｛
+         メソッド内の処理
+   ｝
+ </pre>
+<strong>} &nbsp&nbsp;&nbsp; &nbsp;&nbsp;// クラス定義の終わり</strong>
+<br><br>
+コンストラクタの定義をしない場合は、引数のないコンストラクタがデフォルトで定義されます。
+<br>
+プロパティ、コンストラクタ、メソッドがどのように定義されているかは、そのクラスを使う時に知る必要があります。そのクラスを使うプログラムと、クラスとの間をつなぐ情報という意味で、<strong>Application Programming Interface(API)</strong>と言われます。
+<br>
+
+<h2 id="ahamon">AHamonクラスの定義</h2>
+<div class="rightSide">
+	<iframe src="./sample/ClassHamon1/index.html"
+						width="250" height="250" id="ClassHamon"
+            style = "border: 1px solid #999"> </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+
+右図では波紋が描かれています。このひとつの波紋を描く仕事(だけ)をするクラスAHamonを作ることを考えます。指定された位置に描く円の直径を徐々に大きくする動きをするクラスです。AHamonクラスを次の変数、メソッドをもつクラスとして定義します。
+
+<pre class="code">
+<strong>コンストラクタの定義</strong>
+     AHamon(limit) //引数は波紋の最大の直径
+
+    <strong>プロパティの定義</strong>
+        this.max = limit; //円の最大値
+        this.d = 0;   //直径
+        this.x = 0;   //円の中央のx座標
+        this.y = 0;   //円の中央のy座標
+        this.dr = 5;  //円の直径の変化量, デフォルトで5
+        this.move = false; //動いているか否か, 動いていればtrue
+
+<strong>メソッドの定義</strong>
+   prepare(xx, yy)     //波紋を準備、円の中心を(xx, yy)に、大きさを0にする。
+   display()           // 描画を実行するメソッド
+</pre>
+<p class="clear"> </p>
+
+メソッドの定義の方法は、<a href="BasicFunction.html#teigi" target="other">関数の定義</a>と同じです。<br><br>
+
+
+AHamonクラスは次のように使われることを想定しています。<br>
+(1)波紋の最大値を指定してAHamonオブジェクトを作り、<br>
+(2)prepare()メソッドで位置を決め、大きさを初期値のゼロにし、<br>
+(3)その後display()メソッド実行する。display()メソッドは、円を徐々に大きくしながら描画し、指定した波紋の大きさになると描画が止める。
+
+<pre class="code">
+【リスト AHamonクラス】
+class AHamon{
+  constructor(limit){  //コンストラクタ
+    this.max = limit;
+    this.d = 0;   //直径
+    this.x = 0;  //円の中央
+    this.y = 0;
+    this.dr = 5; //円の直径の変化量
+    this.move = false; //動いているか否か
+  }
+
+  prepare(xx,yy){ //波紋を準備
+    this.move=true;
+    this.x = xx;
+    this.y = yy;
+    this.d = 0;  //大きさをはじめに戻す。
+  }
+
+  display(){
+   strokeWeight(2); //線の太さを指定
+   if(this.move){   //波紋広がり中の処理
+      this.d=this.d+this.dr;   // 大きさを増加
+      ellipse(this.x, this.y, this.d, this.d);  // 円を描く
+      if(this.d>this.max){ //最大値を越えたので止める。
+         this.move = false;
+      }
+   }
+  }  // display()の終わり
+}  // class定義の終わり
+</pre>
+
+<h2 id="tsukau1">AHamonクラスを使う(その1)</h2>
+AHamonクラスを使って、波紋がランダムな位置で広がるプログラムを作ってみましょう(先の<a href="#ClassHamon">図</a>)。<br>
+setup()の中で、AHamonオブジェクトをひとつ生成し、変数hamonに代入しています。draw()の中で、hamonに対してprepare()メソッド、display()メソッドを実行しますが、波紋が最大値まで広がり、波紋の描画が終了した後で、新しい位置に波紋が描かれるように、AHamonオブジェクトの変数moveの値を調べ、falseの時だけ、prepare()メソッドを実行しています。<a href="BasicControl.html#ronri" target="other">エクスクラメーションマーク!</a>は論理演算子の否定で、hamon.moveがfalseの場合trueとなります。次の2行は全く同じ意味です。
+<pre class="reiji">
+if(!hamon.move)  { hamon.prepare( ... ); }
+if(hamon.move == false)  { hamon.prepare( ... ); }
+</pre>
+
+
+<pre class="code">
+【リスト ClassHamon1】
+let hamon; //AHamonオブジェクトを保存するための変数
+function setup() {
+  createCanvas(250, 400);
+  hamon = new AHamon(200);
+  fill(255, 30);  //色は白、透明度を指定
+}
+
+function draw() {
+  background(255, 30);
+  if (!hamon.move) {//波紋が動いていないとき
+    hamon.prepare(random(width), random(height));  //新しい位置で、波紋を開始
+  }
+  hamon.display();
+}
+</pre>
+fill(255, 30)で、白の描画色と、30の透明度(アルファ値)を指定し、その色で円を描き、描かれた円が重なり、徐々に消える効果を付けています。<br><br>
+<div id="tab">
+リストClassHamon1はその中からAHamonクラスを使っており、ClassHamon1からAHamonクラスが見える(アクセス可能の)必要があります。このための記述方法に2つあります。
+</div>
+<div class="leftSide">
+<img src="./images/EditorAHamon.png" alt="processingタブ" width="300"></div>
+<ul>
+<li>[1]リストClassHamon1の記述の後ろ(draw関数の後ろ)に、AHamonクラスの定義を入れる。プログラムはClassHamon1.jsという1つのファイルから成る。<br><br></li>
+<li>[2]リストClassHamon1とAHamonクラスの定義とを別々のjsファイルにする。
+Processingエディタのツールバーの下、タブの右側の三角▼アイコンをクリックするとメニューがポップアップする。その新規タブを選択し、「ファイルの新しい名前」をAHamonとし、そのタブ内に、AHamonクラスの定義を入れる。ClassHamon1.js、AHamon.jsという2つのファイルから成るプログラムとなる。<br>スケッチフォルダに2つのjsファイルが入り、index.htmlに自動的に次のscriptタグが追加される。
+<pre class="reiji">
+  &lt;script language="javascript" type="text/javascript"
+                        src="AHamon.js"&gt; &lt;/script&gt;
+</pre>
+</li>
+</ul>
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+[2]のように、クラスの定義を独立させておくと、そのクラスを別のプログラムで活用する場合、そのjsファイルをそのまま使えて便利です。
+
+
+
+<h2 id="tsukau2">AHamonクラスを使う(その2)</h2>
+
+波紋をひとつ描くだけだと、クラスを作る効果がはっきりしませんが、複数の波紋を描こうとするとその便利さが実感できます。例えば、50個の波紋がランダムな位置に描かれるプログラムClassHamon2は、AHamonクラスのオブジェクトを50個作り、順にメソッドを実行するだけで、実現できます。<br><br>
+
+AHamonオブジェクトを50個作り、<a href="BasicArray.html" target="other">配列</a>の中に入れておきます。まず、setup()関数の前で、波紋オブジェクトを保存する配列を入れる変数を定義します。
+
+<pre class="reiji">
+let hamon = [];  //オブジェクトを保存する配列の定義
+</pre>
+そして、setup()関数の中で、配列の要素に一つ一つ波紋オブジェクトを生成して、入れます。
+<pre class="reiji">
+for(let i=0; i&lt;50; i++){
+   hamon[i] = new AHamon(200);  //AHamonオブジェクトを生成、配列に代入
+}
+</pre>
+
+draw()の中で、配列内の要素一つ一つに対してdisplay()メソッドを実行すると、画面の上に50個の波紋が描かれます。
+<pre class="reiji">
+for(let i=0; i&lt;hamon.length; i++){
+   hamon[i].display();
+}
+</pre>
+
+徐々に波紋が現れ、異なるタイミングで波紋が広がるように、一度のdraw()の実行では、一つの波紋に対してprepare()が実行されるようにしています。配列hamonの中のどのオブジェクトをを対象にするかのインデックスを変数hの中に覚えておくことにします。そして、hを１ずつ増やし、順番に波紋の広がりが終了しているか調べ、そうであれば新しい位置を設定し、新たに波紋の広がりを始めます。<br>
+hを増やしていくと、いずれ波紋の数50を越えます。配列外の要素を参照してエラーになるのを防ぐため、hの値が配列の個数50を越えないようにしています。配列中のデータ数はhamon.lengthで知ることができます。h = (h+1)%hamon.length;は、hamon.lengthで割った余りを計算しており、次と同じ意味です。
+<pre class="reiji">
+h = h+1;  //hに1を加え
+if(h>=hamon.length) { h = 0; }  //hamon.lengthを越えたら0にする
+</pre>
+
+リストClassHamon2の中では、const N=50;として、変数Nの中に50を入れておき、配列にオブジェクトを入れる部分では直接50と書く代わりに、Nと書いています。こうすると、広がる波紋の数を変えたいとき、Nに代入する数を変更するだけで済み、変更に対して柔軟性の高いプログラムになります。
+<br><br>
+<div class="rightSide">
+	<iframe src="./sample/ClassHamon2/index.html"
+						width="250" height="250" id="ClassHamon2"
+            style = "border: 1px solid #999"> </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+
+<pre class="code">
+【リスト ClassHamon2】
+let hamon = []; //AHamonオブジェクトを保存するための配列
+let h = 0;      //いくつめの波紋か
+const N=50;     //作り出す波紋の数
+
+function setup() {
+  createCanvas(250, 250);
+  for (let i=0; i&lt;N; i++) {
+    hamon[i] = new AHamon(200);  //AHamonオブジェクトを生成、配列に代入
+  }
+  frameRate(10);
+  fill(255, 30);  //色は白、透明度を指定
+}
+
+void draw() {
+  background(255, 30);
+  if (!hamon[h].move) {//波紋が動いていないとき
+    hamon[h].prepare(random(width), random(height));  //新しい位置で、波紋を開始
+    h = (h+1)%hamon.length; //hに1加える。0－49の間の数にする
+  }
+   for(let i=0; i&lt;hamon.length; i++){
+      hamon[i].display();
+   }
+}
+</pre>
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

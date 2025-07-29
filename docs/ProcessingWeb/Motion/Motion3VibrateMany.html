@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> うごめく円…複数の円</h1>
+一定の範囲内でランダムに振動する円が格子状に並んでいます。<br>
+<a href="Motion3VibrateOne.html#print" target="other">ひとつの震える円</a>で使ったクラスVibateBallのオブジェクトを64個(8行×8列)作り、配列vbの中に入れています。<br>
+
+円の中心の位置の間隔は、d+k(直径＋円の間隔)で、最初の位置は10です。円の座標は次のようになります。<br><br>
+1行目:
+(10, 10)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(10+(d+k), 10)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(10+(d+k)+(d+k), 10)<br>
+2行目:
+(10, 10+(d+k))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(10+(d+k), 10+(d+k))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(10+(d+k)+(d+k), 10+(d+k))<br>
+3行目:
+(10, 10+(d+k)+(d+k))&nbsp;&nbsp;&nbsp;&nbsp;(10+(d+k), 10+(d+k)+(d+k))&nbsp;&nbsp;&nbsp;&nbsp;(10+(d+k)+(d+k), 10+(d+k)+(d+k))<br>
+
+<br>
+一般化すると、i行j列のx、y座標は、(10+(d+k)*j, 10+(d+k)*i)と書けます。<br>
+このx座標、y座標の値を指定して、VibrateBallオブジェクトを生成します。
+setup()関数内の二重のfor文で、8行×8列の64個の円を配列vbの中に順番に入れます。nは配列のインデックスで、nが0～7に一行目の円が入り、nが8から15に二行目の円が入ります。
+<pre class="reiji">
+vb = new VibrateBall[row*col];  //配列の要素の数は64(8x8)
+int n=0;
+for(int i=0; i&lt;row; i++){ // i行目の円
+   for(int j=0; j&lt;col; j++){ // j列目の円
+      vb[n] = new VibrateBall(10+(d+k)*j, 10+(d+k)*i, wide, v, d);
+      n++;              　 // ↑円のx座標  ↑y座標
+   }
+}
+</pre>
+そして、draw()関数の中で、VibateBallのメソッドdisplay()を呼び出し、新しい位置に描画します。
+
+<pre class="reiji">
+for(int i=0; i&lt;vb.length; i++){ //配列中の円を順に描く
+   vb[i].display();
+}
+</pre>
+
+<div class="rightSide">
+	<canvas id="VibrateOne"
+       data-processing-sources="./MotionPDE/vibration/VibrateMany.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト VibrateMany】
+VibrateBall [] vb;  //円のオブジェクトを入れる配列
+int v = 5; //移動速度の最大値
+float x, y ; // 位置(座標)
+int d = 8; // 円の直径
+int wide = 3; //動く範囲幅
+int k = 10;   //円の間隔
+int row=8;
+int col=8;
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  frameRate(30);    //フレームレート
+  fill(0);
+  vb = new VibrateBall[row*col];
+  int n=0;
+  for(int i=0; i&lt;row; i++){ // i行目の円
+     for(int j=0; j&lt;col; j++){ // j列目の円
+        vb[n] = new VibrateBall(10+(d+k)*j, 10+(d+k)*i, wide, v, d);
+        n++;
+     }
+  }
+}
+
+void draw() { 
+  background(255);   //画面の背景を白でクリア
+  for(int i=0; i&lt;vb.length; i++){ //配列中の円を順に描く
+     vb[i].display();
+  }
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

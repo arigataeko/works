@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の波動運動…ひとつ(大きさ変化)</h1>
+ひとつの円が、サインカーブ上を運動します。
+動きは、<a href="Motion1SinCurve1.html#print" target="other">ひとつ(軌跡なし)</a>と同じですが、円の大きさが変化します。
+<br>
+角度をdaずつ増やし、360度になるまでの間、円の大きさを0.5ずつ増加させます。角度angleが360以上になったら、angleをゼロにするとともに、円の大きさを初期値(ここでは2)に戻します。
+<br>
+<br>
+<div class="rightSide">
+	<canvas id="SinCurve3"
+       data-processing-sources="./MotionPDE/oneDirection/SinCurve3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SinCurve3】
+float angle; // 位置(角度)
+float da = 5; // 角度の変化量
+float x, y;
+float d = 2; // 円の直径
+float h =50; // 振幅
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア
+     x = angle*width/360.0;
+     y = height/2.0 - sin(radians(angle))*h;
+     ellipse(x, y, d, d);
+
+     angle = angle + da;  //角度を増加
+     if (angle&gt;=360) {
+        angle=0; // 360を超えたので、0に戻す
+        d = 2;   // サイズを初期値に戻す
+     } else {
+        d = d+0.5;  //直径を増加
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

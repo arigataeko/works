@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="robots"content="noindex,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>String Object</title>
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      Stringオブジェクト<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href="#sub">substr()/substring</a> &nbsp| &nbsp
+
+</div>
+
+
+<br><a name="sub"></a><br>
+<h1>部分文字列</h1>
+
+substr(pos [, length])<br><br>
+
+文字列のposの位置からlengthの長さの文字列を切り出す。先頭文字の位置は0。posに負の値を指定するとうしろから数える。lengthを省略するとpos以降の文字列すべてを返す。
+<pre class="pcode">
+str = "50.26000123";
+str.substr(0, 4);    // "50.26" を返す
+</pre>
+
+
+<pre class="pcode">
+ 【補足】数値を文字列に変換するには、toString()を使う(Numberオブジェクトのメソッド)。
+         x = 50.26000123;
+         str = x.toString(); ← xの値を10進数として解釈し、文字列に変換する。
+</pre>
+
+substring(from [, to])<br><br>
+文字列のfromの位置からto-1文字めまでの文字列を切り出す。先頭文字の位置は0。負の値を指定すると0を指定したものとみなされる。toを省略するとfrom以降の文字列すべてを返す。
+<pre class="pcode">
+str = "abcdefg";
+str.substring(2, 4);    // "cd" を返す
+</pre>
+
+<hr size="2"noshade>
+
+<div class="cp">
+arigat アットマーク acm.org<br>
+Last modified: Oct. 2013
+</div>
+</body>
+</html>

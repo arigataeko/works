@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 往復する波動運動…同一サイズの円列</h1>
+複数の円が列になって、サインカーブ上を往復運動します。
+波の動きは、<a href="Motion2RSinCurve1.html#print" target="other">ひとつの往復する波動運動</a>と同じです。複数の円を扱う方法は<a href="Motion2RStraightM1.html#print" target="other">同一サイズの円列の直線往復運動</a>と同じで、10個の円の位置(角度)と速度(角度の変化量)を配列に入れておきます。この例では角度の変化の大きさはどの円も5で変わりませんが、右に動くか左に動くか(角度が増えるか減るか)が円によって異なるので、円ごとに別のデータをもたせます。<br>
+また10個の円を順番に画面に登場させるために、円が画面上に出たか、まだ左にいるかの状態を配列onに保存しておきます。
+<pre class="reiji">
+ float[] angle  = new float[10]; // 位置(角度)
+ float[] da =  new float[10]; // 角度の変化量
+ boolean[] on =  new boolean[10]; // 登場したかどうか、初期値はfalse
+</pre>
+左端の隠れた所から順次円が登場するように、配列angleの初期値を指定します。先頭の円が-10で、20度ずつ左側にずれた位置に置きます。配列daの値はすべて5にします。
+<pre class="reiji">
+ angle[0] = -10;
+ da[0]=5;
+ for(int i=1;i&lt;angle.length;i++){  
+    angle[i]= angle[i-1] - 20;
+    da[i] = 5;
+ }
+</pre>
+次のようにdraw()関数のfor文の中で、登場していない(on[]の値がfalseの)円の角度が0を超えたら、on[]をtrueにします。壁の判定は、on[]がtrueの時だけ行います(これが必要なのは、円を左壁の隠れたところから登場させるためです)。
+
+<pre class="reiji">
+ for(int i=0; i&lt;angle.length; i++){
+    //位置の計算
+    ellipse(x, y, d, d); //描画
+    if(!on[i] && angle[i]&gt;0) on[i] = true;
+    if(on[i] && (angle[i]&gt;360 || angle[i]&lt;0)){//壁の判定
+       da[i] = -da[i];
+    }
+ }
+</pre>
+
+
+<div class="rightSide">
+	<canvas id="RSinCurve2"
+       data-processing-sources="./MotionPDE/shuttle/RSinCurveM1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RSinCurveM1】
+float[] angle  = new float[10]; // 位置(角度)
+float[] da =  new float[10]; // 角度の変化量
+float x, y;
+float d = 10; // 円の直径
+float h =60; // 振幅
+boolean[] on =  new boolean[10]; // 登場したかどうか
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  angle[0] = -10; da[0]=5;  //配列の初期化
+  for(int i=1;i&lt;angle.length;i++){  
+    angle[i]= angle[i-1] - 20;
+    da[i] = 5;
+  }
+}
+
+void draw() { 
+     background(255);
+     for(int i=0; i&lt;angle.length; i++){
+         angle[i] = angle[i] + da[i];
+         x = map(angle[i], 0, 360, 0, width);
+         y = height/2.0 - sin(radians(angle[i]))*h;
+         ellipse(x, y, d, d);
+         if(angle[i] &gt; 0 && !on[i]) on[i] = true; //画面に出たか判定
+         if(on[i] && angle[i]&gt;360){//右の壁
+           da[i] = -da[i];
+         }else if(on[i] && angle[i]&lt;0){//左の壁
+           da[i] = -da[i];
+         }
+      }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

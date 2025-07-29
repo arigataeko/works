@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの移動変化量で大きさ変わる</h1>
+マウスの移動スピードによって描かれる円の大きさが変わります。ラーニングトレイルの「マウスとのインタラクション」セクションの<a href="../Trail3Interact.html#mouseSpeed" target="other">マウスのスピード</a>と同じです。
+
+
+<div class="rightSide">
+	<canvas id="Bubble"
+       data-processing-sources="./InteractPDE/Bubble.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで画面クリア
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Bubble】
+float henka;   //マウスの移動距離
+
+void setup() {
+  size(150, 150);
+  frameRate(30);    
+  background(100);
+  fill(255, 200); //透明度を指定
+}
+
+void draw() {
+   henka = dist(mouseX, mouseY, pmouseX, pmouseY); //変化量
+   ellipse(mouseX, mouseY, henka, henka);   
+}
+
+void mouseClicked(){
+   background(100); // 画面クリア
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

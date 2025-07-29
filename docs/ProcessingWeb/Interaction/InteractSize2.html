@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 同心円が広がる</h1>
+閾値により、スイッチがオンオフするプログラム例です。マウスのx座標が、閾値(今の場合画面幅の二分の一)を超えたら、スイッチが入り、同心円が広がり、画面幅の二分の一未満になると消えます。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="Size2"
+       data-processing-sources="./InteractPDE/Size2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リストSize2】
+float d;        //直径
+float level;    // 閾値
+void setup() {
+  size(150, 150);     // 画面サイズの設定
+  noFill();          //塗りつぶさない
+  strokeWeight(3);   //線の太さ
+  stroke(200, 0, 0);       //線の色
+  background(255);
+  level = width/ 2.0;
+}
+
+void draw(){
+   if(mouseX >= level){  //level以上のとき
+      d=d+10;  //円の直径を１０ずつ大きくする
+      ellipse(width/2, height/2, d, d);
+    }else{  //levelより小さいとき
+      background(255); // 背景を白に塗る。画面クリア
+      d=0;   //直径をゼロに戻す
+   }
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

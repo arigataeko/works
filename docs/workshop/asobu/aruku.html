@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>walk</title>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<style>
+ h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: #fff #fff #66c #66c;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 50px;
+       font-size: medium;
+ }
+
+.spanstyle {
+	position:absolute;
+	top:-50px;
+	font-size:10pt;
+	font-family:osaka,serif;
+    font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+<h1>クリックした位置まで人が歩く</h1>
+<br><br>
+
+<script type="text/javascript">
+<!--
+var x,y;  // clicked position
+var stepx, stepy, ippo=10;
+var ox, oy;   // previous clicked position
+var mx, my;   // now drawing position
+var dx, dy;   // distance between clicked positions
+var len, kaisu=0;
+var imgR=new Array();
+var imgL=new Array();
+var	imgS= "hito/arukuS.gif";
+for (i=0;i<4;i++) {  //4つの画像ファイル
+	imgR[i]= "hito/arukuR" + i + ".gif";
+	imgL[i]= "hito/arukuL" + i + ".gif";
+}
+
+   ox = 50;//innerWidth/2;
+   oy = 80;//innerHeight/2;
+
+   // first position
+   document.write("<span id='hito', class='spanstyle'>");
+   document.write("<img src='" + imgS + "' name='gazou'>");
+   document.write("</span>");
+   if (document.all) {  /* IE */
+  		var thisspan = eval("hito.style"); 
+   		thisspan.left=ox;
+		thisspan.top=oy;
+   } else if (document.layers) {  /* NN4 */
+   		var thisspan = eval("document.hito");
+   		thisspan.left=ox;
+		thisspan.top=oy;
+   } else if (document.getElementById) {  /* NN6 */
+   		var thisspan =
+              eval("document.getElementById('hito').style");
+   		thisspan.left=ox;
+		thisspan.top=oy;
+   }
+
+function mouseHandle(e){
+// NNは、ページに対するマウスの相対座標をpageX,pageYで参照
+// IEは、ページに対するマウスの相対座標をclientX,clientYで参照
+// IEは、Eventオブジェクトを引数eで受け取れない
+
+	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
+	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY - 10
+    x= x -2; y = y-10;
+    dx = x-ox;
+    dy = y-oy;
+    if(Math.abs(dx) > Math.abs(dy)){
+        len = Math.floor(Math.abs(dx/ippo));
+        if(dx>=0) stepx = ippo;
+        else stepx = -ippo;
+        if(len==0) stepy=0;
+        else stepy = Math.floor(dy/len);
+    }
+    else{
+        len = Math.floor(Math.abs(dy/ippo));
+        if(dy>=0) stepy = ippo;
+        else stepy = -ippo;
+        if(len==0) stepx=0;
+        else stepx = Math.floor(dx/len);
+    }
+    mx = ox;
+    my = oy;
+    calcPos();
+}
+
+function calcPos() {
+  if(dx>=0 && mx>=x || dx<=0 && mx<=x || dy>=0 && my>=y || dy<=0 && my<=y){
+           kaisu=0;
+           document.gazou.src =imgS;
+           return; 
+  }
+  kaisu++;
+
+  mx = mx+stepx;
+  my = my + stepy;
+
+  if(dx>=0){ // go to right
+      document.gazou.src =imgR[kaisu%4]; 
+  } else {   // go to left
+      document.gazou.src =imgL[kaisu%4]; 
+  }
+    
+  if (document.all) {  /* IE */
+      var thisspan = eval("hito.style"); 
+      thisspan.left=mx;
+      thisspan.top=my;
+   } else if (document.layers) {  /* NN4 */
+      var thisspan = eval("document.hito");
+      thisspan.left=mx;
+      thisspan.top=my;
+   } else if (document.getElementById) {  /* NN6 */
+      var thisspan = eval("document.getElementById('hito').style");
+      thisspan.left=mx;
+      thisspan.top=my;
+   }
+   ox = mx;
+   oy = my;
+
+   setTimeout("calcPos()",300);
+}
+
+
+//NN：CLICKイベントが起きたら、documentオブジェクトに伝える
+if(document.layers){
+    document.captureEvents(Event.CLICK);
+}
+document.onclick=mouseHandle;
+//-->
+</script>
+</body>
+</html>

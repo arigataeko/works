@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for create contents</title>
+
+<style type="text/css">
+   .special {
+       position:absolute;
+       top:150;
+       left:280;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+<script type="text/javascript">
+<!--
+  function initialize(){
+     var browser = navigator.appName;
+     var version = parseInt(navigator.appVersion);
+
+     var isNN = (browser=="Netscape");
+     var isN6 = (browser=="Netscape" && version>=5);
+     if(!isNN) { 
+       c1 = document.all.word1.style;
+       c2 = document.all.word2.style;
+     }else{
+      c1 = (isN6) ? document.getElementById("word1").style: document.word1;
+      c2 = (isN6) ? document.getElementById("word2").style: document.word2;
+     }
+     slideV(0, 150);   
+     slideH(0, 240);   
+  }
+
+  function slideV(currentP, finalP){
+     if(currentP < finalP){
+        currentP += 5;
+        c2.top=currentP; 
+        setTimeout('slideV(' + currentP + ',' + finalP + ')', 100);
+     }
+  }
+
+  function slideH(currentP, finalP){
+     if(currentP < finalP){
+        currentP += 5;
+        c1.left=currentP; 
+        setTimeout('slideH(' + currentP + ',' + finalP + ')', 70);
+     }
+  }
+//-->
+</script>
+
+</head>
+<body onload="initialize()">
+
+<h1>文字が縦横に移動</h1>
+
+<span class="special" id="word1">京</span>
+<span class="special" id="word2">都</span>
+
+</body> 
+</html>
+
+

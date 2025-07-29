@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../samplepage.css">
+<title>Script for onmouseover</title>
+
+<script>
+<!--
+   function changeHa(n){
+      document.images[n].src = "image/ha.gif";
+   }
+   function changeMori(n){
+      document.images[n].src = "image/mori.jpg";
+   }
+//-->
+</script>
+</head>
+
+<body>
+
+<h1>マウスオーバーによる画像の変化</h1>
+
+<!--ここがイベント処理の部分 -->
+<img src="image/mori.jpg" alt="森の写真" 
+     onMouseOver="changeHa(0)" 
+     onMouseOut="changeMori(0)">
+
+</body> 
+</html>
+
+

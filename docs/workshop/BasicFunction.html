@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>function</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+
+<div id="main">
+<h1>関数を作る</h1>
+
+
+<h2> 関数の働き</h2>
+  ある働きをする(機能をもつ)一連の処理をひとまとめにして、名前を付けたものが<strong>関数</strong>です。<br>
+JavaScriptは、描画や計算などさまざまな機能を関数として提供しています。
+リファレンスをみると、これら関数の使い方(API: Application Programming Interface)がわかります。<br>
+
+関数には、
+<pre class="reiji">
+・処理を行う
+・値を返す</pre>
+という2つの仕事があり、このどちらか一方の仕事をする関数と、両方の仕事をする関数があります。<br><br>
+<a href="math.html" target="other">Mathオブジェクト</a>の関数は、計算をした結果の値を返すだけの仕事をする関数です。
+返す値のことを<strong>戻り値</strong>、または返値と呼びます。
+max()関数は2つの引数のうち大きい方の値を返します。次の例では、戻り値を後の処理に使うために、変数aに代入しています。
+<pre class="reiji">
+const a = Math.max(100, 200);  //戻り値を使う
+</pre>
+
+<h2 id="teigi">関数の定義</h2>
+あらかじめ用意されている関数を使うだけでなく、新しく関数を定義し、
+自分のプログラムに活用することができます。<br>
+
+関数は次のような形で、定義します。
+<pre class="reiji">
+function 関数名（引数名, 引数名, .....) {
+  .... 処理の内容 ....
+  return 戻り値;  //値を返す関数のみ記述
+}
+</pre>
+(1)関数名を決めます。関数名は任意ですが、その関数の機能を表す名前にしておきます。<br>
+
+<div class="notes">
+関数名の付け方は変数名と同じで、次のようなルールがあります。<br>
+・英数字、アンダースコア(_)、ドルマーク($)を使う。先頭は数字以外。<br>
+・JavaScriptがあらかじめ使っているキーワード(予約語)は使えない。
+</div>
+<br>
+
+(2)引数は、関数名の後ろの（　）の中に、引数につける名前をカンマでつなげて指定します。<a href="BasicHensu.html#Hensu"  target="other">変数の宣言</a>と同じ書き方です。引数がない場合は（　）の中にはなにも書きません。<br><br>
+
+(3)ブロック(波括弧｛と｝の間)の中に、その関数の処理を書きます。関数に渡される引数や、関数の外で定義されているグローバル変数を使うことができます。また、このブロックの中でだけ有効な変数(ローカル変数)を宣言して、処理の途中結果を保存しながら処理をすすめることもできます。<br><br>
+(4)値を返す関数は、関数の実行が終わる位置にreturnを使って、戻り値を指定します。
+<pre class="reiji">
+return 返す値;
+</pre>
+<br>
+次の例は、images[]プロパティ内の値のうち、引数で指定されたインデックスの画像を指定する関数です。
+<pre class="code">
+function changeImage(n){
+  document.images[n].src = "on.gif";
+}
+</pre>
+
+<h2 id="atai">値を返す関数</h2>
+関数が値を返すにはreturnを使います。
+関数から返される値を使うか使わないかは、呼出し側が自由に決めます。使わないときは、単に無視すればいいだけです。
+<br>
+例えば、簡単な計算する関数を考えます。
+
+<pre class="reiji">
+function stdWeight(height)
+ 引数で渡された身長(m)を使って、標準体重を計算して返す。
+   h: 身長(m)
+</pre>
+<br>
+<pre class="code">
+function stdWeight(height){
+  let h = height / 100;
+  let std = h * h * 22;
+  return std;
+}
+</pre>
+returnは関数を終了して値を返す働きをします。上の例では、関数の一番最後にreturnがありますが、関数の途中にreturnがあると、それ以後の処理は行わず、そこで関数を終了します(呼出し元に戻る)。
+例えば、ある条件が成り立つ時だけ、関数を終えるという場合が、これにあたります。<br>
+関数の途中にreturn文を置く場合、値を返す必要がないなら、returnの後ろに値は指定しません。
+<pre class="reiji">
+return;
+</pre>
+
+
+
+</div>
+<div class="copy">
+  arigat  アットマーク acm.org / Last modified: Nov. 2021
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

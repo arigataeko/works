@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE> Life Game </TITLE>
+<style type="text/css">
+   h2 {
+        FONT-SIZE: 1.2em;
+        COLOR: #933;
+        MARGIN: 2em 0 0em;
+   }
+</style>
+
+</HEAD>
+<BODY>
+<H2>ライフゲイム</H2>
+<HR>
+マウスを格子上でクリックすると、●が描かれます。これが1個の生命体です。任意の位置に任意個の生命体を置き、増殖ボタンを押してください。すると、生命体が増殖し、あるいは消滅し、生命体集合が動き回ります。<BR><BR>
+生命体は、次の大変シンプルな規則で、増殖・消滅します。
+<ul>
+<li>自分の周りに４つ以上の生命体がいると苦しくて死ぬ(消滅する)。
+<li>自分の周りにいる生命体が１つ以下だとさびしくて死ぬ(消滅する)。
+<li>生命体がいない格子で、その周りに３つの生命体がいると生まれる(増殖する)。
+</ul>
+どのような位置に生命体を置くと、その集合体は長く増殖を続けるでしょうか。生命集合体の動き回るようすを楽しんでください。<BR><BR>
+増殖中以外の時(増殖停止中も)、生命体(●)の上でクリックするとその生命体が取り除かれます。<BR><BR>
+<CENTER>
+<!--"CONVERTED_APPLET"-->
+<!-- HTML CONVERTER -->
+<OBJECT 
+    classid = "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+    codebase = "http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0"
+    WIDTH = 500 HEIGHT = 500 >
+    <PARAM NAME = CODE VALUE = "LifeGameApplet.class" >
+    <PARAM NAME = "type" VALUE = "application/x-java-applet;version=1.4">
+    <PARAM NAME = "scriptable" VALUE = "false">
+
+    <COMMENT>
+	<EMBED 
+            type = "application/x-java-applet;version=1.4" 
+            CODE = "LifeGameApplet.class"
+            WIDTH = 500
+            HEIGHT = 500  
+	    scriptable = false 
+	    pluginspage = "http://java.sun.com/products/plugin/index.html#download">
+	    <NOEMBED>
+            
+            </NOEMBED>
+	</EMBED>
+    </COMMENT>
+</OBJECT>
+
+<!--
+<APPLET CODE = "LifeGameApplet.class" WIDTH = 500 HEIGHT = 500>
+
+
+</APPLET>
+-->
+
+
+<!--"END_CONVERTED_APPLET"-->
+
+</CENTER>
+<BR><BR>
+</BODY>
+</HTML>

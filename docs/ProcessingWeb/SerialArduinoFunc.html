@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Serial Communication</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="SerialGeneral.html"> シリアル通信に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> Arduino制御のための関数</h1>
+Arduinoボードの動作を制御するためのプログラム(スケッチ)はArduino言語で書きます。C言語をベースにしていて、Processingとほぼ同じ記述方法をとります。ここでは、データの読み込み、書き出しを中心にArduino言語の関数を説明します。
+<br><br>
+・<a href="#digital">デジタル信号の入出力</a><br>
+・<a href="#analog">アナログ信号の入出力</a><br>
+・<a href="#serialio">シリアルポートへのデータの出力</a><br>
+・<a href="#others">その他よく使う関数</a><br>
+<br>
+
+<h2 id="digital">デジタル信号の入出力</h2>
+■ pinMode(pin, mode)<br>
+引数pinで指定するピンのモードmode(入力で使うか、出力で使うか)を指定します。
+pinはピン番号(整数)、modeはINPUTかINPUT_PULLUPかOUTPUTのいずれかの値です。<br><br>
+【INPUT_PULLUPとは】
+回路では、大きな電流が流れることを防ぐため、デジタル端子を5V電源に接続する場合あいだに抵抗を挟みます。これをプルアップ抵抗と呼びます。Arduinoボードはプルアップ抵抗を内蔵していて、それを利用して入力としてピンを使う場合には、modeにINPUT_PULLUPを指定します。
+<br>
+
+<pre class="reiji">
+【例】const int switchPin = 2;  // スイッチをつなげたピン番号
+      pinMode(switchPin, INPUT); // switchPinで指定したピンを入力として使う
+</pre>
+
+constはswitchPinを定数(値を変えられない)として定義することを意味します。定数としたのは誤って値を変更しないためで、constを付けずに変数として定義しても動作します。
+<br><br>
+
+■ digitalRead(pin)<br>
+引数pinで指定したピンの値を読みます。その結果はHIGHあるいはLOWです。5Vのボードの場合、ピンの電圧が3Vより大きい場合、digitalReadの値はHIGHになります。<br>
+<pre class="reiji">
+【例】int switchState = 0;         //スイッチの状態を保存する変数
+      switchState = digitalRead(switchPin);  //ピンの値(スイッチの状態)を読む
+</pre>
+
+
+プルアップ抵抗(電源側に抵抗が接続)を使っている場合、スイッチがオフだとHIGH、スイッチがオンだとLOWの値になります。プルダウン抵抗(GND側に抵抗が接続)の場合、逆にスイッチがオフだとLOW、スイッチがオンだとHIGHの値を読みます。
+<br><br>
+
+■ digitalWrite(pin, value)<br>
+引数pinで指定したピンの値に、2つ目の引数で指定した値(HIGHあるいはLOW)を出力します。5Vのボードの場合、HIGHはピンの電圧を5Vに、LOWは0Vにします。<br>
+<pre class="reiji">
+【例】digitalWrite(13, HIGH);   //ボード上のLED(デジタルピン13に接続されている)を点灯
+</pre>
+
+HIGHを出力するとソース電流(電流を供給する)となり、例えばGND側に直列接続されている抵抗と接続しているLEDが点灯します。一方、LOWの出力はシンク電流(電流を吸い込む)となり、例えば5V電源と直列接続されている抵抗と接続しているLEDが点灯します。
+<br><br>
+
+<h2 id="analog">アナログ信号の入出力</h2>
+
+■ alalogRead(pin)<br>
+引数pin(整数)で指定したピンの値を読みます。
+ArduinoボードはADコンバータ(アナログの値をデジタルに変換)をもっていて、0から5Vの値を0から1023の数値に変換します。<br>
+<pre class="reiji">
+【例】int alalogPin = 1;         //アナログピン番号
+      int val = 0;               //入力値を保存
+      val = analogRead(analogPin);  //ピンの値を読んで変数valに代入
+</pre>
+
+<br>
+
+■ analogWrite(pin, value)<br>
+引数pinで指定したピンに、引数valueで指定した値を出力します。Arduinoでは、PWM(Palse Wave Modulation)と呼ばれる機能を使ってアナログ値を出力します。<br>
+Aruduino Uno(ATmega328Pのマイコン)の場合、デジタルピンの3,5,6,9,10,11でこの機能が使えます(～マークがついているデジタルピン)。デジタルピンなので0V(オフ)と5V(オン)の2つの値しか出力できないのですが、ごく短い時間で2つの値を切り替え、オンオフの時間の割合を変えることで0-255の値を出力できます。
+<br>
+<pre class="reiji">
+【例】analogWrite(9, );   //ボード上のLED(デジタルピン13に接続されている)を点灯
+</pre>
+
+<br>
+
+
+<h2 id="serialio">シリアルポートへのデータの出力</h2>
+■ Serial.begin(speed)<br>
+シリアル通信を始める前に、begin()関数を使って通信を行う速度(bps: bit per second)を設定します。引数speedには多くの場合9600を指定します。
+<br><br>
+■ Serial.write(value)<br>
+　 Serial.write(str)<br>
+シリアルポートに引数の値(バイナリデータ)を出力します。valueは1バイトの値、strは文字列(複数バイト)です。送信したバイト数を返します。
+
+<br><br>
+■ Serial.print(value)<br>
+人が読める形(ASCIIテキスト)で引数の値をシリアルポートに出力します。引数には全ての型のデータを指定できます。送信したバイト数を返します。テスト段階でシリアルモニタに値を表示する場合にはこの関数を使います。
+<pre class="reiji">
+【例】Serial.print("abc");   //文字列"abc"を出力
+　　　Serila.print(123);   //文字列"123"を出力
+</pre>
+
+<br>
+■ Serial.println(value)<br>
+print()と同じですが、出力する値の最後にキャリッジリターン(CR, ASCIIコード13)とニューライン(LF, ASCIIコード10)を付けて送ります。送信したバイト数を返します。
+
+<br><br>
+<h2 id="others">その他</h2>
+
+■ delay(ms) <br>
+引数に指定したミリ秒単位の時間だけ、プログラムの処理を停止します。
+<pre class="reiji">
+【例】delay(1000);   //処理を1秒停める
+</pre>
+<br>
+■ map(value, fromLow, fromHigh, toLow, toHigh)
+fromLowとfromHighの間の値valueを、別の範囲toLowとtoHighの間の値に変換し、計算結果を整数として返します(小数点以下は切り捨てられる)。
+
+<pre class="reiji">
+【例】y = map(x, 0, 1023, 0, 255);   //0-1023の値を0-255に換算
+      y = map(x, 1, 50, 50, 1);    //数値を範囲内で反転させる
+</pre>
+<br>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

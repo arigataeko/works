@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>move position</title>
+
+<style type="text/css">
+  #fixText { position:absolute; 
+             top:80px; left:20px }
+
+  .indText {margin-left:100px}
+</style>
+<script type="text/javascript">
+<!--
+  function initialize(){
+    browser = navigator.appName;
+    version = parseInt(navigator.appVersion);
+    brw =0;
+    def_top = 80;
+
+    if(browser=="Netscape"){
+      if(version>=5) { 
+       fTxt = document.getElementById("fixText").style; 
+       brw=1; //N6
+      } else {
+       fTxt = document.fixText; 
+       brw=2; //N4
+      }
+    }else{
+      fTxt = document.all.fixText.style;
+      brw=3; //IE
+    }
+    moveText();
+  }
+
+  function moveText(){
+     if(brw==1){
+       fTxt.top = window.pageYOffset + def_top;
+     }else if(brw==2){
+       fTxt.top = window.pageYOffset + def_top;
+     }else {
+       fTxt.top = document.body.scrollTop + def_top;
+     }
+     setTimeout("moveText()", 20);
+  }
+//-->
+</script>
+</head>
+<body onload="initialize()">
+
+<h1>ウィンドウの固定位置にある文字</h1>
+
+<div id="fixText"> <a href="#top">例えば<br>[top]<br>へのリンク</a></div>
+<p class="indText">
+ダミー文1<br>
+ダミー文2<br>
+ダミー文3<br>
+ダミー文4<br>
+ダミー文5<br>
+ダミー文6<br>
+ダミー文7<br>
+ダミー文8<br>
+ダミー文9<br>
+ダミー文10<br>
+ダミー文11<br>
+ダミー文12<br>
+ダミー文13<br>
+ダミー文14<br>
+ダミー文15<br>
+ダミー文16<br>
+ダミー文17<br>
+ダミー文18<br>
+ダミー文19<br>
+ダミー文20<br>
+ダミー文21<br>
+ダミー文22<br>
+ダミー文23<br>
+ダミー文24<br>
+ダミー文25<br>
+ダミー文26<br>
+ダミー文27<br>
+ダミー文28<br>
+ダミー文29<br>
+ダミー文30<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+</p>
+</BODY> 
+</html>
+

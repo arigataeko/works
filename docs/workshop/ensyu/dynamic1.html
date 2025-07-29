@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Himando Hantei</title>
+
+<style type="text/css">
+   .special {
+       font-size:14pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+
+<script type="text/javascript">
+<!--
+  function initialize(){
+    if(document.getElementById){ // for NN after 6
+       sStd = document.getElementById("stdW"); 
+       sBMI = document.getElementById("fatness"); 
+       sJDG = document.getElementById("hantei");
+    }else if(document.all){      // for IE before 4
+       sStd = document.all.stdW;
+       sBMI = document.all.fatness;
+       sJDG = document.all.hantei;
+    }else {
+       sStd = null;
+    }
+   }
+
+   function kekkaHantei(result){
+      if(result>30)  kekka = "太りすぎ";
+      else if(result<=30 && result>25) kekka = "太りぎみ";
+      else if(result<=25 && result>20) kekka = "正常";
+      else if(result<=20 && result>15) kekka = "やせぎみ";
+      else if(result<=15) kekka = "やせすぎ";
+      else kekka ="判定できませんでした";
+   }
+   function calc(){
+      shintyo = document.keisan.height;
+      taiju = document.keisan.weight;
+
+      h = parseFloat(shintyo.value)/100;
+      std = h * h *22;
+      std = std.toString().substring(0,5);
+
+      w = parseFloat(taiju.value);
+      bmi = w / (h * h);
+      bmi = bmi.toString().substring(0,5);
+
+      kekkaHantei(bmi);
+
+      if(sStd!=null){
+        sStd.innerHTML= std + "Kg";
+        sBMI.innerHTML = bmi;
+        sJDG.innerHTML = kekka;
+      }
+      else{    
+        showResult();
+      }
+   }
+
+   function showResult(){
+       var win = window.open("", "result", "width=300, height=120");
+       var d = win.document;
+
+       d.write("<html><head><title>Result</title></head><body>");
+       d.write("標準体重は " + std + " Kg<br>");
+       d.write("肥満度は " + bmi + "<br><br><br>");
+       d.write("判定結果は " + kekka + "<br><br><br>");
+       d.write("<center><form>");
+       d.write("<input type=button value='閉じる' onclick='window.close()'>")
+       d.write("</form></center>");
+       d.write("</body></html>");
+       d.close();
+   }
+//-->
+</script>
+
+</head>
+<body onload="initialize();">
+
+<h1>標準体重・肥満度の計算</h1>
+
+<form name="keisan">
+身長(cm)&nbsp;&nbsp; <input type=text value=0 name="height" size=10> <br>
+体重(Kg)&nbsp;&nbsp; <input type=text value=0 name="weight" size=10> <br>
+<br>      
+<input type=button value="計算開始" onclick="calc()"><br>
+<br>
+標準体重(Kg)&nbsp;&nbsp;<span id="stdW" class="special"> 乞う!ご期待</span><br>
+肥満度(BMI値)&nbsp;&nbsp;<span id="fatness" class="special"> 乞う!ご期待</span><br>
+肥満度判定結果&nbsp;&nbsp;<span id="hantei" class="special"> 乞う!ご期待</span>
+</form>
+</body> 
+</html>
+

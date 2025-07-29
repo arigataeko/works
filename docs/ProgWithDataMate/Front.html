@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>What is p5js?</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+
+    
+<h2 id="visualize">データの視覚化</h2>
+ビッグデータが溢れる現在、それを読み解き、問題解決に役立てることは大切です。
+さまざまな組織から公開されているデータ、あるいは自分で集めたデータを、わかりやすく、インパクトのある形で「見られる，触れるもの」として表現できたら、つまり「データの視覚化」を行えたら、データがもつ意味を、今までとは違う視点で「語らせる」ことができます。インタラクティブで、ナラティブな情報の表現を、プログラムを使って実現します。<br>
+高等学校や大学では、データサイエンスを学ぶためのカリキュラム作りが進められています。データの視覚化はその学びの一環と言えます。<br><br>
+「データ視覚化」と言った時、大きく3つの段階があるでしょう。<br>
+<ul>
+<li><strong>[Step1]</strong>  表……文字や数値の列<br>
+表はそのようなデータの第1段階の視覚化です。</li>
+<li><strong>[Step2]</strong> グラフ<br>
+次に表をグラフとして表すことで、より見やすくデータを捉えられる表現になります。しかし、ここまではデータをあるがままにシンプルに表現したに過ぎません。</li>
+<li><strong>[Step3]</strong> インフォグラフィックスとしての表現<br>
+インフォグラフィックスとは情報をデザインして独自のやり方で見せたり，動きやインタラクションを組み込んだものです。視覚化の結果が、情報の意味をインパクトのある形で「語り」、それを見たり触った人がそのデータを「新しく感じる」のが第３段階になります。
+</li>
+</ul>
+
+<div class="leftSide"><img src="images/visualizeStep.png" alt="視覚化ステップ" width="700"></div>
+
+<p class="clear"> </p>
+
+<br>
+プログラムを使って、データを動きのある形で視覚化したもの多くの人に見てもらうには、Webページに載せるのが有効な手段です。そこで、この教材では、Webブラウザー上で実行可能なプログラム言語であるJavaScriptを使います。
+
+<br><br>
+
+<h1>p5.jsとDatamate.js</h1>
+
+JavaScript言語で、ゼロからすべてプログラムを書く必要はありません。小さな働きをするプログラムの部品が「ライブラリ」として、たくさん開発されています。それを使えば、比較的容易に目的のプログラムを作成することができます。<br><br>
+この教材では次の2つのライブラリを使います。
+<ul>
+
+<li>・<a href="https://p5js.org/" target="other">p5.js</a> …… キャンバス上に筆で絵を描くように、プログラムコードで図形や画像を描き、それを動かすことができるように開発されたライブラリ。デザイナーやアーティストが簡単にプログラミングできるように開発されたProcessingの機能をベースに開発されている。</li>
+
+<li>・<a href="https://datamate-js.github.io/website/" target="other">Datamate.js</a> …… データの視覚化のために、データの処理、描画域の管理などの機能を持つライブラリ</li>
+</ul>
+<br>
+インタラクティブなモーショングラフィックスを、簡単にWebブラウザ上で実行することができるp5.jsと、データ視覚化を手助けするライブラリDatamate.jsを使うことで、第３段階の表現をめざします。
+
+
+</div> <!-- 終わり  main -->
+<div class="copy"> 
+
+<a href="CopyRightInfo.html"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

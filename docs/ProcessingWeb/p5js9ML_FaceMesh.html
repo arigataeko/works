@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail p5</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="p5Mode.html#list"> p5jsトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 事前機械学習モデル FaceMesh を使う</h1>
+
+カメラが捉えた画像内の顔の部位の位置に応じた処理をするp5.jsのスケッチを作成してみましょう。
+<br><br>
+<a href="https://docs.ml5js.org/#/" target="other"> ml5.jsライブラリ</a>は、カメラ画像を認識して、人のポーズや顔のパーツの位置を検知するための、事前機械学習モデルを提供しています。<br>
+ここでは
+<a href="https://docs.ml5js.org/#/reference/facemesh" target="other">
+Facemesh</a>を使ってみます。
+ml5.jsは、Googleが開発した機械学習システムTensorFlowを活用して開発されており、自分のスケッチに機械学習機能を組み込み、簡単な「AI」プログラムを作ることを助けるライブラリです。
+<br><br>
+
+ml5.jsライブラリを使うために、次のscriptタグをindex.html内に指定します。
+<pre class="reiji">
+&lt;script src="https://unpkg.com/ml5@1/dist/ml5.js"&gt; &lt;/script&gt;
+</pre>
+ネットワークを経由してライブラリを配信する仕組みであるCDN(Contents Delivery Network)のサイトを通じて、ml5.jsライブラリを参照する指定です。
+
+
+<h2 id="howto">Facemeshの使い方</h2>
+Facemeshは入力された画像(静止画や動画)から、人の顔の部分の位置を推定する機械学習モデルです。顔の486の位置を推定します。
+入力画像内で最大何人の顔を検知するかをパラメータで指定できます。コンピュータに接続されたカメラの入力画像から、人の顔を推定するサンプル(リスト9-1)をもとにFacemeshの使い方を説明します。<br><br>
+
+
+  <iframe src="./p5Sample/Sample9_1/index.html" id="Sample91" width="640" height="480" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+
+<br><br>
+
+
+<strong>(1) Facemeshの初期化(Facemeshを作る)</strong><br>
+
+preload()関数内で、ml5.facemesh()を使って、Facemeshを作ります。第1引数には入力の映像を、第2引数にはFacemeshが準備できたら呼び出される関数を指定します。
+<pre class="reiji">
+let facemesh;
+function preload() {
+  facemesh = ml5.faceMesh();
+}
+</pre>
+
+faceMesh()の引数に、検出する顔の数を
+<a href="https://docs.ml5js.org/#/reference/facemesh?id=methods" target="other">オプション</a>として指定できます。<br><br>
+
+<strong>(2) ビデオ映像の設定</strong><br>
+createCapture()関数を使って、コンピュータに接続されたカメラの映像を得るするためのオブジェクトを作成します。createCapture()関数が返すオブジェクトはp5.Elementで、HTMLの	&lt;video&gt;タグで作られる要素に対応します。<br>
+キャプチャした映像は、image()関数を使ってキャンバスに描画できます。<br><br>
+
+createCapture()の第1引数では、キャプチャする対象が、画像(VIDEO)か音声(AUDIO)かを指定します。省略すると両方をキャプチャします。<br>
+
+
+<pre class="reiji">
+let video;
+function setup() {  
+   createCanvas(640, 480);  //キャプチャした画像を表示するキャンバス
+   video = createCapture(VIDEO);
+   video.size(width, height);  //キャプチャする画像の大きさをキャンバスと同じにする
+   video.hide();  //キャプチャされた映像を表示しない
+   ....
+}
+</pre>
+キャプチャされた映像は、デフォルトで表示される仕様になっており、それを止めるにはcreateCapture()関数が返すオブジェクトに対してhide()メソッドを実行します。<br><br>
+
+
+
+<strong>(3) Facemeshにコールバック関数を設定する</strong><br>
+videoの検知を開始し、顔を検知したら実行する処理をdetectStart()メソッドで指定します。
+推定'predict'を認識したらどのような処理をするかをコールバック関数内に定義します。
+
+<pre class="reiji">
+function setup() {
+   ....
+   facemesh.detectStart(video, gotResult);
+}
+</pre>
+
+<strong>(4) コールバック関数の定義</strong><br>
+コールバック関数の引数は、顔を検知した結果の配列です。リスト9-1のコールバック関数gotResult()内では、引数で渡される推定結果をグローバル変数のfacesに代入しています。
+<pre class="reiji">
+let faces = [];
+function gotResult(results){
+   faces = results;
+}
+</pre>
+
+
+引数resultsの配列内には、検知した顔の数の連想配列が要素として入っています。それぞれの連想配列には、次のようなキーが含まれます。<br>
+<pre class="reiji">
+ [ { 
+     box: 値,           //顔を囲む矩形
+     faceOval: 値,      //顔の中心位置、幅、高さ、輪郭
+     keypoints: 値,     //顔の468地点の座標
+     eyeleft: 値,       //顔の特定部位の位置、大きさ
+     ....
+    },
+    { .... }     // 2つめの顔
+ ]
+</pre>
+
+<br>
+<div class="notes">
+連想配列はキーと値をコロンで繋いだセットからなり、そのセットをカンマで区切って並べ、{と}で囲んだ形をしています。<br>
+ { キー1: 値1, キー2: 値2, ……}<br><br>
+連想配列の値を取り出すには、ピリオドの後ろにキーを指定する(連想配列.キー、これをドット記法といいます)か、キーを配列のインデックスとして指定します(連想配列["キー"])。
+</div>
+<br>
+
+<strong>(5) 検知した顔情報</strong><br>
+
+顔を検知した時、コールバック関数の引数で渡される連想配列のkeypointsには、顔の468の部位(ランドマーク)の座標[x, y, z]が入っています。
+
+<pre class="reiji">
+0: {x: 233.58046943424725, y: 268.060638993213, z: -5.87644141926423, name: 'lips'}  //上唇の中央
+1: {x: 235.12616098374173, y: 259.44993637044297, z: -13.355172181584678}
+2: {x: 233.95676581354638, y: 261.6143254957773, z: -6.344661085525133}
+3: {x: 232.30245489268844, y: 248.69973571782776, z: -11.15261587518704}
+4: {x: 235.29972861131893, y: 256.42192493039425, z: -14.471184785192053}
+5: {x: 235.0389961239077, y: 252.06278011745957, z: -13.787136731503914}
+6: {x: 233.8506029641535, y: 241.28676803175682, z: -7.902822336221876}
+7: {x: 213.07647293295707, y: 237.99038408832243, z: -0.42344036005546914, name: 'rightEye'}
+8: {x: 233.47987188254692, y: 234.6289808194376, z: -6.775227730086376}
+9: {x: 233.58443049000596, y: 230.9409922542565, z: -7.702565232864668}
+......
+</pre>
+
+<br><br>
+
+    <p class="clear"> </p>
+<div class="rightSide" style="margin-top:5px"><img src="images/faceMap.jpg" alt="face map" width="300" ></div>
+keypointsの配列のどのインデックスがどの部位(ランドマーク)に対応しているかは、マップされたダイアグラムを参照する必要があります。右に図を示しますが、数字が重なって見にくいので、<a href="https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection#keypoints" target="other">tensorflow(Face Landmarks Detection)</a>の解説ページを参照してください。<br>
+
+インデックスと部位の対応の一部を示します。
+<pre class="reiji">
+	0: 上唇の中央上
+	1: 鼻の高い位置
+	2: 鼻下
+	10: 額中央上部
+	16: 下唇中央上
+	133: 右目頭
+	362: 左目頭
+</pre>
+
+例えば、一人めの顔の鼻下の位置は次のように得られます。
+<pre class="reiji">
+x座標は、faces[0].keypoints[2].x
+y座標は、faces[0].keypoints[2].y
+</pre>
+<br>
+
+
+コールバック関数の引数で渡される連想配列にはkeypointsに加えて、顔の特定の部位(leftEye, leftEyebrow, lips, rightEye, rightEyebrow)の位置、高さ、幅を格納した要素も含まれます。次は、キーleftEyeの値の例です。
+
+<pre class="reiji">
+leftEye: { centerX: 132.94942730900402,   //左目の中央
+                centerY: 281.49971072568525,
+                height: 4.916166155971609,
+                keypoints: (17) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}],,
+                width: 13.670839679431822
+                x: 126.11400746928811,  //左上すみの位置
+                y: 279.04162764769944 }
+</pre>
+
+
+
+<pre class="code">
+【リスト9-1】
+let facemesh;
+let video;
+let faces = [];
+function preload() {
+  facemesh = ml5.faceMesh();
+}
+function setup() {
+  createCanvas(640, 480);     //キャプチャした画像を表示するキャンバス
+  video = createCapture(VIDEO);
+  video.size(width, height);  //キャプチャする画像の大きさをキャンバスと同じにする
+  video.hide();                               //元のビデオ画像を表示しない
+  facemesh.detectStart(video, gotResult);     // 顔を検知(予測)した時実行される関数を設定 
+}
+function gotResult(results){ // 顔を検知(予測)した時実行される関数を定義
+   faces = results;    // 検知結果をグローバル変数faceに代入
+}
+function draw() {
+  image(video, 0, 0, width, height);
+  drawKeypoints();  //すべてのkeypointを描く
+}
+function drawKeypoints() {  // 検知されたキーポイントに円を描く関数
+  for (let i = 0; i&lt;faces.length; i++) {
+    let face = faces[i]; //検知された顔から順に一つ取り出す    
+    for (let j = 0; j &lt; face.keypoints.length; j++) {   // 468のポイントに円を描く
+      let keypoint = face.keypoints[j];
+      fill(255, 0, 255);
+      circle(keypoint.x, keypoint.y, 5);
+    }
+  }  
+}
+</pre>
+
+<h2 id="howto">Facemeshを使って遊ぶ</h2>
+Facemeshで検知された顔の上に、別のグラフィックを描いて、人の動きに応答する画像を作り出すスケッチを作ってみます。 リスト9_2は、検知した顔の上に目と唇を描いたスケッチです。<br>
+
+<br><br>
+  <iframe src="./p5Sample/Sample9_2/index.html" id="Sample92" width="640" height="480" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+
+<pre class="code">
+【リスト9-2】
+let facemesh;
+let video;
+let faces = [];
+function preload() {
+  // Load the faceMesh model
+  facemesh = ml5.faceMesh();
+}
+function setup() {
+  createCanvas(640, 480);  //キャプチャした画像を表示するキャンバス
+  video = createCapture(VIDEO);
+  video.size(width, height);  //キャプチャする画像の大きさをキャンバスと同じにする
+  video.hide();  //元のビデオ画像を表示しない
+  facemesh.detectStart(video, gotResult);
+}
+function gotResult(results) { // 新しい検知(予測)がされるごとに実行される関数を定義
+  faces = results;    // 検知結果をグローバル変数facesに代入
+}
+function draw() {
+  image(video, 0, 0, width, height);
+  drawEyeMouth();  //目と唇を描く
+}
+// 検知された顔の上に目と唇を描く関数
+function drawEyeMouth() {
+  for (let i = 0; i&lt;faces.length; i++) {
+    let keypoints = faces[i].keypoints;
+    //目頭間の距離 目の大きさの調整に使う
+    let haba = dist(keypoints[362].x, keypoints[362].y, keypoints[133].x, keypoints[133].y);
+    noStroke();
+    fill(255);
+    circle(keypoints[386].x, keypoints[386].y, haba); //左
+    circle(keypoints[159].x, keypoints[159].y, haba); //右
+    fill(0);
+    circle(keypoints[386].x, keypoints[386].y, haba/2); //左
+    circle(keypoints[159].x, keypoints[159].y, haba/2); //右
+    let lipsOuter = faces[i].lips.keypoints;
+    noFill();
+    strokeWeight(10);
+    stroke(200, 0, 0);
+    for (let i=0; i&lt;lipsOuter.length; i++) { //唇をドットで描く
+      point(lipsOuter[i].x, lipsOuter[i].y);
+    }
+  }
+}
+</pre>
+
+<h2 id="mondai">演習問題</h2>
+<br>
+【問題9-1】Facemeshを使い、カメラが捉えた顔の表情(顔のパーツの位置)に応じた処理をするp5.jsのスケッチを、独自のアイディアに基づいて作成してみよう。<br><br>
+
+一つの例を次に載せます。
+<a href="./p5Sample/WaraiIkari/index.html" target="other">喜怒がふる</a>
+
+</div>
+<div class="copy"> 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

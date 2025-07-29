@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 落下…ひとつ(横へ打出し)</h1>
+ひとつの円が、水平に打出され、落下します。
+<br>
+下方向の加速度を受けて落下する点、壁に当たったとき運動が減衰する点は、速度が変化する部分以外は、ひとつ(落下)<a href="./Motion3FallVertical.html" target="other">【リスト FallVertical】</a>と同じです。
+水平方向の初速度があるので、x、y両方の方向で速度が変化します。
+<br>
+下の壁に当たったかの判定は、次のようになっています。
+<pre class="reiji">
+ if(y&gt;height-1-r){//下の壁にあたった
+    y = height-1-r; //下の壁の上に置く
+    ........
+ }
+</pre>
+なぜ-1しているかというと、円が下の壁(床)を転がる時、めり込んで見えるのを防ぐための調整です。画面の一番下の座標はheight-1であるからです。
+<a href="./Motion3FallVertical.html" target="other">【リスト FallVertical】</a>では、円の下部が壁より下にきたかの判定を、if(y&gt;height-r)としていましたが、この例は床面上にとどまることなくバウンドするので、見た目に差が出ないため、簡略に書いていました。
+
+<br>
+
+<div class="rightSide">
+	<canvas id="FallHorizon"
+       data-processing-sources="./MotionPDE/vibration/FallHorizon.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト FallHorizon】
+float r = 5;   // 円の半径
+float g = 2;   //加速度
+float friction=0.92;  //減衰
+float x, y; // 位置
+float dy, dx=3;  // 移動速度
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア   
+     ballFall();
+     ellipse(x, y, 2*r, 2*r);
+}
+
+void ballFall(){
+   dy = dy + g;
+   y = y+dy;     //y座標を動かす
+   x = x+dx;     //x座標を動かす
+
+   if (y&gt;height-1-r){//下の壁にあたった
+        y = height-1-r; //下の壁の上に置く
+        dy = -dy * friction;  //方向反転、減衰
+        if(abs(dy)&lt;=g/2 && abs(dx)&lt;=g/2) { //ほぼ止まった
+           dy=0; y=0; x=0; dx=3;
+        }
+    }else if(y&lt;r){//上の壁にあたった
+        y = r;  
+        dy = -dy * friction;  //方向反転、減衰
+    }
+   
+    if(x&glt;width-r){  //右の壁にあたった
+         x = width-r;
+         dx = -dx * friction;  //方向反転、減衰
+    }else if(x&lt;r){ //左の壁にあたった
+         x = r;
+         dx = -dx * friction;  //方向反転、減衰
+    }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

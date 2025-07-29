@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for browser version</title>
+
+</head>
+<body>
+
+<h1>ブラウザの種類</h1>
+
+<script type="text/javascript">
+<!--
+  browser = navigator.appName;
+  document.write("navigatorオブジェクトのappNameの値は", browser, "<br><br>");
+
+  versionStr =navigator.appVersion;
+  document.write("navigatorオブジェクトのappVersionの値は", versionStr, "<br><br>");
+  
+  agent = window.navigator.userAgent;
+  document.write("navigatorオブジェクトのuserAgentの値は", agent, "<br><br>");
+
+  versionStr = versionStr.toLowerCase();
+  agent = agent.toLowerCase();
+
+  if(agent.indexOf('opera') != -1){
+     str = 'opera';
+  }else if(agent.indexOf("msie") != -1) {
+        if (versionStr.indexOf("msie 6.") != -1) {
+           str = 'ie6';
+        }else if(versionStr.indexOf("msie 7.") != -1) {
+           str = 'ie7';
+        }else if(versionStr.indexOf("msie 8.") != -1) {
+           str = 'ie8';
+        }else if(versionStr.indexOf("msie 9.") != -1) {
+           str = 'ie9';
+        }else if(versionStr.indexOf("msie 10.") != -1) {
+           str = 'ie10';
+        }else{
+           str = 'ie';
+        }
+  }else if(agent.indexOf('chrome') != -1){
+        str = 'chrome';
+  }else if (agent.indexOf('safari') != -1){
+        str = 'safari';
+  }else if (agent.indexOf('firefox') != -1){
+        str = 'firefox';
+  }else {
+        str = "不明";
+  }
+  document.write("ブラウザは", str, "ですね。<br><br>");
+//-->
+</script>
+</body> 
+</html>
+
+

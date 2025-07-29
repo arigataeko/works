@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>LifeGame in JavaScript</title>
+  <style>
+    canvas { border: 1px solid green; cursor: crosshair; }
+    button { margin: 5px; }
+
+ h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: green;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 20px;
+       font-size: medium;
+ }
+
+.game{
+	position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, 0);
+}
+
+  </style>
+</head>
+<body>
+<h1>ライフゲイム</h1>
+<div id="setsumei">
+ライフゲイムは、1970年にJohn H. Conwayが発明したもので、画面上で点(生命体)が、次のシンプルな規則に従い、増殖・消滅します。
+<ul>
+<li>自分の周りに４つ以上の生命体がいると苦しくて死ぬ(消滅する)。
+<li>自分の周りにいる生命体が１つ以下だとさびしくて死ぬ(消滅する)。
+<li>生命体がいない格子で、その周りに３つの生命体がいると生まれる(増殖する)。
+</ul>
+
+マウスを格子上でクリックすると、●が描かれます。これが1個の生命体です。任意の位置に任意個の生命体を置き、Start/Stopボタンを押してください。すると、生命体が増殖し、あるいは消滅し、生命体集合が動き回ります。Start/Stopボタンをもう一度押すと止まります。<br><br>
+
+生命体(●)の上でクリックするとその生命体が取り除かれます。Clearボタンですべての円が消えます。<br>
+格子目上でドラッグするとその範囲に生命体が置かれます。<br>
+生命体を置いたり、除いたりできるのは増殖中以外の時です。
+<br><br>
+</div>
+<div class="game">
+<canvas id="lifeCanvas" width="500" height="500"></canvas><br>
+<button onclick="toggleTimer()">Start / Stop</button>
+<button onclick="clearLife()">Clear</button>
+</div>
+<script>
+const canvas = document.getElementById('lifeCanvas');
+const ctx = canvas.getContext('2d');
+
+const grid = 10;
+const r = 8;
+const width = canvas.width;
+const height = canvas.height;
+const rows = height / grid;
+const cols = width / grid;
+const speed = 300; // milliseconds
+
+let data = Array.from({length: rows}, () => Array(cols).fill(0));
+let buf = Array.from({length: rows}, () => Array(cols).fill(0));
+
+let timer = null;
+let isRunning = false;
+
+let fI, fJ, sI, sJ;
+let dragOn = false;
+
+// 描画
+function drawCanvas() {
+  ctx.clearRect(0, 0, width, height);
+  ctx.strokeStyle = "green";
+  ctx.strokeRect(0, 0, width, height);
+  drawGrid();
+  drawLife();
+}
+
+function drawGrid() {
+  ctx.strokeStyle = "green";
+  for (let i = 1; i < rows; i++) {
+    ctx.beginPath();
+    ctx.moveTo(0, i * grid);
+    ctx.lineTo(width, i * grid);
+    ctx.stroke();
+  }
+  for (let i = 1; i < cols; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * grid, 0);
+    ctx.lineTo(i * grid, height);
+    ctx.stroke();
+  }
+}
+
+function drawLife() {
+  ctx.fillStyle = "black";
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      if (data[i][j] === 1) {
+        ctx.beginPath();
+        ctx.ellipse(j * grid + 1 + r/2, i * grid + 1 + r/2, r / 2, r / 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+}
+
+// ロジック
+function goLife() {
+  // deep copy
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      buf[i][j] = data[i][j];
+    }
+  }
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let count = checkNeighbor(i, j);
+      if (buf[i][j] !== 0 && (count <= 1 || count >= 4)) {
+        data[i][j] = 0;
+      } else if (buf[i][j] === 0 && count === 3) {
+        data[i][j] = 1;
+      }
+    }
+  }
+
+  drawCanvas();
+}
+
+function checkNeighbor(n, m) {
+  let count = 0;
+  for (let i = n - 1; i <= n + 1; i++) {
+    if (i < 0 || i >= rows) continue;
+    for (let j = m - 1; j <= m + 1; j++) {
+      if (j < 0 || j >= cols || (i === n && j === m)) continue;
+      if (buf[i][j] !== 0) count++;
+    }
+  }
+  return count;
+}
+
+// イベント処理
+canvas.addEventListener('click', e => {
+  if (!isRunning) {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const i = Math.floor(y / grid);
+    const j = Math.floor(x / grid);
+    data[i][j] = data[i][j] ? 0 : 1;
+    drawCanvas();
+  }
+});
+
+canvas.addEventListener('mousedown', e => {
+  if (!isRunning) {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    fI = Math.floor(y / grid);
+    fJ = Math.floor(x / grid);
+  }
+});
+
+canvas.addEventListener('mouseup', () => {
+  if (!isRunning && dragOn) {
+    data[sI][sJ] = 0; // prevent toggle
+    dragOn = false;
+  }
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (!isRunning && e.buttons === 1) {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    sI = Math.floor(y / grid);
+    sJ = Math.floor(x / grid);
+
+    let i1 = Math.min(fI, sI);
+    let i2 = Math.max(fI, sI);
+    let j1 = Math.min(fJ, sJ);
+    let j2 = Math.max(fJ, sJ);
+
+    for (let i = i1; i <= i2; i++) {
+      for (let j = j1; j <= j2; j++) {
+        data[i][j] = 1;
+      }
+    }
+
+    dragOn = true;
+    drawCanvas();
+  }
+});
+
+// コントロール関数
+function toggleTimer() {
+  if (isRunning) {
+    clearInterval(timer);
+  } else {
+    timer = setInterval(goLife, speed);
+  }
+  isRunning = !isRunning;
+}
+
+function clearLife() {
+  if (isRunning) toggleTimer();
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      data[i][j] = 0;
+    }
+  }
+  drawCanvas();
+}
+
+// 初期描画
+drawCanvas();
+</script>
+
+</body>
+</html>

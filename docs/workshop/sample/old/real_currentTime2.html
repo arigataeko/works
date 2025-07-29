@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Update the current time</title>
+
+<style type="text/css">
+   .special {
+       margin: 100 0 0 10%;
+       font-size:14pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+
+<script>
+<!--
+  function showTime(){
+    change = new Date();
+    y = change.getFullYear();
+    m = change.getMonth()+1;
+    d = change.getDate();
+    h = change.getHours();
+    min =change.getMinutes();
+    sec = change.getSeconds();
+
+    if(document.getElementById){
+      document.getElementById("msg").innerHTML = 
+        y + "年" + m + "月" + d + "日  " +  h + "時" + min + "分" + sec + "秒";
+    }
+    window.setTimeout("showTime()", 1000);
+  }
+//-->
+</script>
+</head>
+<body onload="showTime()">
+
+<h1>現在時間の表示(1秒ごとに変化)</h1>
+
+<div id="msg" class=special>current time</div>
+
+</body>
+</html>

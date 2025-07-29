@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向のらせん運動…異なる大きさの円の列</h1>
+サイズの異なる複数の円が列になって、対数らせん上を運動します。動きは、<a href="./Motion1SpiralM1.html" target="other">同一円列</a>と同じで、異なる点は、円のサイズを入れておく配列dを使うところです。サイズの変化量を小数点数とするので、配列のデータ型はfloatとします。<br>
+<pre class="reiji">
+float d[] = new float[10]; // 円の直径
+</pre>
+setup()関数の中で、円の大きさの配列ｄを初期化します。最初の円d[0]は2とし、2ずつ大きくします。
+<pre class="reiji">
+  d[0] = 2; //列の先頭の円の直径
+  for(int i=1;i&lt;angle.length;i++){
+    angle[i] = angle[i-1] - 25;
+    d[i]= d[i-1] + 2 ; // 円のサイズは2ずつ大きくする
+  }
+ }
+</pre>
+配列ｄの値を、描画の時に使います。
+<br><br>
+<div class="rightSide">
+	<canvas id="SpiralM3"
+       data-processing-sources="./MotionPDE/oneDirection/SpiralM3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SpiralM3】
+float angle[]  = new float[10]; // 位置(角度)
+float da = 5; // 角度の変化量
+float x,y;
+float a = 5;   //らせんの巻き方、大きいと早く広がる
+float b = 0.12;   //らせんの巻き方、大きいと早く広がる
+float d[] = new float[10]; // 円の直径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  d[0] = 2; //列の先頭の円の直径
+  for(int i=1;i&lt;angle.length;i++){
+     angle[i] = angle[i-1] - 25;
+     d[i]= d[i-1] + 2 ;
+  }
+}
+
+void draw() { 
+   background(255);
+   for(int i=0; i&lt;angle.length; i++){
+      x = a * exp(radians(angle[i])*b) * cos(radians(angle[i])) + width/2.0;
+      y = a * exp(radians(angle[i])*b) * sin(radians(angle[i])) + height/2.0;
+      ellipse(x, y, d[i], d[i]);
+
+      if (angle[i]&gt;360*5) { //画面から消えるほど広がった
+        angle[i]=-5;
+      } else {
+        angle[i] = angle[i] + da;
+      }
+   }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

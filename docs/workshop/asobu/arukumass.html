@@ -1,0 +1,139 @@
+<html>
+<head>
+<title>walk in group</title>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<style>
+.spanstyle {
+	position:absolute;
+}
+</style>
+
+<SCRIPT type="text/javascript">
+<!--
+var stepx, stepy, ippo=10;
+var fx=150, fy=150; // first position
+var mx=fx, my=fy;   // now drawing position
+var cell=0;
+var imgR=new Array();
+var imgL=new Array();
+var imgS= "hito/arukuS.gif";
+
+
+for (i=0;i<4;i++) {  //4つの画像ファイル
+	imgR[i]= "hito/arukuR" + i + ".gif";
+	imgL[i]= "hito/arukuL" + i + ".gif";
+}
+
+function moveHito(dir){
+       if (dir == "left"){ 
+         stepx= -ippo; stepy=0; 
+       }
+       else if (dir == "right"){ 
+         stepx= ippo; stepy=0;
+       }
+       else if (dir == "up"){ 
+         stepy= -ippo; stepx=0;
+       }
+       else if (dir == "down"){ 
+         stepy= ippo; stepx=0;
+       }
+
+       mx = mx+stepx;
+       my = my+stepy;
+
+       for(i=0; i<5; i++){
+        for(j=0; j<10; j++){
+          obj = eval("document.gazou" + i + j);
+          if (dir == "left"){ 
+            obj.src =imgL[cell%4]; 
+          }
+          else if (dir == "right"){ 
+            obj.src =imgR[cell%4]; 
+          }
+          else if (dir == "up"){ 
+            obj.src =imgL[cell%4]; 
+          }
+          else if (dir == "down"){ 
+            obj.src =imgR[cell%4]; 
+          }
+
+         if (document.all) {  /* IE */
+   	  thisspan = eval("document.all.hito" + i + j + ".style"); 
+         } else if (document.layers) {  /* NN4 */
+  	  thisspan = eval("document.hito" + i + j);
+         } else if (document.getElementById) {  /* NN6 */
+    	  thisspan = eval("document.getElementById('hito" + i + j + "').style");
+         }
+         thisspan.left= mx + 30*j;
+         thisspan.top= my + 60*i;
+
+       }
+      }
+
+      cell++;
+      if(cell >= 4){ cell = 0 };
+ }
+
+//-->
+</script>
+
+
+</head>
+<body bgcolor="#ffffff">
+
+<table border=0><tr>
+  <td><table cellspacing =0 border=0>
+  <tr><td bgcolor="#6666cc"><img src="buttonback.gif"></td>
+      <td bgcolor="#6666cc"><A href="javascript:moveHito('up')"><img src="arrowup.gif" border=0 alt="up arrow"></A></td>
+      <td bgcolor="#6666cc"><img src="buttonback.gif"></td></tr>
+  <tr><td bgcolor="#6666cc"><A href="javascript:moveHito('left')"><img src="arrowleft.gif" border=0 alt="left arrow"></A></td>
+      <td bgcolor="#6666cc"><img src="buttonback.gif"></td>
+      <td bgcolor="#6666cc"><A href="javascript:moveHito('right')"><img src="arrowright.gif" border=0 alt="right arrow"></A></td></tr>
+  <tr><td bgcolor="#6666cc"><img src="buttonback.gif"></td>
+      <td bgcolor="#6666cc"><A href="javascript:moveHito('down')"><img src="arrowdown.gif" border=0 alt="down arrow"></A></td>
+      <td bgcolor="#6666cc"><img src="buttonback.gif"></td></tr>
+  </table></td>
+  <td>三角ボタンを押すとその方向へ人が歩く<hr size="2" noshade></td>
+</tr></table>
+<br><br>
+
+<SCRIPT type="text/javascript">
+<!--
+   // first position
+  for(i=0; i<5; i++){
+
+   for(j=0; j<10; j++){
+     document.write("<span id='hito" + i + j +"', ");
+     document.write("class='spanstyle'>");
+     document.write("<img src='" + imgS + "' name='gazou" + i + j + "'>");
+     document.write("</span>");
+
+     if (document.all) {  /* IE */
+  	thisspan = eval("hito" + i + j + ".style"); 
+     } else if (document.layers) {  /* NN4 */
+   	thisspan = eval("document.hito" + i + j);
+     } else if (document.getElementById) {  /* NN6 */
+	thisspan = eval("document.getElementById('hito" + i + j + "').style");
+     }
+     thisspan.left=fx+30*j;
+     thisspan.top=fy+60*i;
+
+   }
+
+ }
+
+
+//-->
+</script>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
+
+
+
+

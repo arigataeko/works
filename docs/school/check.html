@@ -1,0 +1,26 @@
+<!-- チェックページ -->
+
+<HTML> 
+<HEAD> 
+<TITLE>  Internet-DO Check  </TITLE>
+</HEAD>
+<BODY>
+<H2> あなたのインターネットDO判定</H2>
+<HR>
+　次の文章の内容があたなが当てはまれば「はい」を，そうでなければ「いいえ」
+を選んでください。
+<BR><BR>
+
+<FORM METHOD="get" ACTION=./cgi-bin/check.cgi>
+  毎日1度はコンピュータ(パソコン)で電子メールをチェックする。<DIV ALIGN="right">
+  <INPUT TYPE="radio" NAME="check1" VALUE="1">はい
+  <INPUT TYPE="radio" NAME="check1" VALUE="0">いいえ</DIV><BR>
+  携帯電話での，電子メールをよく使う。<DIV ALIGN="right">
+  <INPUT TYPE="radio" NAME="check2" VALUE="1">はい
+  <INPUT TYPE="radio" NAME="check2" VALUE="0">いいえ</DIV><BR>
+  <BR><HR>
+  <INPUT TYPE="submit" VALUE="チェック開始">
+  <INPUT TYPE="reset" VALUE="やりなおし">
+</FORM>
+</BODY>
+</HTML>

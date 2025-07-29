@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<TITLE> Life Game </TITLE>
+<style type="text/css">
+  .artpiece {
+      margin: 20px 0px 0px 60px;
+      border: solid #c0c0c0 2px;
+   }
+
+   #setsumei {
+	FONT-SIZE: 0.95em;
+        MARGIN: 20px 60px 0px 60px;
+        FONT-FAMILY: helvetica, sans-serif
+        LINE-HEIGHT: 1.45em
+   }
+   h2 {
+        FONT-SIZE: 1.2em;
+        COLOR: #933;
+        MARGIN: 2em 0 0em;
+   }
+</style>
+
+</HEAD>
+<BODY>
+<H2>ライフゲイム</H2>
+<HR>
+<div id="setsumei">
+マウスを格子上でクリックすると、●が描かれます。これが1個の生命体です。任意の位置に任意個の生命体を置き、増殖ボタンを押してください。すると、生命体が増殖し、あるいは消滅し、生命体集合が動き回ります。<BR><BR>
+生命体は、次の大変シンプルな規則で、増殖・消滅します。
+<ul>
+<li>自分の周りに４つ以上の生命体がいると苦しくて死ぬ(消滅する)。
+<li>自分の周りにいる生命体が１つ以下だとさびしくて死ぬ(消滅する)。
+<li>生命体がいない格子で、その周りに３つの生命体がいると生まれる(増殖する)。
+</ul>
+どのような位置に生命体を置くと、その集合体は長く増殖を続けるでしょうか。生命集合体の動き回るようすを楽しんでください。<BR><BR>
+増殖中以外の時(増殖停止中も)、生命体(●)の上でクリックするとその生命体が取り除かれます。<BR><BR>
+</div>
+<CENTER>
+<APPLET CODE="LifeGameApplet.class" WIDTH=500 HEIGHT=500>
+</APPLET>
+</CENTER>
+<BR><BR>
+</BODY>
+</HTML>

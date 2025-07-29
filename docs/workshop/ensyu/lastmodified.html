@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>Script for last modified date</title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000"link="#009900"vlink="#009900"alink="#009900">
+
+<table border="0">
+<tr><td height="35" width="20"
+     align="center"valign="middle"bgcolor="#66cc33">&nbsp;</td>
+<td>最終更新日の表示<hr size="2"noshade></td>
+</tr></table>
+&nbsp;&nbsp;
+
+<script type="text/javascript">
+<!--
+change = new Date(document.lastModified);
+document.write(change.getFullYear(), "年", change.getMonth()+1, "月", 
+               change.getDate(), "日  ", change.getHours(), "時", 
+               change.getMinutes(), "分", "<br>");
+
+//-->
+</script>
+
+</body>
+</html>

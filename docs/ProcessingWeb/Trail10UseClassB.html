@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="TrailGeneral.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> クラスを使う</h1>
+Processingのプログラムを作成する際、すべてを自分で書く必要があるとは限りません。ほかの人が作ったプログラムの部品、<a href="ProgClassObj.html" target="other">クラス</a>を組み合わせることで、自分の目的とする機能をもったプログラムを作り上げることができます。<br>
+<a href="ProgClassCreate.html#tsukau1" target="other">クラスを使う</a>ことは、プログラミングの基本知識の「クラスの定義」セクションにも説明があります。そこでは、自分でクラス(部品)を作り、使っていますが、ここではほかの人が作ったクラスを使ってみましょう。
+
+<h2 id="tandoku">スクロールバーで値を指定</h2>
+ユーザが操作する入力部品スクロールバーを使って、値を指定するサンプルを考えます。<br>
+ほかの人が作ったクラスを使う場合、そのクラスの中身(ソースコード)がどうなっているかは知る必要はありません。そのクラスに、どのような変数、コンストラクタ、メソッドが定義されているかがわかれば、使えます。このような情報のことを<a href="ProgClassCreate.html#teigi" target="other">API</a>(Application Programming Interface)と呼びます。<br>
+<br>
+スクロールバークラスのAPIは次のようなものとします。
+<pre class="code">
+<strong>クラス名</strong>:  Scrollbar
+マウスで操作し、値を指定するための水平スクロールバー。
+コンストラクタでスクロールバーの最小、最大値を指定する。
+draw()の中で、update(),display()メソッドを実行することで、マウスによるノブの操作が描画に
+反映する。その後getPos()により、ノブの位置に応じた値を得る。
+スクロールバークラス内で描画の時、線と塗りの色を変えるので、display()メソッドで
+スクロールバーを描いた後、別の描画する場合は線と塗りを設定しなおす必要がある。
+<strong>メソッド</strong>：
+   void update()     ノブが操作されている時、ノブの位置を計算
+   void display()    バーを表示
+   float getPos()     ノブの値を得る
+   boolean over()    マウスがバーの上にある時は、trueを返す
+
+<strong>コンストラクタ</strong>：
+   Scrollbar(x, y, w, h, min, max)
+     x, y: float, バーの左上角の座標
+     w   : float, バーの幅
+     h   : float, バーの高さ
+     min : float, ノブが左端にあるときの値
+     max : float, ノブが右端にあるときの値
+【例】
+     Scrollbar bar = new Scrollbar(50, 30, 200, 10, 0, 100);
+     バーの位置(50,30)、バーの幅200、高さ10、バーが返す値の範囲0-100
+</pre>
+
+上記のScrollbarクラスは、Processingが提供する<a href="WhatIsProcessing.html#sample" target="other">サンプル(Java Examples)</a>のTopicsのGUIの中にある、Scrollbarを元に手を加えたものです。<br><br>
+
+描画ウィンドウの中央に一つの円を描き、その大きさをスクロールバーのノブの操作で変えるプログラムがリスト10-1です。<br>
+まず、スクロールバークラスから、コンストラクタを使って<a href="ProgClassObj.html#classAndObject" target="other">オブジェクト</a>を生成し、後で使えるように、変数に入れておきます。オブジェクトを作るのは1回だけでいいので、これはsetup()の中で実行します。<br>
+マウスによるノブの操作によって動的に描画を変えるため、draw()の中で、
+スクロールバーのノブの位置を計算、描画、値の取得をします。この3つの処理をするメソッドは何か、引数、戻り値は何かなど使い方をスクロールバーのAPIで確認し、オブジェクトとメソッドをピリオドでつなげて、<a href="ProgClassObj.html#jikkou" target="other">呼出し</a>ます。<br>
+<pre class="reiji">
+オブジェクト.メソッド名(引数)
+      ↓     ↓   
+     bar.update();  //ノブの位置を計算
+     bar.display();  //スクロールバーを描く
+     d = bar.getPos();  //ノブの位置を得て、変数に代入
+</pre>
+その後、取得した値を直径とした円を描きます。描く前に描画の線と塗りの色を指定しています。
+
+<div class="rightSide">
+	<canvas id="Sample101" data-processing-sources="./PDE/Sample10_1.pde" 
+						width="250" height="125">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	マウスドラッグでスクロールバー操作
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト10-1】
+Scrollbar bar; //スクロールバーのオブジェクト用変数
+float SW = 200; //スクロールバーの幅
+float SH = 15;    //スクロールバーの高さ
+float d;     //描く円の直径
+
+void setup(){
+  size(250,250);
+  //オブジェクトを生成、変数に入れる
+  bar = new Scrollbar(250/2-SW/2, 20, SW, SH, 0, 170); 
+}
+
+void draw(){
+   background(255);
+   bar.update();  //スクロールバーが操作されていたら、ノブの位置を計算
+   bar.display();  //スクロールバーを描く
+   d= bar.getPos();  //ノブの位置を得て、直径にする
+   fill(225, 0, 0);  //円の塗りを赤にする
+   noStroke();       //線なし
+   ellipse(width/2, height/2+SH, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+リスト10-1は、これだけでは実行できません。Scrollbarクラスを使っているので、<a href="./PDE/Scrollbar.pde" target="other">Scrollbarクラスの定義(ソースコード)</a>を知る必要があります。<br>
+Scrollbarクラスの定義をリスト10-1のプログラムに知らせるには、「クラスの定義」セクションの<a href="ProgClassCreate.html#tab" target="other">クラスを使う</a>部分でも説明したように、2つの方法があります。
+<br>
+<ul>
+<li>・リスト10-1のdraw()の後ろに、クラスScrollbarの定義をコピーする。</li>
+
+<li>・リスト10-1とは別のpdeファイルにする。 Processingエディタのツールバーの下、タブの欄の右端の矢印アイコンをクリックし、New Tabを選択して、新しいタブを作る。タブ名をScrollbarとし、そのタブ内に、Scrollbarクラスの定義を入れる。</li>
+</ul>
+
+<h2 id="button">ボタンクラス</h2>
+入力部品のひとつとして、ボタンクラスButtonRectとButtonCircleを用意しました。<br>
+<br>
+<pre class="code">
+<strong>クラス名</strong>:  ButtonRect
+矩形のボタン。draw()の中で、display()メソッドを実行することで、描画される。
+over()メソッドでボタン上にマウスがのっているかどうか、確認できる。
+ボタン描画の時線と塗りの色を変えるので、display()メソッド使用後は必要に応じて、線と塗りを
+設定しなおす。
+<strong>メソッド</strong>：
+   void display()    ボタンを表示
+   void setFillColor(color c)     ボタンの塗り色を指定
+   void setStrokeColor(color c)     ボタンの枠線色を指定
+   boolean over()    マウスがボタン上にある時は、trueを返す
+
+<strong>コンストラクタ</strong>：
+   ButtonRect(x, y, w, h, label, fontsize)
+     x, y: float, ボタンの左上角の座標
+     w   : float, ボタンの幅
+     h   : float, ボタンの高さ
+     label : String, ボタン上に表示する文字列
+     fontsize : int, ボタン上に表示する文字の大きさ
+【例】
+     ButtonRect b = new ButtonRect(50, 100, 150, 30, "replay", 24);
+     ボタンの位置(50,100)、幅150、高さ30、文字列はreplay、文字サイズは24ピクセル
+</pre>
+<pre class="code">
+<strong>クラス名</strong>:  ButtonCircle
+円形のボタン。draw()の中で、display()メソッドを実行することで、描画される。
+over()メソッドでボタン上にマウスがのっているかどうか、確認できる。
+ボタン描画の時線と塗りの色を変えるので、display()メソッド使用後は必要に応じて、線と塗りを
+設定しなおす。
+<strong>メソッド</strong>：
+   void display()    ボタンを表示
+   void setFillColor(color c)     ボタンの塗り色を指定
+   void setStrokeColor(color c)     ボタンの枠線色を指定
+   boolean over()    マウスがボタン上にある時は、trueを返す
+
+<strong>コンストラクタ</strong>：
+   ButtonCircle(x, y, d, label, fontsize)
+     x, y: float, ボタンの左上角の座標
+     d   : float, ボタンの円の直径
+     label : String, ボタン上に表示する文字列
+     fontsize : int, ボタン上に表示する文字の大きさ
+【例】
+     ButtonCircle b = new ButtonCircle(50, 100, 100, "replay", 24);
+     ボタンの位置(50,100)、直径100、文字列はreplay、文字サイズは24ピクセル
+</pre>
+ボタンクラスを使うときは、processingのタブに、<a href="./PDE/ButtonRect.pde" target="other">ButtonRect</a>あるいは<a href="./PDE/ButtonCircle" target="other">ButtonCircle</a>のソースコードをコピーします。<br>
+
+
+
+
+<h2 id="library">ライブラリを使う</h2>
+Processingは、画像を描画する、動きを作る、マウス操作やキーボード入力に応答するといった機能に特化し、コンパクトに作られています
+。その制限された機能を越えた処理のための部品(クラス)が、ライブラリとして様々な人の手により開発されており、それを使えば高度な描画をしたり、ビデオ映像を処理したり、音声を扱ったり、機能を容易に拡張できます。どのようなライブラリがあるかについては、<a href="http://processing.org/reference/libraries/" target="other">ProcessingのWebサイト</a>に詳しい説明があります。<br><br>
+ライブラリの中のクラスを使う場合は、自分のスケッチフォルダに定義をコピーするのではなく、そのライブラリの中のクラスを参照する(使う)ことをimport文で示します。そのクラスを使う前、普通はpdeファイルの先頭に、importに続いて使うクラスを指定します。<br>
+
+ライブラリ中のクラスは、グループにまとめてられていて、これをパッケージと呼びます。パッケージの中にサブパッケージがあるというように入れ子構造になっています。パッケージの名前をピリオドでつなぎ、最後にクラス名を指定するかたちが、完全名での指定です。
+<pre class="reiji">
+import パッケージ名.サブパッケージ名.クラス名;
+</pre>
+しかし、使うクラス名をいちいち羅列するのはやっかいなので、クラス名の代わりに＊(アスタリスク)を指定すると、そのライブラリに含まれるすべてのクラスを参照できるようになります。
+<pre class="reiji">
+import パッケージ名.サブパッケージ名.＊;
+</pre>
+<br>
+<div class="leftSide">
+<img src="./images/importlibrary.png" alt="ライブラリのインポート" width="250"></div>
+次は音声扱うライブラリMinimで、音声ファイルを再生するのに必要なクラスを参照するためのimport文です。
+<pre class="reiji">
+import ddf.minim.*;
+</pre>
+左図のように、Processingのメニュー[Sketch]の[Import Library]には標準に装備されているライブラリの一覧が表示され、いずれかを選択すると、それへのimport文が自動生成されます。
+
+<p class="clear"> </p> 
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">
+	<canvas id="Exer101" data-processing-sources="./PDE/Exer10_1.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    マウスドラッグでスクロールバー操作
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+
+【問題10-1】<a href="Trail8Fractal.html#tree" target="other">リスト8-3</a>の木のフラクタル図形を描くプログラムに、スクロールバーを付けて、その入力値で枝の広がりが変わるようにしてください。
+スクロールバーの最小値は0、最大値は90とします。
+<p class="clear"> </p>
+
+<br><hr>
+
+<div class="leftSide">
+	<canvas id="Exer102" data-processing-sources="./PDE/Exer10_2.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    マウスドラッグでスクロールバー操作
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+
+【問題10-2】<a href="Trail8Fractal.html#treeRandom" target="other">リスト8-4</a>では、枝の広がりをランダムに変えました。問題10-1を変更して、スクロールバーを左右に動かすと風に吹かれるように枝がその方向へ傾くようにしてみましょう。スクロールバーのノブが中央より右側にある時は右へ大きく傾き、左にある時は左に大きく傾くようにします。<br><br>
+
+スクロールバーの最小値を-90、最大値を90とし,0からノブの値(変数angleに格納)までの間の乱数を枝の傾きに使います。<br>
+つまり、スクロールバーのノブが中央より右側にある時は、random(0, angle)を右の枝の傾きとし、ノブが左側にある時は、random(angle, 0)を左の枝の傾きとします。<br>
+左図では、左右に大きく傾けるため、ノブが右側にある時の左の枝は右の枝の傾きより小さい値(5分の1)にしています。ノブが左側にある時も同様に、右の枝は左より小さい値(5分の1)で左に傾くようにしています。<br><br>
+
+新しい木が描かれる時にいつも乱数を生成すると、その度に枝の角度が変わり、再描画がうるさく感じられます。マウスがバーの上にある時だけ、乱数を生成するようにしましょう。Scrollbarクラスのover()メソッドを使うと、マウスが上にあるかどうか調べられます。<br>
+それでもノブをマウスで押している間は、目まぐるしく描画が変化します。setup()関数の中で、<a href="PFuncDisplay.html#redraw" target="other">frameRate(10);</a>などとして、描画回数を減らすと、ちらつきを抑えられます(1秒に10回描画するの意味)。
+<p class="clear"> </p>
+
+<br><br>
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

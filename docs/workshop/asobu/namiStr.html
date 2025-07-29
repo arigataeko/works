@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>Script for create contents</title>
+
+<style type="text/css">
+  <!--
+  h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: #fff #fff #66c #66c;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 50px;
+       font-size: medium;
+   }
+   .special {
+       position:absolute;
+       font-size:24pt;
+       font-weight:bold;
+       font-family:serif;
+   }
+    -->
+</style>
+
+<script type="text/javascript">
+<!--
+  var m=200;  //波全体の下への移動幅
+  var h=100;  //波の高さ
+  var rad=Math.PI/180; //1度のラジアン単位の値
+  var dr=30;  //文字間
+  var obj;  //文字要素のオブジェクトが入る配列
+  var angle;
+
+  function initialize(){
+     browser = navigator.appName;
+     version = parseInt(navigator.appVersion);
+
+     obj = new Array();
+     if(browser=="Netscape") { 
+        if(version>=5){
+           obj[0] = document.getElementById("word0").style;
+           obj[1] = document.getElementById("word1").style;
+           obj[2] = document.getElementById("word2").style;
+           obj[3] = document.getElementById("word3").style;
+           obj[4] = document.getElementById("word4").style;
+        }else {
+           obj[0] = document.word0;
+           obj[1] = document.word1;
+           obj[2] = document.word2;
+           obj[3] = document.word3;
+           obj[4] = document.word4;
+        }
+      }else{
+        obj[0] = document.all.word0.style;
+        obj[1] = document.all.word1.style;
+        obj[2] = document.all.word2.style;
+        obj[3] = document.all.word3.style;
+        obj[4] = document.all.word4.style;
+      }
+      angle = new Array();
+      angle[0]= 0;
+      for(i=1; i<obj.length; i++){
+         angle[i] = angle[i-1] -dr;
+      }
+      wave();
+  }
+  
+  function wave(){
+      for(i=0; i<obj.length; i++){
+          obj[i].left = angle[i];
+          obj[i].top = m - Math.cos(angle[i]*rad)*h;
+          if (angle[i]>=720) angle[i]=0;
+          else angle[i] = angle[i] + dr;
+      }
+      setTimeout("wave()", 200);
+  }
+
+//-->
+</script>
+</head>
+<body onload ="initialize();">
+
+<h1>漢詩が波乗り</h1>
+
+<div class="special" id="word0">山</div>
+<div class="special" id="word1">青</div>
+<div class="special" id="word2">花</div>
+<div class="special" id="word3">欲</div>
+<div class="special" id="word4">燃</div>
+</body> 
+</html>

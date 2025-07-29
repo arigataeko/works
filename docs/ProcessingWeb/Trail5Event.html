@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="TrailGeneral.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> イベント処理</h1>
+<a href="Trail3Interact.html" target="other">マウスに応答</a>のセクションでは、マウスの位置(mouseXとmouseY)やボタンの状態(mousePressed)を保存したシステム変数をdraw()関数の中で使って、マウスに応答する方法を説明しました。Processingは、それとは別に、マウス操作やキー入力といったイベントを処理する仕組みを備えています。<br>
+マウスが動いたりキーが押されると、イベントと呼ばれる情報が発生します。Processingはそれに応じたイベント関数を呼出すことで、それに応答します。細かく言うと、draw()関数の実行が1回終わるのを待って、イベント関数が呼出されます。draw()関数は繰返し実行されて描画を行ってますが、その途中でイベントが起きたことで(例えばマウスが動いたことで)、描画をじゃましないように、draw()が終わるまで待ってから、イベント処理を実行します。
+
+<h2 id="mouseEvent">マウスイベント</h2>
+マウス操作に応じて呼出される関数には次のものがあります。マウス操作に応じたイベント処理をさせたい場合は、そのマウス操作で実行される関数をプログラム内で定義し、ブロックの中(中括弧｛と｝の間)に書いておきます。
+いずれの関数も、戻り値も引数もありません。
+<pre class="reiji">
+mousePressed()   マウスボタンが押された時、ブロックの中のコードが1回実行される。
+mouseReleased()   マウスボタンが離された時、ブロックの中のコードが1回実行される。
+mouseMoved()   マウスが動いた時、ブロックの中のコードが1回実行される。
+mouseDragged()   マウスがドラッグした時、ブロックの中のコードが1回実行される。
+</pre>
+
+リスト3-1と同じ動きをするプログラムをmouseMoved()を使って書くと次のようになります。
+Activeモードでプログラムを書きます。draw()関数の中でする処理はありませんが、プログラムを動かし続けるために、ブロック内が空のdraw()関数は必須です。
+
+<div class="rightSide">
+	<canvas id="Sample51" data-processing-sources="./PDE/Sample5_1.pde" 
+						width="250" height="125">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト5-1】
+void setup() {
+  size(250, 125);
+}
+void draw() {     }  //空のdraw()関数
+
+void mouseMoved(){
+  ellipse(mouseX, mouseY, 10, 10);
+}
+</pre>
+
+<p class="clear"> </p>
+この例では、イベント処理関数を使う意味はありません。次の例を見てみましょう。
+マウスをドラッグすると、それに応じて四角形が描かれます。
+
+<div class="rightSide">
+	<canvas id="Sample52" data-processing-sources="./PDE/Sample5_2.pde" 
+						width="250" height="125">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+	ドラッグで描画
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト5-2】
+int x, y; //最初に押されたマウスの位置
+void setup() {
+  size(250, 250);
+  background(255);
+  fill(255,0,0);      //赤で塗る
+  rectMode(CORNERS);  //rect()関数の引数の意味を変更
+}
+void draw() {     }
+void mousePressed(){
+    x = mouseX;
+    y = mouseY;
+}
+void mouseDragged(){
+    background(255);
+    rect(x, y, mouseX, mouseY);
+}
+</pre>
+<p class="clear"> </p>
+マウスボタンを押したときの位置をx、yに覚えておき、マウスがドラッグされたら<br>
+最初の位置と、新しいマウスの位置とを、四角形の対角線上で向き合う2点として、四角形を描いています。
+<a href="PFuncDraw.html#mode" target="other">rectMode()関数</a>にCORNERSを指定することで、rect()関数の引数の意味を、デフォルト(左上角の座標と幅と高さ)から、対角線上で向かい合う2つ角の座標に変更しています。
+<br>
+どちら方向にドラッグしても、正しく四角形が描けることを確認してください。
+
+
+<h2 id="keyEvent">キーイベント</h2>
+キーボードが操作されると、次の関数が呼び出されます。
+<pre class="reiji">
+keyPressed()   いずれかのキーが押された時、ブロックの中のコードが1回実行される。
+keyReleased()   いずれかのキーが離された時、ブロックの中のコードが1回実行される。
+</pre>
+操作された(押した、または離した)キーを、システム変数<strong>key</strong>に覚えています。<br>
+変数keyには、英数字や記号など文字として表示できるキーの場合はその文字が値として格納されます。それ以外のキー(shiftキーやファンクションキー)の場合は、変数<strong>keyCode</strong>にそのキーを識別する整数が保管されます。
+keyCodeに保管される値については、processingのリファレンスkeyCodeを参照してください。<br><br>
+
+リスト3-4を少し変え、rキーを押すと赤で、yキーを押すと黄色で、bキーを押すと黒で円が描かれるようにしたのが、次のリスト5-3です。keyPressed()関数を定義し、その中で、<a href="ProgControl.html#ifelse" target="other">if-else文</a>を使って、条件を分け、塗る色を変えています。
+<div class="rightSide">
+	<canvas id="Sample53" data-processing-sources="./PDE/Sample5_3.pde" 
+						width="250" height="125">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    キー入力する前に灰色画面上で一回クリック<br>
+	r: 赤<br>
+	y: 黄<br>
+	b: 黒<br>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト5-3】
+float easing = 0.05; //マウスにゆっくり近づく度合
+float x, y;  //円の位置
+void setup() {
+  size(250, 125);
+  fill(0,0,0);  //最初は黒
+  noStroke();
+}
+void draw() {
+  float targetX = mouseX;
+  float targetY = mouseY;
+  x = x + (targetX - x) * easing;
+  y = y + (targetY - y) * easing;
+  ellipse(x, y, 10, 10);
+}
+
+void keyPressed(){
+  if(key == 'r'){  //キー入力がrなら
+    fill(255,0,0);
+  }else if(key == 'y'){  //キー入力がyなら
+    fill(255,255,0);
+  }else if(key == 'b'){  //キー入力がbなら
+    fill(0,0,0);
+  }
+}
+</pre>
+<p class="clear"> </p>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">
+	<canvas id="Exer51" data-processing-sources="./PDE/Exer5_1.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    ドラッグで描画
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+【問題5-1】リスト5-2の機能を次のように拡張してください。<br>
+・図形を描く前に、キーボードからr、e、lのいずれかを入力すると、それに応じて描かれる図形の種類が変わる(r: 四角、e: 円、l:線)。<br>
+
+<p class="clear"> </p>
+
+<br>
+<div class="leftSide">
+	<canvas id="Exer52" data-processing-sources="./PDE/Exer5_2.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    ドラッグで描画
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+【問題5-2】問題5-1に修正を加え、線画を重ねて描けるような機能のプログラムにしてみよう。<br>
+キー入力の意味<br>
+r: 四角<br>
+e: 円<br>
+l:線<br>
+c:クリア<br>
+<br>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

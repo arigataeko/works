@@ -1,0 +1,61 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="javaproSample.css">
+  <SCRIPT src="http://java.com/js/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'Bargame.jnlp'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbedBargame() {
+        dtjava.embed(
+            {
+                id : 'Bargame',
+                url : 'Bargame.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : '400',
+                height : '480'
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbedBargame);
+</script>
+
+</head><body>
+<h2>三山くずしゲーム</h2>
+  <b>Webstart:</b> <a href='Bargame.jnlp' onclick="return launchApplication('Bargame.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+
+<div id="setsumei">
+三山くずしゲームは，ふたりで交互にプレイする簡単なゲームです。<br>
+3つの山に分かれて，棒が置かれています（マッチ棒でも、ボールでも，3つのグループに分かれていればなんでも)。<br>
+プレイヤは、どれかの山から何本かの棒を取り除きます。
+取る棒の数はいくつでもかまいませんが，1つも取らないことはできません。
+また，複数の山から棒を取ることはできません。<br>
+
+棒を取れなくなったら，負けです(つまり，最後の棒を取った方が勝ち）。
+<BR><BR>
+
+ソースコードと画像ファイルはこちら。<BR>
+<a href="Bargame.java">Bargame.java</a><BR>
+<a href="Yama.java">Yama.java</a><BR>
+<a href="imagefiles.zip">プログラムで使っている画像ファイル</a><BR>
+</div>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder'  class="artpieceBar"></div>
+</body></html>

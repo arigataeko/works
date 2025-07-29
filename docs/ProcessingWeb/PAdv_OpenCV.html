@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Advance Sketch - Interact with face</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="PAdvance.html#list"> 少し進んだスケッチのトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 顔とインタラクションする（OpenCV)</h1>
+カメラがとらえた画像から顔を検知し、その位置や大きさにインタラクティブに応答するProcessingスケッチを作成します。OpenCVは顔の位置や大きさを検知する機能を提供しています。
+
+<h2 id="openCV">OpenCV</h2>
+OpenCVは、オープンソースのComputer vision、画像解析用のライブラリです。
+Processing用のライブラリは、次のようにインポートできます。<br><br>
+
+メニュー[スケッチ] [ライブラリをインポート][ライブラリ-を追加」で、OpenCV for Processingを選択して、インストールします。インストールすると、サンプルのContribute Librariesの中にサンプルが入るので、サンプルを動かして、機能を実験することができます。詳しくは、
+<a href="https://github.com/atduskgreg/opencv-processing"> OpenCV for Processing</a>を参照。
+
+<h2 id="faceSample">顔の位置と大きさを使うサンプル</h2>
+Processingのスケッチで、OpenCVが検知した顔の位置と大きさを知るには次のようにします。
+<ul>
+<li>(1) ライブラリのインポート
+  <pre class="reiji">
+import gab.opencv.*;        //OpenCVのライブラリのインポート
+import processing.video.*;  //カメラ映像を取得するためにインポート
+import java.awt.*;          //Rectangleクラスのインポート
+<pre></li>
+<li>(2) Capture オブジェクト用変数の定義
+  <pre class="reiji">OpenCV opencv;</pre></li>
+<li>(3) OpenCVオブジェクト用変数の定義
+  <pre class="reiji">OpenCV opencv;</pre></li>
+<li>(4) 大きさを指定してCapture オブジェクトを生成（setup()の中）
+    <pre class="reiji">video = new Capture(this, 320, 240);</pre></li>
+<li>(5) 大きさを指定してOpenCVオブジェクトを生成（setup()の中）
+  <pre class="reiji">opencv = new OpenCV(this, 320, 240);</pre></li>
+<li>(6)カメラ映像のキャプチャを開始（setup()の中）<br>
+    <pre class="reiji">video.start();</pre></li>
+<li>(7) OpenCVオブジェクトへカメラ映像を渡す（draw()の中）<br>
+  <pre class="reiji">opencv.loadImage(video); </pre></li>
+<li>(8) OpenCVオブジェクト用のdetectメソッドを実行（draw()の中）<br>
+    <pre class="reiji">Rectangle[] faces = opencv.detect(); </pre>
+  detectメソッドは検知した顔をJavaのRectangleオブジェクトの配列として返す。 <br>
+  java.awtパッケージのRectangleクラスの変数（フィールド）は次の通り。 <br>
+  &nbsp;&nbsp;&nbsp;int <strong>height</strong>：Rectangle の高さ <br>
+  &nbsp;&nbsp;&nbsp;int <strong>width</strong>：
+            Rectangle の幅 <br>
+  &nbsp;&nbsp;&nbsp;int <strong>x</strong>：
+            Rectangle の左上隅の X 座標 <br>
+  &nbsp;&nbsp;&nbsp;int <strong>y</strong>：
+            Rectangle の左上隅の Y 座標 <br><br>
+</li>
+<li>(9) detectメソッドが返したRectangleオブジェクトの情報を使って処理<br>
+      <pre class="reiji">
+for (int i = 0; i < faces.length; i++) {  //検知した顔の数だけ描く
+    println(faces[i].x + "," + faces[i].y);
+    drawMask(faces[i].x+faces[i].width/2, faces[i].y+faces[i].height/2, <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;faces[i].width, faces[i].height);
+}</pre></li>
+</ul>
+リストA4_1は、顔を検知し、その中心位置に赤い円を描くスケッチです。
+<div class="rightSide">
+<img src="images/Adv4_CVCircle.png" alt="顔の上に丸" height="150">
+</div>
+<pre class="code">
+【リストA4-1】
+import gab.opencv.*;        //(1)OpenCVのライブラリ
+import processing.video.*;  //(1)カメラ映像
+import java.awt.*;          //(1)Rectangleクラス
+
+Capture video;  //(2) Capture オブジェクト用変数の定義
+OpenCV opencv;  //(3) OpenCVオブジェクト用変数の定義
+
+void setup() {
+  size(640, 480);
+  //(4) スピードを考え、表示画面の半分の大きさでキャプチャ
+  video = new Capture(this, width/2, height/2); //(4) Capture オブジェクトを生成
+  opencv = new OpenCV(this, width/2, height/2); //(5) OpenCVオブジェクトを生成
+  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  video.start();
+}
+
+void draw() {
+  scale(2);                 //カメラ映像のサイズを2倍して、描画
+  opencv.loadImage(video);  //openCVにカメラ映像を渡す
+  image(video, 0, 0);       //スケッチ画面にカメラ映像を描画
+  //openCVは検知した顔をJavaのRectangleオブジェクトの配列として返す
+  Rectangle[] faces = opencv.detect();
+
+  for (int i = 0; i < faces.length; i++) {  //検知した顔の数だけ描く
+    println(faces[i].x + "," + faces[i].y);
+    drawMask(faces[i].x+faces[i].width/2, faces[i].y+faces[i].height/2,
+            faces[i].width, faces[i].height);
+  }
+}
+void captureEvent(Capture c) {
+  c.read();
+}
+void drawMask(float x, float y, float w, float h) { //x, yは顔の中心位置
+  push();
+  translate(x, y);  //顔の中心に座標原点を移動
+  noStroke();
+  fill(200, 0, 0);
+  ellipse(0, 0, w, h);    //顔輪郭の円
+  stroke(255);
+  strokeWeight(5);
+  noFill();
+  ellipse(0, 0, 20, 20);  //真ん中の円
+  pop();
+}
+</pre>
+<p class="clear"> </p>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+<div class="leftSide"><img src="images/ExerA4_CVMask.png" alt="顔の上に仮面" width="250"></div>
+【問題A4-1】リストA4_1を参考に、カメラ映像に映る顔の上にオリジナルの仮面を描画してみよう。
+<p class="clear"> </p>
+
+<br>
+【問題A4-2】
+ラーニングトレイル[運動と位置の計算]の練習問題6-3ラケットボールゲームでは、マウスカーソルの位置で、画面上のラケット(矩形)を動かしてプレイしました。代わりにカメラがとらえた顔の位置でラケットを動かしてプレイするようにしてみよう。
+
+
+<br><br>
+
+</div>
+<div class="copy">
+arigat アットマーク acm.org /
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,78 @@
+<!-- 日本語の入力(CGI) -->
+
+<HTML> 
+<HEAD> 
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<TITLE>  Input Japanese  </TITLE>
+</HEAD>
+<BODY>
+<H2> 日本語文字の入力(CGI)</H2>
+<HR>
+　意見やアンケートへの回答を求めるページでは，日本語のデータをページの
+フォームから受け取り，CGIプログラムで処理する必要があります。日本語デー
+タがどのような形でCGIプログラムへ送られるかを確かめ，それらを処理する
+プログラムの例を示します。<BR>
+　<A href="iken.html"> 意見を尋ねるページ</A>があるとします。
+<BR><BR>
+
+　このページ上で，「送信ボタン」を押すと，テキストフィールドに入力されたデータがiken.cgiへ送られます。フォームから送られる「生」のデータは，スペースや一部の記号，日本語コードを，送信に安全な文字コード(一部のASCIIコード)に変換(URLエンコード)しますので，そのままでは意味がわかりません。<BR><BR>
+　日本語文字は文字コードを16進数で表し，その前に%をつけます。シフトJISコードで「あ」は「82A0」なので，エンコード結果は「%82%A0」となります。また，1バイトの空白は「+」になります。
+<BR><BR>
+
+　プログラムはそれらを元の形に戻して(デコード)する必要があります。
+iken.cgiは，生のデータを表示するとともに，変換したデータを表示するプログラムです。
+
+<BLOCKQUOTE><PRE><CODE>
+<HR width=70%>
+#!/usr/bin/perl             ←perlプログラムを実行するプログラム(インタプリタ)
+require 'jcode.cgi';        ←日本語文字コードの変換をするプログラムを取り込む
+
+read(STDIN,$data,$ENV{"CONTENT_LENGTH"}); ←データを標準入力から読む
+
+print"Content-type:text/html;charset=EUC-JP\n\n";  ← HTMLを出力
+print &lt;&lt;EOF;
+ &lt;HTML&gt;
+ &lt;HEAD&gt;
+ &lt;TITLE&gt;Thank you for your opinion&lt;/TITLE&gt;
+ &lt;/HEAD&gt;
+ &lt;BODY&gt;
+EOF
+
+print &lt;&lt;EOF;
+ &lt;H2&gt;生のデータ&lt;/H2&gt;
+ &lt;HR&gt;
+   $data&lt;BR&gt;         ←生のデータをそのまま表示
+ &lt;HR&gt;
+EOF
+
+&decode();           ←データを変換するサブルーチンを実行
+
+print &lt;&lt;EOF;
+ &lt;H2&gt;変換したデータ&lt;/H2&gt;
+ &lt;HR&gt;
+  お名前:$cgi{'name'}&lt;BR&gt;
+  ご意見:$cgi{'opinion'}&lt;BR&gt;
+ &lt;HR&gt;
+ &lt;A HREF="../iken.html"&gt;戻る&lt;/A&gt;&lt;BR&gt;
+EOF
+
+print"&lt;/BODY&gt;\n";
+print"&lt;/HTML&gt;\n";
+
+sub decode{                    ←データを変換するサブルーチン
+ @parts=split('&',$data);      ← &で生のデータを分離
+ foreach(@parts){
+ ($name,$value)=split("=");    ← =で名前と値を分離
+ $value=~ tr/+/ /;             ← +を空白に変換
+ $value=~ s/%([0-9a-fA-F][0-9a-fA-F])/pack("C",hex($1))/eg;
+                   ↑ 16進数を取出し，10進数にし，それを文字コードに変換
+ &jcode'convert(*data,'euc');  ← EUCコードに変換
+ $cgi{$name}=$value;
+ }
+}
+
+<HR width=70%>
+</CODE></PRE></BLOCKQUOTE>
+
+</BODY>
+</HTML>

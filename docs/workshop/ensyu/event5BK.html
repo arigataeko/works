@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>select exercise</title>
+
+<script type="text/javascript">
+<!--
+
+   function changeBack(){
+      select = document.iro.backC.selectedIndex
+      c = document.iro.backC.options[select].value;
+      document.bgColor= c;
+   }
+
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>メニューを選択したら背景の色が変わる</h1>
+
+<ul>
+<li><a href="../object.html"> オブジェクトの説明 </a>
+<li><a href="../hensu.html"> 変数の説明 </a>
+</ul>
+
+<br>
+メニューで背景の色が選択できます。<br><br>
+
+<form name="iro">
+背景の色
+<select name="backC" onChange="changeBack()">
+<option value="#996600"> 茶色
+<option value="#cc0033"> あずき色
+<option value="#00cccc"> スカイブルー
+<option value="#6666cc"> ネイビーブルー
+<option value="#999933"> うぐいす色
+</select>
+</form>
+</body> 
+</html>
+
+

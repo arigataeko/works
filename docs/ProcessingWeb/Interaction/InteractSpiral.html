@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> らせん</h1>
+マウスのx座標により、らせんが成長します。
+らせんを描くプログラムは<a href="../Trail2Move.html#Exer23" target="other">【問題2-3】</a>で作りました。<br><br>
+
+半径rの円を描く場合、円上の点のx、y座標の計算式は次のようになります。tは時計の3時の位置を0度とした時計回りの角度(度単位)です。
+<pre class="reiji">
+  x = r * cos(radians(t));
+  y = r * sin(radians(t));
+</pre>
+
+らせんは円と違い、rの値が一定ではありません。角度tが変化するに従って、a * radians(t) のように変化します。aは係数で、この値を大きくすると、らせんの広がりが大きくなります。らせん上の点の座標を表す式は次のようになります。下のプログラムでは係数aを2.0にしています。
+<pre class="reiji">
+  x = a * radians(t) * cos(radians(t));
+  y = a * radians(t) * sin(radians(t));
+</pre>
+
+これはらせんの中央を座標の原点(0,0)にしたときの計算式です。<br>
+らせんの中心を画面の中央に置くため、画面の中央の位置のx座標、y座標の値を加えています。
+<pre class="reiji">
+  x = a * radians(t) * cos(radians(t)) + width/2;
+  y = a * radians(t) * sin(radians(t)) + height/2;
+</pre>
+
+らせん上の点の位置を表す角度ｔは、らせんを一周すると0度から360度に変化し、二周めで360度から720度に変化します。下の例ではマウスが画面の左端から右端に移動する間にらせんを8周させています。
+<pre class="reiji">
+  t =  map(i, 0, wide, 0, 360*8);
+</pre>
+iの値は0からマウスのｘ座標まで変化し、その値を0度から８周分の角度の間に割り付けて(マップして)います。<br><br>
+計算されたx、y座標の点を曲線でつなげて線を描くために<a href="../PFuncVertex.html#curve" target="other">curveVertex()関数</a>を使っています。
+
+
+<br><br>
+
+<div class="rightSide">
+	<canvas id="Spiral"
+       data-processing-sources="./InteractPDE/Spiral.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リストSpiral】
+float x,y,t;
+float a = 2.0;
+int wide=150;        // 画面の高さ
+
+void setup() {
+  size(wide, wide);   //描画するための画面
+  strokeWeight(3);
+}
+
+void draw() { 
+  background(255);
+  beginShape();
+  for(int i=0; i&lt;=mouseX; i++){
+     t =  map(i, 0, wide, 0, 360*8);
+     x = a * radians(t) * cos(radians(t)) + width/2;
+     y = a * radians(t) * sin(radians(t)) + height/2;
+     curveVertex(x,y);
+  }
+  endShape();
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

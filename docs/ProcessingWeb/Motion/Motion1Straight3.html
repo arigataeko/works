@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の直線運動…ひとつ(大きさ変化)</h1>
+ひとつの円が、水平に一定速度で運動します。
+動きは、<a href="Motion1Straight1.html#print" target="other">ひとつ(軌跡なし)</a>と同じですが、大きさが変化します。位置が変化するとともに、円の直径を大きくします。
+<br><br>
+
+<div class="rightSide">
+	<canvas id="Straight3"
+       data-processing-sources="./MotionPDE/oneDirection/Straight3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Straight3】
+float s = 3; // 移動速度
+float x; // 位置(x座標)
+float d = 2; // 円の直径
+
+void setup() {
+  size(150, 150);
+  fill(0);
+}
+
+void draw() { 
+   background(255);   //画面背景を白でクリア
+    x = x+s ;  // 位置を変化
+    d = d+1;   // 大きさを変化
+    if(x>=width+d/2) { //右端を越えたら、元に戻す
+       d=2;
+       x=-d/2;
+    }
+     ellipse(x, height/2, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

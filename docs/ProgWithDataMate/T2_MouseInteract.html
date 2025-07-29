@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T2_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの位置に応答する</h1>
+マウスの移動やボタン押下などの操作に応答させることで、インタラクションのあるスケッチを作成できます。
+ここでは、マウスの位置に応じた応答をするサンプルを考えます。
+
+<h2 id="mousePosition">マウスの位置</h2>
+マウスの位置は、p5.jsがあらかじめ定義している変数(システム変数)に保存されています。
+<pre class="reiji">
+mouseX   現在のマウスの水平方向の座標
+mouseY   現在のマウスの垂直方向の座標
+</pre>
+マウスの位置に円を描いてみましょう。setup()関数内に画面の大きさ設定など1度だけ実行する処理を書き、draw()関数内に応答させる処理を書きます。 
+
+<div class="rightSide">
+<iframe src="./sample/HT2List3_1/index.html"
+		width="250" height="125 "id="mouseCircle1"> </iframe>
+</div>
+
+<pre class="code">
+【リストT2-3-1】
+function setup() {
+  createCanvas(250, 125);
+  stroke(200, 0, 0);
+  background(240);
+}
+function draw() {
+  circle(mouseX, mouseY, 10);
+}
+</pre>
+<p class="clear"> </p>
+右側の灰色のキャンバス上でマウスを動かしてください。円が重なって、描かれます(最初,座標の原点(0,0)である左上角に円があります)。draw()関数は、指定されたフレームレート(デフォルトで60回/秒)で、繰返し実行されます。
+それにより、circle()関数が繰返し実行され、その結果として円が描かれます。 重なって描かれるのは、同じ画用紙であるキャンバス上に描画しているからです。<br>
+1つ円を描くごとに、新しい画用紙を使えば、1つの円が動いているように見えます。
+draw()関数の実行ごと(つまりフレームごと)に
+<a href="P5FuncDisplay.html#back" target="other">background()</a>関数を使って、キャンバスを背景色で塗れば、それが実現できます。
+<br>
+<div class="notes">
+フレームレートは、<a href="P5FuncDisplay.html#redraw" target="other">frameRate()関数</a>を使って変更できます。frameRate(10)とすると、1秒間に10回draw()関数が実行されます。
+</div>
+
+前のフレームでのマウスの位置、つまり前のdraw()の実行時のマウスの位置も保存されています。
+<pre class="reiji">
+pmouseX   前のdraw()の実行時(前のフレーム)のマウスの水平方向の位置
+pmouseY   前のdraw()の実行時(前のフレーム)のマウスの垂直方向の位置
+</pre>
+さらに、前のフレームのマウスの位置と現在のマウスの位置の差もシステム変数に保存されています。
+<pre class="reiji">
+movedX   前のdraw()の実行時(前のフレーム)からのマウスの水平方向の変化
+movedY   前のdraw()の実行時(前のフレーム)からのマウスの垂直方向の変化
+</pre>
+楕円を描く関数である<a href="P5FuncDraw.html#print" target="other">ellipse関数</a>の引数の幅、高さを次のように指定すると、マウスの移動距離に応じた楕円が描かれます。
+<pre class="reiji">
+ellipse(mouseX, mouseY, movedX, movedY);
+</pre>
+
+
+
+<h2 id="inRect">マウスの位置が矩形領域内かを判定</h2>
+キャンバス上の特定の範囲に、例えば矩形領域内にマウスが移動した時に、なんらかの応答をさせることを考えます。
+下は、<a href="T2_SizeDM.html#T2List1_1" target="other">リストT2-1-1</a>にインタラクションを付加したもので、矩形領域内にマウスが入った時に、その生物の寿命を矩形の上に表示します。
+<br><br>
+<iframe src="./sample/HT2List3_2/index.html"
+		width="500" height="320"id="LifeSizeCMouse"> </iframe>
+<br>
+このインタラクションのためには、マウスの位置が矩形内かどうかを調べる必要があります。<br>
+その条件を書くと次のようになります。
+<ul><li>mouseXが矩形左辺のx座標よりも大きく(mouseX&gt;area.centerX-rw/2)</li>
+    <li>mouseXが右辺のx座標よりも小さく(mouseX&lt;area.centerX+rw/2)</li>
+    <li>mouseYが上辺のy座標より大きく(mouseY&gt;area.bottom-h)</li>
+    <li>mouseYが下辺のy座標より小さい(mouseY&lt;area.bottom)。</li>
+</ul>
+rwは矩形の幅、hは矩形の高さを保存している変数を意味しています。
+
+<pre class="code">
+【リストT2-3-2】
+//T2-1-1のdrawData関数を次に変更する
+function drawData(index) {
+  let area = Datamate.area(index);
+  let h = map(Datamate.value("寿命", index), 0, 100, min, max);
+  fill(200, 0, 0);
+  rect(area.centerX-rw/2, area.bottom-h, rw, h);
+  fill(0);
+  text(Datamate.value("名前", index), area.centerX, area.bottom+15);
+  if (mouseX&gt;area.centerX-rw/2 && mouseX&lt;area.centerX+rw/2 && mouseY&lt;area.bottom && mouseY&gt;area.bottom-h) {
+    text(Datamate.value("寿命", index) +"年", area.centerX, area.bottom-h-10);
+  }
+}
+</pre>
+
+
+<h2 id="mouseDistance">キャンバス上の位置とマウスとの距離</h2>
+キャンバス上の特定の位置とマウスの距離が一定以上近づいたら、なんらかの応答をさせることを考えましょう。それには、マウスとその位置との距離を計算する必要があります。それには、<a href="P5FuncMath.html#kyori" target="other">dist()</a>を使います。
+<pre class="reiji">
+dist(mouseX, mouseY, その位置のx座標, その位置のy座標)
+</pre>
+これを使って、<a href="T2_TimeSizeDM.html#T2List2_2" target="other">リストT2-2-2</a>で、円の上にマウスが入ったら、その円に対応する飼育推定数を表示してみましょう。マウスの円の中心からの距離を計算し、それが円の半径より小さければ、マウスが円に入ったと判断できます。 <br><br>
+
+<iframe src="./sample/HT2List3_3/index.html"
+		width="450" height="250 "id="InuNekoCMouse"> </iframe>
+
+<pre class="code">
+【リストT2-3-3】
+//T2-2-2のdrawData関数を次に変更する
+function drawData(syurui, number) {
+  let area = Datamate.area(number);              //表示エリアをとりだす
+  let dataIndex = Datamate.focusX();            //今フォーカスしているデータのインデックス
+  let indexHokan = Datamate.focusX(0, true);  //今フォーカスしているデータと次のデータとの間のインデックス
+  let year = Datamate.columnName(dataIndex);    //列のヘッダ
+  let value = Datamate.value(syurui, indexHokan);
+  let w = map(value, 6000, 10000, 30, area.width);  //データを円の直径に換算
+  fill(200, 0, 0);
+  circle(area.centerX, area.centerY, w);
+  fill(0);
+  text(title+"("+year+")", titleX, 30);  //表題と年の表示
+  fill(255);
+  text(syurui, area.centerX, area.centerY); //データの種類の表示
+  if (dist(mouseX, mouseY, area.centerX, area.centerY) &lt; w/2) { //マウスが円内に入ったら、
+    text(Datamate.value(syurui, dataIndex) + "千頭", area.centerX, area.centerY+15); //頭数の表示
+  }
+}
+</pre>
+
+<h2 id="mousePress">マウスボタンが押されている時に応答</h2>
+リストT2-3-2で、マウスが矩形の中に入り、かつマウスボタンが押されている時だけ応答するように修正したのが、次のスケッチです。<br><br>
+
+<iframe src="./sample/HT2List3_4/index.html"
+		width="500" height="320 "id="LifeSizeCMousePress"> </iframe>
+<br>
+マウスボタンが押されているかどうかは、システム変数mouseIsPressedに保存されています。
+<pre class="reiji">
+mouseIsPressed   マウスボタンが押されている時true、そうでない時はfalse
+</pre>
+
+マウスが矩形内にあるかどうかに加え、mouseIsPressedの値がtrueかを調べて、その時だけ矩形の色を変え、寿命を表示しています。
+
+<pre class="code">
+【リストT2-3-4】
+//T2-3-2のdrawData関数を次に変更する
+function drawData(index) {
+  let area = Datamate.area(index);
+  let h = map(Datamate.value("寿命", index), 0, 100, min, max);
+  fill(0);
+  text(Datamate.value("名前", index), area.centerX, area.bottom+15);
+  if (mouseX&gt;area.centerX-rw/2 && mouseX&lt;area.centerX+rw/2 &&
+                                mouseY&lt;area.bottom && mouseY&gt;area.bottom-h && mouseIsPressed) {
+    text(Datamate.value("寿命", index) +"年", area.centerX, area.bottom-h-10);
+          fill(255, 204, 0);  //色を黄色、
+  } else {
+    fill(200, 0, 0);
+  }
+  rect(area.centerX-rw/2, area.bottom-h, rw, h);
+}
+</pre>
+<h2 id="mondai">演習問題</h2>
+
+【問題T2-3-1】<br>
+リストT2-3-4を円で表現してみよう。
+<iframe src="./exercise/Trail2_3_exe1_datamate/index.html"
+		width="700" height="250 "id="LifeSizeCMousePress"> </iframe>
+<br>
+マウスが円の中にあるかどうかは、円の中心とマウスの位置の距離を計算して、円の半径より小さいかどうかで判断します。
+それには、<a href="P5FuncMath.html#kyori" target="other">dist()</a>を使います。
+<pre class="reiji">
+dist(mouseX, mouseY, その位置のx座標, その位置のy座標)
+</pre>
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

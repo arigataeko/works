@@ -1,0 +1,227 @@
+<html>
+<head>
+<title> Escher's pattern</title>
+<script type="text/JavaScript">
+<!-- 
+var pp1=1;
+var pp2=2;
+var pp3=4;
+var pp4=3;
+var pName="pat";
+
+function changeImg(pNo)
+{
+
+    var srcFile = document[pNo].src;
+    var num = (srcFile.charAt(srcFile.length - 5));
+    num = num%4 + 1;
+    eval("document." + pNo + ".src = 'number" + num + ".gif'");
+
+    if (pNo == "p1") pp1=num;
+    else if (pNo == "p2") pp2=num;
+    else if (pNo == "p3") pp3=num;
+    else if (pNo == "p4") pp4=num;
+
+    drawPattern();
+}
+
+
+function drawPattern(){
+   document.sample1.src = eval("'" + pName + pp1 + ".gif'");
+   document.sample2.src = eval("'" + pName + pp2 + ".gif'");
+   document.sample3.src = eval("'" + pName + pp3 + ".gif'");
+   document.sample4.src = eval("'" + pName + pp4 + ".gif'");
+
+   for(i=1; i<=6; i=i+2){
+     for(j=1; j<=6; j=j+2){
+      pos = "grid" + i + j;
+      document[pos].src = eval("'" + pName + pp1 + ".gif'");
+      pos = "grid" + i + (j+1);
+      document[pos].src = eval("'" + pName + pp2 + ".gif'");
+      pos = "grid" + (i+1) + j;
+      document[pos].src = eval("'" + pName + pp3 + ".gif'");
+      pos = "grid" + (i+1) + (j+1);
+      document[pos].src = eval("'" + pName + pp4 + ".gif'");
+     }
+  }  
+}
+
+function changePat(){
+      select = document.forms[0].pattern.selectedIndex;
+      c = document.forms[0].pattern.options[select].value;
+      if(c != "") pName = c;
+      
+      document.show1.src = eval("'" + pName + "1.gif'");
+      document.show2.src = eval("'" + pName + "2.gif'");
+      document.show3.src = eval("'" + pName + "3.gif'");
+      document.show4.src = eval("'" + pName + "4.gif'");
+
+      drawPattern();
+}
+
+//-->
+</script>
+
+<STYLE type="text/css">
+   .bigmoji {
+       font-size:16pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+   .smallmoji {
+       font-size:9pt;
+       font-family:serif;
+    }
+   .smallestmoji {
+       font-size:8pt;
+       font-family:serif;
+    }
+
+</STYLE>
+</head>
+
+
+<body bgcolor="ffffff" marginwidth=0 marginheight=0 topmargin=0 leftmargin=0>
+
+<table border=0 width="100%" height="100%">
+<tr>
+<td><table border=0 cellpadding=2 cellspacing=0>
+<tr> <td><hr size=5 noshade></td></tr>
+<tr> <td align=center class='bigmoji'> Escher's Pattern Lab.</td></tr>
+<tr> <td><hr size=5 noshade></td></tr>
+<tr> <td><img src="clear.gif" height=10 border="0"></td></tr>
+<tr> <td> 
+  <!-- select menu -->
+       <FORM class="smallmoji">
+       パターンを選択.
+       <select name="pattern" onChange="changePat()">
+       <option value="pat"> Ribbon
+       <option value="fish"> Fish
+       <option value="bird-fish"> Bird&Fish
+       <option value="net"> Net
+       </select></FORM>
+</td></tr>
+
+<tr><td  align=center>
+  <!-- show sample -->
+   <table border=0>
+   <tr align=center>
+   <td> 1<br>
+        <img src="pat1.gif" border=0 height=50 width=50 name="show1" 
+             alt="pattern1" ></a></td>
+   <td> 2<br>
+        <img src="pat2.gif" border=0 height=50 width=50 name="show2" 
+             alt="pattern2"></a></td>
+   <td> 3<br>
+        <img src="pat3.gif" border=0 height=50 width=50 name="show3" 
+             alt="pattern3"></a></td>
+   <td> 4<br>
+        <img src="pat4.gif" border=0 height=50 width=50 name="show4" 
+             alt="pattern4"></a></td>
+   </tr>
+   </table>
+</td></tr>
+<tr> <td><hr size=1 noshade></td></tr>
+
+<tr> <td><img src="clear.gif" height=20 border="0"></td></tr>
+
+
+<tr valign=middle><td>
+  <table>
+  <tr valign=middle><td class="smallmoji"> 数字をクリックして、<br>パターンの方向を変更.</td>
+  <!-- select direction -->
+  <td>
+   <table border=0>
+   <tr>
+   <td><a href="JavaScript:void(0);" onClick="changeImg('p1');">
+       <img src="number1.gif" border=0 height=50 width=50 alt="position1"
+        name="p1" border=0></a></td>
+   <td><a href="JavaScript:void(0);" onClick="changeImg('p2');">
+       <img src="number2.gif" border=0 height=50 width=50 alt="position2"
+        name="p2" border=0></a></td>
+   </tr><tr>
+   <td><a href="JavaScript:void(0);" onClick="changeImg('p3');">
+       <img src="number4.gif" border=0 height=50 width=50 alt="position3"
+        name="p3" border=0></a></td>
+   <td><a href="JavaScript:void(0);" onClick="changeImg('p4');">
+       <img src="number3.gif" border=0 height=50 width=50 alt="position4"
+        name="p4" border=0></a></td>
+   </table>
+  </td></tr>
+  <tr valign=middle><td> </td>
+  <!-- show test pattern -->
+  <td>
+   <table border=0>
+   <tr>
+   <td> <img src="pat1.gif" border=0 height=50 width=50 alt="pattern"
+        name="sample1"></a></td>
+   <td> <img src="pat2.gif" border=0 height=50 width=50 alt="pattern"
+        name="sample2"></a></td>
+   </tr><tr>
+   <td> <img src="pat4.gif" border=0 height=50 width=50 alt="pattern"
+        name="sample3"></a></td>
+   <td> <img src="pat3.gif" border=0 height=50 width=50 alt="pattern"
+        name="sample4"></a></td>
+   </table>
+  </td></tr>
+  </tr></table></td></tr>
+<tr> <td><img src="clear.gif" height=10 border="0"></td></tr>
+<tr> <td class="smallestmoji"> 画像はVisions of Symmetryより引用</tr>
+</table>
+
+<td><img src="clear.gif" width=5 border="0"></td>
+
+<!-- draw pattern -->
+<td>
+
+<table cellpadding=0 cellspacing=0 border=0>
+<tr>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid11" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid12" border=0></td>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid13" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid14" border=0></td>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid15" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid16" border=0></td>
+</tr><tr>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid21" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid22" border=0></td>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid23" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid24" border=0></td>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid25" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid26" border=0></td>
+</tr><tr>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid31" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid32" border=0></td>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid33" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid34" border=0></td>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid35" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid36" border=0></td>
+</tr><tr>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid41" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid42" border=0></td>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid43" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid44" border=0></td>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid45" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid46" border=0></td>
+</tr><tr>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid51" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid52" border=0></td>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid53" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid54" border=0></td>
+<td><img src="pat1.gif" border=0 height=70 width=70  name="grid55" border=0></td>
+<td><img src="pat2.gif" border=0 height=70 width=70  name="grid56" border=0></td>
+</tr><tr>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid61" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid62" border=0></td>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid63" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid64" border=0></td>
+<td><img src="pat4.gif" border=0 height=70 width=70  name="grid65" border=0></td>
+<td><img src="pat3.gif" border=0 height=70 width=70  name="grid66" border=0></td>
+</tr>
+</table>
+
+</td></tr></table>
+
+
+</body>
+</html>

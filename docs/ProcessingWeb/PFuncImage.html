@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Functions for Image</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"><!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="PFuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 画像データ</h1>
+
+Processing は gif, jpg, tga, png 形式の画像データを表示できます。
+
+<h2 id="pimage">PImage</h2>
+
+画像データはPImageクラスのオブジェクトとしてプログラム内に保存されます。PImageは画像データを保存するために使われるデータ型で、Processingが独自に定義しているクラスです。<br>
+画像ファイルをloadImage関数を使って読み込むと、PImageクラスのオブジェクトが生成されます。PImageクラスのオブジェクトを作るのにはnewは使いません。<br>
+
+PImageクラスは次のようなフィールド(変数)をもちます。<br><br>
+
+■ pixels[]　　画像データないのピクセル情報の入った配列<br><br>
+■ width　　画像イメージの幅<br><br>
+■ height　　画像イメージの高さ<br><br>
+
+ pixels[]には、32bitの色情報が保存されます。データの並びは、AAAAAAAARRRRRRRRGGGGGGGGBBBBBBBBのようになっています。Aはアルファ値(透明度)、Rは赤、Gは緑、Bは青で、それぞれ8bit(0-255)の値です。ここから色の要素や色相、明度、彩度の情報を得るには、PImageクラスのred()、green()、blue()、hue()、saturation()、brightness()メソッドを使います。
+
+
+<h2 id="read">画像ファイルの読み込み</h2>
+
+loadImageメソッドを使って画像ファイルを読み、PImageオブジェクトを作ります。Prosessingのプログラムが使う画像ファイルは、pdeファイルと同じフォルダの下にあるdataフォルダに置きます。<br><br>
+
+
+■ loadImage(ファイル名)　　指定した画像ファイルをスケッチフォルダのdataフォルダから読み込み、PImageオブジェクトを作る。<br><br>
+
+<pre class="reiji">
+PImage img;
+img = loadImage("gazo.jpg");
+</pre>
+
+
+<h2 id="image">画像データの描画</h2>
+
+PImageオブジェクトは、Processingのimage関数を使って、描画します。
+<br><br>
+■ image(PImageオブジェクト, x, y)　　PImageオブジェクトを(x,y)の位置に描きます。(x,y)が画像の左角か中央かは、imageMode()の指定で決まります。デフォルトでは画像の左上角の位置。<br><br>
+■ image(PImageオブジェクト, a, b, c, d)　　PImageオブジェクト描きます。引数の意味はimageMode()の指定で決まります。デフォルトでは画像の左上角の位置と画像の幅と高さ。<br><br>
+
+■ imageMode(MODE)　　
+楕円を描くときの座標の指定の仕方を設定します。<br>
+<pre class="reiji">
+引数の値  CORNER：画像の左上角の座標を指定。
+         CORNERS：画像の左上角の座標と右下角の座標で指定。
+         CENTER：画像の中央の座標を指定。 
+</pre>
+
+<h2 id="save">描画した画像の保存</h2>
+■ save(filename)　　描画ウィンドウのイメージを、TIFF(.tif), TARGA(.tga), JPEG(.jpg), or PNG(.png)のいずれかの形式の画像ファイルとして保存します。指定したファイル名に拡張子がない時にはtif形式で保存します。
+
+<h2 id="offscreen">オフスクリーンバッファ</h2>
+Processingで描画関数を使って描画されたものは、デフォルトではすべてスクリーン上の画面に描画されます。場合によっては直接スクリーン上に描画を反映させずにおきたい時もあります。そのような場合、スクリーン上の画面とは別の、オフスクリーンの描画域を用意し、そこに描画すると都合がいい場合があります。<br>
+
+描画域はPGraphicsクラスのオブジェクトとして用意します。createGraphics()関数を使って作ります。
+オンスクリーンの描画域と違い、作られた描画域は透明です。<br><br>
+
+■ createGraphics(w, h)　　指定した幅と高さで、size()関数で指定したのと同じ描画方法の描画域を作ります。<br><br>
+
+■ beginDraw()　　オフスクリーンバッファへの描画を始めます。<br><br>
+
+■ endDraw()　　オフスクリーンバッファへの描画を終了します。<br><br>
+
+
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

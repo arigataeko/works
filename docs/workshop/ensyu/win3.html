@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>window exercise 3</title>
+
+<script type="text/javascript">
+<!--
+   function showWin(target, winName){
+      r = confirm("別ウィンドウを開いてもいいですか");
+      if(r){
+      window.open(target, winName, "scrollbars=1,width=400,height=400");
+      }
+   }
+//-->
+</script>
+
+</head>
+<body onload="showWin('../object.html', 'explain')">
+
+<h1>ロード時に別のウィンドウを開く</h1>
+
+このページをロードすると，別のブラウザのウィンドウが開いていいかの確認ウィンドウが表示され、ＯＫとすると、ページが「かって」に別のブラウザのウィンドウを開きます。
+</body> 
+</html>

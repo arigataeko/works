@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<title>Visualizing data</title>
+	<meta charset="UTF-8">
+
+	<!-- スタイルシート -->
+	<link rel="stylesheet" type="text/css" href="showSketchStyle.css">
+
+</head>
+<body>
+	<div id="container">
+
+		<h1 class="title">
+			&nbsp;&nbsp;データの視覚化を楽しみながらプログラミングを学ぶ
+			<br><hr>
+		</h1>
+
+		<h2>世界ジェンダーギャップ指数</h2>
+		ジェンダー・ギャップ指数は経済・教育・政治参加などの分野での世界各国の男女間の不均衡（ジェンダー・ギャップ）を示す指標であり、教育・健康・経済・政治の4分野のスコアから総合してつけられている。<br>
+		2006年から非営利財団の世界経済フォーラムが『世界ジェンダー・ギャップ報告書』で公表しており、<br>
+		スコアは最大が1（平等）、最低が0（不平等）で小数点第3位までの値である。(調査対象は公表の前年)<br>
+		いくつかの国はデータが存在しない。&nbsp;
+		<a href="https://ja.wikipedia.org/wiki/ジェンダー・ギャップ指数" target="other">
+		wikipedia</a><br><br>
+
+		
+		これは2005年〜2020年の各国のジェンダーギャップ指数を5年ごとに表したデータである。<br>
+		赤と青の割合が均等であればあるほど男女が平等であることを示している。<br>
+		
+		<div class="data">
+			<iframe src="./GenderGap/index.html "width="610" height="610">
+			</iframe>
+		</div><br><br>
+
+		『世界ジェンダー・ギャップ報告書2023』での日本のスコアは0.647で146カ国中125位であった。&nbsp;
+		<a href="https://memorva.jp/ranking/world/wef_global_gender_gap_report.php" target="other">
+		世界経済フォーラム</a><br>
+
+		ここで、教育・健康・経済・政治の各分野における各国のスコアデータを以下に表す。
+		<div class="data">
+			<iframe src="./FourScore/index.html "width="610" height="610">
+			</iframe>
+		</div>
+		これを見ると、「教育」と「健康」は各国あまり差がないが、日本の「経済」及び「政治」におけるスコアが著しく低いことがわかる。<br>
+		よって、総合スコアを上げるにはこの2分野におけるジェンダー平等が今後の課題と考えられる。<br>
+
+	</div><!--container -->
+</body>
+</html>

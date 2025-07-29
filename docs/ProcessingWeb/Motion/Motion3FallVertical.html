@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 垂直落下……落下し、跳ねる</h1>
+一つの円が、垂直に落下し、床でバウンドし、だんだんと減衰します。
+
+減衰する運動<a href="../Trail6Motion.html#teikou" target="other">【リスト6-3】</a>と同じです。<br>
+落下する円の座標を計算する関数ballFall()を定義し、それをdraw()関数から呼出しています。
+<br>
+<br>
+
+<div class="rightSide">
+	<canvas id="FallVertical"
+       data-processing-sources="./MotionPDE/vibration/FallVertical.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト FallVertical】
+float g =1.8;  //加速度
+float friction=0.95;  //減衰
+float y;   //y座標
+float dy;  //y方向の速度
+float r = 5; // 円の半径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア   
+     ballFall();   //y座標を計算する関数
+     ellipse(width/2, y, r*2,r*2);
+}
+
+void ballFall(){
+   dy = dy + g;
+   y= y+dy;       //ｙ座標を動かす
+   if (y&gt;height-r){//下の壁
+       y = height-r;  //壁の上に置く
+       dy = -dy * friction;   //速度が減衰
+       if(abs(dy)&lt;=g/2) {  //ほぼ止まったどうかを判定
+          dy=0; y=0;  //止まったら、再度落下
+       }
+    }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+
+<title>Script for onclick</title>
+<script>
+<!--
+   function toSesshi(){
+      kashi = document.kansan.vK.value;
+
+      k = check(0);
+      if(k==true) return;
+
+      sesshi = (5.0/9.0)*(parseFloat(kashi)-32);
+      document.kansan.vS.value = sesshi;
+   }
+
+   function toKashi(){
+      sesshi = document.kansan.vS.value;
+
+      k = check(1);
+      if(k==true) return;
+
+      kashi = parseFloat(sesshi)/(5.0/9.0)+32;
+      document.kansan.vK.value = kashi;
+   }
+
+   function check(n){
+     if(isNaN(document.kansan.elements[n].value)){
+       window.alert("数値を入力してください: " + document.kansan.elements[n].value); 
+       document.kansan.elements[n].focus();
+       document.kansan.elements[n].select();
+       return true;
+     }
+   }
+//-->
+</script>
+
+</head>
+<body>
+<h1>華氏・摂氏温度の換算</h1>
+
+<form name="kansan">
+   華氏の温度:<input type="text" value="0" size="10" name="vK"><br><br>
+   摂氏の温度:<input type="text" value="0" size="10" name="vS"><br><br>
+
+   <input type="button" value="華氏→摂氏への換算" onclick="toSesshi()">
+   <input type="button" value="摂氏→華氏への換算" onclick="toKashi()">
+</form>
+</body> 
+</html>
+
+

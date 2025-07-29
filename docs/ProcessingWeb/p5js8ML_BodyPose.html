@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail p5</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="p5Mode.html#list"> p5jsトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 事前機械学習モデル BodyPoseを使う</h1>
+
+カメラが捉えた画像内の人の姿勢(手や足、目や口の位置)に応じた処理をするp5.jsのスケッチを作成してみましょう。
+<br><br>
+<a href="https://docs.ml5js.org/#/" target="other"> ml5.jsライブラリ</a>は、カメラ画像を認識して、人のポーズや顔のパーツの位置を検知するための、事前機械学習モデルを提供しています。<br>
+
+ml5.jsは、Googleが開発した機械学習システムTensorFlowを活用して開発されており、自分のスケッチに機械学習機能を組み込み、簡単な「AI」プログラムを作ることを助けるライブラリです。<br><br>
+
+複数人検出：フレーム内の1人または複数の人物のポーズを推定。
+ビデオと画像の入力：画像とライブまたは録画ビデオの両方からポーズを推定。
+2つのモデルから選択：MoveNet（17キーポイント、スピードに最適化）とBlazePose（33キーポイント、精度に最適化）。
+
+ここでは、主な体の部位を追跡できる<a href="https://docs.ml5js.org/#/reference/bodypose" target="other">
+BodyPose</a>を使ってみます。BodyPoseは、TensorFlowのMoveNetとBlazePoseモデルを活用して開発された全身のポーズを推定する事前学習モデルです。
+<br><br>
+
+ml5.jsライブラリを使うために、次のscriptタグをindex.html内に指定します。
+<pre class="reiji">
+&lt;script src="https://unpkg.com/ml5@1/dist/ml5.js"&gt; &lt;/script&gt;
+</pre>
+ネットワークを経由してライブラリを配信する仕組みであるCDN(Contents Delivery Network)のサイトを通じて、ml5.jsライブラリを参照する指定です。
+
+
+<h2 id="howto">BodyPoseの使い方</h2>
+BodyPoseは入力された画像(静止画や動画)から、人の姿勢を推定する機械学習モデルです。
+次のような特徴をもちます。<br>
+<ul>
+<li>・複数人検出：フレーム内の1人または複数の人物のポーズを推定する</li>
+<li>・入力は動画または画像：画像と動画(ライブ映像または録画)の両方からポーズを推定する</li>
+<li>・2つのモデルを選択：MoveNet（17キーポイント、スピードに最適化）とBlazePose（33キーポイント、精度に最適化）</li>
+</ul>
+<br>
+どちらのモデルを使うか、何人のポーズを検知するかをBodyPoseオブジェクトを作る際の引数で指定できます。デフォルトでは、モデルはMoveNetで、６人までの複数のポーズを検出できる設定です。コンピュータに接続されたカメラの入力画像から、人の姿勢を推定するサンプル(リスト8-1)をもとにBodyPoseの使い方を説明します。<br><br>
+
+
+  <iframe src="./p5Sample/Sample8_1/index.html" id="Sample81" width="640" height="480" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+
+<br><br>
+<strong>(0) ビデオ映像の設定</strong><br>
+preload()関数の中で、ml5.bodyPose()を使ってbodyPoseオブジェクトを準備する。
+<pre class="reiji">
+let bodyPose;
+function preload() {
+  bodyPose = ml5.bodyPose();
+}
+</pre>
+<br>
+
+<strong>(1) ビデオ映像の設定</strong><br>
+createCapture()関数を使って、コンピュータに接続されたカメラの映像を得るするためのオブジェクトを作成します。createCapture()関数が返すオブジェクトはp5.Elementで、HTMLの	&lt;video&gt;タグで作られる要素に対応します。<br>
+キャプチャした映像は、image()関数を使ってキャンバスに描画できます。<br><br>
+
+createCapture()の第1引数では、キャプチャする対象が、画像(VIDEO)か音声(AUDIO)かを指定します。省略すると両方をキャプチャします。<br>
+
+
+<pre class="reiji">
+let video;
+function setup() {  
+   createCanvas(640, 480);  //キャプチャした画像を表示するキャンバス
+   video = createCapture(VIDEO);
+   video.size(width, height);  //キャプチャする画像の大きさをキャンバスと同じにする
+   video.hide();  //元のビデオ画像を表示しない
+   ....
+}
+</pre>
+キャプチャされた映像は、デフォルトで表示される仕様になっており、それを止めるにはcreateCapture()関数が返すオブジェクトに対して　hide()メソッドを実行します。<br><br>
+
+<strong>(2) BodyPoseの初期化(BodyPoseオブジェクトを作る)</strong><br>
+
+setup()関数内で、detectStart(video, gotPoses)を使って、ポーズの検知を開始します。第1引数には入力の映像を、第2引数にはBodyPoseがポーズを検出したら呼び出される関数(コールバック関数という)を指定します。
+<pre class="reiji">
+let bodyPose;
+function setup() {  
+   ....
+   bodyPose.detectStart(video, gotPoses); //入力元とポーズ検出時に実行される関数
+   ....
+}
+</pre>
+<br>
+
+
+<strong>(3) コールバック関数の定義</strong><br>
+コールバック関数の引数は、ポーズを検知した結果の配列です。リスト8-1のコールバック関数gotPoses()内では、引数で渡される推定結果をグローバル変数のposesに代入しています。
+<pre class="reiji">
+let poses = [];
+function gotPoses(results){
+    poses = results;
+}
+</pre>
+
+引数resultsの配列内には、検知したポーズの数分の連想配列が要素として入っています。それぞれの連想配列には、検出した体の部位情報keypointsやポーズ全体を囲む領域情報boxなどが含まれます。<br>
+<pre class="reiji">
+ [ { box:値, confidence:値, id:値, keypoints:値, , ,  }, 
+   { box:値, confidence:値, id:値, keypoints:値, , ,  }, , , ]
+</pre>
+キーkeypointsの値は配列で、ひとつひとつの要素が連想配列です。
+検出モデルがMoveNetの場合(デフォルト)、17のキーポイント(部位)が検出されるので、keypointsの要素数は17個です。
+<pre class="reiji">
+[{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+</pre>
+<br>
+<div class="notes">
+連想配列はキーと値をコロンで繋いだセットからなり、そのセットをカンマで区切って並べ、{と}で囲んだ形をしています。<br>
+ { キー1: 値1, キー2: 値2, ……}<br><br>
+連想配列の値を取り出すには、ピリオドの後ろにキーを指定する(連想配列名.キー、これをドット記法といいます)か、キーを配列のインデックスとして指定します(連想配列名["キー"])。
+</div>
+<br>
+
+<strong>(4) 検知したポーズ情報(キーkeypointsの中身)</strong><br>
+
+配列keypointsには17のキーポイント(部位)の情報が、連想配列の形で格納されます(検出モデルがMoveNetの場合)。
+この連想配列のキーは、y座標(y)、x座標(x)、部位の名前(name)、信頼度(confidence)です。
+下は、個々の連想配列の中身の例です。
+<pre class="reiji">
+{y: 257.4268627166748, x: 230.72093963623047, name: 'nose', confidence: 0.40220287442207336}
+</pre>
+
+配列keypointsの中に、17の部位が次の順番に格納されています。インデックスと部位の名前は次の通りです。
+<ul>
+<li>0: nose</li>
+<li>1: left_eye</li><li>2: right_eye</li>
+<li>3: left_ear</li><li>4: right_ear</li>
+<li>5: left_shoulder</li><li>6: right_shoulder</li>
+<li>7: left_elbow</li><li>8: right_elbow</li>
+<li>9: left_wrist</li><li>10: right_wrist</li>
+<li>11: left_hip</li><li>12: right_hip</li>
+<li>13: left_knee</li><li>14: right_knee</li>
+<li>15: left_ankle</li><li>16 right_ankle</li>
+</ul>
+
+例えば、検知した一つ目のポーズの鼻の位置は次のように得られます。
+<pre class="reiji">
+x座標は、poses[0].keypoints[0].x
+y座標は、poses[0].keypoints[0].y
+</pre>
+poses[0]は最初のポーズ、keypoints[0]は17の部位の先頭(nose)を指します。<br><br>
+リスト8-1のdrawKeypoints()関数内では、検知したポーズの数だけ処理を繰り返しています。
+ひとつのポーズに対して、さらに17回(pose.keypoints.length)繰り返し処理を行い、keypoints[j]の位置に円を描いています。
+
+<pre class="reiji">
+ for (let i = 0; i &lt; poses.length; i++) {  // 検知されたポーズごとにループ
+    let pose = poses[i];  //インデックスiのポーズの情報を取り出す
+    for (let j = 0; j &lt; pose.keypoints.length; j++) {  //体の部位(キーポイント)のループ
+      let keypoint = pose.keypoints[j];  //インデックスjの部位の情報を取り出す
+      if (keypoint.confidence &gt; 0.1) {  // ポーズの信頼度が0.1以上の時だけ描画
+         // 描画処理
+      }
+    }
+  }
+</pre>
+
+<strong>(5) 部位の接続情報</strong><br>
+部位のどことどこが隣り合っているかの情報は、getSkeleton()メソッドを使って得ることができます。
+
+<pre class="reiji">
+let connections;
+function setup() {  
+   ....
+     connections = bodyPose.getSkeleton();  //部位どうしの繋がりの情報を得る
+   ....
+}
+</pre>
+getSkeleton()メソッドはsetup()関数内で実行します。このメソッドは要素数が16の配列を返し、要素には接続された(隣り合う)キーポイントのインデックスが含まれます。
+
+<pre class="reiji">
+[ [0, 1], [0, 2], [1, 3], [2, 4], [5, 6], [5, 7], [5, 11], [6, 8], [6, 12], 
+  [7, 9], [8, 10], [11, 12], [11, 13], [12, 14], [13, 15], [14, 16]]
+</pre>
+connections[0]は[0,1]で、キーポイント0（鼻）と1（左目）が接続される(隣り合う)ことを意味します。
+つまり、connections[0][0]の部位とconnections[0][1]の部位の間に線を描けばいいことになります。<br><br>
+関数drawSkeleton内では、connections配列の16の接続情報を使って、体の骨格線を描いています。
+<br><br>
+<pre class="code">
+【リスト8-1】
+let bodyPose;
+let video;   //キャプチャするカメラ映像
+let poses = [];  //検知したポーズ
+let connections;  //キーポイントの繋がり
+function preload() {
+  bodyPose = ml5.bodyPose();  // bodyPose modelの準備
+}
+function setup() {
+  createCanvas(640, 480);  //キャプチャした画像を表示するキャンバス
+  video = createCapture(VIDEO);
+  video.size(width, height);  //キャプチャする画像の大きさをキャンバスと同じにする
+  video.hide();  //元のビデオ画像を表示しない
+  bodyPose.detectStart(video, gotPoses);  // BodyPoseに入力元とコールバック関数を指定
+  connections = bodyPose.getSkeleton();
+}
+
+function gotPoses(results) { //ポーズを検出したときに呼び出され、検知結果をグローバル変数posesに代入
+  poses = results;
+}
+
+function draw() {
+  image(video, 0, 0, width, height);
+  drawKeypoints();    // 検知されたキーポイントを描く
+  drawSkeleton();     // 検知された骨格を描く
+}
+
+function drawKeypoints()  {  //検知されたキーポイントの位置に円を描く
+  for (let i = 0; i &lt; poses.length; i++) {  // 検知されたポーズごとにループ
+    let pose = poses[i];
+    for (let j = 0; j &lt; pose.keypoints.length; j++) {  //体の部位(キーポイント)のループ
+      let keypoint = pose.keypoints[j];
+      if (keypoint.confidence &gt; 0.1) {  // ポーズの信頼度が0.1以上の時に円を描く
+        fill(255, 0, 0);
+        noStroke();
+        circle(keypoint.x, keypoint.y, 10);
+      }
+    }
+  }
+}
+
+function drawSkeleton() {  // 繋がりのある部位を線で結び、骨格を描く
+  for (let i = 0; i &lt; poses.length; i++) { // 検知されたポーズごとにループ
+    let pose = poses[i];
+    for (let j = 0; j &lt; connections.length; j++) { // connectionsの接続情報ごとにループ
+      let pointAIndex = connections[j][0];    //繋がっている部位のインデックス
+      let pointBIndex = connections[j][1];
+      let pointA = pose.keypoints[pointAIndex];  //繋がっている部位の位置情報
+      let pointB = pose.keypoints[pointBIndex];
+      if (pointA.confidence &gt; 0.1 && pointB.confidence &gt; 0.1) { //どちらの信頼度も0.1以上の時だけ描く
+        stroke(255, 0, 0);
+        line(pointA.x, pointA.y, pointB.x, pointB.y);
+      }
+    }
+  }
+}
+</pre>
+
+<h2 id="play">BodyPoseを使って遊ぶ</h2>
+BodyPoseで検知された人の上に、別のグラフィックを描いて、人の動きに応答する画像を作り出すスケッチを作ってみます。
+リスト8_2は、検知した顔の上に目と鼻を描いたスケッチです。<br><br>
+
+  <iframe src="./p5Sample/Sample8_2/index.html" id="Sample82" width="640" height="480" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+
+<pre class="code">
+【リスト8-2】
+let bodyPose;
+let video;   //キャプチャするカメラ映像
+let poses = [];  //検知したポーズ
+function preload() {
+  bodyPose = ml5.bodyPose();
+}
+function setup() {
+  createCanvas(640, 480);  //キャプチャした画像を表示するキャンバス
+  video = createCapture(VIDEO);
+  video.size(width, height);  //キャプチャする画像の大きさをキャンバスと同じにする
+  video.hide();  //元のビデオ画像を表示しない
+  bodyPose.detectStart(video, gotPoses);  // BodyPosenに入力元とコールバック関数を指定
+}
+function draw() {
+  image(video, 0, 0, width, height);
+  drawEyeNose();  // 目と鼻を描く
+}
+function drawEyeNose() { //検知されたキーポイントの目と鼻の位置に図形を描く
+  for (let i = 0; i &lt; poses.length; i++) {  // 検知されたポーズごとにループ
+    let pose = poses[i];
+    if (pose.confidence &gt; 0.1) {  //ポーズの精度の平均が0.1以上の時だけ
+      let noseX = pose.keypoints[0].x;  //鼻x
+      let noseY = pose.keypoints[0].y;  //鼻y
+      let eyeLX = pose.keypoints[1].x;  //左目x
+      let eyeLY = pose.keypoints[1].y;  //左目y
+      let eyeRX = pose.keypoints[2].x;  //右目x
+      let eyeRY = pose.keypoints[2].y;  //右目x
+      let haba = dist(eyeLX, eyeLY, eyeRX, eyeRY); //目の間の距離habaに合わせて、描く円の大きさを変える
+      noStroke();
+      fill(200, 0, 0);
+      ellipse(noseX, noseY+haba/4, haba/2, haba);
+
+      fill(255);
+      ellipse(eyeLX, eyeLY, haba/2, haba/2); //左
+      fill(0);
+      ellipse(eyeLX, eyeLY, haba/4, haba/4);
+      fill(255);
+      ellipse(eyeRX, eyeRY, haba/2, haba/2); //右
+      fill(0);
+      ellipse(eyeRX, eyeRY, haba/4, haba/4);
+    }
+  }
+}
+</pre>
+<h2 id="mondai">演習問題</h2>
+<br>
+【問題8-1】BodyPoseを使い、カメラが捉えた画像内の人の姿勢(手や足、目や口の位置)に応じた処理をするp5.jsのスケッチを、独自のアイディアに基づいて作成してみよう。<br><br>
+
+
+2つの例を次に載せます。<br>
+<a href="./p5Sample/WithFishBodyPose/index.html" target="other">さかなと一緒</a><br>
+<a href="./p5Sample/FallingStar/index.html" target="other">星にキスを!</a>
+
+
+
+</div>
+<div class="copy"> 
+
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

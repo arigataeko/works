@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の直線運動…ひとつ(速度変化)</h1>
+ひとつの円が、水平に加速度運動します。
+<a href="../Trail6Motion.html#kasoku" target="other">リスト6-2</a>と同じです。<br>
+速度は加速度分ずつ変化し、その速度分位置が変化します。
+<pre class="reiji">
+ s = s + a;  // 速度を変化
+ x = x + s;  // 位置を変化
+</pre>
+円が右端まで移動してきた時、位置を左壁の外側(半径d/2分左)にするとともに、速度を初期値に設定しなおしています。
+<pre class="reiji">
+ if (x>=width+d/2) {
+    x=-d/2;
+    s=init; //速度を初期値に戻す
+ }
+</pre>
+初期値は今、0なので、s=0;と書いても同じですが、
+初期速度を入れる変数initを定義し、先頭部分で値を代入しています。このように変数を使うと、見通しのいい、変更しやすいプログラムを書くことができます。
+<br><br>
+<div class="rightSide">
+	<canvas id="Straight4"
+       data-processing-sources="./MotionPDE/oneDirection/Straight4.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Straight4】
+float init = 0; //移動速度の初期値
+float s = init; // 移動速度
+float a = 0.1; // 加速
+float x; // 位置(x座標)
+float d = 10; // 円の直径
+
+void setup() {
+   size(150, 150);
+   fill(0);
+}
+
+void draw() { 
+  background(255);   //画面背景を白でクリア
+  s = s + a;  // 速度を変化
+  x = x + s;  // 位置を変化
+  if (x>=width+d/2) {
+    x=-d/2;
+    s=init; //速度を初期値に戻す
+  }
+  ellipse(x, height/2, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

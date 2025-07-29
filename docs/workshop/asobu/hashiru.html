@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>hashire hashire</title>
+<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<style>
+ h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: #fff #fff #66c #66c;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 50px;
+       font-size: medium;
+ }
+.spanstyle {
+	position:absolute;
+	top:-50px;
+	font-size:10pt;
+	font-family:osaka,serif;
+        font-weight:bold;
+}
+</style>
+
+</head>
+<body onload="calcPos()">
+<h1>マウスについて人が走る</h1>
+
+<script type="text/javascript">
+<!--
+var x,y;
+var step=30;
+var flag=0;
+
+var len= 20;
+var img=new Array();
+for (i=1;i<=4;i++) {  //4つの画像ファイル
+	img[i-1]= "hito/hashiru" + i + ".gif";
+}
+
+var xpos=new Array();
+var ypos=new Array();
+for (i=0;i<len-1;i++) {  //位置情報の初期化
+	xpos[i]=-50;   //隠れたところからでてくる感じ
+	ypos[i]=-50;
+}
+
+function mouseHandle(e){
+// NNは、ページ内のマウス位置の座標をEventオブジェクトeのpageX,pageYで参照
+// IEは、ページに対するマウスの相対座標をclientX,clientYで参照
+//       scrollLeft, scrollTopはスクロール後可視ページオフセット位置
+	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
+	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
+	flag=1
+}
+
+function calcPos() {
+    if(flag ==1){
+    	for (i=len-1; i>=1; i--) {
+ 	    	xpos[i]=xpos[i-1]+step;
+		    ypos[i]=ypos[i-1];
+        }
+	xpos[0]=x+step;
+	ypos[0]=y;
+	
+	if (document.all) {  /* IE */
+	  for (i=0; i<len-1; i++) {
+    		var thisspan = eval("span" + i + ".style");  //ex. span1.style
+    		thisspan.left=xpos[i];
+		thisspan.top=ypos[i];
+          }
+	 }  else if (document.layers) {  /* NN4 */
+	  for (i=0; i<len-1; i++) {
+    		var thisspan = eval("document.span"+i);
+    		thisspan.left=xpos[i];
+		thisspan.top=ypos[i];
+    	   }
+	 } else if (document.getElementById) {  /* NN6 */
+	  for (i=0; i<len-1; i++) {
+            var str ="document.getElementById('span";
+    	    var thisspan =// eval(str + i + "').style");
+            eval("document.getElementById('span" + i + "').style");
+    	    thisspan.left=xpos[i];
+	    thisspan.top=ypos[i];
+    	  }
+	}
+    }    
+    var timer=setTimeout("calcPos()",30);
+}
+
+
+for(i=0; i<len-1; i++){
+   document.write("<span id='span"+i+"', class='spanstyle'>");
+   document.write("<img src='" + img[i%4] + "'>");
+   document.write("</span>");
+} 
+
+//NN：MOUSEMOVEイベントが起きたら、documentオブジェクトに伝える
+if(document.layers){
+    document.captureEvents(Event.MOUSEMOVE);
+}
+document.onmousemove=mouseHandle;
+//-->
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="ProgGeneral.html"> 基本要素トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> プログラムの処理の流れの制御</h1>
+
+<div class="menu">
+| &nbsp;
+<a href="#ifelse">if-else文</a> &nbsp;| &nbsp;
+<a href="#kankei">関係演算子</a> &nbsp;| &nbsp;
+<a href="#ronri">論理演算子</a> &nbsp;| &nbsp;
+<a href="#for">for文</a> &nbsp;| &nbsp;
+<a href="#while">while文</a> &nbsp;| &nbsp;
+</div>
+
+<h2 id="ifelse">条件分岐:if-else文</h2>
+ 
+if-else文は、条件に従って処理を選択的に実行する場合に使います。<br>
+条件は、
+<strong>関係演算子</strong>・<strong>論理演算子</strong>
+を使った式、式の値が真trueまたは偽falseとなる式を書きます。<br><br>
+<table>
+<tr><td valign="top">
+◆書き方１<br><br>
+<pre class="reiji">
+if (条件式){&nbsp;&nbsp;
+  文;
+  文;
+}
+</pre></td><td valign="top">
+◆書き方２<br><br>
+<pre class="reiji">
+if (条件式){&nbsp;&nbsp;
+  文;
+  文;
+} else {
+  文;
+  文;
+}
+</pre></td><td valign="top">
+◆書き方３<br><br>
+<pre class="reiji">
+if (条件式1){
+  文1;
+} else if (条件式2){&nbsp;&nbsp;
+  文2
+} else if (条件式3){&nbsp;&nbsp;
+  文3;
+}
+……
+} else {
+  文n;
+}
+</pre></td>
+</tr>
+</table>
+
+ 
+【書き方１】<br>
+ifに続く( )の中の条件式の値が真（true）ならば、後ろのブロック(中括弧｛　｝で囲まれた部分)内の文を実行します。条件式の値が僞(false)の場合は、if文の次の処理に移ります。
+<br><br>
+【書き方２】<br>
+ifの条件式の値が偽の場合の処理は、else文を使って記述します。
+<br><br>
+【書き方３】<br>
+処理を3つ以上に分岐する時は、else if文を組み合わせます。条件式1が真の場合文1を実行し、僞の場合条件式2の判定をします。条件式2が真なら文2を実行し、僞の場合は条件式3の判定に移ります。このように指定された条件式を次々と判定していき、そのどれも真ではない場合最後のelseで指定された文nを実行します。 
+<br><br>
+
+<h2 id="kankei">関係演算子</h2>
+関係演算子は、2つの値を比較して、その間の関係を調べ、その結果がtrueかfalseとなる演算子です。<br>trueは真を、falseは偽を表す特別なデータ型で
+<strong>boolean</strong>と呼ばれます。
+関係演算子を使った演算は、分岐や繰り返し制御を行う際の条件に使われます。 
+<br>
+
+<table>
+<tr><td>演算子&nbsp;&nbsp;</td><td> 使い方&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>結果がtrueとなる条件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>&gt; </td><td>op1 &gt; op2</td><td>op1がop2より大きい時</td></tr>
+<tr><td>&gt;= </td><td>op1 &gt;= op2</td><td>op1がop2以上の時</td></tr>
+<tr><td>&lt; </td><td>op1 &lt; op2</td><td>op1がop2より小さい時</td></tr>
+<tr><td>&lt;= </td><td>op1 &lt;= op2</td><td>op1がop2以下の時</td></tr>
+<tr><td>== </td><td>op1 == op2</td><td>op1がop2と等しい時</td></tr>
+<tr><td>!= </td><td>op1 != op2</td><td>op1がop2と等しくない時</td></tr>
+<tr><td>&amp;&amp; </td><td>op1 &amp;&amp; op2</td><td>op1とop2の両方がtrueの時。「かつ」に相当。</td></tr>
+<tr><td>|| </td><td>op1 || op2</td><td>op1とop2のどちらかがtrueの時。「または」に相当する 。</td></tr>
+</table>
+<p class="clear"> </p>
+下の例は、変数aの値が10以上なら赤色で、そうでないなら黒色で円を描きます。
+（変数aには、マウスのx座標を位置を代入しておきます。）
+<pre class="reiji">
+int a = mouseX;
+if(a &gt;= 10){
+    fill(255,0,0);
+}else {
+    fill(0);
+}
+ellipse(width/2, y, 20, 20);
+</pre>
+<p class="clear"> </p>
+<br>
+<h2 id="ronri">論理演算子</h2>
+
+  関係演算子は2つの値の関係を調べる演算子ですが、1つの関係だけでなく、複数の関係から真偽値を得たい場合に、論理演算子 && あるいは || を使います。
+<br>
+例えば、「xがyより大きく、かつaがbと等しい場合」といった条件を調べたい時には、論理演算子を使って2つの関係演算をつなぎ、次のように書きます「x>y && a==b」。<br>
+
+<table>
+<tr><td>&amp;&amp;&nbsp;&nbsp;&nbsp; </td><td>op1 &amp;&amp; op2 &nbsp;&nbsp;&nbsp;</td><td>op1とop2の両方がtrueの時。「かつ(AND)」に相当。&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>|| </td><td>op1 || op2</td><td>op1とop2のどちらかがtrueの時。「または(OR)」に相当。</td></tr>
+<tr><td>! </td><td> !op </td><td>opがtrueの時false,opがfalseの時trueになる。「否定(NOT)」に相当。</td></tr>
+</table>
+<p class="clear"> </p>
+
+
+下の例は、変数aの値が0以上100以下なら円を、100より大きく200以下なら四角形を、そうでないなら、三角形を描きます。
+<pre class="code">
+int a = mouseX；
+if(a &gt;= 0 && a &lt;= 100){　　//aが0以上100以下かどうかを調べ、trueなら次を実行
+    ellipse(50, 50, 100, 100);
+}else if(a&gt;100 && a&lt;=200){　 //aが100より大きく200以下かどうかを調べ、trueなら次を実行
+    rect(50, 50, 100, 100);
+}else {　　　//上の条件のいずれでもない時は、次を実行
+    triangle(30, 75, 58, 20, 86, 75)；
+}
+</pre>
+
+
+<h2 id="for">繰返し：for文 </h2>
+条件が満たされている間、ある処理を繰返し実行したいときに使います。<br><br>
+<div class="leftSide">
+<img src="./images/forSetsumei.png"  alt="for説明"></div>
+<table>
+<tr><td>
+<pre class="reiji">
+for ( 初期化式; 繰返し条件式; 更新式 ) { 
+
+   繰返す文;
+
+}   </pre>
+</td></tr></table>
+
+
+初期化式はその名の通り初期設定で、繰返しを始める前に1回実行されます。繰返し条件式は繰返しを続ける条件で、式の値がtrueであれば、ブロック(中括弧｛　｝で囲まれた部分)の中の処理を実行し、終るとループの更新式を実行します。次に条件式の値を調べ、その値がtrueならブロック内を実行し・・・と繰返し、条件式の値がfalseになった時、繰返しをやめます。 
+繰返し条件式には、式の値がtrueまたはflaseである式を記述します。 
+<p class="clear"> </p>
+<div class="leftSide">
+<img src="./images/forSample.jpg" width="150px" alt="forサンプル実行画面"> </div>
+「5個の正方形を横に並べて描く」処理をfor文を使って書くと、下のようになります。iの値を0から始め、正方形をひとつ描くごとにiに1ずつ加え、iが5になった時、i&lt;5の式の値がfalseになり、繰返しを終えます。最初の正方形の座標は(30＋0, 50)で、順にx座標が40ずつ増え、5個の正方形が横に並びます。
+<p class="clear"> </p>
+<pre class="code">
+int a = 30;
+for(int i=0; i&lt;5; i=i+1){
+   rect(a+i*40, 50, 30, 30);
+}
+</pre>
+i=i+1は、算術演算子++を使って、i++と書いても同じです。
+
+
+<h2 id="while">繰返し：while文 </h2>
+条件が満たされている間、ある処理を繰返し実行します。 <br><br>
+<table>
+<tr><td>
+<pre class="reiji">
+while (条件式){  
+    文;
+    文;
+
+
+}   </pre>
+</td></tr></table>
+
+whileに続く( )の中の式は繰返しを続ける条件で、while文ではまずこの式を判定します。式の値がtrueならブロックの中の文を実行し、再び条件式を判定します。これを繰り返し、条件式の値がfalseになった時繰返しをやめます。 
+条件の式の部分には、その値がtrueまたはfalseである式を記述します。<br>
+<p class="clear"> </p>
+例えば、for文のサンプルと同じ「5個の正方形を横に並べて描く」処理をwhileを使って書くと、次のようになります。
+
+<pre class="code">
+int a = 30;
+int i=0;
+while(i<5){
+   rect(a+i*40, 50, 30, 30);
+   i= i+1;
+}
+</pre>
+
+繰返しの条件式に直接trueを指定すると、無条件に繰り返すことを意味します(これを無限ループと言います)。無限ループを使う場合は、ブロックの中で、if文で条件判定をし、何らかの条件が満たされたらループから抜けるようにします。ループから抜けるにはbreak();と書きます。
+<br>
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

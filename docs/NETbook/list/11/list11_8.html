@@ -1,0 +1,45 @@
+<html>
+<head>
+<meta charset="UTF-8"> 
+<title>Sakura Lovers</title>
+
+<script>
+<!--
+   function check(){
+     let count = 0;
+     for(i=0; i<5; i++){
+       if(document.sentaku.sel[i].checked){
+          count = count + 1;
+       }
+     }
+     if(count==0) { hantei ="桜度0%";}
+     else if (count==1) { hantei ="桜度20%";}
+     else if (count==2) { hantei ="桜度40%";}
+     else if (count==3) { hantei ="桜度60%";}
+     else if (count==4) { hantei ="桜度80%";}
+     else if (count==5) { hantei ="桜度100%";}
+     document.getElementById("kekka").innerHTML = hantei;
+   }
+//-->
+</script>
+
+</head>
+<body>
+
+<h1>あなたの「桜度」</h1>
+
+<hr>
+<form name="sentaku">
+<p>あなたの知っている桜をチェック…<br>
+<input type="checkbox" name="sel">山桜
+<input type="checkbox" name="sel">八重桜
+<input type="checkbox" name="sel">染井吉野
+<input type="checkbox" name="sel">枝垂桜
+<input type="checkbox" name="sel">寒桜 
+</p>
+<input type="button" value="判定" onclick="check()"><br><br>
+あなたは………： <span id="kekka"> 桜度</span>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang=ja"><head><title>Functions for Typography</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="PFuncGeneral.html"> 基本関数に戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1>タイポグラフィ</h1>
+
+文字(テキスト)を画面ウィンドウに表示するには、text()関数を使いますが、その前に次のどちらかの方法で、フォントデータオブジェクト(PFont)を作っておく必要があります。<br><br>
+【1】Processingのフォントフォーマット(vlm形式)を付属ツールで作る方法
+<ul>
+<li>(i)フォントデータファイルを作成(メニューのTools→Create Fontを使う)</li>
+<li>(ii)フォントデータファイルの読み込み、PFontを作る(loadFont()関数を使う)</li>
+<li>(iii)上で作ったPFontを設定(textFont()関数を使う)</li>
+</ul>
+
+<br>
+【2】True Type Font(ttf形式)またはOpen Type Font(otf形式)のフォントファイルからPFontを作る方法
+<ul>
+<li>(i)フォント名を指定してPFontを作る(createFont()関数を使う)</li>
+<li>(ii)上で作ったPFontを設定(textFont()関数を使う)</li>
+</ul>
+
+
+<h2 id="fontcreate">【1】の(i) フォントデータファイルの準備</h2>
+文字を表示する前に、次のようにフォントのデータを作成します。<br>
+
+<div class="leftSide">
+<img src="./images/createFont.png" alt="フォント作成画面" width="300px"></div>
+ProcessingのメニューのTools→Create Fontを選択すると、Create Fontウィンドウが現れます。メニューからフォントファミリーを指定し、サイズを入力、OKボタンを押すと、Filenameの欄に表示された名前のファイル(フォントデータファイル)が自動的に生成されます。<br><br>
+このファイルは、Processingで今開いているプログラムのあるフォルダ(スケッチフォルダ)の中の、<strong>dataフォルダ</strong>の中に生成されます。
+ProcessingメニューのSketch→Show Sketch Folderを選択すると、現在のプログラムのフォルダが開くので、確認できます。<br>
+
+
+
+<p class="clear"> </p>  <!-- 画像の後の左への回り込み解除-->
+
+<h2 id="fontread">【1】の(ii)と(iii) フォントデータファイルを読み込み、設定</h2>
+dataフォルダーに作成されたフォントデータファイルを読み込んで、設定します。
+
+<ul>
+<li>・loadFont()関数を使って、PFontを作る。</li>
+<li>・textFont()関数を使って、上で読み込んだフォントデータを設定。</li>
+</ul>
+
+loadFont()関数の戻り値はPFontクラスのオブジェクトです。<br>
+
+PFontは、Processingがフォントデータを保存するためのクラスです。クラスについては<a href="ProgClassObj.html" target = "other">「クラスとオブジェクト」</a>に説明がありますが、ここではプログラムの部品と考えてください。<br><br>
+
+textFont()関数の引数には、loadFont()関数が生成したPFontオブジェクトを指定します。
+<pre class="reiji">
+【例】textFont(loadFont("Arial-BoldMT-30.vlw")); 
+</pre>
+"Arial-BoldMT-30.vlw"は、Create Fontツールを使ってdataフォルダに作られたファイル名です。<br><br>
+
+フォントを変更することがなければ、上のように書いてもいいですが、フォントを複数用意しておいて、切り替えて使うような場合は、loadFont()関数が生成するPFontオブジェクトを、いったん変数に保存しておき、それをtextFont()関数の引数に指定します。変数の指定は、通常setup()関数の前に記述し、どの関数にも見える(有効な)ようにします。<br>
+
+<pre class="reiji">
+【例】PFont myFont;  //データ型PFontの変数myFontを宣言
+</pre>
+ 
+そして、setup()関数の中で、PFontオブジェクト生成と、設定を行います。
+<pre class="reiji">
+【例】myFont = loadFont("Arial-BoldMT-30.vlw");
+     textFont(myFont);
+</pre>
+loadFont()関数は、draw()の中で呼出してはいけません。
+
+
+<h2 id="createFont">【2】の(i)と(ii) フォントデータファイルの変換、設定</h2>
+
+スケッチフォルダの中の、dataフォルダの中にあるTrue Type Font(ttf形式)またはOpen Type Font(otf形式)のファイルを、Processing用のフォントデータに変換します。もし、dataフォルダにフォントファイルがなければ、コンピュータ(のどこか)にインストールされているttfあるいはotfファイルを探します。
+<ul>
+<li>・createFont()関数を使って、PFontを作る。</li>
+<li>・textFont()関数を使って、上で読み込んだフォントデータを設定。</li>
+</ul>
+createFont()関数のひとつめの引数は、フォント名を文字列で指定します。2つ目の引数はフォントサイズ(ポイント)です。
+<pre class="reiji">
+【例】myFont = createFont("Arial", 14);
+     textFont(myFont);
+</pre>
+
+コンピュータで使用可能なフォントの名前を知るには、次の2行を例えばsetup()関数の中に入れて、実行します。フォントの一覧がコンソールに表示されますので、そこにあるフォントの名前を使います。
+<pre class="reiji">
+  String[] fontList = PFont.list();
+  println(fontList);
+</pre>
+
+<h2 id="fontdisplay">文字の表示</h2>
+フォントが設定された後は、<strong>text()</strong>関数で文字を表示できます。
+<pre class="reiji">
+ text( "表示する文字列", x座標, y座標) 【例】 text(10, 20, 100);
+ text( '表示する文字列' x座標, y座標)  【例】 text('a', 20, 120);
+ text( 数字, x座標, y座標)            【例】 text("mojimoji", 20, 140);
+</pre>
+x座標とy座標の値は、デフォルトでは、文字列左下角の位置を表します。
+これは<strong>textAlign()</strong>関数を使って変更できます。
+
+<pre class="reiji">
+ textAlign(alignX) 
+ textAlign(alignX, alignY)
+</pre> 
+ alignXは、水平方向の位置の指定で、LEFT, CENTER, RIGHTのいずれか<br>
+ alignYは、垂直方向の位置の指定で、TOP, BOTTOM, CENTER, BASELINEのいずれか
+<br><br>
+また、文字の描画色は<strong>fill()</strong>関数で変更します。<br><br>
+
+次の例は、マウスの位置に描いた円の、中央の座標を表示しています。表示する文字列はマウスの位置によって、動的に変化します。
+
+<div class="rightSide">
+<img src="images/PFuncFont.png" alt="文字の表示"  width ="150" />
+</div>
+<pre class="code">
+【リスト 文字の表示】
+void setup() {
+  size(250, 250);
+  textFont(loadFont("Arial-BoldMT-30.vlw")); 
+  fill(255);
+} 
+void draw() {
+   background(0);
+   ellipse(mouseX, mouseY, 10, 10);
+   text("(" + mouseX + "," + mouseY + ")", mouseX + 10, mouseY); 
+}
+</pre>
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

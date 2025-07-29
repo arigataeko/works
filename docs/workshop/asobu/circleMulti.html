@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for circle</title>
+<script type="text/javascript">
+
+  var r=100;                //円の半径
+  var x=200;                //円の中心ｘ座標
+  var y=200;                //円の中心ｙ座標
+  var dr=4 * Math.PI/180;   //4度ずつ動かす
+  var obj;                  //文字要素のオブジェクトが入る配列
+  var angle;                //文字の円周上の位置が入る配列 
+ 
+  function initialize(){
+      browser = navigator.appName;
+      version = parseInt(navigator.appVersion);
+      obj = new Array();
+
+      if(browser=="Netscape") { 
+        if(version>=5){
+           obj[0] = document.getElementById("word0").style;
+           obj[1] = document.getElementById("word1").style;
+           obj[2] = document.getElementById("word2").style;
+           obj[3] = document.getElementById("word3").style;
+           obj[4] = document.getElementById("word4").style;
+        }else {
+           obj[0] = document.word0;
+           obj[1] = document.word1;
+           obj[2] = document.word2;
+           obj[3] = document.word3;
+           obj[4] = document.word4;
+        }
+      }else{
+        obj[0] = document.all.word0.style;
+        obj[1] = document.all.word1.style;
+        obj[2] = document.all.word2.style;
+        obj[3] = document.all.word3.style;
+        obj[4] = document.all.word4.style;
+      }
+
+      angle = new Array();
+      angle[0]= 0;
+      for(i=1; i<obj.length; i++){
+         angle[i] = angle[i-1]+ 2*Math.PI/obj.length;
+      }
+      rotateObj();
+  }
+  
+  function rotateObj(){
+      for(i=0; i<obj.length; i++){
+          angle[i] = angle[i] - dr;
+          obj[i].left = r*Math.cos(angle[i]) + x;
+          obj[i].top = r*Math.sin(angle[i]) + y;
+      }
+      setTimeout("rotateObj()", 100);
+  }
+
+</script>
+<style type="text/css">
+   .special {
+       position:absolute;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+</style>
+</head>
+<body onload ="initialize();">
+
+<h1>文字が円周に沿って移動</h1><br><br>
+
+<div class="special" id="word0">山</div>
+<div class="special" id="word1">青</div>
+<div class="special" id="word2">花</div>
+<div class="special" id="word3">欲</div>
+<div class="special" id="word4">燃</div>
+</body> 
+</html>

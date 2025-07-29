@@ -1,0 +1,51 @@
+   a:link{
+     color:#00f;
+   }
+   a:visited {
+     color:#33f;
+   }
+   .zentai{
+       margin: 25px 10px 0 25px;
+   }
+   P.waku {
+       margin: 10px 5% 10px 5%;
+       border-style:solid;
+       border-color: #66c;
+       border-width: 1px;
+       padding: 10px 10px 10px 10px;
+       font-size: small;
+       font-family: arial;
+    }
+   .size1 {font-size:9pt;}
+   .size2 {font-size:18pt;font-weight:bold;}
+   h1 {
+       border-style: solid;
+       border-width: 0 0 2px 50px;
+       border-color: #fff #fff #66c #66c;
+       padding: 20px 0 50px 5px;
+       font-size: large;
+   }
+   h2 {
+       margin: 30px 0 10px 0;
+       border-style: solid;
+       border-width: 0 0 0 20px ;
+       border-color: #fff #fff #fff #66c;
+       padding: 0 0 0 5px;
+       font-size: medium;
+   }
+   h3 {
+       margin: 20px 0 5px 0;
+       font-size: medium;
+   }
+   ul {
+       margin-left:5%;
+       margin-top: 5px;
+       font-size: small;
+   }
+   ol {
+       margin-left:5%;
+       margin-top: 5px;
+       font-size: small;
+   }
+
+

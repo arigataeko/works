@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<title>Script for create contents</title>
+<style type="text/css">
+  <!--
+   h1 {
+       border-style: solid;
+       border-width: 0 0 2px 30px;
+       border-color: #fff #fff #66c #66c;
+       padding: 10px 0 10px 5px;
+       margin-bottom: 50px;
+       font-size: medium;
+   }
+   .special {
+       position:absolute;
+       font-size:32pt;
+       font-weight:bold;
+       font-family:serif;
+   }
+    -->
+</style>
+<script type="text/javascript">
+<!--
+  var m=200;  //波全体の下への移動幅
+  var h=100;  //波の高さ
+  var rad=Math.PI/180;  //1度のラジアン単位の値
+  var x=0; //文字の位置
+
+  function initialize(){
+   browser = navigator.appName;
+   version = parseInt(navigator.appVersion);
+
+   if(browser=="Netscape"){
+     if(version>=5) {moji = document.getElementById("msg").style; }
+     else {   moji = document.msg;  }
+   }else{
+      moji = document.all.msg.style;
+   }
+   wave();   
+  }
+
+  function wave(){
+      moji.left = x;
+      moji.top = m - Math.sin(x*rad)*h;
+      if (x>=720) x=0;
+      else x += 20;
+      setTimeout("wave()", 200);
+  }
+//-->
+</script>
+</head>
+<body onload="initialize()">
+<h1>文字が波乗り </h1>
+
+<span class="special" id="msg">京</span>
+</body> </html>

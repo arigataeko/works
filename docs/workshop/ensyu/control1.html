@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Script for changing image by random</title>
+<style type="text/css">
+  <!--
+   img {
+     margin: 20;
+     vertical-align: middle;
+   }
+    -->
+</style>
+</head>
+
+<body>
+<h1>ランダムな画像の変化</h1>
+
+<img name="photo" alt="Image Photo" width=120 height=90>
+左の画像は，表示時にランダムに決められます。
+
+
+<script type="text/javascript">
+<!--
+   r = Math.floor(Math.random()*3);
+   switch(r){
+     case 0:  document.photo.src ="./image/yoru.jpg";
+              break;
+     case 1:  document.photo.src ="./image/yugata.jpg";
+              break;
+     case 2:  document.photo.src ="./image/hiru.jpg";
+              break;
+   }
+//-->
+</script>
+</body> 
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Advance Sketch - Interact with face</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="PAdvance.html#list"> 少し進んだスケッチのトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> ポーズとインタラクションする（PoseNet）</h1>
+カメラがとらえた画像から身体を検知し、目や腕、足の位置などにインタラクティブに応答するProcessingスケッチを作成します。ここでは、機械学習を使った身体のモーションキャプチャシステムのPoseNetを使います。
+
+<h2 id="Runway">RunwayML</h2>
+PoseNetは<a href="https://runwayml.com/">RunwayML</a>が学習済みモデルを提供しています。<br>
+RunwayMLは機械学習システムを自分のプログラムから容易に使えるように、操作のためのインターフェイスと計算量の多い機械学習システムを実行するコンピュータGPU（Graphics Processing Unit）を提供しているプロジェクトです。画像合成、物体検知、テキスト合成などさまざまな学習済みモデルが利用できます。<br>
+RunwayMLを介して、ローカル（自分のコンピュータ上）で機械学習システムを実行するのは無料ですが、RunwayMLが提供するGPUを使う場合は、GPU Creditが必要。Creditは買う必要があり、1分あたり5セント(US)。
+<br><br>
+次のようにRunwayMLからPoseNetを使う準備をします。
+<ul>
+
+<li>(1) <a href="https://runwayml.com">Runwayサイト</a>からサインアップし、ログインする。<br>
+  RunwayMLアプリを<a href="https://learn.runwayml.com/#/">ダウンロード</a>するか、あるいはWebブラウザ上で利用することもできる。アプリを使うと機械学習システムの実行をローカルのCPUを使って行え、この場合Creditは不要です(リモートGPUしか使えない機械学習モデルもある)。
+
+
+  </li>
+<li>(2) <div class="rightSide"  style="margin-top:5px"><img src="images/Adv5_1Select.png" alt="Runway" width="400" ></div>
+  ModelからPoseNetを選択する。
+    <p class="clear"> </p>
+</li>
+<li>(3)<div class="rightSide" style="margin-top:5px"><img src="images/Adv5_2Create.png" alt="Runway" width="400" ></div>
+  新しくワークスペースを作る。New create workspace and add PoseNetのダイアログで、ワークスペースの名前を入力。
+    <p class="clear"> </p>
+</li>
+<li>(4) <div class="rightSide" style="margin-top:5px"><img src="images/Adv5_3Camera.png" alt="Runway" width="400" ></div>
+  InputでCameraあるいはFileを選択。
+    <p class="clear"> </p>
+</li>
+<li>(5) Interfaceタブでキャプチャの詳細を設定する。<br><br></li>
+<li>(6)  <div class="rightSide" style="margin-top:5px"><img src="images/Adv5_4PoseNetApp.png" alt="Runway" width="400" ></div>
+  Networkタブで、OSCを選択し、Run LocallyあるいはRun Modelボタンをクリックする。
+    <p class="clear"> </p>
+</li>
+</ul>
+
+<h2 id="posenet">PoseNet</h2>
+
+PoseNetは17のキーポイントを検出し、その結果をposes配列(JSONArray)に入れて送信します。
+<br>
+その構造は次の通りです。
+<pre class="reiji">
+  "scores": 精度の平均
+  "poses": 配列 [pose, pose, pose, …]
+　　              └─keypointsの配列　[keypoint, keypoint, keypoint, …]
+                                      └─位置情報 [x位置, y位置]
+</pre>
+
+keypoints配列のインデックスと部位の名前は次の通りです。
+<ul>
+  <li>0: nose</li>
+<li>1: leftEye</li><li>2: rightEye</li>
+<li>3: leftEar</li><li>4: rightEar</li>
+<li>7: leftElbow</li><li>8: rightElbow</li>
+<li>9: leftWrist</li><li>10: rightWrist</li>
+<li>11: leftHip</li><li>12: rightHip</li>
+<li>13: leftKnee</li><li>14: rightKnee</li>
+<li>15: leftAnkle</li><li>16 rightAnkle
+</ul>
+  <p class="clear"> </p>
+
+<h2 id="poseSample">PoseNetからの情報を使うサンプル</h2>
+Processingのスケッチで、PoseNetからOSCを介してデータを受け取り、処理をするには次のようにします。
+<ul>
+<li>(1) OSCとnetライブラリのインポート
+  <pre class="reiji">
+import oscP5.*;
+import netP5.*;
+</pre></li>
+<li>(2) OscP5オブジェクト用変数の定義　<pre class="reiji">OscP5 oscP5;</pre></li>
+<li>(3) NetAddressオブジェクト用変数の定義　
+  <pre class="reiji">NetAddress myBroadcast;</pre></li>
+
+<li>(4) OSC受信データ中継のためのプロパティOscPropertiesオブジェクトを生成し、値を設定（setup()の中）
+<pre class="reiji">
+OscProperties properties = new OscProperties();
+properties.setRemoteAddress("127.0.0.1", 57200); //PoseNetから受信するホストとIP
+properties.setListeningPort(57200);   //PoseNetからのデータを受けるポート
+properties.setDatagramSize(99999999); //データバッファのパケットサイズを大きく
+properties.setSRSP(OscProperties.ON);//送信と受信のポート番号を同じにする
+</pre></li>
+<li>(5) 引数にプロパティを指定して、OscP5オブジェクトを生成（setup()の中）
+  <pre class="reiji">oscP5 = new OscP5(this, properties);
+</pre></li>
+<li>(6) NetAddressオブジェクトを生成。引数にPoseNetが動いているホストIPアドレス（ローカルホストなので"127.0.0.1"）とポート番号57100を指定（setup()の中）
+    <pre class="reiji">myBroadcast = new NetAddress("127.0.0.1",　57100);</pre></li>
+<li>(7) connectメソッドを定義<br>
+  <pre class="reiji">void connect() {
+    OscMessage m = new OscMessage("/server/connect");
+    oscP5.send(m, myBroadcast);
+  }</pre></li>
+
+<li>(8) disconnectメソッドを定義<br>
+    <pre class="reiji">void disconnect() {
+      OscMessage m = new OscMessage("/server/disconnect");
+      oscP5.send(m, myBroadcast);
+    }</pre></li>
+<li>(9) connectメソッドを実行（setup()の中）
+      <pre class="reiji">connect(); //PoseNetと接続
+    </pre></li>
+<li>(10) OSCメッセージを受け取ると呼び出されるoscEventメソッドを定義する。引数のデータ型はOscMessageで、受信データのアドレスパターンが"/data"であれば、引数データの先頭を取出し(get(0))、文字列に変換する。文字列はJSON形式なので、parseJSONObject関数で解析し、JSONObject型のデータに変換し、変数dataに入れている。draw関数内でこのdataからキーポイントの位置情報を取り出して使う。
+
+  <pre class="reiji">JSONObject data;
+void oscEvent(OscMessage message) {  //OSCからデータが来ると実行される
+    if (!message.addrPattern().equals("/data")) return;
+    String dataString = message.get(0).stringValue(); //JSON形式の文字列
+    data = parseJSONObject(dataString);  //JSONObjectへ変換
+  }
+  </pre></li>
+</ul>
+
+リストA5_1は、ポーズを検知し、目、鼻、手首の位置情報使って鼻、目、手首の位置を描くスケッチです。スケッチを実行する前に、Runwayアプリを実行、あるいはRunwayのWeb版を起動後、PoseNetをモデルとしたワークスペースで、モデルを実行します。
+<div class="rightSide">
+<img src="images/Adv5_eyeNoseWrist.png" alt="PoseNetSketch" height="150">
+</div>
+<pre class="code">
+【リストA5-1】
+import processing.video.*; //カメラ画像を表示する場合
+import oscP5.*;  //(1)
+import netP5.*;  //(1)
+
+String runwayHost = "127.0.0.1";
+int runwayPort = 57100; //PoseNetのデータ送信ポート
+OscP5 oscP5;            //(2)
+NetAddress myBroadcast; //(3)
+JSONObject data;
+Capture cam;  //カメラ画像を表示する場合
+
+void setup() {
+  size(640, 480);
+  OscProperties properties = new OscProperties();  //(4)
+  properties.setRemoteAddress(runwayHost, 57200); //PoseNetが動くホストのIP
+  properties.setListeningPort(57200);   //PoseNetからのデータを受けるポート
+  properties.setDatagramSize(99999999); //データバッファのパケットサイズを大きく
+  properties.setSRSP(OscProperties.ON); //送信と受信のポート番号を同じにする
+  oscP5 = new OscP5(this, properties);  //(5)ポート57200で聞く
+  myBroadcast = new NetAddress(runwayHost, runwayPort);//(6)PoseNetホスト
+  connect();  //(9)PoseNetと接続
+  cam = new Capture(this, 640, 480);  //カメラ画像を表示する場合
+  cam.start();                        //カメラ画像を表示する場合
+}
+
+void draw() {
+  if (cam.available() == true) {      //カメラ画像を表示する場合
+    cam.read();
+  }
+  image(cam, 0, 0, width, height);
+  if (data != null) {
+    JSONArray poses = data.getJSONArray("poses");
+    if (poses.size()>0) {
+      JSONArray human = poses.getJSONArray(0); //配列posesの先頭要素（ひとりめ）
+      JSONArray nose = human.getJSONArray(0);  //先頭は鼻
+      float x = nose.getFloat(0);
+      float y = nose.getFloat(1);
+      JSONArray eyeL = human.getJSONArray(1); //左目
+      JSONArray eyeR = human.getJSONArray(2); //右目
+      //両目の間隔で鼻に描く円の大きさを変える
+      float d = dist(eyeL.getFloat(0), eyeL.getFloat(1),
+                     eyeR.getFloat(0), eyeR.getFloat(1));
+      fill(255, 0, 0);
+      ellipse(x*width, y*height, d*width, d*width);
+
+      x = eyeL.getFloat(0);  //左目
+      y = eyeL.getFloat(1);
+      fill(255);
+      ellipse(x*width, y*height, 25, 25);
+      fill(0);
+      ellipse(x*width, y*height, 10, 10);
+      x = eyeR.getFloat(0);  //右目
+      y = eyeR.getFloat(1);
+      fill(255);
+      ellipse(x*width, y*height, 25, 25);
+      fill(0);
+      ellipse(x*width, y*height, 10, 10);
+      //手首
+      fill(255, 255, 0);
+      ellipse(human.getJSONArray(9).getFloat(0)*width,
+              human.getJSONArray(9).getFloat(1)*height, 25, 25);
+      ellipse(human.getJSONArray(10).getFloat(0)*width,
+              human.getJSONArray(10).getFloat(1)*height, 25, 25);
+    }
+  } else {
+    println("data is null");
+  }
+}
+void oscEvent(OscMessage message) {  //(10)OSCからデータが来ると実行される
+  if (!message.addrPattern().equals("/data")) return;
+  String dataString = message.get(0).stringValue(); //JSON形式の文字列
+  data = parseJSONObject(dataString);
+  println(data);
+  println("/////////////////////////////");
+}
+void connect() {  //(7) connectメソッドを定義
+  OscMessage m = new OscMessage("/server/connect");
+  oscP5.send(m, myBroadcast);
+}
+void disconnect() {  //(8) disconnectメソッドを定義
+  OscMessage m = new OscMessage("/server/disconnect");
+  oscP5.send(m, myBroadcast);
+}
+</pre>
+<p class="clear"> </p>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+<div class="leftSide"><img src="images/ExerA5_1.png" alt="ポーズ" width="300" ></div>
+【問題A5-1】リストA5_1を変更して、複数の人のポーズを検知したら、その人数だけ、目、鼻、手首が描かれるようにしてみよう。
+<p class="clear"> </p>
+<br><br>
+<div class="leftSide"><img src="images/ExerA5_2.png" alt="ポーズ" width="300"></div>
+【問題A5-2】
+Processingサンプルの[Topics][Simulate]のSimpleParticleSystemのParticle.pdeとParticleSystem.pdeを使い、手首の位置から噴水のように粒子が噴き出すスケッチを作ってみよう。<br>
+<p class="clear"> </p>
+
+
+
+</div>
+<div class="copy">
+arigat アットマーク acm.org /
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

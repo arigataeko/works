@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="TrailGeneral.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 音に反応する</h1>
+コンピュータに内蔵のあるいは、接続されたマイクから音を入力し、それに応答するようなプログラムを作ります。MinimライブラリのAudioInputクラスを使います。
+
+
+<h2 id="respond1">音の大きさを円の直径に使う</h2>
+<a href="./Trail11/Trail11Sound.html#play" target="other">リスト11_1</a>は、音声ファイルの音量に応じて、円の大きさが変わりました。これをマイクからの入力音に反応するように変更したのが、リスト12_1です。<br>
+
+音声入力を処理するクラス<a href="./Trail11/Trail11Sound.html#start" target="other">AudioInput</a>を使います。マイクからの入力値を得るAudioInputオブジェクトは、MinimクラスのgetLinein()メソッドを使って作り、フィールド(変数)left、right、mixにアクセスすることで、音情報を得ます。これら3つのフィールドは、AudioInputのスーパークラスである<a href="http://code.compartmental.net/minim-beta/javadoc/ddf/minim/AudioSource.html" target="other">AudioSourceクラス</a>に定義されていて、バッファサイズ分のデータを保存しています。
+<ul>
+<li>・left: ステレオの左チャネル</li>
+<li>・right: ステレオの右チャネル、モノラルの時はleftと同じ値</li>
+<li>・mix: ステレオの左右チャネルの混合</li>
+</ul>
+AudioInputオブジェクト.left.level()とすると音量、正確にはバッファ中の全データの二乗平均平方根(二乗の平均のルート)が得られます。<br><br>
+次のように、マイクから音を入力し、グラフィックスに反映させます。
+<ul>
+<li>(1)必要なライブラリ(ddf.minim.*)をインポート。</li>
+<li>(2)<strong>Minim</strong>と、<strong>AudioInput</strong>オブジェクト用変数を定義。</li>
+<li>(3)setup()の中で、Minimオブジェクト生成。</li>
+<li>(4)setup()の中で、Minimクラスのメソッド<strong>getLineIn()</strong>を使ってAudioInオブジェクトを得て、変数に格納。モノラルで、バッファサイズを512とした。</li>
+<li>(5)<strong>level()</strong>メソッドを使い、音量を取得。level()の返す値は小さい数値(0～0.5)なので、直径の値として適切な大きさ(この例だと0～画面幅の2倍の間の値になるように、
+<a href="./PFuncMath.html#kansan" target="other">map()</a>関数を使って比例換算した。この入力値は環境により異なるのでmapの引数の値は任意に調整する。入力値を知るには、println(in.left.level());としてコンソールに値を表示させるといい。</li>
+<li>(6)上の(5)で計算した値を直径に、円を描く</li>
+</ul>
+リスト12_1内の右図は、マイクからの入力の代わりに、マウスのx方向の位置を円の大きさに反映させています。リスト12_1のソースコードをProcessingで実行し、実際にマウスからの入力で動きを確認してください。
+
+<div class="rightSide">
+	<canvas id="Sample121" data-processing-sources="./PDE/Sample12_1Mouse.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    マイク入力の代わりにマウスを左右移動
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト12-1】
+import ddf.minim.*;  //ライブラリのインポート←(1)
+
+Minim minim;  //Minim用変数←(2)
+AudioInput in; //音入力オブジェクト用変数←(2)
+float volumeIn;//円の直径になる変数、
+
+void setup() {
+  size(250,250);
+  minim = new Minim(this);//Minin生成←(3)
+  //↓AudioInputオブジェクト生成←(4)
+  in = minim.getLineIn(Minim.MONO, 512);
+  fill(200,0,0);
+}
+
+void draw() {
+  background(0);
+ //AudioInputオブジェクトから音量を取得、入力値(0から0.5)を0から500に換算←(5)
+  volumeIn = map(in.left.level(), 0, 0.5, 0, width*2);
+  ellipse(width/2, width/2, volumeIn, volumeIn); //描画
+}
+
+void stop(){
+  in.close(); //音声再生オブジェクトを閉じる
+  minim.stop();  //Minimオブジェクトをクリア
+  super.stop();  //自分でstop()を定義した時、必須
+}
+</pre>
+<p class="clear"> </p>
+
+<br>
+
+<h2 id="respond2">ノイズの除去とイージング効果</h2>
+リスト12_1は、マイクからの入力を0～500の間の値に換算し、それを円の直径としていました。これだと、入力のノイズもそのまま円の大きさに反映するため、動きが細かく変化します。
+そこで、今の値と、次の入力値の差が一定以上の場合だけ、円の大きさを変えるようにします。<br>
+加えて、音の変化を直接そのまま円の大きさの変化とせず、徐々にその大きさに近づいていくように、
+<a href="../Trail3Mouse.html#mouseEasing" target="other">イージング</a>効果を付けます。リスト12_1より、スムーズに変化することを、実際に確かめてください。
+
+<pre class="code">
+【リスト12-2】
+import ddf.minim.*;
+
+Minim minim;
+AudioInput in;
+
+float volumeIn; //入力値×1000
+float d; //直径
+float sa; //入力値×1000と今の直径との差
+float easing = 0.1; //イージングの係数、大きい数値は大きく変化
+
+void setup() {
+  size(250,250);
+  minim = new Minim(this);
+  in = minim.getLineIn(Minim.MONO, 512);
+  fill(200,0,0);
+}
+
+void draw() {
+  background(0);
+  volumeIn = map(in.left.level(), 0, 0.5, 0, width*2); //入力値を0～500に換算
+  sa = volumeIn - d; //入力値と今の直径との差
+  if(abs(sa) > 1) { //差の絶対値が1より大きい時だけ直径を変える
+    d = d + sa * easing; //差の0.1分ずつ変化
+  }
+  ellipse(width/2, width/2, d, d); 
+}
+
+void stop() {
+  in.close();
+  minim.stop();
+  super.stop();
+}
+</pre>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">
+	<canvas id="Exer121" data-processing-sources="./PDE/Exer12_1Mouse.pde" 
+						width="250" height="250">
+	<p>Your browser does not support the canvas tag.</p>
+	<!-- Note: you can put any alternative content here. -->
+	</canvas>
+    マイク入力の代わりにマウスを左右ドラッグ
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+	</div>
+
+【問題12-1】写真を複数枚用意し、マイクが感知した音の大きさに応じて、表示される写真が変化するプログラムを作ってください。<br>
+左図は、9枚の猫のあくびの連続写真を用意し、マイクからの音が大きい時は口を大きく開けた写真を、音が小さい時は口を閉じた写真を表示するようにしています。(左はデモのため、マイク入力の代わりに、ドラッグ時のマウスのx座標に反応する)
+入力値が一定以上の時は、最後2枚の写真を交互に表示し、大あくびをしているような効果をつけました。<br>
+声を出していっしょにあくびをするような感覚を楽しめるでしょうか。
+<br><br>
+左図で使っている画像(9枚の猫のあくび写真)は、<a href="ImageFiles.html#mondai121" target="other">画像ページ</a>にあります。自分が撮影した別の写真を使って、音と画像が関連するおもしろい内容のプログラムを考えてみてください。
+<p class="clear"> </p>
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

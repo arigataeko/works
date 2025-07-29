@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Bargame.jnlp">
+  <information>
+    <title>Bargae</title>
+    <vendor>Unknown</vendor>
+    <description>Bargae</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Bargame.jar" size="8190" download="null" />
+  </resources>
+  <jfx:javafx-desc  width="400" height="400" main-class="Bargame"  name="Bargae" />
+  <update check="background"/>
+</jnlp>

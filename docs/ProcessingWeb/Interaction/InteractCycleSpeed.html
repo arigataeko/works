@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Interaction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./InteractPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="InteractList.html#main"> インタラクションリストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> マウスの移動変化量で速度が変わる</h1>
+マウスの移動スピードによって、円周上を移動する円の速度が変わります。「マウスの位置による変化」セクションの<a href="InteractCyclePos.html#print" target="other">円周上の移動速度</a>と似ていますが、こちらはマウスの位置の変化量が、速度に関係します。マウスが画面上にある間の、マウスの移動スピードを感知するので、はじくように画面上でマウスを移動すると円が早く回り、画面上をマウスでゆっくりこするようにすると、遅くなります。
+<br><br>
+
+
+<div class="rightSide">
+	<canvas id="CycleSpeed"
+       data-processing-sources="./InteractPDE/CycleSpeed.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    画面上でマウスを移動
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト CycleSpeed】
+float henka;   //マウスの移動距離
+int wide = 150;
+float r = 60;    //円の半径
+float x, y;      //円の位置
+float angle;  //速度(角度の速度)
+float ds;     //加速度(速度の変化値)
+float max = 40;  //　加速度の最大値
+
+void setup() {
+  size(wide, wide);     // 画面サイズの設定
+  strokeWeight(10);
+}
+
+void draw() {
+  noStroke();
+  fill(255, 75);  //色は白、透明度を指定
+  rect(0,0,width, height); //背景を四角で塗りつぶす
+  stroke(0);      //黒で描く
+  angle = (angle + ds)%360; //一周したら0に戻す
+  x = r*cos(radians(angle)) + width/2;
+  y = r*sin(radians(angle)) + height/2;
+  point(x, y);   //点を描く
+}
+
+void mouseMoved(){
+  henka = dist(mouseX, mouseY, pmouseX, pmouseY);
+  if(henka &lt;=1) henka = 0;
+  //マウスが動いていないと、mouseMovedが最後に呼ばれた時の値1のままになる。
+  //少しずつ動いてしまうのを防ぐため、変化量が1以下になったら0とする
+  ds = map(henka, 0, wide, 0, max);
+}
+</pre>
+
+<p class="clear"> </p>
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

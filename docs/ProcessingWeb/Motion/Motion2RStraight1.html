@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 直線の往復運動…ひとつ(一定速度)</h1>
+ひとつの円が、水平に一定速度で往復運動します。
+<br>
+右の壁よりx座標が大きくなったかどうかを次のif文で判定します。
+<pre class="reiji">
+ if(x&gt;width-d/2){  //右の壁より右に来た
+    x = width-d/2;  //右の壁に接する位置に置く
+    s = -s;   //速度の正負を反転、運動方向を変える
+ }
+</pre>
+widthより半径分左側の位置に、円の中心が来た時が、右端に接する状態となるので、d/2を引いています。
+<br>
+<br>
+
+<div class="rightSide">
+	<canvas id="RStraight1"
+       data-processing-sources="./MotionPDE/shuttle/RStraight1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RStraight1】
+float d = 10; // 円の直径
+float x; // 位置(x座標)
+float s = 3; // 移動速度
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア   
+     x = x+s;     
+     if(x&gt;width-d/2){  //右の壁より右に来た
+         x = width-d/2;  //右の壁に接する位置に置く
+         s = -s;   //速度の正負を反転、運動方向を変える
+      }else if(x&lt;d/2){  //左の壁より左に来た
+         x = d/2; //左の壁に接する位置に置く
+         s = -s;  //速度の正負を反転、運動方向を変える
+      }
+     ellipse(x, height/2, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の円運動…異なる大きさの円の列</h1>
+サイズの異なる複数の円が列になって、円周上を一定速度で,運動します。
+<br><br>
+10個の円の円周上での位置(角度)の配列angleに加え、円のサイズを入れておく配列dを使います。
+
+配列を定義し、
+<pre class="reiji">
+ float angle[]  = new float[10]; // 位置(角度)
+ float d[]  = new float[10]; // 円の直径
+</pre>
+setup()関数の中で、それぞれの配列の値を初期化します。円のサイズが大きくなるので、円の間隔を少し広げ15度としました。列の先頭の円のサイズは2 (d[0] = 2;) とし、2ずつ大きくしました。
+<pre class="reiji">
+ d[0] = 2; //先頭の円の大きさ
+ for(int i=1;i&lt;angle.length;i++){
+    angle[i] = angle[i-1] - 15; //15ずつ左に置く
+    d[i]= d[i-1] + 2 ; //2ずつ増加
+  }
+</pre>
+draw()関数内のfor文での処理は、円を描画する時に、円の大きさに配列dの値を使う以外は、<a href="Motion1Circle1.html#print" target="other">ひとつ(軌跡なし)</a>と同じです。
+<br>
+<br>
+<div class="rightSide">
+	<canvas id="CircleM3"
+       data-processing-sources="./MotionPDE/oneDirection/CircleM3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト CircleM3】
+float angle[]  = new float[10]; // 位置(角度)
+float da = 5; // 角度の変化量
+float x, y;
+float len = 60; // 軌跡の円の半径
+float d[]  = new float[10]; // 円の直径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  d[0] = 2;
+  for(int i=1;i&lt;angle.length;i++){
+    angle[i] = angle[i-1] - 15;
+    d[i]= d[i-1] + 2 ;
+  }
+}
+
+void draw() { 
+     background(255);   //モニタ画面の背景を白でクリア
+     for(int i=0; i&lt;angle.length; i++){
+          x =len * cos(radians(angle[i])) + width/2.0;
+          y =len * sin(radians(angle[i])) + height/2.0;
+          ellipse(x, y, d[i], d[i]);
+          angle[i] = (angle[i] + da) % 360; //角度をdaずつ増加、360を超えない
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

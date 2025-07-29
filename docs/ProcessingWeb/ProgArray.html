@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css"></head>
+<body>
+<div id="container">
+<div id="print">
+<a href="ProgGeneral.html"> 基本要素トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 配列 </h1>
+
+ 
+変数はひとつのデータを格納するものでしたが、複数のデータをまとめて扱うときに，便利なのが配列です。複数の値をひとまとまりとして名前(配列名)をつけ、1つの変数のようにして扱えます。
+
+<h2> 配列の要素 </h2>
+配列中の個々のデータのことを配列の要素と呼びます。<br><br>
+配列のそれぞれの要素は、配列名と添字を使って表します。添字とは配列の要素に番号をつけたもので、先頭が0で順にふられます。配列名に続いて[ ]を書き、その中に添字を書きます。
+<br>
+
+<table border="1">
+<tr><td>[0]の値</td><td>[1]の値</td><td>[2]の値</td><td>[3]の値</td><td>[4]の値</td></tr>
+</table>
+たとえば、5個の要素を持つ配列dataの場合、<br>			
+配列dataの最初の要素はdata[0]と表し、<br>
+配列dataの最後の要素はdata[4]と表します。 
+
+<p class="clear"> </p>
+
+data[1]のように配列名と添字で表した配列の要素は、変数と同じように扱え、値を参照したり、演算の対象にしたり、値を代入したりできます。
+<pre class="reiji">
+data[0] = 123.4;
+data[1] = data[0] + 100;
+</pre>
+<h2> 配列を作る </h2>
+配列を作る(データの保存領域を確保する)にはキーワードnewを使います。
+<pre class="reiji">
+データ型 配列名[ ] = new データ型[ データの個数 ];
+</pre>
+float型のデータを5つ入れるための配列は次のように作ります。
+<pre class="reiji">
+float data[ ] = new float[5];
+</pre>
+次のように、配列名の宣言と配列の生成を別々に書いても同じです。
+<pre class="reiji">
+float data[ ];
+data = new float[5];
+</pre>
+配列を作った時点で、各要素には0.0が入ります。<br><br>
+
+配列を作る時に、値を同時に指定することができます(これを配列の初期化といいます）。
+newを使わず、中括弧｛　｝の間に、カンマで区切って値を指定します。中括弧の中の値の個数分の配列が生成されます。
+<pre class="reiji">
+float data[ ] = {0.01, 1.01, 2.01, 3.01, 4.01};
+</pre>
+
+<h2> 配列中のデータ数 </h2>
+配列の中のデータの個数は、配列名.lengthで知ることができます。<br><br>
+配列の中のデータに対して、順に処理を行うような場合は、for文を使って繰返し処理を行うことがよくあります。何回処理を繰り返すのかを指定する時に、
+配列の中のデータの個数が必要になります。
+float型の配列の中の値の合計を計算するには、次のように書きます。
+<pre class="code">
+float sum = 0;
+float data[ ] = {0.01, 1.01, 2.01, 3.01, 4.01};
+for(int i=0; i&lt;data.length; i=i+1){
+    sum = sum + data[i];
+}
+println("合計は" + sum);
+</pre>
+
+<h2> オブジェクトの配列 </h2>
+上では、<a href="ProgHensu.html#hensu" target="other">基本データ型</a>のデータが入る配列を例に説明してきました。
+<br>
+オブジェクトの配列でも、配列名の宣言、配列を作る(領域の確保)の方法は同じです。例えば、<a href="./Trail11/Trail11Sound.html#gakki1" target="other">CircleButtonクラス</a>のオブジェクトを8個入れる配列は次のように作ります。CircleButtonはラーニングトレイルの<a href="./Trail11/Trail11Sound.html#print" target="other">「音を使う」</a>セクションで使ったボタンのクラスです。
+<pre class="reiji">
+CircleButton bu[];
+bu = new CircleButton[];
+</pre>
+配列の領域を上のように作った後で、次にオブジェクトを生成し、配列の要素に代入します。
+<pre class="reiji">
+ bu[0] = new CircleButton(40, height/2, 50, color(200, 0, 0));
+ bu[1] = new CircleButton(100, height/2, 50, color(200, 0, 0));
+</pre>
+数値の配列の場合、配列を作った時点で、値に0が入るのに対して、オブジェクトの配列の場合、何も入っておらず、「なし」を表す特別な値<strong>null</strong>になっていますので、何も代入していない配列要素にアクセスしようとするとエラーになります。<br>
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

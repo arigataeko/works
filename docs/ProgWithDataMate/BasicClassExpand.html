@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Elements of programming</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./PDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="BasicGeneral.html"> 基本要素トップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> クラスを拡張する</h1>
+
+すでにあるクラスを単にそのまま使うだけでなく、自分の目的に合わせて機能を修正・追加したい場合、元のクラスを土台にして新しいクラスを定義します。
+
+<h2 id="expand2">クラスの継承ースーパークラスとサブクラス</h2>
+
+別のクラスを元に定義される新しいクラスを<strong>サブクラス</strong>と言い、
+土台になるクラスのことを<strong>スーパークラス</strong>と呼びます。<br>
+
+サブクラスはスーパークラスのプロパティとメソッド、コンストラクタを受け継ぎます。これを継承(インヘリタンス)と言います。スーパークラスとサブクラスとの間には階層関係が生じ、何階層にも渡って機能を継承する場合もあります。
+<br>
+スーパークラスから機能が継承されるのを、祖先からの遺産の相続と見立てて、スーパークラスのことを<strong>親クラス</strong>、サブクラスのことを<strong>子クラス</strong>とも呼びます。<br>
+
+サブクラスを定義するには、次のように定義するサブクラス名に続いて、<strong>extends</strong>キーワードとスーパークラス名を書きます。
+
+<pre class="reiji">
+class サブクラス名 extends スーパークラス名{
+
+  // サブクラスで追加するコンストラクタ、プロパティとメソッドの定義
+  // 変更したいスーパークラスのメソッドの再定義
+
+}
+</pre>
+
+<h2 id="expand">AHamonクラスの拡張</h2>
+リスト[ClassHamon2]で使った
+<a href="BasicClassCreate.html#ahamon" target="other">AHamonクラス</a>では、描かれる波紋の色はAHamonクラスとは無関係で、display()メソッドが実行された時に指定されていた描画色に依存します。AHamon自身に色情報をもたせ、その色で描画されるようにAHamon クラスの機能を拡張してみます。色の情報を保存するための変数を追加し、その値を使って描画色をstroke()関数で設定します。<br><br>
+
+<pre class="code">
+<strong>コンストラクタの追加(プロパティの追加を含む)</strong>
+  色を指定できるコンストラクタを定義
+    constructor(limit, v1, v2, v3)
+      引数 limit:波紋の最大の直径
+           v1, v2 ,v3はその時のcolorMode()の指定によって意味が異なる。
+           デフォルトではRGBの色指定で、0-255の間の値。
+           v1:赤の要素、v2:緑の要素、v3:青の要素。
+      コンストラクタの中で、3つのプロパティを定義
+      this.value1 = v1;  //引数で渡された色情報を設定
+      this.value2 = v2;
+      this.value3 = v3;
+      これらは
+         ・カラーモードがRGB(デフォルト)なら赤、緑、青の色の要素
+         ・カラーモードがHSBなら色相、彩度、明度の色情報
+       として使う。
+
+<strong>displayメソッドの再定義</strong>
+  保存している色情報で描画するように、display()メソッドを定義。
+  display()メソッドは親クラスAHamonにあるが、そのままでは色指定ができない。
+  親クラスから継承するメソッドの機能を変更したい時は、子クラスでそのメソッドを再定義する。
+</pre>
+<br>
+上のような機能拡張をしたAColorHamonクラスを、AHamonクラスをスーパークラスとして定義したのがリスト[AColorHamonクラス]です。<br>
+
+サブクラスのコンストラクタの定義は、スーパークラスのコンストラクタの呼出しから始めます。まず、親クラスのオブジェクトができてから、子クラス独自の処理を進める必要があるからです。スーパークラスのコンストラクタの呼出しは、<strong>super(引数)</strong>と書きます。
+<pre class="reiji">
+  constructor(limit, v1, v2, v3) {
+    super(limit);  //superは親クラスを意味する。AHamonクラスのコンストラクタを実行
+　　.....
+  }
+</pre>
+また、メソッドの定義内で、<strong>super</strong>と書くと、スーパークラスを意味します。
+<pre class="reiji">
+void display(){
+  .......
+  super.display(); ←スーパークラスのdisplay()メソッドを実行
+}
+</pre>
+<br>
+<pre class="code">
+【リスト AColorHamonクラス】
+class AColorHamon extends AHamon {
+  constructor(limit, v1, v2, v3) {
+    super(limit);  //superは親クラスを意味する。AHamonクラスのコンストラクタを実行
+    this.value1 = v1;  //引数で渡された色情報を設定
+    this.value2 = v2;
+    this.value3 = v3;
+  }
+
+  display() {
+    stroke(this.value1, this.value2, this.value3);  //描画色を設定
+    super.display();  //親クラスのdisplay()を実行
+  }
+}
+</pre>
+
+<h2 id="tsukau">拡張されたAColorHamonクラスを使う</h2>
+
+50個の波紋がランダムな位置に描かれる<a href="BasicClassCreate.html#tsukau2" target="other">プログラムClassHamon2</a>と同様に、AColorHamonクラスを使って、色と大きさの異なる50個の波紋が広がるプログラムを作ります。<br><br>
+
+AColorHamonオブジェクトを生成する時、波紋の最大値と、青色要素をランダムな値に指定します。下のClassHamon3では、アクセントをつけるために10個に1個の割合で波紋の色を赤色にしました。
+<div class="rightSide">
+	<iframe src="./sample/ClassHamon3/index.html"
+						width="250" height="250" id="ClassHamon3"
+            style = "border: 1px solid #999"> </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+
+<pre class="code">
+【リスト ClassHamon3】
+AColorHamon[] hamon;  //オブジェクト配列
+int h;                //いくつめの波紋か
+int N=50;             //作り出す波紋の数
+
+void setup() {
+  createCanvas(250, 250);
+  for (let i=0; ii&lt;N; i++) {
+    if (i %10  == 0) { //iが10の倍数であったら、赤
+      hamon[i] = new AColorHamon(random(100, 200), 200, 0, 0);
+    } else { //それ以外は青色要素を70－200の間でランダムに決める
+      hamon[i] =
+           new AColorHamon(random(100, 200), 0, 0, random(7, 200));
+    }
+    frameRate(10);
+    fill(255, 30);  //色は白、透明度を指定
+  }
+}
+
+void draw() {  //draw()の中身は、リスト[ClassHamon2]と同じ
+   strokeWeight(0); //背景画面の四角には線を付けない
+   fill(255, 55);  //色は白、透明度を指定
+   rect(0,0,width, height); //背景を四角で塗りつぶす
+   if(!hamon[h].move){  //h番目の波紋が動いていなかったら
+      hamon[h].prepare(random(width), random(height));
+                              //新しい位置で、波紋を開始
+      h = (h+1)%hamon.length; //hに1加える。0－49の間の数にする
+      //この行は、h = (h+1)%N; と書いても同じ
+   }
+   for(int i=0; i&lt;N; i++){
+      hamon[i].display();
+   }
+}
+</pre>
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

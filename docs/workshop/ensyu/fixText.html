@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>move position</title>
+
+<style>
+  #fixText { position:absolute; 
+             top:80px; left:20px }
+
+  .indText {margin-left:100px}
+</style>
+
+<script>
+<!--
+  function initialize(){
+    browser = navigator.appName;  //ブラウザの公式名称
+    version = parseInt(navigator.appVersion);
+    brw =0;
+    def_top = 80;
+
+    if(browser=="Netscape"){  //IE以外のほとんどのブラウザ
+      brw = 1;
+      if(version>=5) {  //N5(実際はN6)以降
+       fTxt = document.getElementById("fixText").style;  
+      } else {  //N4以前
+       fTxt = document.fixText; 
+      }
+    }else{  //Microsoft Internet Explorer
+      fTxt = document.all.fixText.style;
+      brw=2; //IE
+    }
+    //console.log(browser + "  " + version + "  " + brw + "  " +  fTxt.top);
+    moveText();
+  }
+
+  function moveText(){
+     if(brw==1){
+       fTxt.top = window.pageYOffset + def_top + "px";
+     }else {
+       fTxt.top = document.documentElement.scrollTop + def_top+ "px";
+     }
+     setTimeout("moveText()", 20);
+  }
+//-->
+</script>
+</head>
+<body onload="initialize()">
+
+<h1>ウィンドウの固定位置にある文字</h1>
+
+<div id="fixText"> <a href="#top">例えば<br>[top]<br>へのリンク</a></div>
+<p class="indText">
+ダミー文1<br>
+ダミー文2<br>
+ダミー文3<br>
+ダミー文4<br>
+ダミー文5<br>
+ダミー文6<br>
+ダミー文7<br>
+ダミー文8<br>
+ダミー文9<br>
+ダミー文10<br>
+ダミー文11<br>
+ダミー文12<br>
+ダミー文13<br>
+ダミー文14<br>
+ダミー文15<br>
+ダミー文16<br>
+ダミー文17<br>
+ダミー文18<br>
+ダミー文19<br>
+ダミー文20<br>
+ダミー文21<br>
+ダミー文22<br>
+ダミー文23<br>
+ダミー文24<br>
+ダミー文25<br>
+ダミー文26<br>
+ダミー文27<br>
+ダミー文28<br>
+ダミー文29<br>
+ダミー文30<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+ダミー文<br>
+</p>
+</BODY> 
+</html>
+

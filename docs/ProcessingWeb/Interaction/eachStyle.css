@@ -1,0 +1,173 @@
+body{
+	background-color: #E2E2E2;
+}
+
+#container{
+	width: 800px;
+	background-color: #fff;
+}
+
+canvas { 
+	display: block; 
+	outline: 1px #000 solid; 
+
+}
+.rightSide {
+	float: right;
+	margin: 45px 10px 10px 10px;	
+}
+
+.leftSide{
+	float: left;
+	margin: 5px 20px 10px 10px ;	
+}
+
+.clear {
+	clear: both;
+}
+
+.red {
+    color: #c00;
+    font-weight: bold;
+}
+
+
+.copy{
+    border-top: #333 1px solid;
+    margin-top: 20px;
+	padding: 2px 0 20px 0;
+    font-size:0.75em;
+    color:#333;
+    font-family:arial;
+    text-align:center;
+}
+
+/* リンクのスタイル */
+a {
+	font-weight: bold;
+    color: #66c; 
+    text-decoration: none; 
+}
+a:hover {
+	font-weight: bold;
+    color:#900;
+    text-decoration: underline;
+}
+
+/* 各ページのスタイル */
+#print {
+	font-size: 0.8em;
+    margin: 0 40px 0px 10px;
+	padding: 20px 0 0 0;
+	text-align: right;
+}
+
+#main {  
+	font-size: 0.95em;
+    margin: 0px 40px 0px 30px;
+    color: #000;
+    line-height: 1.45em
+}
+
+
+#main .notes {
+	margin: 0.3em 3em 1em 3em;
+	font-size: 0.85em;
+    line-height: 1.2em;
+    border-top: #999 1px solid; 
+    border-bottom: #999 1px solid;
+    padding: 0.5em 0em;
+}
+
+#main ul {
+	padding: 0;
+    margin: 5px 0;
+    list-style-type: none
+}
+#main li {
+    padding: 0 0 5px 20px;
+}
+#main li.second {
+    padding: 0 0 0.1em 2.0em;
+}
+#main li span{
+    color: #933;
+}
+#main h1 {
+    font-weight: normal;
+    font-size: 1.2em;
+    margin: 3px 0 10px -20px;
+    padding: 0 0 0 5px;
+	color: #900;
+    border-bottom: #999 1px solid;
+	border-left: #900 20px solid;
+    text-decoration: none;
+}
+
+#main h2 {
+	font-weight: normal;
+    font-size: 1.1em;
+    margin: 25px 0 10px -20px;
+    color: #900;
+	border-top: #666 1px solid;
+	border-bottom: #666 1px solid;
+	border-left: #666 5px solid;
+	padding: 2px 0 2px 5px;
+    text-decoration: none;
+}
+
+#main h3 {
+    border-top: #306 1px dotted;
+	border-bottom: #306 1px dotted;
+	border-left: #ff0 5px solid;
+    padding: 3px 0 3px 5px;
+    font-size: 1em;
+    margin: 20px 0 10px 0;
+    color: #039;
+}
+
+#main h4 {
+	font-size: 0.85em;
+    margin: 2em 0 1em;
+}
+#main h5 {
+	margin: 60px 0px 80px -125px;
+}
+#main h6 {
+	display: inline;
+    font-weight: bold;
+    font-size: 0.8em;
+	margin: 0em 3em;
+    color: #ff7600;
+}
+
+#main .code {
+	border: #ccc solid 1px;
+	padding: 0 0 0 10px;
+	margin: 0.5em 0;
+}
+
+#main .reiji{
+	margin: 10px 0 10px 1em;
+	font-weight: bold;
+}
+
+#main .menu{
+	font-size:90%;
+	margin:0 0 10px 0;
+}
+
+#main table{ 
+	float: left;
+	margin: 10px 20px 10px 10px;
+	border-collapse: collapse; /* 枠線の表示方法 */ 
+	border: 1px #999 solid; /* テーブル全体の枠線 */ 
+ } 
+
+#main td, th { 
+	border: 1px #999 solid; /* セルの枠線 */
+	padding: 7px;
+	line-height: 15px;
+ }  
+
+

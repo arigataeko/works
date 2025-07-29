@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T1_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 大きさや色が変化する</h1>
+描いた図形の大きさあるいは色を画面上で変化させてみます。
+少しずつ変化させながら、描画を繰り返すことで、アニメーションのように図形が動きます。
+
+<h2 id="changeSize">大きさを変える</h2>
+リストT1-1-1(円をひとつ描く例)を変更して、直径がだんだん大きくなり、一定の値まで大きくなったら小さくなるようにします。<br>
+
+
+円の直径を指定する変数dを用意し、dの値をdraw()の中で変化させます。円の位置(35, 35)はこの例では変化しないので、それぞれ定数変数xとyに入れておきます。
+draw()の中で次のように書けば、円の直径は1ずつ増え、描かれる円の大きさが大きくなります。
+<pre class="reiji">
+d = d + 1; // dに1を加える
+ellipse(x, y, d);
+</pre>
+ただ、これでは大きくなる一方向です。直径dが一定の大きさ(max)になったら、変化量をマイナス１にして、円が小さくなるようにします。また、円の直径がゼロ未満になったら、今度は変化量をプラス１に変えます。つまり、変化量を入れる変数henkaの値を条件によって、切り替えます。
+<br><br>
+
+デフォルトではdraw()は1秒間に60回実行されます(フレームレート60)が、それでは動きが早くて目まぐるしいので、frameRate(10)としてゆっくり変化させています。
+
+<div class="rightSide">
+	<iframe src="./sample/T1List3_1/index.html"
+						width="250" height="250" id="oneSize"
+            > </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+
+<pre class="code">
+【リストT1-3-1】
+const x = 35;
+const y = 35;
+const max = 30;
+let d = 0;
+let henka = 1;
+function setup() {
+  createCanvas(250, 250);
+  noStroke();
+  fill(0);
+  frameRate(10);  //ゆっくり変化させるためフレームレートを10にする
+}
+function draw() {
+  background(220);
+  if (d&gt;=max || d&lt;0) {  //直径がmax以上になった時、または負になった時
+    henka = -henka;     //変化量の正負を入れ替える
+  }
+  d = d + henka;
+  ellipse(x, y, d);
+}
+</pre>
+
+<p class="clear"> </p>
+右側の四角の中に示される実行例では、四角内をクリックすると動きが止まり、もう一度クリックするとスタートするように作ってあります。<br><br>
+
+
+<h2 id="changeAlpha">塗り(透明度)を変える</h2>
+リストT1-3-1では円の大きさを変更しましたが、今度は円の塗りを徐々に変えてみよう。透明度を0から255まで変化させます。
+<br>
+大きさを変えた例と同様に、最小値0と最大値255の間を繰り返し変化させるため、変化量の正負を条件に応じて、反転させます。
+<div class="rightSide">
+	<iframe src="./sample/T1List3_2/index.html"
+						width="250" height="250" id="oneAlpha"
+            > </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+
+<pre class="code">
+【リストT1-3-2】
+const x = 35;
+const y = 35;
+let d = 20;
+let alpha = 255;
+let henka = 2;
+function setup() {
+  ..... // リストT1-3-1と同じ
+}
+function draw() {
+  background(220);
+  //透明度が255以上になった時、または負になった時
+  if(alpha &gt;= 255 || alpha &lt; 0){
+     henka = -henka;  //変化量の正負を入れ替える
+  }
+  alpha = alpha + henka;
+  fill(0, alpha);
+  ellipse(x, y, d);
+}
+</pre>
+<p class="clear"> </p>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">	<iframe src="./exercise/Trail1_3_exe1/index.html"
+						width="250" height="250" id="size100"
+            > </iframe>
+            <br>
+	クリックで開始⇔停止
+</div>
+【問題T1-3-1】練習問題T1-1-2の10行10列に整列した100個の円の大きさが、リストT1-3-1のように繰り返し変化するようにしてみよう。<br><br>
+
+<p class="clear"> </p>
+
+<br>
+<div class="leftSide"><iframe src="./exercise/Trail1_3_exe2/index.html"
+						width="250" height="250" id="gray100"
+            > </iframe>
+						<br>
+	クリックで開始⇔停止
+</div>
+
+【問題T1-3-2】練習問題T1-1-2の10行10列に整列した100個の円の透明度が、リストT1-3-2のように繰り返し変化するようにしてみよう。
+
+<p class="clear"> </p>
+
+<br>
+<div class="leftSide"><iframe src="./exercise/Trail1_3_exe3/index.html"
+						width="250" height="250" id="sizeRedBlack"
+            > </iframe>
+						<br>
+	クリックで開始⇔停止
+</div>
+
+【問題T1-3-3】リストT1-2-3を変更し、2つのデータを表す円の大きさが交互に変化するようにしてみよう。まず、赤の円の大きさだけを変化させてみて、その後黒い円も変化させるように考えよう。
+
+<p class="clear"> </p>
+
+<br>
+<div class="leftSide"><iframe src="./exercise/Trail1_3_exe4/index.html"
+						width="250" height="250" id="sizeEachone"
+            > </iframe>
+						<br>
+	クリックで開始⇔停止
+</div>
+
+【問題T1-3-4】リストT1-2-3を変更し、円がひとつずつ順番に大きくなるようにしてみよう。100個の円の大きさが全部最大になったら、円の大きさを0に戻し、繰り返すようにしよう。<br>
+円の大きさが個別に違うので100個分の円の大きさを覚えておく必要があります。要素の数が100個の配列を用意し、そこに個々の円の直径を入れておきます。まず、setup()関数の前で、配列の変数を定義します。
+<pre class="reiji">
+let diameter = [];
+</pre>
+そして、setup()関数の中で、配列の100個の要素を0にします。
+<pre class="reiji">
+for (let i = 0; i < 100; i++) {
+   diameter[i] = 0;  // 0 で初期化
+}
+</pre>
+
+<p class="clear"> </p>
+</div>
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

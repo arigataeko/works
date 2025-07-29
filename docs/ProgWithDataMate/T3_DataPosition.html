@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="T3_General.html"> トレイルトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> データを位置で表す</h1>
+図形の位置で、データの値を表してみます。
+
+<h2 id="upforward">上に伸びる値</h2>
+The World Bankが起業家精神に関する調査(Global Entrepreneurship Monitor:GEM)に基づいた<a href="https://tcdata360.worldbank.org/indicators/aps.ea.total?country=BRA&indicator=3116&viz=line_chart&years=2001,2020" target="other">Total early-stage Entrepreneurial Activity</a> (TEA, 新しいビジネスを起業した18から64歳の人口割合)を公開しています。<br>
+この内、次の10ヵ国をピックアップし、データを比較したスケッチを作成してみます(2019年のデータ)。<br>
+
+<table>
+	<tr><th>国</th><th>Italy</th><th>Japan</th><th>Germany</th><th>Norway</th>
+	    <th>China</th><th>Australia</th><th>Korea</th><th>India</th><th>USA</th><th>Brazil</th></tr>
+	<tr><td>企業活動指数</td><td>2.8</td><td>5.4</td><td>7.6</td><td>8.4</td><td>8.7</td><td>10.5</td><td>14.9</td><td>15.0</td><td>17.4</td><td>23.3</td></tr>
+</table>
+<p class="clear"> </p>
+
+
+
+
+<iframe src="./sample/HT3List2_1/index.html"
+		width="510" height="300 "id="sampleUSA"> </iframe>
+            <br>
+	クリックで再起動
+<br><br>
+このデータテーブルを読み込むDatamateのmake()関数は次のようになります。
+<pre class="reiji">
+Datamate.make("国", ["Italy", "Japan", "Germany", "Norway", "China", "Australia", "Korea", "India", "USA", "Brazil"]);
+Datamate.make("企業活動指数", [2.8, 5.4, 7.6, 8.4, 8.7, 10.5, 14.9, 15.0, 17.4, 23.3]);
+</pre>
+キャンバスを10のエリアに分割し、それぞれに国名、円、データ値を表示します。
+円が一番下にある時の下辺からの距離を40とし、ここから上へ円が動くようにします。<br>
+<pre class="reiji">
+let lowY = 40;    //円が一番下にある時の下辺からの距離
+</pre>
+円をどの距離分動かすかを計算しておきます。
+10ヵ国のデータは、2.8から23.3の間の値なので、これが収まる[0, 28]の範囲の値を、円の動く範囲[0, height-lowY]の値に換算しています。
+<pre class="reiji">
+円が動く距離 = map(データ, 0, 28, 0, height-lowY);
+</pre>
+10ヵ国のデータを表す円の途中のy座標(動いた距離)を記憶しておく配列currentY[]を用意します。<br><br>
+<pre class="reiji">
+let currentY = [];  //項目ごとの途中の移動距離
+for (let i=0; i&lt;Datamate.columnCount(); i++) {
+    currentY[i] = 0;  //最初は0
+}
+</pre>
+エリアごとに円を動かし、国名、データ値を書く関数moveUpCircle()を定義します。
+この関数内に、y方向の移動距離をスピード分だけ進め、最終移動距離(止めたい位置)より大きくなったら、スピードをゼロにし、色を変える処理を書きます。
+
+<pre class="code">
+【リストT3-2-1】
+let countryNameY = 15;    //国名下辺からの距離
+let lowY = 40;            //円が一番下にある時の下辺からの距離
+let d = 30;               //円の直径
+let henka = 1;
+let currentY = [];        //項目ごとの途中の移動距離
+function setup() {
+  createCanvas(510, 300);
+  Datamate.make("国", ["Italy", "Japan", "Germany", "Norway", "China", "Australia", "Korea", "India", "USA", "Brazil"]);
+  Datamate.make("企業活動指数", [2.8, 5.4, 7.6, 8.4, 8.7, 10.5, 14.9, 15.0, 17.4, 23.3]);  
+  Datamate.makeAreas(0, 0, width, height, 10, 1);
+  noStroke();
+  textAlign(CENTER, CENTER); //文字を表示する際、中心の座標を指定
+  for (let i=0; i&lt;Datamate.columnCount(); i++) {
+    currentY[i] = 0;  //最初は0
+  }
+}
+function draw() {
+  background(240);
+  for(let i=0; i&lt;Datamate.columnCount(); i++){
+    moveUpCircle(i);
+  }
+}
+function moveUpCircle(number){
+    let area = Datamate.area(number);  // エリアをとりだす
+    let country = Datamate.columnName(number);//列のヘッダ
+    let value = Datamate.value(0, number);  //データの取り出し
+    let position = map(value, 0, 28, 0, height-lowY); // 円が止まるy座標
+    if (currentY[number] >= position) {  //最終位置まで動いたら
+      henka = 0;          //y座標を変えない
+      fill(0, 0, 200);    //青にする
+    } else {
+      henka = 1;          //そうでないなら1ずつ増やす
+      fill(200, 0, 0);    //赤で描く
+    }
+    currentY[number] = currentY[number] + henka;  //進める
+    circle(area.centerX, area.bottom-currentY[number]-lowY, d, d);
+    fill(0);
+    text(country, area.centerX, area.bottom-countryNameY); //国名表示
+    if (henka == 0) {  //数値表示
+      text(value + "%", area.centerX, area.bottom-currentY[number]-lowY-20);
+    }
+}
+</pre>
+<p class="clear"> </p>
+
+<h2 id="mondai">演習問題</h2>
+
+【問題T3-2-1】リスト3-2-1を変更し、10ヵ国のデータを円の代わりに、カエルの画像で表して、動かしてみよう。<br>
+<iframe src="./exercise/HT3_2_exe1/index.html"
+		width="520" height="300 "id="T3_2_exe1"> </iframe>
+            <br>
+	クリックで再始動
+  <br>  <br>
+カエルの画像のサンプルは、<a href="ImageFiles.html" target="other">画像ページ</a>からコピーできます。
+<br><br>
+
+
+【問題T3-2-2】
+
+リストT2-2-3を元に、水生生物の寿命を画像の位置で表してみよう。<br>
+<iframe src="./exercise/HT3_2_exe2/index.html"
+		width="520" height="320 "id="T3_2_exe2"> </iframe>
+            <br>
+	クリックで再始動
+  <br>  <br>
+画像のサンプルは、<a href="ImageFiles.html" target="other">画像ページ</a>からコピーできます。
+
+</div> <!-- 終わり  main -->
+<div class="copy">
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向のらせん運動…ひとつ(軌跡あり)</h1>
+ひとつの円が、らせん上を軌跡を残して運動します。<br>
+らせんが画面を超えてひろがるまで、背景をクリアしない点を除き、
+<a href="./Motion1Spiral1.html" target="other">軌跡を残さないひとつのらせん運動</a>と同じです。
+
+<br><br>
+<div class="rightSide">
+	<canvas id="Spiral2"
+       data-processing-sources="./MotionPDE/oneDirection/Spiral2.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Spiral2】
+float angle;
+float da = 5; // 角度の変化量
+float x,y;
+float a = 5.0;   //らせんの巻き方、大きいと早く広がる
+float b = 0.12;   //らせんの巻き方、大きいと早く広がる
+float d = 8; // 円の直径
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  background(255);
+}
+
+void draw() { 
+     x = a * exp(radians(angle)*b) * cos(radians(angle)) + width/2.0;
+     y = a * exp(radians(angle)*b) * sin(radians(angle)) + height/2.0;
+     ellipse(x, y, d, d);
+
+     if (x&lt;0 && y&lt;0) { //画面から消えるほど広がった
+        angle=0;
+        background(255);
+     } else {
+        angle = angle + da;
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

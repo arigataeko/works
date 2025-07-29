@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Visualizing data</title>
+<meta charset="UTF-8">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" type="text/css" href="showSketchStyle.css">
+
+</head>
+<body>
+<div id="container">
+
+<h1 class="title">
+  &nbsp;&nbsp;データの視覚化を楽しみながらプログラミングを学ぶ
+<br><hr> </h1>
+
+<h2>世界人助け指数</h2>
+Charities Aid Foundationは、THE WORLD GIVING INDEX2021をその
+<a href="https://www.cafonline.org/about-us/publications/2021-publications/caf-world-giving-index-2021" target="other">
+Webサイト</a>で公開しています。
+<br>
+これは世界の国・地域の人を対象に、過去１ヵ月の間に
+<ul><li>・見知らぬ人を助けたか</li>
+<li>・寄付をしたか</li>
+<li>・ボランティアをしたか</li>
+</ul>
+を尋ね、その割合(%)を集計したデータです。<br><br>
+
+<div class="naka">
+<iframe src="./GivingRate1_4/index.html"
+		width="600" height="300 "id="GivingRate1_4"> </iframe>
+</div>
+<br>
+<br>
+
+
+</div>  <!-- 終わり  container -->
+</body></html>

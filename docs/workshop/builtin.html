@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="robots"content="noindex,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>Buildin Function</title>
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      ビルトイン関数<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href="#eval">eval()</a> &nbsp| &nbsp
+<a href="#isNaN">isNaN()</a> &nbsp| &nbsp
+<a href="#Number">Number()</a> &nbsp| &nbsp
+<a href="#parseFloat">parseFloat()</a> &nbsp| &nbsp
+<a href="#parseInt">parseInt()</a> &nbsp| &nbsp
+<a href="#String">String()</a> &nbsp| &nbsp
+</div>
+
+
+<br><a name="eval"></a><br>
+<h1>eval(string)</h1>
+
+引数に指定された文字列を JavaScript のコードとして評価（解釈して実行）し、その結果を返す。<br>
+
+<pre class="pcode">
+var x = 2;
+eval("x + 2");  // 評価した結果は 2 となる
+
+var a2 = 10;
+xx = eval("x+" + "a" + x);  // "x+a2" が評価され、結果は 12 となる
+</pre>
+
+<br><a name="isNaN"></a><br>
+<h1>isNaN(value)</h1>
+引数value が数値でないかどうかを判断する。<br>
+数値、または数値として解釈可能な文字列であれば偽false、そうでなければ真trueを返す。NaN は Not a Number の意味。
+
+<pre class="pcode">
+if (isNaN(parseInt(str))) {
+    alert(str + "は数値ではありません。");
+}
+</pre>
+
+
+<br><a name="Number"></a><br>
+<h1>Number(exp)</h1>
+
+引数を数値に変換する。<br>
+引数がdateオブジェクトの場合は1970年1月1日0時0分0秒（GMT）からの秒数（ミリ秒単位）を返す。変換できない場合は特殊な値 NaN を返す。
+<pre class="pcode">
+num = Number("10") + Number("110"); // 値は 120
+</pre>
+
+<br><a name="parseFloat"></a><br>
+<h1>parseFloat(string)</h1>
+引数の文字列を浮動小数点数に変換する。
+
+<pre class="pcode">
+num = parseFloat("1.123");  //  値は 1.123
+</pre>
+
+<br><a name="parseInt"></a><br>
+
+<h1>parseInt(string [, radix])</h1>
+文字列 string を整数値に変換する。小数点以下は切り捨る。<br>
+引数radix に 2, 8, 10, 16 を指定すると、引数stringを 2, 8, 10, 16進数として解釈する。<br>
+radix を省略した場合、"0x" で始まっていれば 16進数として、"0" で始まっていれば 8進数として、さもなくば 10進数として解釈します。変換に失敗した場合は特別な値 NaN を返す。
+<pre class="pcode">
+xx = parseInt("2.56");    // 値は 2
+xx = parseInt("12345xyz");  // 値は 12345
+xx = parseInt("xyz12345");  // 値は NaN
+xx = parseInt("0xff");    // 値は 255
+xx = parseInt("0123");    // 値は 83
+xx = parseInt("a", 16);  // 値は 10
+</pre>
+
+<br><a name="String"></a><br>
+<h1>String(num)</h1>
+
+引数num を文字列に変換する。123 + "" としても文字列になる。
+<pre class="pcode">
+str = String(123) + String(456); // 値は "123456" 
+str = (123 + "") + (456 + "");   // 値は "123456" 
+</pre>
+<hr size="2"noshade>
+
+<div class="cp">
+arigat アットマーク acm.org<br>
+Last modified: Oct. 2013
+</div>
+</body>
+</html>

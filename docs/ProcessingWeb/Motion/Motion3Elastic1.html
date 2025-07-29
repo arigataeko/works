@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 線の伸縮…定速的変化</h1>
+線が伸長収縮します。
+<br>
+画面の中央を起点に水平に、widthの半分の長さまで、左右に線が伸び、縮みします。<br>
+画面の中央を起点にした動きをするので、座標の原点が画面の中央にあると考えやすいです。【リスト Elastic1】では<a href="../PFuncZahyo.html#print" target="other">座標の移動</a>をする関数translate()を使って、座標の原点を画面中央へ置いています。座標の移動はdraw()関数を実行するたびにクリアされるので、draw()関数の先頭に書いています。
+<pre class="reiji">
+ translate(width/2, height/2);  //座標原点を画面中央へ移動
+</pre>
+線の長さsは、dsの速さで変化します。増加するか、減少するかはdsの正負で決まります。線の長さがwidth/2.0より大きくなった時、あるいは-width/2.0より小さくなった時、dsの正負を逆転させます。
+<pre class="reiji">
+ if(x&gt;width/2.0) {
+    s = 0; //移動速度の初期化
+    x = width/2.0;  //右端へのめり込み補正
+    ds = -ds;
+ }else if(x&lt;-width/2.0){
+    s = 0; //移動速度の初期化
+    x = -width/2.0; //左端へのめり込み補正
+    ds = -ds;
+ }
+</pre>
+
+<div class="rightSide">
+	<canvas id="Elastic1"
+       data-processing-sources="./MotionPDE/vibration/Elastic1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Elastic1】
+float len; // 線の長さ
+float x, y; // 線のもう一方の座標
+float s; // 移動速度
+float ds = 0.2; // 加速
+
+void setup() {
+  size(150,150);
+  strokeWeight(5);   // 線の太さ
+}
+
+void draw() { 
+     background(255);   //画面の背景を白でクリア
+     translate(width/2, height/2);  //座標原点を画面中央へ移動
+     if(x&gt;width/2.0) {
+        s = 0; //移動速度の初期化
+        x = width/2.0;  //右端へのめり込み補正
+        ds = -ds;
+     }else if(x&lt;-width/2.0){
+        s = 0; //移動速度の初期化
+        x = -width/2.0; //左端へのめり込み補正
+        ds = -ds;
+     }
+     s = s + ds;
+     x = x + s;  // 位置を変化。
+     line(0, 0, x, y);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

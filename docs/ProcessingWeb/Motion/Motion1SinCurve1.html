@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:One Direction</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionOneDirection.html#main"> 一方向運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 一方向の波動運動…ひとつ(軌跡なし)</h1>
+ひとつの円が、サインカーブ上を運動します。
+ひとつの山とひとつの谷がサインカーブの1サイクルで、円が画面の横幅を進む間に、1サイクルのサインカーブ上を動くようにします。<br>
+sinの値は<a href="../PFuncMath.html#sankaku" target="other">三角関数</a>を使って計算しますが、sin(angle)のangleが0～360度(0～2πラジアン)変化すると1サイクルの波になります。<br>
+sin()関数の引数にはラジアン単位の角度を指定するので、radians()関数を使って度単位をラジアンに換算します。sinの値は0～1の間の数でそのままだと変化が小さくて見えないので、山の高さ(振幅)hをかけます。
+<pre class="reiji">
+ sin(radians(angle)) * h
+</pre>
+この計算値をそのまま円のy座標とすると、yが0の線上(つまり画面の上端の辺)で波が描かれ、波の山の部分が見えません。そこで、画面の高さの中央部まで、移動します。
+<pre class="reiji">
+ y = height/2.0 - sin(radians(angle))*h;
+</pre>
+画面の座標系ではy軸は下向きに正の値が大きくなり、一般的な数学の座標系と異なるため、sin()の計算値の前をマイナスにしています。
+<br>
+角度angleはda(5度)ずつ変化し、360になったら0に戻るように、余りを計算する演算子％を使って計算しています。<br>
+<pre class="reiji">
+ angle = (angle + da) % 360;//角度は0～360の間をdaずつ増加
+</pre>
+これは、次のようにif文を使って書くのと同じです。
+<pre class="reiji">
+ angle = angle + da;
+ if(angle>= 360) angle = 0;
+</pre>
+<br>
+<br>
+円を描くには、x座標の値が必要です。角度が0～360度変化する間に、円は画面の0から横幅widthまで移動するので、その換算を<a href="../PFuncMath.html#kansan" target="other">map()</a>関数を使って行います。
+<pre class="reiji">
+ x = map(angle, 0, 360, 0, width);
+</pre>
+angleが0の時はx座標は0、angleが360の時はx座標はwidth(150)になります。
+<br>
+<br>
+<div class="rightSide">
+	<canvas id="SinCurve1"
+       data-processing-sources="./MotionPDE/oneDirection/SinCurve1.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト SinCurve1】
+float angle; // 位置(角度)
+float da = 5; // 角度の変化量
+float x, y;
+float d = 10; // 円の直径
+float h =50; // 振幅
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア
+     x = map(angle, 0, 360, 0, width);// 0-360を、0からwidthの値に変換
+     y = height/2.0 - sin(radians(angle))*h;
+     ellipse(x, y, d, d);
+
+     angle = (angle + da) % 360; //角度は0～360の間をdaずつ増加
+
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

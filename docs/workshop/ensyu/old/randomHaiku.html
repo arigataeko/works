@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="../samplepage.css">
+<title>Random Poem</title>
+
+<style type="text/css">
+  .special {
+       font-size:14pt;
+       font-weight:bold;
+       font-family:serif;
+    }
+   #msg1{
+       position:absolute;
+       top:100px;
+       left:50px;
+   }
+   #msg2{
+       position:absolute;
+       top:100px;
+       left:150px;
+   }
+   #msg3{
+       position:absolute;
+       top:100px;
+       left:300px;
+   }
+</style>
+
+<script type="text/javascript">
+<!--
+  word1 = new Array("鯉はねて", "褌に", "古池や", "無為にして", "蜩や",
+                    "秋の蝿" ,"蝙蝠や" ,"阿呆鳥" ,"余命" ,"遅れ咲く");
+  word2 = new Array("浅きタライや", "団扇さしたる", "蛙飛び込む", "ナマコ一万",
+                    "神鳴り晴れて" ,"叩き殺せと" ,"暮るるをながめ" ,
+                    "熱き国にぞ" ,"いくばくかある","こと貫禄の");
+  word3 = new Array("春の水", "亭主かな", "水の音", "八千歳", "又夕日",
+                     "命じけり" ,"坂の上" ,"参りたる" ,"夜短し","八重桜");
+
+  function initialize(){
+    if(document.getElementById){
+       cMsg1 = document.getElementById("msg1"); 
+       cMsg2 = document.getElementById("msg2"); 
+       cMsg3 = document.getElementById("msg3"); 
+    }else if(document.all){
+      cMsg1 = document.all.msg1;
+      cMsg2 = document.all.msg2;
+      cMsg3 = document.all.msg3;
+    } else { 
+       cMsg1 = null;
+       cMsg2 = null;
+       cMsg3 = null;
+    }
+    showPoem();
+  }
+
+  function showPoem(){
+    if(cMsg1!=null && cMsg2!=null &&cMsg3!=null){
+      cMsg1.innerHTML = word1[Math.floor(Math.random()*word1.length)];
+      cMsg2.innerHTML = word2[Math.floor(Math.random()*word2.length)];
+      cMsg3.innerHTML = word3[Math.floor(Math.random()*word3.length)];
+    }
+     window.setTimeout("showPoem()", 3000);
+  }
+//-->
+</script>
+</head>
+
+<body onload="initialize()">
+
+<h1>ランダムハイク</h1>
+
+<div class="special">
+  <div id="msg1">五</div>
+  <div id="msg2">七</div>
+  <div id="msg3">五</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Vibration</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionVibration.html#main"> 振動運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 放物線上の振動</h1>
+放物線上で円が振動します。放物線は2次関数(y = a * x * x)で表せます。この放物線の頂点は座標の原点にあります。放物線の頂点を画面の適切な位置(幅の中央で、下から10ピクセルの位置)に置くために、<a href="../PFuncZahyo.html#print" target="other">translate関数</a>で座標を移動しています。
+
+<pre class="reiji">
+ translate(width/2.0, height-10); //座標原点の移動
+</pre>
+
+2次関数のx座標の値を-45から45の間で変化させ、y座標を計算します。
+x座標の変化量dxは、xが-45より小さくなった時あるいは45より大きくなった時に正負を逆転させ、周期的な振動を作り出します。
+<pre class="reiji">
+ if (x&gt;45 || x&lt;-45) { //x座標の動く範囲
+    dx = -dx;
+ } 
+ x = x + dx;    //ｘ座標を動かす
+ y = a * x * x; //二次関数の計算
+</pre>
+
+<div class="rightSide">
+	<canvas id="Quadratic"
+       data-processing-sources="./MotionPDE/vibration/Quadratic.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト Quadratic】
+float angle; // 位置(角度)
+float x, y;
+float d = 10; // 円の直径
+float a = -0.05; // 二次式の係数
+float len = 60; // 軌跡の円の半径
+float dx = 1;  //x座標の変化量
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+}
+
+void draw() { 
+     background(255);   //画面の背景を白でクリア
+     translate(width/2.0, height-10); //座標原点の移動
+     if (x&gt;45 || x&lt;-45) { //x座標の動く範囲
+        dx = -dx;
+     } 
+     x = x + dx;    //ｘ座標を動かす
+     y = a * x * x; //二次関数の計算
+     ellipse(x, y, d, d);
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

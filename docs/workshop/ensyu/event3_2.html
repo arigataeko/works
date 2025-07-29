@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+
+<title>Standard Weight</title>
+
+
+
+<SCRIPT type="text/javascript">
+
+<!--
+
+   function stdWeight(){
+
+      shintyo = document.forms[0].elements[0];
+
+      h = parseFloat(shintyo.value)/100;
+
+      std = h * h *22;
+
+   }
+
+
+
+   function himando(){
+
+      taiju = document.forms[0].elements[1];
+
+      w = parseFloat(taiju.value);
+
+      bmi = w / (h * h);
+
+   }
+
+
+
+   function calc(){
+
+      stdWeight();
+
+      himando();
+
+      document.forms[0].elements[2].value = std;
+
+      document.forms[0].elements[3].value = bmi;
+
+   }
+
+
+
+//-->
+
+</SCRIPT>
+
+
+
+</head>
+
+<body bgcolor="#ffffff">
+
+
+
+<table border="0">
+
+<tr><td height="35" width="20"
+
+     align="center"valign="middle"bgcolor="#6666cc">&nbsp;</td>
+
+<td>標準体重・肥満度の計算<hr size="2" noshade></td>
+
+</tr></table>
+
+<br><br>
+
+
+
+<FORM>
+
+身長(cm)<INPUT type=text value=0 name="height" size=10><br><br>
+
+標準体重(Kg)<INPUT type=text value=0 name="stdW" size=20><br><br>
+
+体重(Kg)<INPUT type=text value=0 name="weight" size=10><br><br>
+
+肥満度(BMI値)<INPUT type=text value=0 name="fatness" size=20><br><br>
+
+
+
+<INPUT type=button value="計算開始" onclick="calc()">
+
+
+
+</FORM>
+
+  
+
+</BODY> 
+
+</HTML>
+
+
+
+
+

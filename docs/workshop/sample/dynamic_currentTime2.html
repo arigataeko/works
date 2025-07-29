@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="ensyuTime.css">
+<title>Update the current time</title>
+
+<script>
+<!--
+  function showTime(){
+    let change = new Date();
+    let y = change.getFullYear();
+    let m = change.getMonth()+1;
+    let d = change.getDate();
+    let h = change.getHours();
+    let min =change.getMinutes();
+    let sec = change.getSeconds();
+
+    document.getElementById("msg").innerHTML = y + "年" + m + "月" + d + "日  " +  h + "時" + min + "分" + sec + "秒";
+  }
+//-->
+</script>
+</head>
+<body onload="showTime()">
+<h1>現在時間の表示</h1>
+
+<div id="msg" class="special">current time</div>
+
+</body>
+</html>

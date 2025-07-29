@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail p5</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="p5Mode.html#list"> p5jsトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 音に反応する</h1>
+コンピュータに内蔵の、あるいは接続されたマイクから音を入力し、それに応答するようなプログラムを作ります。p5.jsが提供する<a href="http://p5js.org/reference/#/libraries/p5.sound" target="other">p5.soundライブラリ</a>を使います。<br>
+
+Processingのメニュー[スケッチ][ライブラリをインポート]
+でp5.soundを選択すると、ライブラリがスケッチフォルダのlibraryフォルダ内に取り込まれ、スケッチを保存すると、index.html内に次のscriptタグが追加されます。
+<pre class="reiji">
+&lt;script language="javascript" type="text/javascript" src="libraries/p5.sound.min.js"&gt; &lt;/script&gt;
+</pre>
+
+<h2 id="respond1">マイクからの音の大きさに応答</h2>
+マイクからの入力音に応じて、描く円の大きさが変化するスケッチが、リスト6_1です。<br><br>
+
+音声入力を処理するオブジェクト<a href="https://p5js.org/reference/#/p5.AudioIn" target="other">p5.AudioIn</a>を使います。
+マイクからの入力を処理するいわばプログラムの部品で、実際に働くオブジェクトを作って、スケッチの中で使います。JavaScriptのオブジェクトに関しては、<a href="http://ariga.dwcmedia.jp/workshop/object.html" target="other">このページ</a>で説明しています。<br><br>
+
+p5.AudioInオブジェクトを作るには
+<a href="http://ariga.dwcmedia.jp/workshop/object.html#class" target="other">
+new演算子</a>を使います。
+次のように、p5.AudioInオブジェクトを作り、マイクから音を入力し、グラフィックスに反映させます。
+<ul>
+<li>(1) マイクからの音声を取得するためp5.AudioInputオブジェクト用の変数を定義。</li>
+<li>(2) setup()の中で、p5.AudioInオブジェクトを作り、変数に格納。</li>
+<li>(3) setup()の中で、p5.AudioInオブジェクトの働きを開始する。
+<li>(4) draw()の中で、p5.AudioInオブジェクトの<a href="https://p5js.org/reference/#/p5.AudioIn/getLevel" target="other">getLevel()</a>メソッドを使い、音量を取得。getLevel()の返す値は0～1.0なので、直径の値として適切な大きさ(この例だと0～画面幅の2倍の間の値)になるように、<a href="https://p5js.org/reference/#/p5/map" target="other">map()</a>関数を使って比例換算する。
+<li>(5) draw()の中で、上の(4)で計算した値を直径とした円を描く。</li>
+</ul>
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample6_1/index.html" id="Sample61" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト6-1】
+let mic;  //AudioInオブジェクト用変数←(1)
+function setup() {
+  createCanvas(250, 250);
+  mic = new p5.AudioIn();   //AudioInの生成←(2)
+  mic.start();              //AudioIn機能を開始←(3)
+  fill(200, 0, 0);
+}
+
+function draw() {
+  background(0);
+  let vol = mic.getLevel(); //音量を取得←(4)
+  //↓(5) 入力値(0から1)を0から500に換算
+  let d = map(vol, 0, 1, 0, width*2); 
+  ellipse(width/2, width/2, d, d); //描画
+}
+</pre>
+<p class="clear"> </p>
+
+<br>
+
+<h2 id="respond2">マイク入力のノイズ除去とイージング効果</h2>
+リスト6_1は、マイクからの入力を0～500の間の値に換算し、それを円の直径としていました。これだと、入力のノイズもそのまま円の大きさに反映するため、動きが細かく変化します。
+そこで、今の値と、次の入力値の差が一定以上の場合だけ、円の大きさを変えるようにします。<br>
+加えて、音の変化を直接そのまま円の大きさの変化とせず、徐々にその大きさに近づいていくように、
+<a href="./p5js3Interact.html#mouseEasing" target="other">イージング</a>効果を付けます。リスト6_1より、スムーズに変化することを、実際に確かめてください。
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample6_2/index.html" id="Sample62" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+<pre class="code">
+【リスト6-2】
+let mic;  //マイクからの音声を取得するAudioInオブジェクト用変数←(1)
+let easing = 0.15; //イージングの係数、大きい数値は大きく変化
+let adjD = 0; //イージングで調整した円の直径
+function setup() {
+  createCanvas(250, 250);
+  mic = new p5.AudioIn();//AudioInの生成←(2)
+  mic.start();           //AudioIn機能を開始←(3)
+  fill(200, 0, 0);
+}
+
+function draw() {
+  background(0);
+  let vol = mic.getLevel(); // 音量を取得 (0から1.0の間の値)←(4)
+  let d = map(vol, 0, 1, 0, width*2); //入力値(0から1)を0から500に換算←(5)
+  adjD = lerp(adjD, d, easing);  //今のadjDから新しい値Dの差を補間し、15%分変化させる
+  ellipse(width/2, width/2, adjD, adjD); //描画
+}
+</pre>
+<p class="clear"> </p>
+
+図形を組み合わせ、その位置や大きさをマウスに応答して動くようにすることで、人とコミュニケーションを取っているように見える動くグラフィックスを作ることができます。例えば、<a href="./p5Sample/SpeakingCat/index.html" target="other">話す猫</a>
+
+<h2 id="respond2">音声ファイルの再生と応答</h2>
+リスト6_1は、マイクから入力した音量に応答するスケッチでした。これを音声ファイルの音に応じて、円の大きさが変わるようにします。<br><br>
+音声ファイルへのアクセスは、<a href="https://p5js.org/reference/#/p5.SoundFile" target="other">p5.SoundFile</a>オブジェクトを使って行います。音声ファイルへのパスを指定して、p5.SoundFileオブジェクトを生成しておき、p5.SoundFileオブジェクトのメソッドにより、音声を再生、停止します。<br><br>
+
+音の大きさは、振幅(amplitude)と関係しています。p5 soundライブラリの<a href="https://p5js.org/reference/#/p5.Amplitude" target="other">p5.Amplitude</a>オブジェクトを使って、値を得ます。<br>
+電気信号の世界では、値(実効値)を、一定の時間区間の信号の平均的な大きさとして表します。「平均的な大きさ」とは、測定した値の二乗平均平方根(Root Mean Square:二乗した値の平均値の平方根、RMS値)です。
+p5.AmplitudeオブジェクトのgetLevel()メソッドは、1024回データを読み、そのRMS値を計算します(0?1.0の値)。<br><br>
+
+次のように、音声ファイルをロードし、その振幅を、グラフィックスに反映させます。
+<ul>
+<li>(1) p5.SoundFileとp5.Amplitude用の変数を定義。</li>
+<li>(2) 音声ファイルを用意、前もってロードしておく。<a href="https://p5js.org/reference/#/p5/preload" target="other">preload()</a>関数は、setup関数が実行される前に、自動的に呼び出される。</li>
+<li>(3) setup()の中で、p5.Amplitude()オブジェクトを作り、変数に格納。</li>
+<li>(4) setup()の中で、p5.Amplitude()オブジェクトの働きを開始する。
+<li>(5) draw()の中で、p5.Amplitude()オブジェクトの<a href="https://p5js.org/reference/#/p5.Amplitude/getLevel" target="other">getLevel()</a>メソッドを使い、振幅を取得。
+getLevel()の返す値は0～1.0なので、直径の値として適切な大きさ(この例だと0～画面幅の2倍の間の値)になるように、<a href="https://p5js.org/reference/#/p5/map" target="other">map()</a>関数を使って比例換算する。
+<li>(6) draw()の中で、上の(5)で計算した値を直径とした円を描く。</li>
+<li>(7) マウスクリック時に実行されるmousePressed関数を定義。音声が再生されていたら(<a href="https://p5js.org/reference/#/p5.SoundFile/isPlaying" target="other">isPlaying()</a>メソッドの値がtrue)音声を停止、そうでなければ、再生する。</li>
+</ul>
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample6_3/index.html" id="Sample63" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<br>クリックで音声を再生、停止
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+<pre class="code">
+【リスト6-3】
+var song, analyzer;  //p5.SoundFileとp5.Amplitude用の変数を定義←(1)
+
+function preload() { //音声ファイルをロードしておく←(2)
+  song = loadSound('data/funaJingle.mp3');
+} 
+
+function setup() {
+  createCanvas(250, 250);
+  fill(200, 0, 0);
+  analyzer = new p5.Amplitude();//Amplitudeの生成←(3)
+  analyzer.setInput(song);//Amplitudeからの入力開始←(4)
+}
+
+function draw() {
+  background(0);
+  var rms = analyzer.getLevel();      // 振幅の平均値を取得 (0から1.0の間の値)←(5)
+  var d = map(rms, 0, 1, 0, width*2); //入力値(0から1)を0から500に換算←(6)
+  ellipse(width/2, width/2, d, d);    //描画
+}
+
+function mousePressed() {             //マウスクリックで音声を再生、停止←(7)
+  if (song.isPlaying()){
+    song.stop();
+  } else {
+    song.loop();
+  }
+}
+</pre>
+<p class="clear"> </p>
+
+
+リスト6-3は円の大きさが変わるだけですが、図形を組みわせて人や楽器などのイラストを描き、
+音声ファイルに合わせて、各部分の大きさや位置を変化させることで、イラストが音を発しているような印象のアニメーションを作ることができます。
+例えば、<a href="./p5Sample/OtamaTone/index.html" target="other">オタマトーン</a>
+
+
+<h2 id="mondai">演習問題</h2>
+<br>
+
+<div class="leftSide">
+  <iframe src="./p5Exercise/p5Exer6_1/index.html" id="Exer61" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+【問題6-1】写真を複数枚用意し、マイクが感知した音の大きさに応じて、表示される写真が変化するプログラムを作ってください。<br>
+左図は、9枚の猫のあくびの連続写真を用意し、マイクからの音が大きい時は口を大きく開けた写真を、音が小さい時は口を閉じた写真を表示するようにしています。
+入力値が一定以上の時は、最後2枚の写真を交互に表示し、大あくびをしているような効果をつけました。<br>
+声を出していっしょにあくびをするような感覚を楽しめるでしょうか。<br>
+<br>
+左図で使っている画像(9枚の猫のあくび写真)をcatフォルダにまとめた圧縮ファイル<a href="images/cat.zip">cat.zip</a>を用意しました。リンクをマウスで右クリックし、メニューから[対象をファイルに保存]。<br><br>
+
+この写真を使って、あるいは、自分が用意した別の写真やイラストを使って、音と画像が関連するおもしろい内容のコンテンツを考えてみてください。<br><br>
+
+2つの例を次に載せます。<br>
+<a href="./p5Sample/Rousoku3/index.html" target="other">Happy Birthday</a><br>
+<a href="./p5Sample/WakeupVermeer/index.html" target="other">眠い真珠の耳飾りの少女</a>
+
+
+<p class="clear"> </p>
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

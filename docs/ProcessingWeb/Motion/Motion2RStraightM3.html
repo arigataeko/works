@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Movement:Shuttle</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="motionStyle.css">
+<!--[if lt IE 9]>
+	<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+<![endif]-->
+<script src="./MotionPDE/processing.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="MotionShuttle.html#main"> 往復運動リストに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 直線の往復運動…サイズの異なる円列</h1>
+大きさが違う複数の円が、水平に往復運動します。動きの処理は、<a href="Motion2RStraightM1.html#print" target="other">同一サイズの円列の直線運動</a>と同じですが、2つの点が異なります。<br>
+ひとつはそれぞれの円の直径を保存する配列を用意し、円を描くときにその値を使う点です。
+<pre class="reiji">
+ float d[]  = new float[10]; // 円の直径
+</pre>
+先頭の円のサイズは20ピクセルで、2ピクセルずつ小さくしています。円の中心位置(x座標)は円どうしの間隔が5ピクセルになるよう計算します(中心は2つの円の半径の合計プラス5離れる)。
+<pre class="reiji">
+ d[0] = 20;  //配列の先頭の値の初期化
+ for(int i=1;i&lt;x.length;i++){  
+    d[i] = d[i-1] -2;  //円の直径の初期化　2ずつ小さくなる
+    x[i]= x[i-1] - (d[i]+d[i-1])/2 - 5; //円のx座標の初期化
+  }
+</pre>
+
+2点目は、壁の跳ね返り処理を<a href="Motion2RStraightM1.html#print" target="other">同一サイズの円列の直線運動</a>と同じにすると、間隔がだんだん乱れていくのでそれを調整します。左側の壁に当たった時、前の円との間隔が5ピクセルになるようにx座標を指定します。右側でもずれは生じていますが、この例では左側の調整だけで十分です。
+
+<pre class="reiji">
+ if(x[i] &gt; width-d[i]/2){  //登場中の円が右の壁より右に来た
+    x[i] = width-d[i]/2;  //壁の表面に置く
+    s[i] = -s[i];
+ }else if(on[i] && x[i]&lt;d[i]/2){  //登場中の円が左の壁より左に来た
+    if(i==0) x[i] = d[i]/2;  //先頭は壁の表面に置く
+    else  x[i]= x[i-1] - (d[i]+d[i-1])/2 - 5; //円の間隔を5ピクセルにする
+    s[i] = -s[i];
+ }
+</pre>
+
+<div class="rightSide">
+	<canvas id="RStraightM3"
+       data-processing-sources="./MotionPDE/shuttle/RStraightM3.pde"
+       width="150" height="150">
+	<p>Your browser does not support the canvas tag.</p>
+	</canvas>
+    クリックで停止⇔再開
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+
+<pre class="code">
+【リスト RStraightM3】
+float d[] =  new float[10]; // 円の直径
+float x[]  = new float[10]; // 位置(x座標)
+float s[] =  new float[10]; // 移動速度
+boolean on[]  =  new boolean[10]; // 登場したかどうか
+
+void setup() {
+  size(150, 150);   //描画するための画面
+  fill(0);
+  s[0]=3; d[0] = 20;  //配列の先頭の値の初期化
+  for(int i=1;i&lt;x.length;i++){  
+    d[i] = d[i-1] -2;  //円の直径の初期化　2ずつ小さくなる
+    x[i]= x[i-1] - (d[i]+d[i-1])/2 - 5; //円のx座標の初期化
+    s[i] = 3;   //円の移動速度の初期化
+  }
+}
+
+void draw() { 
+     background(255);   //画面背景を白でクリア   
+     for(int i=0;i&lt;x.length;i++){
+        x[i] = x[i]+s[i];  //速度分進める
+        if(x[i] &gt; d[0] && !on[i]) on[i] = true; //登場した
+        if(x[i] &gt; width-d[i]/2){  //登場中の円が右の壁より右に来た
+            x[i] = width-d[i]/2;
+            s[i] = -s[i];
+        }else if(on[i] && x[i]&lt;d[i]/2){  //登場中の円が左の壁より左に来た
+            if(i==0) x[i] = d[i]/2;
+            else  x[i]= x[i-1] - (d[i]+d[i-1])/2 - 5; //円の間隔を保って跳ね返る
+            s[i] = -s[i];
+        }
+        ellipse(x[i], height/2, d[i],d[i]);
+     }
+}
+</pre>
+
+<p class="clear"> </p>
+
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="../CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="TreeAnime.jnlp">
+  <information>
+    <title>TreeAnime</title>
+    <vendor>Unknown</vendor>
+    <description>TreeAnime</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="TreeAnime.jar" size="4113" download="null" />
+  </resources>
+  <jfx:javafx-desc  width="525" height="450" main-class="TreeAnime"  name="TreeAnime" />
+  <update check="background"/>
+</jnlp>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Learning Trail p5</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="reset.css">
+<link rel="stylesheet" type="text/css" href="eachStyle.css">
+
+</head>
+<body>
+<div id="container">
+<div id="print">
+<a href="p5Mode.html#list"> p5jsトップに戻る</a>&nbsp;&nbsp;&nbsp;
+<a href="#" onclick="window.print(); return false;"> 印刷する</a></div>
+<div id="main">
+<h1> 関数を作る</h1>
+関数は、あるまとまった仕事をする複数の命令をひとまとめにして名前を付けて、いわばグループ化したものです。p5.jsは描画をはじめとするさまざまな機能を<a href="https://p5js.org/reference/#/p5/function" target="other">関数</a>の形で、提供しています。
+<br>処理させたい内容に応じて、新しい関数を作ることで、わかりやすく、見通しのいいプログラムにすることができます。
+
+<h2>同心円を描く関数</h2>
+問題1-1で、同心円をひとつ描きました。
+同心円を複数描くとしたら、次のように同心円を描く命令部分を繰り返せば、
+実現できます。
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample4_1/index.html" id="Sample41" width="400" height="125" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+<pre class="code">
+【リスト4-1】
+function setup() {
+  createCanvas(400, 125);  
+  background(200);  
+  noFill();
+  var d = 10;
+  for (var i=1; i<=10; i=i+1) {
+    ellipse(50, height/2, d*i, d*i);
+  }
+  for (var i=1; i<=10; i=i+1) {
+    ellipse(150, height/2, d*i, d*i);
+  }
+  for (var i=1; i<=10; i=i+1) {
+    ellipse(250, height/2, d*i, d*i);
+  }
+  for (var i=1; i<=10; i=i+1) {
+    ellipse(350, height/2, d*i, d*i);
+  }
+}
+</pre>
+
+<p class="clear"> </p>
+
+同心円を描く命令部分(for文で10回円を描く)が、
+4回繰返し出てきます。この同心円を描く命令部分を切り出して関数として定義しておけば、
+その関数を呼び出すだけで、同じことができます。
+関数の定義
+は次のように書きます。
+<pre class="reiji">
+function　関数名（引数名, 引数名, .....) {
+	処理の内容
+}
+</pre>
+関数名はその機能を表すdrawDoshinとし、引数は
+同心円の中央の点の座標(x, y)と円の直径の変化量dの3つとします。
+
+<pre class="code">
+【リスト4-2】
+function setup() {
+  createCanvas(400, 125);  
+  background(200);  
+  noFill();
+  drawDoshin(50, height/2, 10);  //左から1つ目の同心円を描く関数の呼出し
+  drawDoshin(150, height/2, 10); //左から2つ目の同心円を描く関数の呼出し
+  drawDoshin(250, height/2, 10); //左から3つ目の同心円を描く関数の呼出し
+  drawDoshin(350, height/2, 10); //左から4つ目の同心円を描く関数の呼出し
+}
+
+function drawDoshin(x, y, d) {  // 同心円を描く関数の定義
+  for (var i=1; i<=10; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+</pre>
+
+<h2 id="hamon">引数を変えて、新たな関数を定義</h2>
+リスト4-2で定義した関数drawDoshin()は、10個の円から成る同心円を描きます。
+関数を呼出す時に、円の個数を指定したいとしましょう。<br>
+そのために、個数を指定できる別の関数を定義します。
+関数名をdrawDoshinNにしてもいいですが、円の数を渡す(知らせる)整数の引数をひとつ増やして、新しい関数を定義します。<br>
+
+<div class="rightSide">
+  <iframe src="./p5Sample/Sample4_3/index.html" id="Sample43" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+<pre class="code">
+【リスト4-3】
+function setup() {
+  createCanvas(250, 250);  
+  background(200);  
+  noFill();
+
+  drawDoshinN(50, 50, 30, 5); 
+  drawDoshin(150, 50, 10);   
+  drawDoshinN(50, 150, 10, 3);
+  drawDoshinN(150, 150, 5, 30);
+}
+// (x, y)の位置にdの間隔で10の円から成る同心円を描く
+function drawDoshin(x, y, d) {
+  for (var i=1; i<=10; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+// (x, y)の位置にdの間隔でnの円から成る同心円を描く
+function drawDoshinN(x, y, d, n) {
+  for (var i=1; i<=n; i=i+1) {
+    ellipse(x, y, d*i, d*i);
+  }
+}
+</pre>
+<p class="clear"> </p>
+このように、関数は必要に応じて、引数を変えて、いくつでも定義することができます。
+
+<br>
+<h2 id="mondai">演習問題</h2>
+
+
+<div class="leftSide">
+  <iframe src="./p5Exercise/p5Exer4_1/index.html" id="Exer41" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+    <br>クリックで描画
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+【問題4-1】画面上でマウスをクリックしたら、その位置に同心円が描かれるようにしてみましょう。<br>
+p5.jsの変数<a href="https://p5js.org/reference/#/p5/mouseIsPressed" target="other">mouseIsPressed</a>を調べて、それがtrueの場合、drawDoshin()関数を呼出します。
+
+<p class="clear"> </p>
+
+<br>
+
+<div class="leftSide">
+  <iframe src="./p5Exercise/p5Exer4_2/index.html" id="Exer42" width="250" height="250" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+    <br>クリックで描画
+	<noscript>
+	<p>JavaScript is required to view the contents of this page.</p>
+	</noscript>
+</div>
+【問題4-2】リスト4-2のdrawDoshin()関数は円の間隔が一定ですが、同心円の間隔が一定の比率で大きくなるような新しいdrawDoshinRatio()関数を定義してください。波紋状に同心円を描く関数です。
+関数の仕様は次のようにします。
+<pre class="reiji">
+function drawDoshin(x, y, d, n, ratio)
+   x: 円のx座標
+   y: 円のy座標
+   d: 一番小さい円の直径
+   n: 円の個数
+   ratio: 円が大きくなる割合、例えば1.2とすると、円の直径が2割ずつ増える
+</pre>
+
+<p class="clear"> </p>
+そして、画面上でマウスをクリックしたら、その位置に波紋状の同心円が描かれるようにしてみましょう。
+
+</div>
+<div class="copy"> 
+arigat アットマーク acm.org / 
+<a href="CopyRightInfo.html#main"> copyright &copy; info </a>
+</div>
+</div>  <!-- 終わり  container -->
+</body></html>

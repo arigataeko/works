@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="Author" content="Ariga, Taeko">
+<meta name="robots"content="noindex,nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="setsumeipage.css">
+
+<title>Variables</title>
+</head>
+<body>
+
+<!--title-->
+<div class="subtitle">
+      変数と定数<br><hr size="2" noshade> </div>
+
+<div style="font-size:80%; margin-top:10px;">
+<a href = "#hensu">変数</a> &nbsp| &nbsp
+<a href = "#josu">定数(リテラル)</a>&nbsp| &nbsp
+<a href = "#conv">データ変換</a>
+</div>
+<br><br>
+<h1 id="hensu">変数</h1>
+
+&nbsp;&nbsp;
+  変数は、データを保持するための「入れ物」のようなものです。
+  変数には名前がついていて，そこに入れた値を後で参照したり，変更したりできます。
+<br>&nbsp;&nbsp;
+  変数を使うには，「変数の宣言」をします。それには2つの方法があります。
+<ul>
+<li> 変数名の後ろに=に続いて値を指定する。その値が変数に格納される。<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;x = 12;
+<li> varというキーワードを書き，続いて変数名，=，値を指定する。<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;var x = 12;
+</ul>
+
+  変数名は，英数字，アンダースコア(_)からなる文字列で，名前の先頭は数字以外の文字にします。名前の長さは任意です。ただし、JavaScirptがキーワードとして使う文字列(予約語)は使えません。<br>
+<br>&nbsp;&nbsp;
+
+  CやJava言語では，変数にどのようなをデータを入れるか(例えば整数か文字かオブジェクトか)をあらかじめ決めておく必要がありますが，JavaScriptにはその必要はありません。loosely typed languageです。<br>
+<br>&nbsp;&nbsp;
+
+  変数を関数の外で宣言すると，その変数はその文書内どこででも有効なグローバル変数となります。一方変数を関数の中でで宣言すると，その変数はその関数内だけで有効なローカル変数となります。
+<br>&nbsp;&nbsp;
+  変数を宣言するのに，キーワードvarはつけてもつけなくてもかまいませんが，もし，グローバル変数として既に宣言されている変数xを，ローカル変数として宣言したい場合は，varをつけます。
+
+<br><br>
+<br>
+<h1 id="josu">定数</h1>
+&nbsp;&nbsp;
+  JavaScirptで扱える値には，次のようなものがあります。
+
+<ul>
+<li> 整数<br>
+     10進数，16進数，8進数で表した整数。
+     <ul>
+     <li>10進整数……0では始まらない，0-9の数字からなる数字の列(例 123)
+     <li>16進整数……0x(0X)で始まる，0-9，a-f(A-F)の数字からなる数字の列
+	 (例 0x1a)
+     <li>8進整数……0で始まる，0-7の数字からなる数字の列(例 0456)
+      </ul>
+      <br>
+<li> 浮動小数点数<br>
+     10進整数と小数点から表される実数値(例 1234.5)。<br>
+     1.234x10<sup>3</sup>は，e(あるいはE)を使って，1.2345e3と表す。<br>
+<br>
+
+<li> 論理値(boolean)<br>
+     true(真)あるいはfalse(偽)，いずれかの値。<br>
+<br>
+
+<li> 文字列<br>
+     ゼロ個以上の文字を，ダブルクォーテーション("  ")あるいはシングルクォー
+     テーション(' ')で囲んだものが，文字列である。<br>
+     例 "script"  "1234"
+</ul>
+
+<br>
+<h1 id="conv">データ変換</h1>
+&nbsp;&nbsp;
+  JavaScirptでは，変数を使うときそのデータ型を定める必要がありません。ですから，スクリプトの実行中に．必要に応じてデータの値の型が変換されます。
+<br>&nbsp;&nbsp;
+  次のように変数ataiに整数12を入れた後，
+<pre class="pcode">
+atai = 12;
+</pre>
+
+同じ変数ataiに文字列を代入することもできます。
+<pre class="pcode">
+atai = "文字列";
+</pre>
+&nbsp;&nbsp;文字列と数字が+でつながれていると，数字を文字列に変更します。
+
+<pre class="pcode">
+atai = 12  + "が値です";
+</pre>
+これは，変数ataiに"12が値です"を代入したのと同じ結果です。次も同じ結果になります。
+<pre class="pcode">
+x = 12;
+atai = x  + "が値です";
+</pre>
+
+
+<hr size="2"noshade>
+
+<div class="cp">
+arigat アットマーク acm.org<br>
+Last modified: Oct. 2014
+</div>
+</body>
+</html>
