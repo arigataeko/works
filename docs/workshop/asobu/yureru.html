@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>burabura</title>
-<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
 .spanstyle {
 	position:absolute;
@@ -19,7 +19,7 @@
 </head>
 <body  onload="calcPos()">
 
-<h1>ƒ}ƒEƒX‚É‚Ô‚é‚³‚ª‚é</h1>
+<h1>ãƒã‚¦ã‚¹ã«ã¶ã‚‹ã•ãŒã‚‹</h1>
 
 <span id="span0" class="spanstyle" style="visibility:hidden; top:50px; left=50px")><img src="hito/sagaru2.gif"> </span>
 <span id="span1" class="spanstyle" style="top:80px; left=50px")><img src="hito/sagaru2.gif"> </span>
@@ -33,15 +33,15 @@ var xstep=0;
 var ystep=0;
 var flag=0;
 
-var K=10; // ƒtƒbƒN‚Ì–@‘¥‚ÌŒW”
-var R=10; // Œ¸Š’ïR‚ÌŒW”
-var G=80; // d—Í
+var K=10; // ãƒ•ãƒƒã‚¯ã®æ³•å‰‡ã®ä¿‚æ•°
+var R=10; // æ¸›è¡°æŠµæŠ—ã®ä¿‚æ•°
+var G=80; // é‡åŠ›
 var D=0.01; // 
-var springx = 0;  // ‚Î‚Ëx•ûŒü‚Ì—Í
-var springy = 0;  // ‚Î‚Ëy•ûŒü‚Ì—Í
-var lim=0.1; //’â‚ß‚é‚½‚ßè‡’l
-var len= 4;  //‚Ô‚ç‰º‚ª‚él‚Ì” æ“ª‚Í‰B‚ê‚ÄŒ©‚¦‚È‚¢
-var cut = 1; //‰æ‘œƒtƒ@ƒCƒ‹‚Ìí—Ş@¡‚Í1í
+var springx = 0;  // ã°ã­xæ–¹å‘ã®åŠ›
+var springy = 0;  // ã°ã­yæ–¹å‘ã®åŠ›
+var lim=0.1; //åœã‚ã‚‹ãŸã‚é–¾å€¤
+var len= 4;  //ã¶ã‚‰ä¸‹ãŒã‚‹äººã®æ•° å…ˆé ­ã¯éš ã‚Œã¦è¦‹ãˆãªã„
+var cut = 1; //ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ç¨®é¡ã€€ä»Šã¯1ç¨®
 /*
 var img=new Array();
 for (i=1;i<=cut;i++) {  
@@ -57,7 +57,7 @@ for(i=0; i<len; i++){
 } 
 */
 
-//NNFMOUSEMOVEƒCƒxƒ“ƒg‚ª‹N‚«‚½‚çAdocumentƒIƒuƒWƒFƒNƒg‚É“`‚¦‚é
+//NNï¼šMOUSEMOVEã‚¤ãƒ™ãƒ³ãƒˆãŒèµ·ããŸã‚‰ã€documentã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ä¼ãˆã‚‹
 if(document.layers){
     document.captureEvents(Event.MOUSEMOVE);
 }
@@ -67,7 +67,7 @@ var xpos=new Array();
 var ypos=new Array();
 var xdif=new Array();
 var ydif=new Array();
-for (i=0;i<len;i++) {  //ˆÊ’uî•ñ‚Ì‰Šú‰»
+for (i=0;i<len;i++) {  //ä½ç½®æƒ…å ±ã®åˆæœŸåŒ–
 	xpos[i]=50;
 	ypos[i]=50+i*30;
         xdif[i]=0;
@@ -76,9 +76,9 @@ for (i=0;i<len;i++) {  //ˆÊ’uî•ñ‚Ì‰Šú‰»
 
 
 function mouseHandle(e){
-// NN‚ÍAƒy[ƒW‚É‘Î‚·‚éƒ}ƒEƒX‚Ì‘Š‘ÎÀ•W‚ğpageX,pageY‚ÅQÆ
-// IE‚ÍAƒy[ƒW‚É‘Î‚·‚éƒ}ƒEƒX‚Ì‘Š‘ÎÀ•W‚ğclientX,clientY‚ÅQÆ
-// IE‚ÍAEventƒIƒuƒWƒFƒNƒg‚ğˆø”e‚Åó‚¯æ‚ê‚È‚¢
+// NNã¯ã€ãƒšãƒ¼ã‚¸ã«å¯¾ã™ã‚‹ãƒã‚¦ã‚¹ã®ç›¸å¯¾åº§æ¨™ã‚’pageX,pageYã§å‚ç…§
+// IEã¯ã€ãƒšãƒ¼ã‚¸ã«å¯¾ã™ã‚‹ãƒã‚¦ã‚¹ã®ç›¸å¯¾åº§æ¨™ã‚’clientX,clientYã§å‚ç…§
+// IEã¯ã€Eventã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¼•æ•°eã§å—ã‘å–ã‚Œãªã„
 	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX;
 	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY;
 	flag=1; 
@@ -93,14 +93,14 @@ function calcRubber(m,n) {
 
    if(heni > 10){
      var force = K * (heni-10);
-     springx += force * dx / heni;  // x•ûŒü‚Ì—Í
-     springy += force * dy / heni;  // y•ûŒü‚Ì—Í
+     springx += force * dx / heni;  // xæ–¹å‘ã®åŠ›
+     springy += force * dy / heni;  // yæ–¹å‘ã®åŠ›
    }
 }
 
 function calcYure(n) {
-   springx = 0;  // x•ûŒü‚Ì—Í
-   springy = 0;  // y•ûŒü‚Ì—Í
+   springx = 0;  // xæ–¹å‘ã®åŠ›
+   springy = 0;  // yæ–¹å‘ã®åŠ›
    if (i == len-1) {
       calcRubber(n-1, n);
    } else {
@@ -127,7 +127,7 @@ function calcYure(n) {
 }
 
 function calcPos() {
-    if(flag ==1){ //ƒ[ƒh‚ªI‚í‚Á‚Äƒ}ƒEƒXƒCƒxƒ“ƒg‚ª‚ ‚é‚Ü‚ÅAÀs‚µ‚È‚¢
+    if(flag ==1){ //ãƒ­ãƒ¼ãƒ‰ãŒçµ‚ã‚ã£ã¦ãƒã‚¦ã‚¹ã‚¤ãƒ™ãƒ³ãƒˆãŒã‚ã‚‹ã¾ã§ã€å®Ÿè¡Œã—ãªã„
 
     	for (i=1; i<len; i++){
            calcYure(i);

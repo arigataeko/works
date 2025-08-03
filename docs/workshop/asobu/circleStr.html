@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link rel="stylesheet" type="text/css" href="../samplepage.css">
 <title>Script for circle</title>
@@ -64,12 +64,12 @@
 </style>
 </head>
 <body onload="initialize()">
-<h1>�������~�`�Ɉړ�</h1>
+<h1>文字が円形に移動</h1>
 <script type="text/javascript">
 <!--
-var message="�]�ɒ������@�R�ԗ~�R�@ "
-    //�����́@���t�Ŗ��߁@�������A�N
-message=message.split("")  /* 1��������؂�o���āA�z��ɓ����*/
+var message="江碧鳥愈白　山青花欲燃　 "
+    //続きは　今春看又過　何日是帰年
+message=message.split("")  /* 1文字ずつを切り出して、配列に入れる*/
 
 for(i=0; i<message.length-1; i++){
    document.write("<span id='word"+i+"', class='special'>");

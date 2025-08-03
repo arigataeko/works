@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>The touch of texts for isotropy</title>
 <style>
 body {
@@ -19,39 +19,39 @@ body {
 
 <SCRIPT type="text/javascript">
 <!--
-// •¶‚ª‰~‚É‚È‚Á‚Ä‰ô‚é
-// s‚²‚Æ‚ÉƒNƒŠƒbƒN‚Å~‚Ü‚èA“®‚­B
+// æ–‡ãŒå††ã«ãªã£ã¦å»»ã‚‹
+// è¡Œã”ã¨ã«ã‚¯ãƒªãƒƒã‚¯ã§æ­¢ã¾ã‚Šã€å‹•ãã€‚
 
-  var cx=0; // ‰~‚Ì’†‰›
+  var cx=0; // å††ã®ä¸­å¤®
   var cy=0;
-  var dr = Math.PI/45; //ˆÚ“®Šp“x
-  var dm = 20; //‰~ŒÊã‚Ì•¶šŠÔ‹——£
+  var dr = Math.PI/45; //ç§»å‹•è§’åº¦
+  var dm = 20; //å††å¼§ä¸Šã®æ–‡å­—é–“è·é›¢
   var angle=new Array();
   var r=new Array();
   var stop=new Array();
   var xpos=new Array();
   var ypos=new Array();
 
-  var selecti=0; //ƒ}ƒEƒX‚Ì‚ ‚é•¶š
+  var selecti=0; //ãƒã‚¦ã‚¹ã®ã‚ã‚‹æ–‡å­—
   var selectj=0;
-  var oldi = selecti; //‘O‚Éƒ}ƒEƒX‚Ì‚ ‚Á‚½s
-  var oldj = selectj; //‘O‚Éƒ}ƒEƒX‚Ì‚ ‚Á‚½—ñ
-  var onM = false;//ƒ}ƒEƒX‚Ì‚ ‚é•¶š‚ğ‚İ‚Â‚¯‚½ƒtƒ‰ƒO
-  var stepx=15; //1•¶š‚Ì”ÍˆÍ
+  var oldi = selecti; //å‰ã«ãƒã‚¦ã‚¹ã®ã‚ã£ãŸè¡Œ
+  var oldj = selectj; //å‰ã«ãƒã‚¦ã‚¹ã®ã‚ã£ãŸåˆ—
+  var onM = false;//ãƒã‚¦ã‚¹ã®ã‚ã‚‹æ–‡å­—ã‚’ã¿ã¤ã‘ãŸãƒ•ãƒ©ã‚°
+  var stepx=15; //1æ–‡å­—ã®ç¯„å›²
   var stepy=15;
-  var x=0; //ƒ}ƒEƒX‚ÌˆÊ’u
+  var x=0; //ãƒã‚¦ã‚¹ã®ä½ç½®
   var y=0;
 
   function initialize(){
-    for(i=0;i<word.length;i++){  //ˆÊ’uî•ñ”z—ñ‚Ì¶¬
+    for(i=0;i<word.length;i++){  //ä½ç½®æƒ…å ±é…åˆ—ã®ç”Ÿæˆ
        xpos[i] = new Array(word[i].length);
        ypos[i] = new Array(word[i].length);
     }
 
-    for(i=0;i<word.length;i++){  // Å‰‚Í“®‚¢‚Ä‚¢‚é
+    for(i=0;i<word.length;i++){  // æœ€åˆã¯å‹•ã„ã¦ã„ã‚‹
        stop[i] = false;
     }
-    //styleƒIƒuƒWƒFƒNƒg‚Ìæ‚èo‚µ
+    //styleã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å–ã‚Šå‡ºã—
     for (i=0; i<word.length; i++) {
       for (j=0; j<word[i].length; j++) {
        if (document.all) {  /* IE */
@@ -67,28 +67,28 @@ body {
     } //for i
 
 
-    //ˆê”Ô“à‘¤‚Ì‰~‚Ì”¼Œa
+    //ä¸€ç•ªå†…å´ã®å††ã®åŠå¾„
     r[0] = (word[0].length * dm) / (2*Math.PI); 
-    //Še‰~‚Ì”¼Œa‚Ìİ’è
+    //å„å††ã®åŠå¾„ã®è¨­å®š
     for(i=1;i<word.length;i++){  
         r[i] = r[i-1] + 20;
-        dis = dm / r[i]; //•¶šŠÔ‚Ì’†SŠp
-        if((dis*word[i].length) > (2*Math.PI)) { //ƒfƒtƒHƒ‹ƒg‚Ì‰~ü‚ª‘«‚ç‚È‚¢
-            r[i] = (word[i].length * dm) / (2*Math.PI); //”¼Œa‘å‚«‚­‚·‚é
+        dis = dm / r[i]; //æ–‡å­—é–“ã®ä¸­å¿ƒè§’
+        if((dis*word[i].length) > (2*Math.PI)) { //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å††å‘¨ãŒè¶³ã‚‰ãªã„
+            r[i] = (word[i].length * dm) / (2*Math.PI); //åŠå¾„å¤§ããã™ã‚‹
                 for(k=i;k<word.length;k++){  
                     r[k+1] = r[k] + 20;
                 }
         }  // end of if
     }
 
-    //’†‰›‚ÌˆÊ’u
+    //ä¸­å¤®ã®ä½ç½®
     cx = r[word.length-1] + 150;
     cy = r[word.length-1] + 50;
 
-    for(i=0;i<word.length;i++){  //‰~üã‚ÌˆÊ’u
+    for(i=0;i<word.length;i++){  //å††å‘¨ä¸Šã®ä½ç½®
          angle[i] = new Array(word[i].length);
          angle[i][0] = 0;
-         var dis = dm / r[i]; //•¶šŠÔ‚Ì’†SŠp
+         var dis = dm / r[i]; //æ–‡å­—é–“ã®ä¸­å¿ƒè§’
          for(j=1; j<word[i].length; j++){
            angle[i][j] = parseFloat(angle[i][j-1]+ dis);
          }
@@ -113,7 +113,7 @@ body {
     x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
     y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
 
-    foundit:  //ƒ}ƒEƒX‚Ì‚ ‚é•¶š‚ğŒ©‚Â‚¯‚½A‚à‚Ç‚é‚½‚ß‚Ìƒ‰ƒxƒ‹
+    foundit:  //ãƒã‚¦ã‚¹ã®ã‚ã‚‹æ–‡å­—ã‚’è¦‹ã¤ã‘ãŸæ™‚ã€ã‚‚ã©ã‚‹ãŸã‚ã®ãƒ©ãƒ™ãƒ«
         for (i=0; i<word.length; i++) {
           for (j=0; j<word[i].length; j++) {
 	   if(x>=xpos[i][j] && x<xpos[i][j]+stepx &&
@@ -127,14 +127,14 @@ body {
            } //end if
           } // for j
         } //for i
-        if(i >= word.length) { onM = false;}  //ƒ}ƒEƒX‚Í•¶šã‚É‚È‚¢
+        if(i >= word.length) { onM = false;}  //ãƒã‚¦ã‚¹ã¯æ–‡å­—ä¸Šã«ãªã„
 
-	if(oldi != selecti || !onM){ //ƒ}ƒEƒX‚ªŠO‚ê‚½s‚ÍF‚ğ•‚É‚·‚é
+	if(oldi != selecti || !onM){ //ãƒã‚¦ã‚¹ãŒå¤–ã‚ŒãŸè¡Œã¯è‰²ã‚’é»’ã«ã™ã‚‹
            for (j=0; j<word[oldi].length; j++) {
               moji[oldi][j].color = "#000000";
           }
-           moji[oldi][oldj].color = "#3300ff"; //ƒ}ƒEƒX‚ª’Ê‚Á‚½•¶š‚¾‚¯Â
-        }else{ //ƒ}ƒEƒX‚Ì‚ ‚és‚ÍF‚ğÔ‚É‚·‚é
+           moji[oldi][oldj].color = "#3300ff"; //ãƒã‚¦ã‚¹ãŒé€šã£ãŸæ–‡å­—ã ã‘é’
+        }else{ //ãƒã‚¦ã‚¹ã®ã‚ã‚‹è¡Œã¯è‰²ã‚’èµ¤ã«ã™ã‚‹
          for (j=0; j<word[selecti].length; j++) {
               moji[selecti][j].color = "#cc0033";
           }
@@ -144,11 +144,11 @@ body {
   function mouseHandleDown(e){
 	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
 	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
-	if(onM && stop[selecti]){ //’â‚Ü‚Á‚Ä‚¢‚és‚Ìã‚ÅƒNƒŠƒbƒN
+	if(onM && stop[selecti]){ //åœã¾ã£ã¦ã„ã‚‹è¡Œã®ä¸Šã§ã‚¯ãƒªãƒƒã‚¯
           stop[selecti]=false;
           rotateObj(selecti);
         } 
-        else if(onM && !stop[selecti]){ //“®‚¢‚Ä‚¢‚és‚Ìã‚ÅƒNƒŠƒbƒN
+        else if(onM && !stop[selecti]){ //å‹•ã„ã¦ã„ã‚‹è¡Œã®ä¸Šã§ã‚¯ãƒªãƒƒã‚¯
           stop[selecti]=true;
           moji[selecti][selectj].color = "#3300ff";
        } 
@@ -163,17 +163,17 @@ body {
 <SCRIPT type="text/javascript">
 <!--
  var word = new Array(
-   "–Ø‚É“B‚ğ‘Å‚ÂA‘Å‚ÂêŠ‚É‚æ‚Á‚ÄA–Ø‚ÍˆÙ‚È‚Á‚½’ïR‚ğ¦‚·@", 
-   "‚·‚È‚í‚¿A–Ø‚Í“™•û«‚ğ‚à‚½‚È‚¢‚Æ‚¢‚¤@",
-   "ƒeƒNƒXƒg‚à‚Ü‚½“™•û«‚ğ‚à‚½‚È‚¢@",
-   "‰‚â’f‘w‚Í—\‘ª‚Å‚«‚È‚¢@",
-   "•¨—Šw‚ª‚ ‚éí‚Ì”}¿‚â‚ ‚éí‚Ì‰F’ˆ‚Ì”ñ“™•û«‚É‡‰‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚Ì‚Æ“¯—l‚É@",
-   "\‘¢•ªÍ-ˆÓ–¡˜_-‚àAƒeƒNƒXƒg‚Ì‚Ù‚ñ‚Ì‹Í‚©‚È’ïR‚âƒeƒNƒXƒg‚ÌŒŒŠÇ‚Ì•s‹K‘¥‚È”z’u‚ğ”F‚ß‚È‚¯‚ê‚Î‚È‚ç‚È‚¢‚¾‚ë‚¤@"
+   "æœ¨ã«é‡˜ã‚’æ‰“ã¤æ™‚ã€æ‰“ã¤å ´æ‰€ã«ã‚ˆã£ã¦ã€æœ¨ã¯ç•°ãªã£ãŸæŠµæŠ—ã‚’ç¤ºã™ã€€", 
+   "ã™ãªã‚ã¡ã€æœ¨ã¯ç­‰æ–¹æ€§ã‚’ã‚‚ãŸãªã„ã¨ã„ã†ã€€",
+   "ãƒ†ã‚¯ã‚¹ãƒˆã‚‚ã¾ãŸç­‰æ–¹æ€§ã‚’ã‚‚ãŸãªã„ã€€",
+   "ç¸ã‚„æ–­å±¤ã¯äºˆæ¸¬ã§ããªã„ã€€",
+   "ç‰©ç†å­¦ãŒã‚ã‚‹ç¨®ã®åª’è³ªã‚„ã‚ã‚‹ç¨®ã®å®‡å®™ã®éç­‰æ–¹æ€§ã«é †å¿œã—ãªã‘ã‚Œã°ãªã‚‰ãªã„ã®ã¨åŒæ§˜ã«ã€€",
+   "æ§‹é€ åˆ†æ-æ„å‘³è«–-ã‚‚ã€ãƒ†ã‚¯ã‚¹ãƒˆã®ã»ã‚“ã®åƒ…ã‹ãªæŠµæŠ—ã‚„ãƒ†ã‚¯ã‚¹ãƒˆã®è¡€ç®¡ã®ä¸è¦å‰‡ãªé…ç½®ã‚’èªã‚ãªã‘ã‚Œã°ãªã‚‰ãªã„ã ã‚ã†ã€€"
  );
 
-/* 1•¶š‚¸‚Â‚ğØ‚èo‚µ‚ÄA”z—ñ‚É“ü‚ê‚é*/
+/* 1æ–‡å­—ãšã¤ã‚’åˆ‡ã‚Šå‡ºã—ã¦ã€é…åˆ—ã«å…¥ã‚Œã‚‹*/
  for (i=0;i<word.length;i++) { 
-   if(word[i].length == 0){ //‹ós‚¾‚Á‚½‚ç
+   if(word[i].length == 0){ //ç©ºè¡Œã ã£ãŸã‚‰
      word[i] = new Array(" ");
    }else{
      word[i]=word[i].split("");
@@ -183,7 +183,7 @@ body {
 
 
 
-//•¶š—v‘f‚Ì‘‚«o‚µ
+//æ–‡å­—è¦ç´ ã®æ›¸ãå‡ºã—
  for(i=0; i<word.length; i++){
     for(j=0; j<word[i].length; j++){
       document.write("<span id='span"+ i + "_" + j + "' class='spanstyle'>");
@@ -193,7 +193,7 @@ body {
  }
 
 
-//styleƒIƒuƒWƒFƒNƒg—p”z—ñ
+//styleã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”¨é…åˆ—
   var moji = new Array(word.length);
   for (i=0; i<word.length; i++) {
      moji[i] = new Array(word[i].length);

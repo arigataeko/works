@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+     
+     <title>「6章 Webページの制作」の演習問題の解答例｜改訂新版インターネット講座 サポートページ</title>
+     
+     <!-- metadata -->
+     <meta name="description" content="改訂新版インターネット講座">
+     <meta name="keywords" content="改訂新版インターネット講座">
+
+    <!-- stylesheet -->
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+
+    <!-- JS -->
+	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/footerFixed.js"></script>
+
+</head>
+
+<body class="answer_page">
+<div id="wrapper">
+
+<div id="contents">
+<div id="side">
+
+<h1><a href="index.html"><img src="images/h1_title.png" alt="改訂新版　インターネット講座 サポートページ"></a></h1>
+
+<h3><img src="images/h3_contents.png" alt="Contents"></h3>
+<ul class="menu_list">
+<li><a href="index.html">ホーム</a></li>
+<li><a href="about.html">書籍の紹介</a></li>
+<li><a href="support.html">記述に関するサポート</a></li>
+<li><a href="answer.html">演習問題の解答例</a></li>
+<li><a href="sheet.html">各種チェックシート / ワークシート</a></li>
+<li><a href="list.html">HTMLファイル</a></li>
+<li><a href="link.html">参考文献 / 掲載リンク集</a></li>
+<li><a href="writers.html">著者紹介</a></li>
+<li><a href="review.html">本書の書評</a></li>
+</ul>
+
+<h3><img src="images/h3_book.png" alt="BOOK"></h3>
+<img src="images/book.png" alt="改訂新版インターネット講座" width="200" class="book_cover">
+<dl class="book_info">
+<dt>著者</dt>
+<dd>有賀 妙子</dd>
+<dd>吉田 智子</dd>
+<dd>大谷 俊郎</dd>
+<dt>判型</dt><dd>A5判 276ページ</dd>
+<dt>定価</dt><dd>本体 2200円＋税</dd>
+<dt>ISBN</dt><dd>978-4-7628-2830-0</dd>
+<dt>発刊日</dt><dd>2014年2月20日</dd>
+</dl>
+
+
+<h3><img src="images/h3_distribution.png" alt="Distribution"></h3>
+<p>株式会社 北大路書房<br>
+〒603-8303<br>
+京都市北区紫野十二坊町12-8<br>
+TEL　075-431-0361（代表）<br>
+FAX　075-431-9393<br>
+<a href="http://www.kitaohji.com">http://www.kitaohji.com</a></p>
+
+</div>
+<!-- /  #side -->
+
+
+<div id="main">
+
+<h2>「6章 Webページの制作」の演習問題の解答例</h2>
+<h3>演習問題の解答例</h3>
+<p>6章で解説した基本的なHTMLタグ、スタイルシートを使い、企画デザインしたWebページを制作します。</p>
+<p>W3Cが推奨するHTMLの規準は、絶対的なルールではありませんが、規準から大きく外れないようにHTMLを記述することは、環境によらないアクセスビリティに配慮するためにも重要です。</p>
+<p>オーサリングツールは描画ソフトのように簡単に要素を配置でき、装飾ための画像も用意していますが、それに頼ると、装飾過多で、画一的なデザインになりがちです。設計プロセスで行ったページデザインを基本に作業をすすめてください。</p>
+<p>テキストエディタでタグを自分で記述するのは、タグの働きを理解する上でも、HTML文書の成り立ちを理解する上でも、よい学習になります。オーサリングツールはその部分を隠し、直接見えないようにしているので、HTMLファイルを記述していることに意識が及びにくくなります。</p>
+<h4>ファイル名</h4>
+<p>どの道具を使うとしても、ファイル名のつけ方、ファイルを置くフォルダ構造については、十分理解しておく必要があります。<br>
+HTML文書や画像のファイル名には日本語コードや空白を含めないようにします。Webサーバとして働くコンピュータやネットワークの環境により、日本語コードを含むファイル名をつけると問題が起こることがあります。作成したHTMLファイルを、ローカルなコンピュータ(使っているコンピュータ)上で、ブラウザに表示するだけであれば、日本語や空白を含んだファイル名でもまったく問題ありません。しかし、この場合でも、Webサーバで公開をすることを想定して、ファイル名に日本語や空白を使わない習慣をつけておくと、Webサーバに公開する際のトラブルを防ぐことができます。</p>
+<h4>ファイルの保存場所</h4>
+<p>作成したファイルをどこに保存するかは常に意識しておきましょう。最初にフォルダを作成し、作成中のWebサイトに関係するファイルはすべてそのフォルダの下に保存するようにします。また、サブフォルダを作成して、関係する多くのファイルを整理して保存すると管理しやすくなります。こうしておけば、Webサーバへのアップロードする場合も容易です。</p>
+
+<p>サブフォルダによるファイルの管理には、画像など種類の同じファイルをまとめておく、あるいは、大項目ごとに関連するファイルをまとめておくなどの整理方法があります。<br>
+HTMLファイルや画像ファイルをサブフォルダに保存、管理する場合、それらファイルへのリンクや画像表示の指定には、フォルダ名を含めることを忘れないように注意しましょう。</p>
+
+<h4>文字コード</h4>
+<p>ブラウザには文字コードの設定機能があり、そこでWebページが使っている文字コードを指定すると、文字を正しく表示できます。ページを見る人が文字コードの設定機能を自動選択にすると、ブラウザは可能な限り自動的に文字コードを判別して、表示を切り替えます。一方、制作者がHTMLファイルに、&lt;meta&gt;タグで文字コードを指定しておけば、ブラウザが文字コードを誤って判別し、文字化けするのを避けられます。</p>
+
+
+<ul class="list_answer_footer">
+<li><a href="answer.html">演習問題の解答例 一覧</a></li>
+<li><a href="answer_1.html">1章</a></li>
+<li><a href="answer_2.html">2章</a></li>
+<li><a href="answer_3.html">3章</a></li>
+<li><a href="answer_4.html">4章</a></li>
+<li><a href="answer_5.html">5章</a></li>
+<li><a href="answer_6.html">6章</a></li>
+<li><a href="answer_7.html">7章</a></li>
+<li><a href="answer_8.html">8章</a></li>
+<li><a href="answer_9.html">9章</a></li>
+<li><a href="answer_10.html">10章</a></li>
+<li><a href="answer_11.html">11章</a></li>
+</ul>
+
+
+</div>
+<!-- / #main -->
+
+</div>
+<!-- /  #contents -->
+ 
+<div id="footer">
+<p class="copy">&copy;  Tomoko Yoshida and Taeko Ariga and Toshio Otani. All rights reserved.</p>
+</div>
+<!-- / #footer -->
+
+</div>
+<!-- / #wrapper -->
+
+</body>
+</html>

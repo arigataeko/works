@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+     
+     <title>「9章 電子メールのしくみ」の演習問題の解答例｜改訂新版インターネット講座 サポートページ</title>
+     
+     <!-- metadata -->
+     <meta name="description" content="改訂新版インターネット講座">
+     <meta name="keywords" content="改訂新版インターネット講座">
+
+    <!-- stylesheet -->
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+
+    <!-- JS -->
+	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/footerFixed.js"></script>
+
+</head>
+
+<body class="answer_page">
+<div id="wrapper">
+
+<div id="contents">
+<div id="side">
+
+<h1><a href="index.html"><img src="images/h1_title.png" alt="改訂新版　インターネット講座 サポートページ"></a></h1>
+
+<h3><img src="images/h3_contents.png" alt="Contents"></h3>
+<ul class="menu_list">
+<li><a href="index.html">ホーム</a></li>
+<li><a href="about.html">書籍の紹介</a></li>
+<li><a href="support.html">記述に関するサポート</a></li>
+<li><a href="answer.html">演習問題の解答例</a></li>
+<li><a href="sheet.html">各種チェックシート / ワークシート</a></li>
+<li><a href="list.html">HTMLファイル</a></li>
+<li><a href="link.html">参考文献 / 掲載リンク集</a></li>
+<li><a href="writers.html">著者紹介</a></li>
+<li><a href="review.html">本書の書評</a></li>
+</ul>
+
+<h3><img src="images/h3_book.png" alt="BOOK"></h3>
+<img src="images/book.png" alt="改訂新版インターネット講座" width="200" class="book_cover">
+<dl class="book_info">
+<dt>著者</dt>
+<dd>有賀 妙子</dd>
+<dd>吉田 智子</dd>
+<dd>大谷 俊郎</dd>
+<dt>判型</dt><dd>A5判 276ページ</dd>
+<dt>定価</dt><dd>本体 2200円＋税</dd>
+<dt>ISBN</dt><dd>978-4-7628-2830-0</dd>
+<dt>発刊日</dt><dd>2014年2月20日</dd>
+</dl>
+
+
+<h3><img src="images/h3_distribution.png" alt="Distribution"></h3>
+<p>株式会社 北大路書房<br>
+〒603-8303<br>
+京都市北区紫野十二坊町12-8<br>
+TEL　075-431-0361（代表）<br>
+FAX　075-431-9393<br>
+<a href="http://www.kitaohji.com">http://www.kitaohji.com</a></p>
+
+</div>
+<!-- /  #side -->
+
+
+<div id="main">
+
+<h2>「9章 電子メールのしくみ」の演習問題の解答例</h2>
+
+<h3>演習問題(1)の解答例</h3>
+
+<p>メーラーによってヘッダの表示をする方法は異なります。<br>
+たとえば、Netscape Messengerでは、メニューバーの[表示]の[ヘッダ]の[すべて]を選択すると、すべてのヘッダ内容を表示するようになります。 <br>
+また、Outlook Expressでは、ヘッダ情報を表示させたいメールを、メール一覧上でマウスの右ボタンでクリックし、表示されるポップアップメニューの[プロパティ]を選択します。表示されるダイアログの[詳細]タブをクリックします。 </p>
+
+
+<h3>演習問題(2)の解答例</h3>
+<ol class="list_answer">
+<li>配達経路はReceivedフィールドを下から順にみていくとわかります。 <br>
+174ページ(2)にその例が示されています。インターネット上で繋がっているコンピュータ間をリレーしてメールが送られる記録が、コンピュータを経由する度にReceivedに設定されます。</li>
+
+<li>相手がメールを送るのに使ったメーラーの情報をヘッダに付加するかどうかは、メーラーによって異なります。X-Mailer、あるいはUser-Agentといった名前のフィールドにがメーラーに関する情報が示されます。いくつかの例を示します。<br>
+  X-Mailer: Mew version 3.3 on Emacs 20.7 / Mule 4.1<br>
+  X-Mailer: Macintosh Eudora Version 4.3.2-J<br>
+  X-Mailer: Active! mail 2003[HPUX/HP]<br>
+  X-Mailer: AL-Mail32 Version 1.12<br>
+  X-Mailer: Microsoft Outlook Express 6.00.2800.1158<br>
+  User-Agent: Microsoft-Entourage/10.1.5.030814.0<br>
+  User-Agent: EMH/1.14.1 ....一部省略.... Emacs/21.2 (sparc-sun-solaris2.8) </li>
+<li>MIMEに対応したメーラーでは(ほとんどのメーラーが対応しています)、メール本文の形式をContent-Typeフィールドに付加して送ってくれます。 </li>
+</ol>
+
+<h3>演習問題(3)の解答例</h3>
+<p>情報処理振興事業協会(IPA)のWebページ(<a href="http://www.ipa.go.jp">http://www.ipa.go.jp</a>)では、コンピュータウィルスの種類や被害の状況などの情報を公開しています。メール機能を悪用する主なウイルスは一覧として、その症状や予防策が紹介されています。</p>
+
+<p>メール機能を悪用するウィルスは、添付ファイルを介して感染を拡げます。このウイルスが添付されたメールを受け取ると、特定のメーラー(多くの場合はOutlook Express)ではプレビューしただけでも感染するものもあります。
+</p>
+<p>ウィルスの中には、メーラーのアドレス帳や感染したコンピュータ内のhtmlファイルなどからアドレスを収集し、ウイルスメールを送信して、被害を拡げます。</p>
+
+<ul class="list_answer_footer">
+<li><a href="answer.html">演習問題の解答例 一覧</a></li>
+<li><a href="answer_1.html">1章</a></li>
+<li><a href="answer_2.html">2章</a></li>
+<li><a href="answer_3.html">3章</a></li>
+<li><a href="answer_4.html">4章</a></li>
+<li><a href="answer_5.html">5章</a></li>
+<li><a href="answer_6.html">6章</a></li>
+<li><a href="answer_7.html">7章</a></li>
+<li><a href="answer_8.html">8章</a></li>
+<li><a href="answer_9.html">9章</a></li>
+<li><a href="answer_10.html">10章</a></li>
+<li><a href="answer_11.html">11章</a></li>
+</ul>
+
+
+</div>
+<!-- / #main -->
+
+</div>
+<!-- /  #contents -->
+ 
+<div id="footer">
+<p class="copy">&copy;  Tomoko Yoshida and Taeko Ariga and Toshio Otani. All rights reserved.</p>
+</div>
+<!-- / #footer -->
+
+</div>
+<!-- / #wrapper -->
+
+</body>
+</html>

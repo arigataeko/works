@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Script for create contents</title>
 <style type="text/css">
   <!--
@@ -22,10 +22,10 @@
 </style>
 <script type="text/javascript">
 <!--
-  var m=200;  //�g�S�̂̉��ւ̈ړ���
-  var h=100;  //�g�̍���
-  var rad=Math.PI/180;  //1�x�̃��W�A���P�ʂ̒l
-  var x=0; //�����̈ʒu
+  var m=200;  //波全体の下への移動幅
+  var h=100;  //波の高さ
+  var rad=Math.PI/180;  //1度のラジアン単位の値
+  var x=0; //文字の位置
 
   function initialize(){
    browser = navigator.appName;
@@ -51,7 +51,7 @@
 </script>
 </head>
 <body onload="initialize()">
-<h1>�������g��� </h1>
+<h1>文字が波乗り </h1>
 
-<span class="special" id="msg">��</span>
+<span class="special" id="msg">京</span>
 </body> </html>

@@ -1,0 +1,35 @@
+<html><head><meta charset="UTF-8">
+<title>Health Check</title>
+<script>
+<!--
+   function calc(){
+      h = document.keisan.take.value;
+      w = document.keisan.kasa.value;
+      sw = h/100 * h/100 * 22;
+      fat = w / (h/100 * h/100);
+      document.getElementById("std").innerHTML = sw;
+      document.getElementById("bmi").innerHTML = fat;
+
+      if(fat<18.5) {
+         document.getElementById("judge").innerHTML = "やせすぎ";
+      } else if(fat<25) {
+         document.getElementById("judge").innerHTML = "標準";
+      } else if(fat<30) {
+         document.getElementById("judge").innerHTML = "太りすぎ";
+      } else {
+         document.getElementById("judge").innerHTML = "肥満";
+      }
+   }
+//-->
+</script></head>
+<body>
+<h3>肥満度判定</h3><hr>
+<form name="keisan">
+   身長(cm) : <input type="number" placeholder="入力" size="10" name="take"><br>
+   体重(Kg) : <input type="number" placeholder="入力" size="10" name="kasa"><br><br>
+   標準体重(kg) ： <span id="std"> 計算結果 </span><br>
+   肥満度 ： <span id="bmi"> 計算結果 </span><br><br>
+   肥満度判定 ： <span id="judge"> 判定結果 </span><br><br>
+   <input type=button value="判定開始" onclick="calc()">
+</form>
+</body></html>

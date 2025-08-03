@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Sample for Dynamic HTML</title>
-<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
  h1 {
        border-style: solid;
@@ -23,7 +23,7 @@
 </head>
 <body onload="calcPos()">
 
-<h1>ƒ}ƒEƒX‚É‚Â‚¢‚Ä•¶š—ñ‚ª“®‚­</h1>
+<h1>ãƒã‚¦ã‚¹ã«ã¤ã„ã¦æ–‡å­—åˆ—ãŒå‹•ã</h1>
 
 
 <script type="text/javascript">
@@ -33,21 +33,21 @@ var step=20;
 var flag=0;
 
 
-// •¶š—ñ‚ÌÅŒã‚É‚ÍAÅŒã‚ÉƒXƒy[ƒX‚ğ“ü‚ê‚é
-var message="‚È‚ñ‚Æ‚¢‚¤‘¾—z‚Ì‹P‚«!‚È‚ñ‚Æ‚¢‚¤–ì‚ÌÎ‚¢! "
-message=message.split("")  /* 1•¶š‚¸‚Â‚ğØ‚èo‚µ‚ÄA”z—ñ‚É“ü‚ê‚é*/
+// æ–‡å­—åˆ—ã®æœ€å¾Œã«ã¯ã€æœ€å¾Œã«ã‚¹ãƒšãƒ¼ã‚¹ã‚’å…¥ã‚Œã‚‹
+var message="ãªã‚“ã¨ã„ã†å¤ªé™½ã®è¼ã!ãªã‚“ã¨ã„ã†é‡ã®ç¬‘ã„! "
+message=message.split("")  /* 1æ–‡å­—ãšã¤ã‚’åˆ‡ã‚Šå‡ºã—ã¦ã€é…åˆ—ã«å…¥ã‚Œã‚‹*/
 
 var xpos=new Array();
 var ypos=new Array();
-for (i=0;i<=message.length-1;i++) {  //ˆÊ’uî•ñ‚Ì‰Šú‰»
-	xpos[i]=-50;   //‰B‚ê‚½‚Æ‚±‚ë‚©‚ç‚Å‚Ä‚­‚éŠ´‚¶
+for (i=0;i<=message.length-1;i++) {  //ä½ç½®æƒ…å ±ã®åˆæœŸåŒ–
+	xpos[i]=-50;   //éš ã‚ŒãŸã¨ã“ã‚ã‹ã‚‰ã§ã¦ãã‚‹æ„Ÿã˜
 	ypos[i]=-50;
 }
 
 function mouseHandle(e){
-// NN‚ÍAƒy[ƒW“à‚Ìƒ}ƒEƒXˆÊ’u‚ÌÀ•W‚ğEventƒIƒuƒWƒFƒNƒge‚ÌpageX,pageY‚ÅQÆ
-// IE‚ÍA‰Â‹ƒy[ƒW“à‚Ìƒ}ƒEƒX‚ÌÀ•W‚ğclientX,clientY‚ÅQÆ
-//       scrollLeft, scrollTop‚ÍƒXƒNƒ[ƒ‹Œã‰Â‹ƒy[ƒWƒIƒtƒZƒbƒgˆÊ’u
+// NNã¯ã€ãƒšãƒ¼ã‚¸å†…ã®ãƒã‚¦ã‚¹ä½ç½®ã®åº§æ¨™ã‚’Eventã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆeã®pageX,pageYã§å‚ç…§
+// IEã¯ã€å¯è¦–ãƒšãƒ¼ã‚¸å†…ã®ãƒã‚¦ã‚¹ã®åº§æ¨™ã‚’clientX,clientYã§å‚ç…§
+//       scrollLeft, scrollTopã¯ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¾Œå¯è¦–ãƒšãƒ¼ã‚¸ã‚ªãƒ•ã‚»ãƒƒãƒˆä½ç½®
 
    x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
    y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY
@@ -94,7 +94,7 @@ for(i=0; i<message.length-1; i++){
    document.write("</span>");
 } 
 
-//NNFMOUSEMOVEƒCƒxƒ“ƒg‚ª‹N‚«‚½‚çAdocumentƒIƒuƒWƒFƒNƒg‚É“`‚¦‚é
+//NNï¼šMOUSEMOVEã‚¤ãƒ™ãƒ³ãƒˆãŒèµ·ããŸã‚‰ã€documentã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ä¼ãˆã‚‹
 if(document.layers){
     document.captureEvents(Event.MOUSEMOVE);
 }

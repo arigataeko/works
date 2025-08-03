@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>walk</title>
-<meta http-equiv="Content-Type" content="text/html; charset=x-sjis">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
  h1 {
        border-style: solid;
@@ -23,7 +23,7 @@
 
 </head>
 <body>
-<h1>ƒNƒŠƒbƒN‚µ‚½ˆÊ’u‚Ü‚Ål‚ª•à‚­</h1>
+<h1>ã‚¯ãƒªãƒƒã‚¯ã—ãŸä½ç½®ã¾ã§äººãŒæ­©ã</h1>
 <br><br>
 
 <script type="text/javascript">
@@ -37,7 +37,7 @@ var len, kaisu=0;
 var imgR=new Array();
 var imgL=new Array();
 var	imgS= "hito/arukuS.gif";
-for (i=0;i<4;i++) {  //4‚Â‚Ì‰æ‘œƒtƒ@ƒCƒ‹
+for (i=0;i<4;i++) {  //4ã¤ã®ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«
 	imgR[i]= "hito/arukuR" + i + ".gif";
 	imgL[i]= "hito/arukuL" + i + ".gif";
 }
@@ -65,9 +65,9 @@ for (i=0;i<4;i++) {  //4‚Â‚Ì‰æ‘œƒtƒ@ƒCƒ‹
    }
 
 function mouseHandle(e){
-// NN‚ÍAƒy[ƒW‚É‘Î‚·‚éƒ}ƒEƒX‚Ì‘Š‘ÎÀ•W‚ğpageX,pageY‚ÅQÆ
-// IE‚ÍAƒy[ƒW‚É‘Î‚·‚éƒ}ƒEƒX‚Ì‘Š‘ÎÀ•W‚ğclientX,clientY‚ÅQÆ
-// IE‚ÍAEventƒIƒuƒWƒFƒNƒg‚ğˆø”e‚Åó‚¯æ‚ê‚È‚¢
+// NNã¯ã€ãƒšãƒ¼ã‚¸ã«å¯¾ã™ã‚‹ãƒã‚¦ã‚¹ã®ç›¸å¯¾åº§æ¨™ã‚’pageX,pageYã§å‚ç…§
+// IEã¯ã€ãƒšãƒ¼ã‚¸ã«å¯¾ã™ã‚‹ãƒã‚¦ã‚¹ã®ç›¸å¯¾åº§æ¨™ã‚’clientX,clientYã§å‚ç…§
+// IEã¯ã€Eventã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å¼•æ•°eã§å—ã‘å–ã‚Œãªã„
 
 	x = (document.all) ? document.body.scrollLeft+event.clientX: e.pageX
 	y = (document.all) ? document.body.scrollTop+event.clientY: e.pageY - 10
@@ -130,7 +130,7 @@ function calcPos() {
 }
 
 
-//NNFCLICKƒCƒxƒ“ƒg‚ª‹N‚«‚½‚çAdocumentƒIƒuƒWƒFƒNƒg‚É“`‚¦‚é
+//NNï¼šCLICKã‚¤ãƒ™ãƒ³ãƒˆãŒèµ·ããŸã‚‰ã€documentã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ä¼ãˆã‚‹
 if(document.layers){
     document.captureEvents(Event.CLICK);
 }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+     
+     <title>「8章 インターネットのしくみ」の演習問題の解答例｜改訂新版インターネット講座 サポートページ</title>
+     
+     <!-- metadata -->
+     <meta name="description" content="改訂新版インターネット講座">
+     <meta name="keywords" content="改訂新版インターネット講座">
+
+    <!-- stylesheet -->
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+
+    <!-- JS -->
+	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/footerFixed.js"></script>
+
+</head>
+
+<body class="answer_page">
+<div id="wrapper">
+
+<div id="contents">
+<div id="side">
+
+<h1><a href="index.html"><img src="images/h1_title.png" alt="改訂新版　インターネット講座 サポートページ"></a></h1>
+
+<h3><img src="images/h3_contents.png" alt="Contents"></h3>
+<ul class="menu_list">
+<li><a href="index.html">ホーム</a></li>
+<li><a href="about.html">書籍の紹介</a></li>
+<li><a href="support.html">記述に関するサポート</a></li>
+<li><a href="answer.html">演習問題の解答例</a></li>
+<li><a href="sheet.html">各種チェックシート / ワークシート</a></li>
+<li><a href="list.html">HTMLファイル</a></li>
+<li><a href="link.html">参考文献 / 掲載リンク集</a></li>
+<li><a href="writers.html">著者紹介</a></li>
+<li><a href="review.html">本書の書評</a></li>
+</ul>
+
+<h3><img src="images/h3_book.png" alt="BOOK"></h3>
+<img src="images/book.png" alt="改訂新版インターネット講座" width="200" class="book_cover">
+<dl class="book_info">
+<dt>著者</dt>
+<dd>有賀 妙子</dd>
+<dd>吉田 智子</dd>
+<dd>大谷 俊郎</dd>
+<dt>判型</dt><dd>A5判 276ページ</dd>
+<dt>定価</dt><dd>本体 2200円＋税</dd>
+<dt>ISBN</dt><dd>978-4-7628-2830-0</dd>
+<dt>発刊日</dt><dd>2014年2月20日</dd>
+</dl>
+
+
+<h3><img src="images/h3_distribution.png" alt="Distribution"></h3>
+<p>株式会社 北大路書房<br>
+〒603-8303<br>
+京都市北区紫野十二坊町12-8<br>
+TEL　075-431-0361（代表）<br>
+FAX　075-431-9393<br>
+<a href="http://www.kitaohji.com">http://www.kitaohji.com</a></p>
+
+</div>
+<!-- /  #side -->
+
+
+<div id="main">
+
+<h2>「8章 インターネットのしくみ」の演習問題の解答例</h2>
+
+<h3>演習問題(1)の解答例</h3>
+
+<p>プロバイダに加入して、動的にIPアドレスを割りふられている場合は、個別にIPアドレスを取得する必要はありませんから、ここでは組織(会社や学校)がIPアドレスを取得する場合と電話番号の割当とを比較してみましょう。 </p>
+
+<p>電話番号は国(地域)番号が国際的に決まっており、国(地域)番号の次の番号の振り方はそれぞれの国、地域が決めています。今まで7桁であった電話番号を8桁にして、その国での電話加入数の増加に対応するといったことも、国(地域)内で自由に決められます。 </p>
+
+<p>32ビットのIPアドレスは、国(地域)ごとに使う範囲(ブロック、たとえば先頭が202と203で始まるIPアドレスは日本が使う)が決められており、ネットワークインフォメーションセンタ(NIC)がそれを国(地域)内に割り振る仕事をしています。国番号という概念はIPアドレスにはありませんが、国(地域)別に管理されています。しかし、インターネットの利用者が増えてIPアドレスが足りなくなりそうだからといって、国(地域)のNICが勝手に桁数を増やすことはできません。 </p>
+
+<p>新規加入や電話の移転で、新たに電話番号を得る場合、いくつかの電話番号を提示され、その中から好きな番号を選択できます。また会社名の語呂とあった番号や覚え易い番号を商売のために電話番号が売買されることもあります。しかし、IPアドレスではそういったことはありません。IPアドレスはコンピュータが処理をするための番号で、人が直接扱うのはホスト名ですから、そんな必要も無いわけです。 </p>
+
+<p>組織の中には外部とのアクセスがないコンピュータも多く存在します。それらに全世界でユニークなIPアドレスを与えるのは、IPアドレスの無駄になります。そこで、プライベートアドレスという組織内でだけユニークなIPアドレスを使うこともあります。電話でいうと内線番号のようなものです。 </p>
+
+<p>ところで、現在使われているIPはIPv4と呼ばれているプロトコルです。32ビットのIPアドレスでは足らなくなる(IPアドレスの枯渇)問題を解決し、新しい通信サービスを提供するため、IPv6とい新しいプロトコルが検討されています。IPv6ではアドレスは128ビットになります。 </p>
+
+<h3>演習問題(2)の解答例</h3>
+<p>コンピュータの接続の形態はそれぞれの組織で違い、その設定方法もコンピュータによって異なります。TCP/IPを使ってネットワークと接続している場合、Macintosh、Windowsではそれぞれ次のように設定を確認できます。 </p>
+
+<h4>【Mac OS X】</h4>
+<p>アップルメニューの[システム環境設定]を選択。システム環境設定パネルの[ネットワーク]をクリックし、[TCP/IP]タブをクリックする。</p>
+
+<h4>【Windows XP】</h4>
+<p>スタートメニューの[コントロールパネル]を選択し、コントロールパネルの表示を[クラッシク表示に切り替える]をクリックします。[ネットワーク接続]を選択。ネットワーク接続の中から[ローカルエリア接続]をダブルクリックすると、プロパティパネルが表示される。[全般]の[インターネットプロトコル(TCP/IP)を選択し、[プロパティ]ボタンをクリックすると、[TCP/IPのプロパティ]パネルが表示される。 </p>
+
+<p>自動取得されたIPアドレスの確認をするには、ipconfig.exeを使う。<br>
+[スタート]→[すべてのプログラム]→[アクセサリ]→[コマンドプロンプト]を選択し、コマンドプロンプトを起動する。 ipconfigと入力し、enterキーを押すと、IPアドレスなどが表示される。</p>
+
+<h3>演習問題(3)の解答例</h3>
+<p>ドメイン名やIPアドレスの登録情報は、株式会社日本レジストリサービス(JPRS)の「WHOISサービス(JPドメイン名登録情報検索サービス)」<a href="http://whois.jprs.jp/">http://whois.jprs.jp/</a> のページで検索できます。「検索キーワード」の部分に、自分の所属する組織(大学)のドメイン名を入れて、登録されている内容を確かめてみましょう。 </p>
+
+<p>株式会社日本レジストリサービスは、日本ネットワークインフォメーションセンター(JPNIC)により、JPドメイン名登録管理業務を行うために2000年に設立された会社です。</p>
+
+<p>このようなデータを公開しているのは、ネットワーク管理者がインターネットの運用に利用するためです。たとえば、問題が起こった時に対象となるIPアドレスやドメイン名の属性を、問題の原因を解明するための情報として利用します。公開されているデータを本来の目的以外に利用することは禁じられています。 </p>
+<p>インターネットはだれかが全体を集中して管理しているのではなく、個々のネットワークの管理者同士が相互に連絡を取り合って管理運用されています。そのためにIPアドレスやドメイン名がどのように割り当てられているかをデータベースとして公開することは、インターネット全体の自立的な維持、管理に必要です。<br>
+一方、営利目的や、システムのセキュリティを破ろうと試みたりするために、集約・公開されている情報が悪用される可能性もあります。</p>
+
+<ul class="list_answer_footer">
+<li><a href="answer.html">演習問題の解答例 一覧</a></li>
+<li><a href="answer_1.html">1章</a></li>
+<li><a href="answer_2.html">2章</a></li>
+<li><a href="answer_3.html">3章</a></li>
+<li><a href="answer_4.html">4章</a></li>
+<li><a href="answer_5.html">5章</a></li>
+<li><a href="answer_6.html">6章</a></li>
+<li><a href="answer_7.html">7章</a></li>
+<li><a href="answer_8.html">8章</a></li>
+<li><a href="answer_9.html">9章</a></li>
+<li><a href="answer_10.html">10章</a></li>
+<li><a href="answer_11.html">11章</a></li>
+</ul>
+
+
+</div>
+<!-- / #main -->
+
+</div>
+<!-- /  #contents -->
+ 
+<div id="footer">
+<p class="copy">&copy;  Tomoko Yoshida and Taeko Ariga and Toshio Otani. All rights reserved.</p>
+</div>
+<!-- / #footer -->
+
+</div>
+<!-- / #wrapper -->
+
+</body>
+</html>
