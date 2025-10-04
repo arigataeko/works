@@ -24,14 +24,14 @@ Processingのメニュー[スケッチ][ライブラリをインポート]
 マイクからの入力音に応じて、描く円の大きさが変化するスケッチが、リスト6_1です。<br><br>
 
 音声入力を処理するオブジェクト<a href="https://p5js.org/reference/p5.sound/#p5.AudioIn" target="other">p5.AudioIn</a>を使います。
-マイクからの入力を処理するいわばプログラムの部品で、実際に働くオブジェクトを作って、スケッチの中で使います。JavaScriptのオブジェクトに関しては、<a href=https://arigataeko.github.io/works/workshop/object.html" target="other">このページ</a>で説明しています。<br><br>
+マイクからの入力を処理するいわばプログラムの部品で、実際に働くオブジェクトを作って、スケッチの中で使います。JavaScriptのオブジェクトに関しては、<a href="https://arigataeko.github.io/works/workshop/object.html" target="other">このページ</a>で説明しています。<br><br>
 
 p5.AudioInオブジェクトを作るには
 <a href="https://arigataeko.github.io/works/workshop/object.html#class" target="other">
 new演算子</a>を使います。
 次のように、p5.AudioInオブジェクトを作り、マイクから音を入力し、グラフィックスに反映させます。
 <ul>
-<li>(1) マイクからの音声を取得するためp5.AudioInputオブジェクト用の変数を定義。</li>
+<li>(1) マイクからの音声を取得するためp5.AudioInオブジェクト用の変数を定義。</li>
 <li>(2) setup()の中で、p5.AudioInオブジェクトを作り、変数に格納。</li>
 <li>(3) setup()の中で、p5.AudioInオブジェクトの働きを開始する。
 <li>(4) draw()の中で、p5.AudioInオブジェクトの<a href="https://p5js.org/reference/p5.AudioIn/getLevel/" target="other">getLevel()</a>メソッドを使い、音量を取得。getLevel()の返す値は0～1.0なので、直径の値として適切な大きさ(この例だと0～画面幅の2倍の間の値)になるように、<a href="https://p5js.org/reference/p5/map/" target="other">map()</a>関数を使って比例換算する。
