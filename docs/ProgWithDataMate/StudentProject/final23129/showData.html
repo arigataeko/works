@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Visualizing data</title>
+<meta charset="UTF-8">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" type="text/css" href="showSketchStyle.css">
+
+</head>
+<body>
+<div id="container">
+
+<h1 class="title">
+  &nbsp;&nbsp;データの視覚化を楽しみながらプログラミングを学ぶ
+<br><hr> </h1>
+ <!-- 必要に応じて、スタイルを指定してください -->
+<h2>男女別1日の時間の使い方</h2>
+<br>OECD（経済協力開発機構）が公開している
+<a href="https://www.oecd.org/gender/data/OECD_1564_TUSupdatePortal.xlsx" target="other">
+「OECD Gender Data Portal 2021」</a>のデータをもとに作成しています。
+<br>
+先進国を中心とした38ヶ国を対象に調査したデータの中から10カ国を選び、男女の1日の過ごし方を比較しています。
+<br>
+対象となる活動は、以下の5つです：
+<ul><li>仕事</li>
+<li>家事</li>
+<li>家族の世話（育児・介護）</li>
+<li>睡眠</li>
+<li>余暇（趣味やリラックスの時間など）</li>
+</ul>
+それぞれの活動に、1日あたりどれだけの時間（分）を使っているのかをもとに、
+<br>国や性別によって日常の時間の使い方にどのような違いがあるのかを可視化しています。<br><br>
+
+<div class="naka">
+<iframe src="./sketch/index.html"
+		width="650" height="380" id="maleTimeUse"> </iframe>
+</div>
+<div class="naka">
+<iframe src="./sketch/index2.html"
+    width="650" height="380" id="femaleTimeUse"> </iframe>
+</div>
+
+</div>  <!-- 終わり  container -->
+</body></html>

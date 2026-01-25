@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja"><head><title>Visualizing data</title>
+<meta charset="UTF-8">
+
+<!-- スタイルシート -->
+<link rel="stylesheet" type="text/css" href="showSketchStyle.css">
+
+</head>
+<body>
+<div id="container">
+
+<h1 class="title">
+  &nbsp;&nbsp;データの視覚化を楽しみながらプログラミングを学ぶ
+<br><hr> </h1>
+ <!-- 必要に応じて、スタイルを指定してください -->
+<h2>１人あたりの電力消費量とGDP</h2>
+IEAが調査した2022年の主要国の１人あたりの電力消費量を
+<a href="https://www.ene100.jp/zumen/1-1-10" target="other">
+エネ百科</a>がグラフ化したものを１人あたりのGDPと共に視覚化しました。
+<br>
+GDPは<a href="https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2023/sankou/pdf/kokusaihikaku_20241223.pdf" target="other">
+内閣府の経済社会総合研究所</a>がまとめたものを参照しています。
+<br><br>
+光の大きさは消費電力を、電球の大きさはGDPの値を示しています。
+<br>
+カナダの消費電力が多いのは住宅の暖房に電力を使っている人が多いからだそうです。
+<br><br>
+
+<div class="naka">
+<iframe src="./showData/index.html"
+		width="850" height="950" id="showData"> </iframe>
+</div>
+<br>
+<br>
+</div>  <!-- 終わり  container -->
+</body></html>
